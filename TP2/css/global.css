@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* paleta de color y variables*/
+
+:root {
+    /* primario */
+    --color-primary: #9013FE;
+    --color-primaryLight1: #A642FE;
+    --color-primaryLight2: #B766FE;
+    --color-primaryLight3: #EC18FF;
+    --color-primaryShadow1: #7D13D8;
+    --color-primaryShadow2: #52168C;
+    --color-primaryShadow3: #2D1E53;
+
+    /* secundario */
+    --color-secondary: #008FEC;
+    --color-SecondaryLight1: #33A5F0;
+    --color-secondaryLight2: #59B6F3;
+    --color-secondaryLight3: #80C7F6;
+    --color-secondaryShadow1: #077BC8;
+    --color-secondaryShadow2: #14528A;
+    --color-secondaryShadow3: #12334c;
+
+
+    /* acento */
+    --color-accent: #F3AD38;
+    --color-accentLight1: #F5BD60;
+    --color-accentLight2: #F7CA7E;
+    --color-accentLight3: #F9D69C;
+    --color-accentShadow1: #A66F15;
+    --color-accentShadow2: #846630;
+    --color-accentShadow3: #403A31;
+
+    /* backgrounds */
+    --color-bodyDark: #100F14;
+    --color-bodyLight: #201F14;
+    --color-navDark: #121116;
+    --color-navLight: #18171C;
+    --color-box: #201F24;
+    --color-hover: #403F44;
+
+    /* colores de estado */
+    --color-ok: #3EBD41;
+    --color-warning: #fc4d64;
+
+    /* color de fuentes */
+    --color-text: #E4E4E4;
+    --color-textDark: #777786;
+    --color-textLight: #ffffff;
+
+    /*COMPLETAR */
+
+    --color-link: ;
+    --color-link-hover: ;
+
+    /* tipografia */
+
+
+
+    --font-base: 'Inter', sans-serif;
+    --font-logo: 'Orbitron', sans-serif;
+    --font-size-base: 14;
+    --font-size-title-h1: ;
+    --font-size-title-h2: ;
+    --font-size-title-h3: ;
+    --font-size-title-h4: ;
+    --font-size-title-h5: ;
+    --font-size-labels: 11;
+    
+
+    /* espaciado */
+
+    --space-cards: 15px;
+    --space-titles-carrousel: 10px;
+    --space-global: 20px 80px 20px 80px;
+
+    /* TODO: agregar margenes y paddings globales*/
+}
+
+body {
+    font-family: var(--font-base);
+    background-color: var(--color-bodyDark);
+    color: var(--color-text);
+    padding: var(--padding-global);
+
+}
+
+
+/* elementos comunes: buttons, cards, imagenes, etc */
+
+/* estilos utiles a todos los componentes */
+
+/*estilos particulares a formularios de login y registro */
+
+/* estilos particulares a Home */
+
+/* estilos particulares a pagina de juego */
+
+
+/* responsive */
