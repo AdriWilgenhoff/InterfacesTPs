@@ -1,6 +1,6 @@
 
 
-window.addEventListener('load', showHome);
+window.addEventListener('load', showSlider);
 
 const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api';
 const URL_PRICES = './js/prices.json';
@@ -81,15 +81,9 @@ async function getPromos() {
 
     games.forEach(game => {
 
-        let price = game.price ; 
-        let discountPrice = game.discountPrice; 
-        if( discountPrice != 0 && discountPrice < price ){
-
+        if( isPromo(game) ){
             promos.push(game);
-
-        }
-
-       
+        }       
     })
 
     return promos;    
@@ -118,7 +112,7 @@ async function filterBy(text, games) {
 
 }
 
-async function filterByFree(games){   
+function filterByFree(games){   
 
     let gamesFiltered = games.filter(game => game.isFree == true);    
 
@@ -126,13 +120,13 @@ async function filterByFree(games){
 
 }
 
-async function filterByHeroCard(games){   
+function filterByHeroCard(games){   
 
     let gamesFiltered = games.filter(game => game.isHeroCard == true);    
 
     return gamesFiltered;
-
 }
+
 
 async function isCategory(text) {
 
@@ -142,6 +136,15 @@ async function isCategory(text) {
 
    return categories.includes(category); 
     
+}
+
+function isPromo(game){
+
+    let price = game.price ; 
+    let discountPrice = game.discountPrice; 
+
+    return discountPrice != 0 && discountPrice < price ;
+
 }
 
 /* # vistas */
@@ -154,7 +157,7 @@ async function showGames(nameOrCategory) {
 
     let reemplazoEjemplo = '';
 
-    let gamesFiltered =  await getPromos();
+    let gamesFiltered =  await filterBy('rpg',games);
 
     console.log(gamesFiltered); 
 
@@ -169,7 +172,7 @@ async function showGames(nameOrCategory) {
                     <p>Gratis? ${game.isFree}</p>
                     <p> - </p>
 
-                </li>
+             </li>
         `
 
     });
@@ -180,8 +183,67 @@ async function showGames(nameOrCategory) {
 
 async function showHome() {
     // definir como se renderizan los carrouseles con las categorias
-    await showGames('');
-    
+    const games = await getGames();
+    await showGames('');    
 }
 
-// podria traer de la base los mas destacados o podria elegir manualmente 3 imagenes; 
+
+
+async function showSlider() {
+
+  const games = await getGames();
+  const sliders = await filterByHeroCard(games);
+
+  if (sliders.length < 3) return;
+
+  let globalIndex = 1;
+
+  const previousSlide = document.querySelector('#heroCardPrevious');
+  const principalSlide = document.querySelector('#heroCardPrincipal');
+  const nextSlide = document.querySelector('#heroCardNext');
+
+  //renderInicial
+  showHero();
+
+  function showHero() {
+    const prevIndex = (globalIndex - 1 + sliders.length) % sliders.length;
+    const nextIndex = (globalIndex + 1) % sliders.length;
+
+    renderButton(sliders[prevIndex], previousSlide, "prev");
+    renderSlide(sliders[globalIndex], principalSlide);
+    renderButton(sliders[nextIndex], nextSlide, "next");
+  }
+
+  function renderButton(game, DOMElement, type) {
+    DOMElement.innerHTML = `
+      <a style="background-color:red; padding:25px; display:block; border-radius:8px; cursor:pointer;">                
+        <p>${game.name}</p>
+        <p>Descuento: $${game.discountPrice}</p>
+        <p>Precio: $${game.price}</p>
+      </a>
+    `;
+
+  
+    DOMElement.onclick = () => {
+      if (type === "prev") {
+        globalIndex = (globalIndex - 1 + sliders.length) % sliders.length;
+      } else {
+        globalIndex = (globalIndex + 1) % sliders.length;
+      }
+      showHero();
+    };
+  }
+
+  function renderSlide(game, DOMElement) {
+    DOMElement.innerHTML = `
+      <li>                
+        <h2>${game.name}</h2>
+        <p>ID: ${game.id}</p>
+        <p>Precio: $${game.price}</p>
+        <p>Descuento: $${game.discountPrice}</p>
+        <p>${game.isFree ? "Gratis" : "Pago"}</p>
+      </li>
+    `;
+    //decidir que hace onclick! /verificar el randerizado de peg debugger;
+  }
+}
