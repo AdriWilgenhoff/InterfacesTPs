@@ -1,11 +1,13 @@
 
 
-window.addEventListener('load', showGames);
+window.addEventListener('load', showHome);
 
 const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api';
 const URL_PRICES = './js/prices.json';
 const URL_COMMENTS = 'https://68ccc70eda4697a7f3038624.mockapi.io/comments';
 
+
+/* # data */
 
 async function getGames() {
 
@@ -37,10 +39,114 @@ async function getGames() {
 
 }
 
+async function getComments() {
 
+    try {
 
+        const responseComments = await fetch(URL_COMMENTS);
+        const comments = await responseComments.json();
 
-async function showGames() {
+        return comments;
+
+    } catch (error) {
+        console.log('error:', error);
+    }
+
+    /* cualquier función que espere datos asincrónicos declarala asincronica ! */
+}
+
+async function getCategories() {
+
+  let categories = [];
+  
+  const games = await getGames();
+
+  games.forEach(game => {
+    game.genres.forEach(genre => {
+        const genreName = genre.name.toLowerCase();
+      if (!categories.includes(genreName)) {
+        categories.push(genreName);
+      }
+    });
+  });
+
+  return categories;
+}
+
+async function getPromos() {
+
+    const games = await getGames();
+
+    let promos = [];
+
+    games.forEach(game => {
+
+        let price = game.price ; 
+        let discountPrice = game.discountPrice; 
+        if( discountPrice != 0 && discountPrice < price ){
+
+            promos.push(game);
+
+        }
+
+       
+    })
+
+    return promos;    
+}
+
+/* # controller */ 
+/* ## filtros */
+
+async function filterBy(text, games) {     
+
+    let input = text.toLowerCase();
+
+    let gamesFiltered = [];
+
+    if (await isCategory(input)){
+
+        gamesFiltered = games.filter(game => game.genres.find(genre => genre.name.toLowerCase() == input));      
+
+    } else { // busca por nombre
+        gamesFiltered = games.filter (game => game.name.toLowerCase().includes(input));
+    } 
+
+    return gamesFiltered;   
+    // en la fuction show si recibo un arreglo vacío muestro por pantalla: "no se encontró";
+    //en caso que el valor de text sea un sring vacío devuelve todos los juegos;
+
+}
+
+async function filterByFree(games){   
+
+    let gamesFiltered = games.filter(game => game.isFree == true);    
+
+    return gamesFiltered;
+
+}
+
+async function filterByHeroCard(games){   
+
+    let gamesFiltered = games.filter(game => game.isHeroCard == true);    
+
+    return gamesFiltered;
+
+}
+
+async function isCategory(text) {
+
+   let categories = await getCategories();
+
+   let category = text.toLowerCase(); 
+
+   return categories.includes(category); 
+    
+}
+
+/* # vistas */
+
+async function showGames(nameOrCategory) {
 
     let games = await getGames();
 
@@ -48,8 +154,10 @@ async function showGames() {
 
     let reemplazoEjemplo = '';
 
-    let gamesFiltered =  await filterBy('stringBuscado', games);
-    console.log(gamesFiltered)
+    let gamesFiltered =  await getPromos();
+
+    console.log(gamesFiltered); 
+
     gamesFiltered.forEach(game => {
 
             reemplazoEjemplo += `
@@ -70,84 +178,10 @@ async function showGames() {
     
 }
 
-
-async function getComments() {
-
-    try {
-
-        const responseComments = await fetch(URL_COMMENTS);
-        const comments = await responseComments.json();
-
-        return comments;
-
-    } catch (error) {
-        console.log('error:', error);
-    }
-
-    /* cualquier función que espere datos asincrónicos declarala asincronica ! */
-}
-
-
-
-/* filtros */
-
-
-
-async function filterBy(text, games) {     
-
-    let input = text.toLowerCase();
-
-    let gamesFiltered = [];
-
-    if (await isCategory(input)){
-        
-        gamesFiltered = games.filter(game => game.genres.find(genre => genre.name.toLowerCase() == input));        
-
-    } else { // busca por nombre
-        gamesFiltered = games.filter (game => game.name.toLowerCase().includes(input));
-    } // en la fuction show si recibo un arreglo vacío muestro por pantalla: "no se encontro";
-    return gamesFiltered;
-    
-
-}
-
-
-
-async function filterByFree(games){   
-
-    let gamesFiltered = games.filter(game => game.isFree == true);    
-
-    return gamesFiltered;
-
-}
-
-
-async function isCategory(text) {
-
-   let categories = await getCategories();
-
-   let category = text.toLowerCase(); 
-
-   return categories.includes(category); 
+async function showHome() {
+    // definir como se renderizan los carrouseles con las categorias
+    await showGames('');
     
 }
 
-
-async function getCategories() {
-
-  let categories = [];
-  
-  let games = await getGames();
-
-  games.forEach(game => {
-    game.genres.forEach(genre => {
-        const genreName = genre.name.toLowerCase();
-      if (!categories.includes(genreName)) {
-        categories.push(genreName);
-      }
-    });
-  });
-
-  return categories;
-}
-
+// podria traer de la base los mas destacados o podria elegir manualmente 3 imagenes; 
