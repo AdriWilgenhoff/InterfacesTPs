@@ -147,236 +147,221 @@ async function showGames(nameOrCategory) {
   ejemplo.innerHTML = reemplazoEjemplo;
 }
 
-async function showHome() {
-  try {
-    console.log('Iniciando showHome...');
-    
-    // Obtener los datos
-    const games = await getGames();
-    console.log('Games obtenidos:', games.length);
-    
-    if (games.length === 0) {
-      console.error('No se pudieron cargar los juegos');
-      return;
-    }
 
-    // Verificar que el elemento existe
-    let divHero = document.querySelector('#rpg-slider');
-    if (!divHero) {
-      console.error('No se encontró el elemento #rpg-slider');
-      return;
-    }
 
-    console.log('Elemento encontrado, creando carrusel...');
-    
-    // Crear el carrusel hero
-    const heroCarrousel = new Carrousel("rpg", games, true);
-    
-  } catch (error) {
-    console.error('Error en showHome:', error);
-  }
-}
+class BaseCarrousel {
 
-/* Clase Carrousel corregida */
-class Carrousel {
-  constructor(category, arrayGames, isHero) {
+  constructor(category, arrayGames) {
     this.category = category;
     this.arrayGames = arrayGames;
     this.globalIndex = 0;
-    this.isHero = isHero;
-    
-    
-    //renderizar con el ID-correcto en HOME
     this.DOMElement = document.querySelector(`#${category}-slider`);
     
     if (!this.DOMElement) {
       console.error(`No se encontró el elemento #${category}-slider`);
       return;
     }
-
-    console.log(`Carrusel creado para: ${category}, Hero: ${isHero}, Juegos: ${arrayGames.length}`);
-    this.renderCarrousel();
   }
 
-  renderCarrousel() {
-    if (this.isHero) {
-      this.renderHero();
-    } else {
-      this.renderCommon();
-    }
+  next() {
+    this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
+    this.updateDisplay();
   }
 
-  renderHero() {
-    if (this.arrayGames.length < 3) {
-      console.error("No hay suficientes juegos para renderizar el hero");
-      return;
-    }
-
-    this.globalIndex = 1;
-
-    // Crear la estructura HTML del hero
-    this.DOMElement.innerHTML = `
-      <div id="heroCardPrevious" class="hero-button-container"></div>
-      <div id="heroCardMain" class="hero-main-container"></div>
-      <div id="heroCardNext" class="hero-button-container"></div>
-    `;
-
-    // Renderizar el contenido inicial
-    this.updateHeroDisplay();
-  }
-
-  updateHeroDisplay() {
-    let prevIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-    let nextIndex = (this.globalIndex + 1) % this.arrayGames.length;
-
-    // Obtener los elementos después de crearlos
-    let previousSlide = document.querySelector('#heroCardPrevious');
-    let principalSlide = document.querySelector('#heroCardMain');
-    let nextSlide = document.querySelector('#heroCardNext');
-
-    if (previousSlide && principalSlide && nextSlide) {
-      this.renderButtons(this.arrayGames[prevIndex], previousSlide, "previous");
-      this.renderButtons(this.arrayGames[nextIndex], nextSlide, "next");
-      this.renderCard(this.arrayGames[this.globalIndex], principalSlide);
-    }
-  }
-
-  renderButtons(game, DOMElement, type) {
-
-    if (this.isHero) {
-      DOMElement.innerHTML = `//previous-hero next-hero
-        <div class="side-card ${type}-hero" style="cursor: pointer;"> 
-          <img src="${game.background_image}" alt="${game.name}" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-      `;
-
-      // CORRECCIÓN: Limpiar eventos anteriores y agregar nuevo
-      DOMElement.replaceWith(DOMElement.cloneNode(true));
-      DOMElement = document.querySelector(`#heroCard${type === "previous" ? "Previous" : "Next"}`);
-      //reemplace por addeventListener;
-      DOMElement.addEventListener('click', () => {
-        console.log(`Click en botón ${type}`);
-        if (type === "previous") {
-          this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-        } else {
-          this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
-        }
-        this.updateHeroDisplay();
-      });
-
-    } else {
-      DOMElement.innerHTML = `
-        <button class="carousel-btn ${type}-common">
-          ${type === "previous" ? "‹" : "›"}
-        </button>
-      `;
-      //addeventListener
-      DOMElement.addEventListener('click', () => {
-        if (type === "previous") {
-          this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-        } else {
-          this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
-        }
-        this.renderCommon();
-      });
-    }
-  }
-
-  renderCard(game, DOMElement) {
-    if (this.isHero) {
-      DOMElement.innerHTML = `
-        <div class="mainCardHero" style="text-align: center;">
-          <img src="${game.background_image}" alt="${game.name} ">
-          <h3 class="titleHeroCard">${game.name}</h3>          
-        </div>
-      `;
-    } else {
-      // Calcular precios y estados antes de crear el HTML
-      const gamePromo = this.isPromo(game);
-      let priceHTML = '';
-      let buttonClass = '';
-      let buttonText = '';
-
-      if (!gamePromo) {
-        if (game.isFree) {
-          priceHTML = `<div class="precioComun">Gratis</div>`;
-          buttonClass = "buttonFree";
-          buttonText = "Jugar";
-        } else {
-          priceHTML = `<div class="precioComun">$${game.price}</div>`;
-          buttonClass = "buttonBuy";
-          buttonText = "Comprar";
-        }
-      } else {
-        priceHTML = `
-          <div class="precioDescuento">
-            <div class="precioTachado">$${game.price}</div>
-            <div class="precioComun">$${game.discountPrice}</div>
-          </div>
-        `;
-        buttonClass = "buttonBuy";
-        buttonText = "Comprar";
-      }
-
-      DOMElement.innerHTML = `
-        <div class="game-card">
-          <img src="${game.background_image}" alt="${game.name}" class="card-img" style="width: 100%; height: 200px; object-fit: cover;">
-          <div class="card-body">
-            <h3 class="card-title">${game.name}</h3>
-            <div style="display:flex; justify-content: space-between; align-items: center;"> 
-              <div class="price-container">${priceHTML}</div>
-              <button class="btn buy ${buttonClass}">${buttonText}</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+  prev() {
+    this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
+    this.updateDisplay();
   }
 
   isPromo(game) {
     return game.discountPrice !== 0 && game.discountPrice < game.price;
   }
 
-  renderCommon() {
-    console.log("Implementando render común...");
-    
-    if (this.arrayGames.length === 0) {
-      this.DOMElement.innerHTML = '<p>No hay juegos disponibles</p>';
+  // Cada clase hija define estos metodos
+  renderCarrousel() {}
+  updateDisplay() {}
+  renderCard(game, DOMElement) {}
+}
+
+class HeroCarrousel extends BaseCarrousel {
+  constructor(category, arrayGames) {
+    super(category, arrayGames)
+    this.globalIndex = 1; // arranca en indice 1 para asegurarme que tengo un elemento para mostrar en el previo; 
+    this.renderCarrousel();
+  }
+
+  renderCarrousel() {
+    if (this.arrayGames.length < 3) {
+      console.error("No hay suficientes juegos para renderizar el hero");
       return;
     }
 
-    // Estructura básica para carrusel común
     this.DOMElement.innerHTML = `
-      <div class="common-carousel-container" style="display: flex; align-items: center; gap: 20px;">
-        <button class="carousel-btn previous-common" style="padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">‹</button>
-        <div class="carousel-content" style="flex: 1;"></div>
-        <button class="carousel-btn next-common" style="padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">›</button>
+      <div id="heroCardPrevious" class="hero-button-container"></div>
+      <div id="heroCardMain" class="hero-main-container"></div>
+      <div id="heroCardNext" class="hero-button-container"></div>
+    `;
+    this.updateDisplay();
+  }
+
+  updateDisplay() {
+    let prevIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
+    let nextIndex = (this.globalIndex + 1) % this.arrayGames.length;
+
+    this.renderButtons(this.arrayGames[prevIndex], "#heroCardPrevious", "previous");
+    this.renderButtons(this.arrayGames[nextIndex], "#heroCardNext", "next");
+    this.renderCard(this.arrayGames[this.globalIndex], document.querySelector('#heroCardMain'));
+  }
+
+  renderButtons(game, selector, type) {
+    let container = document.querySelector(selector);
+    container.innerHTML = `
+      <div class="side-card ${type}-hero" style="cursor: pointer;"> 
+        <img src="${game.background_image}" alt="${game.name}">
+      </div>
+    `;
+    container.onclick = () => type === "previous" ? this.prev() : this.next();
+  }
+
+  renderCard(game, DOMElement) {
+    DOMElement.innerHTML = `
+      <div class="mainCardHero">
+        <img src="${game.background_image}" alt="${game.name}">
+        <h3 class="titleHeroCard">${game.name}</h3>          
+      </div>
+    `;
+  }
+}
+
+class CommonCarrousel extends BaseCarrousel {
+  constructor(category, arrayGames, cardsVisible = 3) {
+    super(category, arrayGames);
+    this.cardsVisible = cardsVisible;
+    this.renderCarrousel();
+
+    // recalcular cards visibles al redimensionar
+    window.addEventListener('resize', () => this.updateDisplay());
+  }
+
+  renderCarrousel() {
+    this.DOMElement.innerHTML = `
+      <div class="common-carousel-container" style="display: flex; align-items: center; gap: 10px; overflow: hidden;">
+        <button class="carousel-btn prev" style="padding: 0.5rem;">‹</button>
+        <div class="carousel-content" style="display:flex; gap:10px;"></div>
+        <button class="carousel-btn next" style="padding: 0.5rem;">›</button>
       </div>
     `;
 
-    // Configurar botones
-    const prevBtn = this.DOMElement.querySelector('.previous-common');
-    const nextBtn = this.DOMElement.querySelector('.next-common');
-    
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', () => {
-        this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-        this.updateCommonDisplay();
-      });
+    // botones
+    const prevBtn = this.DOMElement.querySelector('.prev');
+    const nextBtn = this.DOMElement.querySelector('.next');
 
-      nextBtn.addEventListener('click', () => {
-        this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
-        this.updateCommonDisplay();
-      });
-    }
+    prevBtn.onclick = () => this.prev();
+    nextBtn.onclick = () => this.next();
 
-    this.updateCommonDisplay();
+    this.updateDisplay();
   }
 
-  updateCommonDisplay() {
+  getCardsVisible() {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 768) return 2;
+    return this.cardsVisible; // default
+  }
+
+  updateDisplay() {
     const contentDiv = this.DOMElement.querySelector('.carousel-content');
-    if (contentDiv) {
-      this.renderCard(this.arrayGames[this.globalIndex], contentDiv);
+    contentDiv.innerHTML = ''; // limpiar
+
+    const visible = this.getCardsVisible();
+
+    for (let i = 0; i < visible; i++) {
+      let index = (this.globalIndex + i) % this.arrayGames.length;
+      this.renderCard(this.arrayGames[index], contentDiv, true);
     }
+  }
+
+  next() {
+    this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
+    this.updateDisplay();
+  }
+
+  prev() {
+    this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
+    this.updateDisplay();
+  }
+
+  renderCard(game, container, append = false) {
+    const promo = this.isPromo(game);
+    let priceHTML = '';
+    let buttonClass = '';
+    let buttonText = '';
+
+    if (!promo) {
+      if (game.isFree) {
+        priceHTML = `<div class="precioComun">Gratis</div>`;
+        buttonClass = "buttonFree";
+        buttonText = "Jugar";
+      } else {
+        priceHTML = `<div class="precioComun">$${game.price}</div>`;
+        buttonClass = "buttonBuy";
+        buttonText = "Comprar";
+      }
+    } else {
+      priceHTML = `
+        <div class="precioDescuento">
+          <div class="precioTachado">$${game.price}</div>
+          <div class="precioComun">$${game.discountPrice}</div>
+        </div>
+      `;
+      buttonClass = "buttonBuy";
+      buttonText = "Comprar";
+    }
+
+    const cardHTML = document.createElement('div');
+    cardHTML.classList.add('game-card');
+    cardHTML.innerHTML = `
+      <img src="${game.background_image}" alt="${game.name}" class="card-img">
+      <div class="card-body">
+        <h3 class="card-title">${game.name}</h3>
+        <div style="display:flex; justify-content: space-between; align-items: center;"> 
+          <div class="price-container">${priceHTML}</div>
+          <button class="btn buy ${buttonClass}">${buttonText}</button>
+        </div>
+      </div>
+    `;
+
+    if (append) container.appendChild(cardHTML);
+    else container.innerHTML = cardHTML.outerHTML;
+  }
+}
+
+async function showHome() {
+
+  const games = await getGames();
+
+  const heroCards = await filterByHeroCard(games);
+  
+  const categoriesHome = ['rpg','shooter','platformer','arcade'];
+
+  const container = document.querySelector('#carruselesHome');
+  
+  // Limpiar el contenedor
+  container.innerHTML = '';
+
+  // Hero principal
+  new HeroCarrousel("hero", heroCards);
+
+  // Crear secciones dinámicas para cada categoría y añadir carrusel
+  for (const category of categoriesHome) {
+    // Crear la sección para el carrusel
+    const section = document.createElement('section');
+    section.id = `${category}-slider`; // Ej: "shooter-slider"
+    container.appendChild(section);
+
+    // Filtrar juegos por categoría
+    const gamesByCategory = await filterBy(category, games);
+
+    // Crear carrusel común dentro de la sección
+    new CommonCarrousel(category, gamesByCategory);
   }
 }
