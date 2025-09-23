@@ -1,7 +1,7 @@
 window.addEventListener('load', showHome);
 
 const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api';
-const URL_PRICES = './js/prices.json';
+const URL_PRICES = window.location.pathname.includes('html/') ? '../js/prices.json' : './js/prices.json';
 const URL_COMMENTS = 'https://68ccc70eda4697a7f3038624.mockapi.io/comments';
 
 /* # data */
