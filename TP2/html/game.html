@@ -1,11 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIverse</title>
+    <!-- fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/global.css">
+
 </head>
+
 <body>
-    
+    <header>
+
+    </header>
+    <main class="game-page">
+
+        <div class="breadcrumbs">
+            <ol class="bc-list">
+                <li class="bc-item"><a href="/">Home</a></li>
+                <li class="separator">›</li>
+                <li class="bc-item"><a href="/categoria/estrategia">Estrategia</a></li>
+                <li class="separator">›</li>
+                <li class="bc-item current">Peg Debugging</li>
+            </ol>
+        </div>
+
+        <section class="game-section">
+            <div class="game-play">
+                <div class="game-media">
+                    <img class="game-image" src="assets/images_page_game/game_image.png" alt="Captura del juego Peg Debugging" loading="lazy" decoding="async" />
+                    <button class="play-cta" type="button">JUGAR</button>
+                </div>
+
+                <div class="game-board">
+                    <h2>Peg Debugging</h2>
+                    <div class="game-board-icons">
+                        <button class="icon-btn" title="Compartir">
+                            <img src="assets/icons_page_game/Share.svg" alt="Compartir">
+                        </button>
+
+                        <button class="icon-btn" title="Guardar">
+                            <img src="assets/icons_page_game/Save.svg" alt="Guardar">
+                        </button>
+
+                        <button class="icon-btn" title="Me gusta">
+                            <img src="assets/icons_page_game/Heart.svg" alt="Me gusta">
+                        </button>
+
+                        <button class="icon-btn" title="Pantalla completa">
+                            <img src="assets/icons_page_game/FullSize.svg" alt="Pantalla completa">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-instructions">
+                <div class="game-instructions-1">
+                    <h4>Controles</h4>
+                    <div class="instructions">
+                        <img src="assets/icons_page_game/mousse.svg" alt="Icon mousse" loading="lazy" decoding="async" />
+                        <p>Mantener presionado el boton izquierdo del mouse sobre una pieza para seleccionarla y
+                            arrastrarla a la casilla deseada</p>
+                    </div>
+                </div>
+
+                <div class="game-instructions-1">
+                    <h4>Objetivo</h4>   
+                    <div class="instructions">
+                        <img src="assets/icons_page_game/obejtivo.svg" alt="Icon Objetivo" loading="lazy" decoding="async" />
+                        <p>Eliminar todas las piezas hasta dejar una sola ficha en el centro del tablero.</p>
+                    </div>
+                </div>
+
+                <div class="game-instructions-2">
+                    <h4>Movimientos</h4>
+                    <p class="instructions-text">
+                        Para eliminar una ficha, mueve otra saltándola hacia una casilla vacía.
+                    </p>
+                    <div class="game-instructions-2-images">
+                        <img src="assets/icons_page_game/movimiento1.svg" alt="Icon movimiento" loading="lazy" decoding="async" />
+                        <img src="assets/icons_page_game/movimiento2.svg" alt="Icon resultado" loading="lazy" decoding="async" />
+                    </div>
+                    <p>Solo puedes saltar en línea recta hacia una casilla vacía, saltando una única ficha.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="description">
+            <div class="description-images-text">
+                <div class="description-game-images">
+                    <img src="assets/images_page_game/imagen play 0.png" alt="Video de juego"/>
+                    <img src="assets/images_page_game/imagen 1.png" alt="Imagen de juego 1" />
+                    <img src="assets/images_page_game/imagen 2.png" alt="Imagen de juego 2" />
+                    <img src="assets/images_page_game/imagen 3.png" alt="Imagen de juego 3" />
+                    <img src="assets/images_page_game/imagen 4.png" alt="Imagen de juego 4" />
+                </div>
+                <div class="description-box">
+                    <h3>Descripción</h3>
+                    <p class="description-p">En el mundo del desarrollo, cada línea de código puede esconder un bug que
+                        frena el proyecto. En Peg Debugging, tu misión es transformarte en un héroe del frontend y
+                        depurar el tablero eliminando errores paso a paso. Inspirado en el clásico Peg Solitaire, este
+                        desafío combina lógica, programación y estrategia en una experiencia única para programadores y
+                        gamers.</p>
+                    <p class="description-p">¿Serás capaz de pasar tu código a producción sin bugs y convertirte en la
+                        leyenda del debugging?</p>
+                </div>
+            </div>
+
+            <div class="description-table">
+                <table aria-label="Ficha técnica del juego Peg Debugging">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Título</th>
+                            <td>Peg Debugger</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Empresa</th>
+                            <td><a href="https://tudai.co">Tudai.co</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Franquicia</th>
+                            <td>Alguito</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Categoría</th>
+                            <td><a href="#">Estrategia</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Lanzamiento</th>
+                            <td>05 - 09 - 2025</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Duración estimada</th>
+                            <td>+120 Horas</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Idioma</th>
+                            <td>Español - Ingles</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Clasificación</th>
+                            <td>1.887.608 votos</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Edad recomendada</th>
+                            <td>+5 años</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section class="community">
+            <div class="community-content">
+                <div class="comments">
+                    <h3>Comentarios</h3>
+                    <div class="line"></div>
+
+                    <div class="comment-row">
+                        <img class="avatar" src="assets/icons_page_game/Avatar-Principal.svg" alt="Avatar del usuario logueado">
+                        <div class="input-col">
+                            <textarea class="comment-input" placeholder="Escribe un comentario..." rows="4" aria-label="Escribe un comentario"></textarea>
+                        </div>
+                    </div>
+
+                    <button class="button-comentar">Comentar</button>
+                </div>
+
+                <div class="comments-list">
+                    <ul id="comments-list-ul">
+                    </ul>
+                </div>
+            </div>
+            <div class="community-recommends">
+                <h4>Te puede interesar</h4>
+                <ul id="randomGames" class="rec-list"></ul>
+            </div>
+        </section>
+
+    </main>
+    <footer class="site-footer">
+        <!-- TOP -->
+        <div class="footer-top">
+            <div class="footer-container">
+                <div class="footer-cols">
+                    <!-- Col 1 -->
+                    <section class="footer-col">
+                        <h4 class="footer-title">Categorías</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Todos los juegos</a></li>
+                            <li><a href="#">Más vendidos</a></li>
+                            <li><a href="#">Mejor puntuados</a></li>
+                            <li><a href="#">Últimos lanzamientos</a></li>
+                            <li><a href="#">Próximamente</a></li>
+                            <li><a href="#">Free to play</a></li>
+                            <li><a href="#">Ofertas especiales</a></li>
+                            <li><a href="#">Exclusivos de la plataforma</a></li>
+                            <li><a href="#">Ediciones Deluxe</a></li>
+                            <li><a href="#">Basados en tus amigos</a></li>
+                            <li><a href="#">Multijugador</a></li>
+                            <li><a href="#">Recomendados para vos</a></li>
+                            <li><a href="#">Single Player</a></li>
+                        </ul>
+                    </section>
+
+                    <!-- Col 2 -->
+                    <section class="footer-col">
+                        <h4 class="footer-title">Explorar Géneros</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Rol RPG</a></li>
+                            <li><a href="#">Estrategia</a></li>
+                            <li><a href="#">Simulación</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Carreras</a></li>
+                            <li><a href="#">Pelea</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Battle Royale</a></li>
+                            <li><a href="#">Shooter</a></li>
+                            <li><a href="#">Ver todos</a></li>
+                        </ul>
+                    </section>
+
+                    <!-- Col 3 -->
+                    <section class="footer-col">
+                        <h4 class="footer-title">Información</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Acerca de Prodigy</a></li>
+                            <li><a href="#">Comunidad</a></li>
+                            <li><a href="#">Prodigy Blog</a></li>
+                            <li><a href="#">Cupones de descuento</a></li>
+                            <li><a href="#">Submit your game</a></li>
+                            <li><a href="#">Work with us</a></li>
+                            <li><a href="#">Centro de ayuda</a></li>
+                        </ul>
+                    </section>
+
+                    <!-- Col 4 -->
+                    <section class="footer-col footer-col-right">
+                        <div class="newsletter">
+                            <h4 class="footer-title">Suscribite a nuestro NewsLetter</h4>
+                            <form class="newsletter-form" action="#" method="post">
+                                <input type="email" placeholder="correo.@exa.unicen.edu.ar" aria-label="Correo electrónico" required >
+                                <button type="submit">Suscribirse</button>
+                            </form>
+                            <p class="newsletter-note">
+                                Puedes darte de baja a través de la newsletter en cualquier momento.
+                                Al suscribirte a nuestra newsletter aceptás nuestras <a href="#">Políticas de
+                                    Privacidad</a>.
+                            </p>
+                        </div>
+
+                        <div class="app">
+                            <h4 class="footer-title">Descarga nuestra nueva app</h4>
+                            <div class="app-badges">
+                                <img src="assets/icons_footer/appStore.png" alt="App Store" class="badge">
+                                <img src="assets/icons_footer/googlePlay.png" alt="Google Play" class="badge">
+                            </div>
+                        </div>
+
+                        <div class="social">
+                            <h4 class="footer-title">Contactate con nosotros</h4>
+                            <div class="social-row">
+                                <img src="assets/icons_footer/Social Icons-5.svg" alt="Facebook" class="social-icon">
+                                <img src="assets/icons_footer/Social Icons-4.svg" alt="Instagram" class="social-icon">
+                                <img src="assets/icons_footer/Social Icons-2.svg" alt="YouTube" class="social-icon">
+                                <img src="assets/icons_footer/Social Icons-1.svg" alt="Github" class="social-icon">
+                                <img src="assets/icons_footer/Social Icons-3.svg" alt="Discord" class="social-icon">
+                                <img src="assets/icons_footer/Social Icons.svg" alt="Whastsapp" class="social-icon">
+                                <img src="assets/icons_footer/Vector.svg" alt="Twitch" class="social-icon">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- MID -->
+        <div class="footer-mid">
+            <div class="footer-container footer-mid-row">
+                <p class="pay-title">Métodos de pago</p>
+                <ul class="pay-logos">
+                    <li><img src="assets/icons_footer/Payment Method/Visa.svg" alt="Visa"></li>
+                    <li><img src="assets/icons_footer/Payment Method/Maestro.svg" alt="Maestro"></li>
+                    <li><img src="assets/icons_footer/Payment Method/Bitcoin.svg" alt="Bitcoin"></li>
+                    <li><img src="assets/icons_footer/Payment Method/Etherium.svg" alt="Ethereum"></li>
+                    <li><img src="assets/icons_footer/Payment Method/BitcoinCash.svg" alt="Bitcoin Cash"></li>
+                    <li><img src="assets/icons_footer/Payment Method/Lightcoin.svg" alt="Litecoin"></li>
+                    <li><img src="assets/icons_footer/Payment Method/GooglePay.svg" alt="Google Pay"></li>
+                    <li><img src="assets/icons_footer/Payment Method/ApplePay.svg" alt="Apple Pay"></li>
+                    <li><img src="assets/icons_footer/Payment Method/Amazon.svg" alt="Amazon Pay"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="footer-bottom">
+            <div class="footer-container footer-bottom-row">
+                <img src="assets/icons_footer/LogoExaBlanco 1.png" alt="EXA UNICEN" class="brand">
+                <div class="legal">
+                    <p>Este Sitio fue desarrollado por estudiantes de la Facultad de Cs. Exactas de UNICEN.</p>
+                    <p>© 2025 TUDAI Exactas Ltd. Todos los derechos reservados ·
+                        <a href="#">Términos y condiciones</a> ·
+                        <a href="#">Política de privacidad</a> ·
+                        <a href="#">Política de cookies</a> ·
+                        <a href="#">Accesibilidad</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
 </body>
+
 </html>
