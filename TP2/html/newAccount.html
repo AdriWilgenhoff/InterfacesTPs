@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrate</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>      
+    <div class="register-container">   
+        <form class="register-form">
+            <h2>Crear cuenta</h2>
+            <div class="input-group">
+                <label for="nombre" class="required">Nombre</label>
+                <input type="text" id="nombre" required>
+            </div>
+            <div class="input-group">
+                <label for="apellido" class="required">Apellido</label>
+                <input type="text" id="apellido" required>
+            </div>
+            <div class="input-group">
+                <label for="nick">Nick</label>
+                <input type="text" id="nick">
+            </div>
+            <div class="input-group">
+                <label for="fecha-nacimiento" class="required">Fecha de nacimiento</label>
+                <input type="date" id="fecha-nacimiento" required>
+            </div>
+            <div class="input-group">
+                <label for="email" class="required">Correo electrónico</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password" class="required" >Contraseña</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="input-group">
+                <label for="repeat-password" class="required" >Repetir Contraseña</label>
+                <input type="password" id="repeat-password" required>   
+            </div>
+            <div class="recaptcha-group">
+                <div class="recaptcha-container">
+                    <label for="recaptcha-input" class="required">
+                        <input type="checkbox" id="recaptcha-input" required class="recaptcha-checkbox">
+                        <span class="recaptcha-text">I'm not a robot</span>
+                    </label>
+                    <div class="recaptcha-logo-container">  
+                        <img src="../assets/logos/reCAPTCHA.png" alt="reCAPTCHA logo" class="recaptcha-logo">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="login-button" id="register-button">Registrarse</button>
+            <div class="divider">
+                <h3>o registrarse con</h3>
+            </div>
+            <div class="social-login">
+                <a href="">
+                    <img src="../assets/logos/logoFacebook.png" alt="Logotipo de Facebook">
+                </a>
+                <a href="">
+                    <img src="../assets/logos/logoGoogle.png" alt="Logotipo de Google">
+                </a>
+            </div>
+            <div class="signup-link">
+                <a href="logIn.html">Volver Login!</a>
+            </div>
+        </form>
+    </div>
+     <div class="content-card">
+        <h2>UIverse: Tu próxima gran aventura comienza aquí.</h2>
+        <p>Bienvenido a UIverse, Nuestra plataforma te invita a explorar una increíble diversidad de géneros como Aventura, Arcade, Estrategia, Rol RPG, Deporte, Carreras, Shooter y mucho mas. Descubre nuevos mundos, encuentra títulos de pago y disfruta de una sección de juegos totalmente gratis. Únete a una comunidad de jugadores apasionados y encuentra tu próxima aventura.</p>
+    </div>
+    <script src="../js/register.js"></script>
+</body>
+</html>
