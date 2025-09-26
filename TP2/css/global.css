@@ -56,19 +56,24 @@
   --color-link: ;
   --color-link-hover: ;
 
+  --color-link-secondary: var(--color-secondary);
+  --color-link-hover-secondary: var(--color-secondaryShadow1);
+
   /* tipografia */
 
 
 
   --font-base: 'Inter', sans-serif;
   --font-logo: 'Orbitron', sans-serif;
-  --font-size-base: 14;
-  --font-size-title-h1: ;
-  --font-size-title-h2: ;
-  --font-size-title-h3: ;
-  --font-size-title-h4: ;
-  --font-size-title-h5: ;
-  --font-size-labels: 11;
+  --font-size-base: 14px;
+  --font-size-small: 12px;
+  --font-size-title-h1: 48px;
+  --font-size-title-h2: 24px;
+  --font-size-title-h3: 20px;
+  --font-size-title-h4: 16px;
+  --font-size-title-h5: 14px;
+  --font-size-labels: 11px;
+  --font-size-table: 15px;
 
 
   /* espaciado */

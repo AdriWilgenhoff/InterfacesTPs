@@ -1,0 +1,285 @@
+.site-footer {
+    color: var(--color-text, #e4e4e4);
+    font-family: var(--font-base);
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+/* ===== Top ===== */
+.footer-top {
+    background: var(--color-navDark, #121116);
+}
+
+.footer-cols {
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr 1.2fr 1.6fr;
+    grid-template-columns: 1fr;
+    gap: 48px;
+}
+
+.footer-col-right {
+    display: grid;
+    text-align: center;
+    gap: 20px;
+}
+
+.footer-title {
+    margin: 0 0 10px;
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: var(--font-size-title-h4);
+}
+
+.footer-links {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+}
+
+
+.footer-links a {
+    color: var(--color-link-footer);
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+
+.newsletter-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.newsletter-form input {
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    background: #e4e4e4;
+    color: #111;
+}
+
+.newsletter-form button {
+    height: 43px;
+    padding: 0 14px;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    font-weight: 600;
+    background: var(--color-accent);
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.newsletter-note {
+    margin: 8px 0 0;
+    font-size: 10px;
+    color: var(--color-textTable)
+}
+
+.newsletter-note a {
+    color: var(--color-textDark);
+    text-decoration: none;
+}
+
+.app-badges {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge {
+    max-height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+.social-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    opacity: .8;
+    justify-content: center;
+}
+
+
+/* ===== Mid (métodos de pago) ===== */
+.footer-mid {
+    background: var(--color-bodyDark, #100f14);
+}
+
+.footer-mid-row {
+    display: flex;
+    gap: 54px;
+    align-items: center;
+}
+
+.pay-title {
+    font-size: var(--font-size-base);
+}
+
+.pay-logos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+}
+
+.pay-logos img {
+    height: 25px;
+    width: 53px;
+    display: block;
+    background: #18171c;
+    border: 1px solid var(--color-hover, #403f44);
+    border-radius: 6px;
+    padding: 6px 7px;
+}
+
+/* ===== Bottom (Legal) ===== */
+.footer-bottom {
+    background: var(--color-bodyfullDark);
+}
+
+.footer-bottom-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand {
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+
+.legal {
+    display: grid;
+    gap: 6px;
+}
+
+.legal p {
+    margin: 0;
+    font-size: 14px;
+    color: #545151;
+    text-align: center;
+}
+
+.legal a {
+    color: #8b8b8b;
+    text-decoration: none;
+}
+
+.legal a:hover {
+    text-decoration: underline;
+}
+
+.footer-cols .footer-col:nth-child(1),
+.footer-cols .footer-col:nth-child(2),
+.footer-cols .footer-col:nth-child(3),
+.footer-mid,
+.app {
+    display: none;
+}
+
+
+/* ===== Responsive ===== */
+@media (min-width: 769px) {
+
+    .footer-cols .footer-col:nth-child(1),
+    .footer-cols .footer-col:nth-child(2),
+    .footer-cols .footer-col:nth-child(3),
+    .footer-mid,
+    .footer-bottom,
+    .app {
+        display: block;
+    }
+
+    .footer-cols {
+        grid-template-columns: 1.2fr 1.2fr 1.2fr 1.6fr;
+        gap: 48px;
+    }
+
+    .footer-container {
+        padding: 20px 80px;
+    }
+
+    .footer-bottom-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+    }
+
+    .footer-mid-row {
+        display: flex;
+        gap: 54px;
+    }
+
+    .legal p {
+        text-align: left;
+    }
+
+    .footer-title {
+        text-align: left;
+    }
+
+    .social-row {
+        justify-content: left;
+    }
+
+    .app-badges {
+        justify-content: left;
+    }
+
+}
+
+
+/***************************** HOVERS SOCIALES *****************************/
+
+.icono-social-interactivo {
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+.icono-social-interactivo:hover {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+}
+
+
+
+
+/********************* HOVER SUBSCRIBIRSE *************************/
+.newsletter-form button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+/* Efecto de relleno simple */
+.newsletter-form button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-accentShadow1);
+    transition: left 0.4s ease-out;
+    z-index: -1;
+}
+
+.newsletter-form button:hover:before {
+    left: 0; /* Se desliza para cubrir todo el botón */
+}
+
+/***************************** HOVER SOCIALES FIN *****************************/
