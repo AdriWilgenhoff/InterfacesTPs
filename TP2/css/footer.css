@@ -42,13 +42,14 @@
 
 
 .footer-links a {
-    color: var(--color-link-footer);
+    color: #A5A5A7;
     text-decoration: none;
     font-size: 12px;
 }
 
 .footer-links a:hover {
     text-decoration: underline;
+    color: var(--color-text);
 }
 
 

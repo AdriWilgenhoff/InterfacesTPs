@@ -39,148 +39,6 @@
     color: var(--color-textDark, #A5A5A6);
 }
 
-
-/* --------------------------------------- USER PANEL ---------------------------------------*/
-.user-panel {
-    width: 210px;
-    background: var(--color-navDark);
-    color: var(--color-text, #e4e4e4);
-    padding: 15px 20px;
-}
-
-/* Header */
-.user-header {
-    margin-bottom: 4px;
-}
-
-.user-name {
-    font-size: var(--font-size-title-h3);
-    font-weight: 700;
-    line-height: 1.1;
-    margin: 0 0 6px;
-    color: var(--color-textLight, #fff);
-}
-
-.user-status {
-    margin: 0;
-    font-size: var(--font-size-small);
-    color: var(--color-textDark, #a5a5a6);
-}
-
-/* Separador */
-.sep {
-    border: 0;
-    border-top: 1px solid rgba(255, 255, 255, .08);
-    margin: 10px 0;
-}
-
-/* Menú */
-.user-menu ul {
-    list-style: none;
-    display: grid;
-    gap: 5px;
-}
-
-.user-menu a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 8px;
-    border-radius: 8px;
-    color: inherit;
-    text-decoration: none;
-}
-
-.user-menu a:hover {
-    background: var(--color-box);
-}
-
-.user-menu .icon {
-    width: 24px;
-    height: 24px;
-    opacity: .95;
-}
-
-/* Cerrar sesión */
-.logout {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 8px;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    text-decoration: none;
-    color: var(--color-warning, #fc4d64);
-    font: inherit;
-    cursor: pointer;
-}
-
-.logout .icon {
-    width: 24px;
-    height: 24px;
-}
-
-.logout:hover {
-    background: rgba(252, 77, 100, .12);
-}
-
-
-/* ------------------------------ ABRIR MENU PERFIL -----------------------------------*/
-
-/* Botón + menú (drop-down) */
-.user-toggle{
-  position: relative;
-  display: inline-block; /* el menú se posiciona respecto a este contenedor */
-}
-
-.user-btn{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--color-box, #201f24);
-  color: var(--color-text, #e4e4e4);
-  cursor: pointer;
-}
-.user-btn .avatar{ width:24px; height:24px; border-radius:50%; }
-
-/* Menú: debajo del botón */
-/* Estado base: oculto pero animable */
-.user-panel{
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 8px;
-  z-index: 1000;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-
-  /* animación */
-  opacity: 0;
-  transform: translateY(-6px) scale(.98);
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity .18s ease,
-    transform .18s ease,
-    visibility 0s linear .18s; /* retrasa visibilidad al cerrar */
-}
-
-/* Abierto */
-.user-panel.is-open{
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  visibility: visible;
-  pointer-events: auto;
-  transition:
-    opacity .58s ease,
-    transform .58s ease,
-    visibility 0s; /* visible inmediatamente al abrir */
-}
-
-
 /* --------------------------------------- GAME SECTION ---------------------------------------*/
 
 .game-section {
@@ -225,6 +83,35 @@
     cursor: pointer;
 }
 
+
+/* animación pulso */
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        /* Tamaño normal */
+        box-shadow: 0 0 10px var(--color-primary, #9013FE);
+        /* Sombra inicial */
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 20px var(  --color-primaryLight2);
+        /* Aumenta la sombra */
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        /* Vuelve al tamaño normal */
+        box-shadow: 0 0 10px var(--color-primary, #9013FE);
+        /* Sombra inicial */
+    }
+}
+
 h2 {
     font-size: var(--font-size-title-h2);
 }
@@ -232,7 +119,9 @@ h2 {
 .game-image {
     display: block;
     width: 100%;
-    height: auto;
+    height: 475px;
+    object-fit: cover;
+    object-position: center center;
     filter: blur(1.5px) brightness(.75);
 }
 
@@ -327,6 +216,21 @@ h2 {
 .description-game-images {
     display: flex;
     justify-content: space-between;
+
+}
+
+.description-game-images div {
+    overflow: hidden;
+}
+
+.description-game-images img {
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.description-game-images img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
 }
 
 .description-box {
@@ -447,13 +351,14 @@ h3 {
     background: var(--bodyclaro, #201f24);
     color: var(--color-text, #e4e4e4);
     /* Borde base transparente o muy sutil */
-    border: 1px solid #ffffff14; 
+    border: 1px solid #ffffff14;
     border-radius: 12px;
     padding: 12px 14px;
     box-sizing: border-box;
     resize: vertical;
-    outline: none; /* Quitamos el outline predeterminado del navegador */
-    
+    outline: none;
+    /* Quitamos el outline predeterminado del navegador */
+
     /* ¡IMPORTANTE! Añadimos la transición para que el efecto sea suave */
     transition: all 0.3s ease;
 }
@@ -461,11 +366,11 @@ h3 {
 /* 2. Estilos al hacer FOCUS (Activo) */
 .comment-input:focus {
     /* Color de borde (el violeta de tu estilo primario) */
-    border-color: var(--color-primary, #9013FE); 
-    
+    border-color: var(--color-primary, #9013FE);
+
     /* Sombra sutil con el mismo color */
-    box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.2); 
-    
+    box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.2);
+
     /* Pequeño levantamiento para darle un efecto de "despegue" */
     transform: translateY(-1px);
 }
@@ -529,7 +434,7 @@ h3 {
 }
 
 .comment-item .text {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     line-height: 24px;
 }
 
@@ -615,12 +520,12 @@ h3 {
     width: 28px;
     height: 28px;
     cursor: pointer;
-    
+
     /* Transición suave para todos los efectos */
     transition: transform 0.3s ease-out, filter 0.3s ease-out, color 0.3s ease-out, fill 0.3s ease-out;
-    
+
     /* Color de trazo normal (Gris muy claro) */
-    color: #e4e4e4; 
+    color: #e4e4e4;
     /* Todos están sin relleno por defecto para que solo se vea el contorno */
     fill: none;
 }
@@ -632,8 +537,8 @@ h3 {
 .icon-btn:hover .like-icon,
 .icon-btn:hover .fullscreen-icon {
     /* Crecimiento */
-    transform: scale(1.2); 
-    
+    transform: scale(1.2);
+
     /* Sombra (Despegue) */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
@@ -642,30 +547,40 @@ h3 {
 
 /* Corazón: Rojo (Trazo y Relleno) */
 .icon-btn:hover .heart-icon {
-    color: #ff3434; /* Trazo */
-    fill: #ff3434;  /* Relleno */
+    color: var(--color-text);
+    /* Trazo */
+    fill: var(--color-text);
+    /* Relleno */
 }
 
 /* Compartir: Violeta (Trazo y Relleno) */
 .icon-btn:hover .share-icon {
-    color: #8a2be2; /* Trazo */
+    color: var(--color-text);
+    /* Trazo */
     /* El icono de compartir NO debe rellenarse (es un outline). 
        Si lo rellenas, se ve mal. Lo dejamos en violeta para el trazo. */
-    fill: #8a2be2;  /* Relleno */
+    fill: var(--color-text);
+    /* Relleno */
 }
+
 /* Nota: Si deseas que se rellene, cambia 'fill: none' por 'fill: #8a2be2'. */
 
 /* Dedo Arriba (Like): Amarillo (Trazo y Relleno) */
-.icon-btn:hover .like-icon { 
-    color: #ffe65b; /* Trazo */
-    fill: #ffe65b; /* Relleno */
-    stroke:var(--color-box); /* Asegura que el trazo también sea amarillo */
+.icon-btn:hover .like-icon {
+    color: var(--color-text);
+    /* Trazo */
+    fill: var(--color-text);
+    /* Relleno */
+    stroke: var(--color-box);
+    /* Asegura que el trazo también sea amarillo */
 }
 
 /* Pantalla Completa: Violeta (Trazo y Relleno) */
-.icon-btn:hover .fullscreen-icon { 
-    color: #8a2be2; /* Trazo */
-    fill: #8a2be2;  /* Relleno */
+.icon-btn:hover .fullscreen-icon {
+    color: var(--color-text);
+    /* Trazo */
+    fill: var(--color-text);
+    /* Relleno */
 }
 
 /********************* ACTIVO CLICKS *********************/
@@ -673,29 +588,53 @@ h3 {
 /* --- 2. ESTADO ACTIVO (Al hacer click) --- */
 /* Cuando el botón tiene la clase 'like-activo', el icono se pone rojo */
 .icon-btn.like-activo .heart-icon {
-    color: #ff3434; /* Trazo en rojo */
-    fill: #ff3434;  /* Relleno en rojo */
+    color: var(--color-text);
+    /* Trazo en rojo */
+    fill: var(--color-text);
+    /* Relleno en rojo */
     /* Mantenemos la transformación, o la ponemos en un estado final de "clic" */
-    transform: scale(1.1); /* Ligeramente más grande para indicar el estado */
+    transform: scale(1.1);
+    /* Ligeramente más grande para indicar el estado */
+    animation: btn-ripple 0.4s ease-out 0s 1 normal forwards; 
+    
+}
+
+@keyframes btn-ripple {
+    0% {
+        /* Sombra inicial: pequeña y con color sólido */
+        box-shadow: 0 0 0 0px var(--color-text);
+ /* Aseguramos que sea visible al empezar */
+    }
+    
+    100% {
+        /* Sombra final: expandida a 20px y completamente transparente */
+        box-shadow: 0 0 0 20px rgba(228, 228, 228, 0); /* El color del pulso original con opacidad 0 */
+
+    }
 }
 
 /* --- 4. ESTADO ACTIVO PERMANENTE (Clase para el clic) --- */
 
 /* Cuando el botón de Dedo Arriba tiene la clase 'like-activo-dedo', se pone amarillo */
 .icon-btn.like-activo-dedo .like-icon {
-    color: #ffe65b; /* Trazo */
-    fill: #ffe65b;  /* Relleno */
+    color: var(--color-text);
+    /* Trazo */
+    fill: var(--color-text);
+    stroke: var(--color-box);
+    /* Relleno */
     /* Mantenemos una ligera transformación para indicar que está activo */
-    transform: scale(1.1); 
+    transform: scale(1.1);
     /* Aseguramos que el efecto de 'hover' no lo haga crecer más */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
 .icon-btn.share-activo .share-icon {
-    color: #8a2be2; /* Trazo */
-    fill: #8a2be2;  /* Relleno (Para que quede "pintado") */
+    color: var(--color-text);
+    /* Trazo */
+    fill: var(--color-text);
+    /* Relleno (Para que quede "pintado") */
     /* Mantenemos una ligera transformación para indicar que está activo */
-    transform: scale(1.1); 
+    transform: scale(1.1);
     /* Aseguramos que el efecto de 'hover' no lo haga crecer más */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
@@ -704,9 +643,12 @@ h3 {
 
 /* --- Estilos Generales de los Botones de Iconos (Ya los tienes, pero asegúrate de que el contenedor sea 'position: relative') --- */
 .game-board-icons {
-    display: flex; /* Para que los botones estén en línea */
-    gap: 10px; /* Espacio entre los botones */
-    position: relative; /* CRUCIAL para posicionar el popup flotante */
+    display: flex;
+    /* Para que los botones estén en línea */
+    gap: 10px;
+    /* Espacio entre los botones */
+    position: relative;
+    /* CRUCIAL para posicionar el popup flotante */
     /* Otros estilos como padding, margin, etc. */
 }
 
@@ -714,24 +656,24 @@ h3 {
 .share-popup {
     position: absolute;
     /* --- CAMBIO CRUCIAL: POSICIONAMIENTO HACIA ARRIBA --- */
-    
+
     /* Centra horizontalmente el popup sobre el botón: */
-    left: 50%; 
+    left: 50%;
     /* Coloca la parte inferior del popup justo sobre la parte superior del botón: */
-    bottom: 100%; 
+    bottom: 100%;
     /* top: auto; (No es necesario si usas bottom) */
-    
+
     /* Mueve el popup hacia la izquierda la mitad de su propio ancho (centrado) 
        y le da un pequeño espacio (10px) hacia arriba. */
-    transform: translateX(-77%) translateY(-30%); 
-    
+    transform: translateX(-77%) translateY(-30%);
+
     background-color: var(--color-box);
     border-radius: 8px;
     padding: 8px 12px;
     display: flex;
 
     gap: 10px;
-    
+
     /* Por defecto, está oculto y más abajo (para el efecto de transición) */
     opacity: 0;
     visibility: hidden;
@@ -760,4 +702,52 @@ h3 {
 
 .share-icon-link img:hover {
     transform: scale(1.1);
+}
+
+
+
+
+
+
+/* Animación botón comentar */
+/*.animacion-boton-comentar{
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animacion-boton-comentar:hover,
+.animacion-boton-comentar:focus {
+  transform: scale(1.1);  
+  box-shadow: 0 0 10px var(--color-primaryLight2);
+}*/
+
+
+.animacion-boton-comentar:hover {
+    animation: shake 0.5s;
+    background-color: var(--color-primaryLight1);
+    box-shadow: 0 0 10px 2px var(--color-primary);
+}
+
+@keyframes shake {  
+    0% { transform: translate(1px, 0); }
+    25% { transform: translate(-1px, 0); }
+    50% { transform: translate(1px, 0); }
+    75% { transform: translate(-1px, 0); }
+    100% { transform: translate(0, 0); }    
+}
+
+
+/* Animación iconos al clickearlos */
+.btn-jugar-especial {
+    transition: background-color 200ms ease;
+
+    box-shadow: var(--color-primaryLight2) 0px 0px 0px 0px;
+    transition: transform 300ms ease-in-out;
+}
+
+.btn-jugar-especial:hover {
+    transform: scale(1.04);
+    background-color: var(--color-primaryLight2);
+    color: white;
+    animation: 1.2s cubic-bezier(0.8, 0, 0, 1) 0s infinite normal none running btn-pulsado;
 }
