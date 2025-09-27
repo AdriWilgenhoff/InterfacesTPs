@@ -1,28 +1,26 @@
+/* ===================================== LAYOUT PRINCIPAL ===================================== */
 .game-page {
     max-width: 1280px;
     width: 100%;
     margin: 20px auto;
-    /* a 1440 => (1440-1280)/2 = 80px por lado; en pantallas mayores crece solo */
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* --------------------------------------- BREADCRUMBS ---------------------------------------*/
-
+/* ===================================== BREADCRUMBS ===================================== */
 .breadcrumbs {
-    align-self: flex-start;
     width: 100%;
 }
 
 .bc-list {
     display: flex;
     list-style: none;
-    font-size: var(--font-size-base, 14px);
+    font-size: var(--font-size-base);
 }
 
 .bc-item a {
-    color: var(--color-textDark, #A5A5A6);
+    color: var(--color-textDark);
     text-decoration: none;
 }
 
@@ -36,36 +34,65 @@
 
 .separator {
     margin: 0 8px;
-    color: var(--color-textDark, #A5A5A6);
+    color: var(--color-textDark);
 }
 
-/* --------------------------------------- GAME SECTION ---------------------------------------*/
-
-.game-section {
+/* ===================================== GAME SECTION ===================================== */
+.game-section,
+.description,
+.community {
     width: 100%;
     display: flex;
     gap: 20px;
 }
 
-
-/* --------------- COLUMN LEFT --------------- */
-
-.game-play {
+/* COLUMNA IZQUIERDA */
+.game-play,
+.description-images-text,
+.community-content {
     display: flex;
     flex-direction: column;
-    flex: 0 0 900px;
-    max-width: 900px;
+    width: 900px;
+    gap: 20px;
 }
 
+.game-play {
+    flex: 0 0 900px;
+    max-width: 900px;
+    gap: 0px}
+
+.community-content {
+    gap: 25px;
+}
+
+/* Contenedor especial para imagen + barra unidos */
+.game-play > *:not(:first-child) {
+    margin-top: 20px;
+}
+
+.game-play .game-board {
+    margin-top: 0; /* La barra se pega a la imagen */
+}
+
+/* MEDIA Y CONTROLES DEL JUEGO */
 .game-media {
     position: relative;
     overflow: hidden;
-    /* recorta el blur en las esquinas */
     border-radius: 15px 15px 0 0;
-    /* mismo radio que la imagen si usás bordes redondeados */
 }
 
-/* botón central */
+.game-image {
+    display: block;
+    width: 100%;
+    height: 475px;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(1.5px) brightness(.75);
+    /* Eliminar cualquier margen inferior que pueda existir */
+    margin-bottom: 0;
+    vertical-align: bottom;
+}
+
 .play-cta {
     position: absolute;
     left: 50%;
@@ -74,70 +101,46 @@
     padding: 10px 50px;
     border: 0;
     border-radius: 5px;
-    background: var(--color-primary, #9013FE);
-    color: var(--color-textLight, #fff);
+    background: var(--color-primary);
+    color: var(--color-textLight);
     font-size: var(--font-size-title-h4);
-    font-family: var(--font-base, sans-serif);
+    font-family: var(--font-base);
     font-weight: 800;
     letter-spacing: .4px;
     cursor: pointer;
 }
 
-
-/* animación pulso */
+/* Animación pulso */
 .pulse {
     animation: pulse 2s ease-in-out infinite;
 }
 
-
 @keyframes pulse {
-    0% {
+    0%, 100% {
         transform: translate(-50%, -50%) scale(1);
-        /* Tamaño normal */
-        box-shadow: 0 0 10px var(--color-primary, #9013FE);
-        /* Sombra inicial */
+        box-shadow: 0 0 10px var(--color-primary);
     }
-
     50% {
         transform: translate(-50%, -50%) scale(1.1);
-        box-shadow: 0 0 20px var(  --color-primaryLight2);
-        /* Aumenta la sombra */
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        /* Vuelve al tamaño normal */
-        box-shadow: 0 0 10px var(--color-primary, #9013FE);
-        /* Sombra inicial */
+        box-shadow: 0 0 20px var(--color-primaryLight2);
     }
 }
 
-h2 {
-    font-size: var(--font-size-title-h2);
-}
-
-.game-image {
-    display: block;
-    width: 100%;
-    height: 475px;
-    object-fit: cover;
-    object-position: center center;
-    filter: blur(1.5px) brightness(.75);
-}
-
+/* BARRA DE CONTROLES */
 .game-board {
     height: 24px;
     display: flex;
     background-color: var(--color-box);
-    border-radius: 0px 0px 15px 15px;
+    border-radius: 0 0 15px 15px;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px;
 }
 
 .game-board-icons {
     display: flex;
     gap: 15px;
+    position: relative;
 }
 
 .icon-btn {
@@ -150,27 +153,32 @@ h2 {
     justify-content: center;
 }
 
-
-
-/* --------------- COLUMN RIGHT --------------- */
-
-
-
-.game-instructions {
+/* ===================================== INSTRUCCIONES DEL JUEGO ===================================== */
+.game-instructions,
+.description-box {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 30px;
-    color: var(--color-textDark);
-    font-family: var(--font-base);
-    font-size: var(--font-size-small);
-    padding: 0px 20px 0px 20px;
+    padding: 30px;
     border-radius: 15px;
     background-color: var(--color-box);
 }
 
-.game-instructions h4 {
+.game-instructions {
+    justify-content: center;
+    align-items: center;
+    color: var(--color-textDark);
+    font-family: var(--font-base);
+    font-size: var(--font-size-small);
+    padding: 0 20px;
+}
+
+.description-box {
+    gap: 15px;
+}
+
+.game-instructions h4,
+.community-recommends h4 {
     font-size: var(--font-size-title-h4);
     font-weight: 600;
 }
@@ -195,28 +203,10 @@ h2 {
     width: 100%;
 }
 
-/* --------------------------------------- DESCRIPTION ---------------------------------------*/
-
-.description {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-}
-
-
-/* --------------- COLUMN LEFT --------------- */
-
-.description-images-text {
-    width: 900px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
+/* ===================================== DESCRIPCIÓN ===================================== */
 .description-game-images {
     display: flex;
     justify-content: space-between;
-
 }
 
 .description-game-images div {
@@ -225,7 +215,6 @@ h2 {
 
 .description-game-images img {
     transition: transform 0.3s ease-in-out;
-
 }
 
 .description-game-images img:hover {
@@ -233,30 +222,18 @@ h2 {
     filter: brightness(1.1);
 }
 
-.description-box {
-    border-radius: 15px;
-    background-color: var(--color-box);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 30px;
-}
-
 .description-p {
     font-size: var(--font-size-base);
     line-height: 22px;
 }
 
-.description-box h3 {
-    font-size: var(--font-size-title-h3);
-    font-weight: 600;
+/* TABLA DE INFORMACIÓN */
+.description-table,
+.community-recommends {
+    width: 360px;
 }
 
-
-/* --------------- COLUMN RIGHT --------------- */
-
 .description-table {
-    width: 360px;
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, .08);
     border-radius: 15px;
@@ -274,9 +251,7 @@ table {
     overflow: hidden;
 }
 
-/* Celdas */
-th,
-td {
+th, td {
     padding-left: 10px;
     text-align: left;
     border: 1px solid #1E1D22;
@@ -287,7 +262,6 @@ td {
     color: var(--color-text);
 }
 
-
 td a {
     color: var(--color-link-secondary);
     text-decoration: none;
@@ -297,23 +271,9 @@ td a:hover {
     color: var(--color-link-hover-secondary);
 }
 
-
-/* --------------------------------------- COMMUNITY ---------------------------------------*/
-
+/* ===================================== COMUNIDAD ===================================== */
 .community {
-    width: 100%;
-    display: flex;
-    gap: 20px;
     align-items: flex-start;
-}
-
-/* --------------- COLUMN LEFT --------------- */
-
-.community-content {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    width: 900px;
 }
 
 .comments {
@@ -323,7 +283,13 @@ td a:hover {
     gap: 10px;
 }
 
-h3 {
+/* TÍTULOS */
+h2 {
+    font-size: var(--font-size-title-h2);
+}
+
+h3,
+.description-box h3 {
     font-size: var(--font-size-title-h3);
     font-weight: 600;
 }
@@ -331,9 +297,10 @@ h3 {
 .line {
     border-bottom: 1px solid rgba(255, 255, 255, .08);
     width: 100%;
-    margin: 0px 0px 8px;
+    margin: 0 0 8px;
 }
 
+/* COMENTARIOS */
 .comment-row {
     display: flex;
     align-items: flex-start;
@@ -349,41 +316,31 @@ h3 {
     width: 100%;
     min-height: 120px;
     background: var(--bodyclaro, #201f24);
-    color: var(--color-text, #e4e4e4);
-    /* Borde base transparente o muy sutil */
+    color: var(--color-text);
     border: 1px solid #ffffff14;
     border-radius: 12px;
     padding: 12px 14px;
     box-sizing: border-box;
     resize: vertical;
     outline: none;
-    /* Quitamos el outline predeterminado del navegador */
-
-    /* ¡IMPORTANTE! Añadimos la transición para que el efecto sea suave */
     transition: all 0.3s ease;
 }
 
-/* 2. Estilos al hacer FOCUS (Activo) */
 .comment-input:focus {
-    /* Color de borde (el violeta de tu estilo primario) */
-    border-color: var(--color-primary, #9013FE);
-
-    /* Sombra sutil con el mismo color */
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.2);
-
-    /* Pequeño levantamiento para darle un efecto de "despegue" */
     transform: translateY(-1px);
 }
 
 .comment-input::placeholder {
-    color: var(--color-textDark, #777786);
+    color: var(--color-textDark);
     font-family: var(--font-base);
 }
 
 .button-comentar {
     align-self: flex-end;
     background: var(--color-primary);
-    color: var(--color-textLight, #fff);
+    color: var(--color-textLight);
     font-family: var(--font-base);
     padding: 6px 12px;
     border: 0;
@@ -391,11 +348,16 @@ h3 {
     cursor: pointer;
 }
 
+/* LISTA DE COMENTARIOS */
 #comments-list-ul {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+#comments-list-ul .empty {
+    color: var(--color-textDark);
 }
 
 .comment-item {
@@ -409,7 +371,6 @@ h3 {
     height: 35px;
     border-radius: 50%;
     object-fit: cover;
-    /*flex: 0 0 35px;*/
 }
 
 .comment-item .bubble {
@@ -425,11 +386,11 @@ h3 {
 
 .comment-item .name {
     font-weight: 600;
-    color: var(--color-textLight, #fff);
+    color: var(--color-textLight);
 }
 
 .comment-item .date {
-    color: var(--color-textDark, #777786);
+    color: var(--color-textDark);
     font-size: var(--font-size-base);
 }
 
@@ -438,22 +399,9 @@ h3 {
     line-height: 24px;
 }
 
-/* vacío */
-#comments-list-ul .empty {
-    color: var(--color-textDark, #777786);
-}
-
-
-/* --------------- COLUMN RIGHT --------------- */
-/* --------------------------------------- SIDEBAR JUEGOS RECOMENDADOS ---------------------------------------*/
-
+/* JUEGOS RECOMENDADOS */
 .community-recommends {
     margin-top: 25px;
-    width: 360px;
-}
-
-.community-recommends h4 {
-    font-weight: 600;
 }
 
 .rec-list {
@@ -490,8 +438,8 @@ h3 {
 }
 
 .rec-genre {
-    color: var(--color-textDark, #777786);
-    font-size: var(--font-size-base-small, 12px);
+    color: var(--color-textDark);
+    font-size: var(--font-size-base-small);
 }
 
 .btn-play {
@@ -499,200 +447,101 @@ h3 {
     padding: 5px 23px;
     border-radius: 3.28px;
     border: 0;
-    background: var(--color-secondary, #008fec);
-    color: var(--color-text, #e4e4e4);
-    font-size: var(--font-size-base-small, 12px);
+    background: var(--color-secondary);
+    color: var(--color-text);
+    font-size: var(--font-size-base-small);
     font-weight: 600;
     cursor: pointer;
     justify-self: start;
 }
 
-/************************************************************************************/
+/* ===================================== ICONOS Y ANIMACIONES ===================================== */
 
-/* HOVER ESPECIALES */
-
-/* --- 1. Estilos Base Compartidos (Tamaño, Transición y Color Normal) --- */
+/* Base compartida para todos los iconos */
 .heart-icon,
 .share-icon,
 .like-icon,
 .fullscreen-icon {
-    /* Corregido: tamaño de 28px */
     width: 28px;
     height: 28px;
     cursor: pointer;
-
-    /* Transición suave para todos los efectos */
     transition: transform 0.3s ease-out, filter 0.3s ease-out, color 0.3s ease-out, fill 0.3s ease-out;
-
-    /* Color de trazo normal (Gris muy claro) */
     color: #e4e4e4;
-    /* Todos están sin relleno por defecto para que solo se vea el contorno */
     fill: none;
 }
 
-/* --- 2. Efecto de Hover (Despegue y Sombra) --- */
-/* Esta regla aplica la animación de crecimiento y sombra a TODOS los iconos */
+/* Hover base para todos los iconos */
 .icon-btn:hover .heart-icon,
 .icon-btn:hover .share-icon,
 .icon-btn:hover .like-icon,
 .icon-btn:hover .fullscreen-icon {
-    /* Crecimiento */
     transform: scale(1.2);
-
-    /* Sombra (Despegue) */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
-}
-
-/* --- 3. Colores y Relleno Específicos al Hacer Hover --- */
-
-/* Corazón: Rojo (Trazo y Relleno) */
-.icon-btn:hover .heart-icon {
     color: var(--color-text);
-    /* Trazo */
     fill: var(--color-text);
-    /* Relleno */
 }
 
-/* Compartir: Violeta (Trazo y Relleno) */
-.icon-btn:hover .share-icon {
-    color: var(--color-text);
-    /* Trazo */
-    /* El icono de compartir NO debe rellenarse (es un outline). 
-       Si lo rellenas, se ve mal. Lo dejamos en violeta para el trazo. */
-    fill: var(--color-text);
-    /* Relleno */
-}
-
-/* Nota: Si deseas que se rellene, cambia 'fill: none' por 'fill: #8a2be2'. */
-
-/* Dedo Arriba (Like): Amarillo (Trazo y Relleno) */
+/* Ajuste específico para like icon */
 .icon-btn:hover .like-icon {
-    color: var(--color-text);
-    /* Trazo */
-    fill: var(--color-text);
-    /* Relleno */
     stroke: var(--color-box);
-    /* Asegura que el trazo también sea amarillo */
 }
 
-/* Pantalla Completa: Violeta (Trazo y Relleno) */
-.icon-btn:hover .fullscreen-icon {
-    color: var(--color-text);
-    /* Trazo */
-    fill: var(--color-text);
-    /* Relleno */
-}
-
-/********************* ACTIVO CLICKS *********************/
-
-/* --- 2. ESTADO ACTIVO (Al hacer click) --- */
-/* Cuando el botón tiene la clase 'like-activo', el icono se pone rojo */
-.icon-btn.like-activo .heart-icon {
-    color: var(--color-text);
-    /* Trazo en rojo */
-    fill: var(--color-text);
-    /* Relleno en rojo */
-    /* Mantenemos la transformación, o la ponemos en un estado final de "clic" */
-    transform: scale(1.1);
-    /* Ligeramente más grande para indicar el estado */
-    animation: btn-ripple 0.4s ease-out 0s 1 normal forwards; 
-    
-}
-
-@keyframes btn-ripple {
-    0% {
-        /* Sombra inicial: pequeña y con color sólido */
-        box-shadow: 0 0 0 0px var(--color-text);
- /* Aseguramos que sea visible al empezar */
-    }
-    
-    100% {
-        /* Sombra final: expandida a 20px y completamente transparente */
-        box-shadow: 0 0 0 20px rgba(228, 228, 228, 0); /* El color del pulso original con opacidad 0 */
-
-    }
-}
-
-/* --- 4. ESTADO ACTIVO PERMANENTE (Clase para el clic) --- */
-
-/* Cuando el botón de Dedo Arriba tiene la clase 'like-activo-dedo', se pone amarillo */
+/* Estados activos con animación */
+.icon-btn.like-activo .heart-icon,
 .icon-btn.like-activo-dedo .like-icon {
     color: var(--color-text);
-    /* Trazo */
     fill: var(--color-text);
-    stroke: var(--color-box);
-    /* Relleno */
-    /* Mantenemos una ligera transformación para indicar que está activo */
     transform: scale(1.1);
-    /* Aseguramos que el efecto de 'hover' no lo haga crecer más */
+    animation: btn-ripple 0.4s ease-out 0s 1 normal forwards;
+}
+
+.icon-btn.like-activo-dedo .like-icon {
+    stroke: var(--color-box);
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
 .icon-btn.share-activo .share-icon {
     color: var(--color-text);
-    /* Trazo */
     fill: var(--color-text);
-    /* Relleno (Para que quede "pintado") */
-    /* Mantenemos una ligera transformación para indicar que está activo */
     transform: scale(1.1);
-    /* Aseguramos que el efecto de 'hover' no lo haga crecer más */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
-
-
-/* --- Estilos Generales de los Botones de Iconos (Ya los tienes, pero asegúrate de que el contenedor sea 'position: relative') --- */
-.game-board-icons {
-    display: flex;
-    /* Para que los botones estén en línea */
-    gap: 10px;
-    /* Espacio entre los botones */
-    position: relative;
-    /* CRUCIAL para posicionar el popup flotante */
-    /* Otros estilos como padding, margin, etc. */
+/* Animación ripple */
+@keyframes btn-ripple {
+    0% {
+        box-shadow: 0 0 0 0px var(--color-text);
+    }
+    100% {
+        box-shadow: 0 0 0 20px rgba(228, 228, 228, 0);
+    }
 }
 
-/* --- Estilos del Popup de Compartir --- */
+/* POPUP DE COMPARTIR */
 .share-popup {
     position: absolute;
-    /* --- CAMBIO CRUCIAL: POSICIONAMIENTO HACIA ARRIBA --- */
-
-    /* Centra horizontalmente el popup sobre el botón: */
     left: 50%;
-    /* Coloca la parte inferior del popup justo sobre la parte superior del botón: */
     bottom: 100%;
-    /* top: auto; (No es necesario si usas bottom) */
-
-    /* Mueve el popup hacia la izquierda la mitad de su propio ancho (centrado) 
-       y le da un pequeño espacio (10px) hacia arriba. */
     transform: translateX(-77%) translateY(-30%);
-
     background-color: var(--color-box);
     border-radius: 8px;
     padding: 8px 12px;
     display: flex;
-
     gap: 10px;
-
-    /* Por defecto, está oculto y más abajo (para el efecto de transición) */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
-
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
 }
 
-/* Estado Visible del Popup */
 .share-popup.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    /* Mueve el popup a su posición final centrada y con el espacio de 10px arriba */
 }
 
-/* --- El resto del CSS se mantiene igual --- */
 .share-icon-link img {
     width: 28px;
     height: 28px;
@@ -704,45 +553,23 @@ h3 {
     transform: scale(1.1);
 }
 
-
-
-
-
-
-/* Animación botón comentar */
-/*.animacion-boton-comentar{
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.animacion-boton-comentar:hover,
-.animacion-boton-comentar:focus {
-  transform: scale(1.1);  
-  box-shadow: 0 0 10px var(--color-primaryLight2);
-}*/
-
-
+/* ANIMACIONES DE BOTONES */
 .animacion-boton-comentar:hover {
     animation: shake 0.5s;
     background-color: var(--color-primaryLight1);
     box-shadow: 0 0 10px 2px var(--color-primary);
 }
 
-@keyframes shake {  
-    0% { transform: translate(1px, 0); }
+@keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
     25% { transform: translate(-1px, 0); }
     50% { transform: translate(1px, 0); }
     75% { transform: translate(-1px, 0); }
-    100% { transform: translate(0, 0); }    
 }
 
-
-/* Animación iconos al clickearlos */
 .btn-jugar-especial {
-    transition: background-color 200ms ease;
-
+    transition: background-color 200ms ease, transform 300ms ease-in-out;
     box-shadow: var(--color-primaryLight2) 0px 0px 0px 0px;
-    transition: transform 300ms ease-in-out;
 }
 
 .btn-jugar-especial:hover {
