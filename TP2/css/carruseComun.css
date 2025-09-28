@@ -1,0 +1,527 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/********************************************************** paleta de color y variables *********************************************/
+
+:root {
+    /* primario */
+    --color-primary: #9013FE;
+    --color-primaryLight1: #A642FE;
+    --color-primaryLight2: #B766FE;
+    --color-primaryLight3: #EC18FF;
+    --color-primaryShadow1: #7D13D8;
+    --color-primaryShadow2: #52168C;
+    --color-primaryShadow3: #2D1E53;
+
+    /* secundario */
+    --color-secondary: #008FEC;
+    --color-SecondaryLight1: #33A5F0;
+    --color-secondaryLight2: #59B6F3;
+    --color-secondaryLight3: #80C7F6;
+    --color-secondaryShadow1: #077BC8;
+    --color-secondaryShadow2: #14528A;
+    --color-secondaryShadow3: #12334c;
+
+
+    /* acento */
+    --color-accent: #F3AD38;
+    --color-accentLight1: #F5BD60;
+    --color-accentLight2: #F7CA7E;
+    --color-accentLight3: #F9D69C;
+    --color-accentShadow1: #A66F15;
+    --color-accentShadow2: #846630;
+    --color-accentShadow3: #403A31;
+
+    /* backgrounds */
+    --color-bodyDark: #100F14;
+    --color-bodyLight: #201F14;
+    --color-navDark: #121116;
+    --color-navLight: #18171C;
+    --color-box: #201F24;
+    --color-hover: #403F44;
+
+    /* colores de estado */
+    --color-ok: #3EBD41;
+    --color-warning: #fc4d64;
+
+    /* color de fuentes */
+    --color-text: #E4E4E4;
+    --color-textDark: #777786;
+    --color-textLight: #ffffff;
+
+    /*COMPLETAR */
+
+    --color-link: ;
+    --color-link-hover: ;
+
+    /* tipografia */
+
+
+    --font-base: 'Inter', sans-serif;
+    --font-logo: 'Orbitron', sans-serif;
+    --font-size-base: 14px;
+    --font-size-small: 12px;
+    --font-size-xsmall: 10px;
+    --font-size-title-h1: 48px;
+    --font-size-title-h2: 24px;
+    --font-size-title-h3: 20px;
+    --font-size-title-h4: 16px;
+    --font-size-title-h5: 14px;
+    --font-size-labels: 11px;
+    --font-size-table: 15px;
+
+    /* espaciado */
+
+    --space-cards: 15px;
+    --space-titles-carrousel: 10px;
+    --space-global: 20px 80px 20px 80px;
+    --padding-global: 20px 5.56%;
+    /* TODO: agregar margenes y paddings globales*/
+}
+
+body {
+    font-family: var(--font-base);
+    background-color: var(--color-bodyDark);
+    color: var(--color-text);
+
+}
+
+/*.padding-global{
+  padding: 70px var(--padding-global);
+}*/
+
+.search-results {
+    padding: 80px 90px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    /* separación entre elementos */
+    justify-content: flex-start;
+}
+
+
+/******************************************************
+ * 1. MOBILE FIRST BASE (PARA PANTALLAS <= 430px)
+ ******************************************************/
+.main-content {
+    /* Por defecto, establecemos el mínimo absoluto de 3px.
+       Esto asegura que si la pantalla es de 320px, el margen NO baja de 3px. */
+    padding-left: 3px;
+    padding-right: 3px;
+
+    /* Propiedades de centrado que se mantienen en todas las resoluciones */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/******************************************************
+ * 2. TRANSICIÓN FLUIDA (A partir de 430px)
+ ******************************************************/
+@media (min-width: 430px) {
+    .main-content {
+        /* Usamos clamp() para la fluidez.
+         * - Mínimo: 3px (No bajará de este valor)
+         * - Preferido: Usaremos '8vw' o '8%' como estimación para que crezca
+         * suficientemente rápido para llegar a 80px en 1440px.
+         * - Máximo: 80px (El margen se detiene de crecer aquí)
+         */
+        padding-left: clamp(3px, 8vw, 80px);
+        padding-right: clamp(3px, 8vw, 80px);
+    }
+}
+
+/******************************************************
+ * 3. FIJACIÓN DEL CONTENIDO (A partir de 1440px)
+ ******************************************************/
+@media (min-width: 1440px) {
+    .main-content {
+        /* Desactivamos el padding fluido. La fórmula de centrado se encarga de crear el margen. */
+        padding-left: 0;
+        padding-right: 0;
+
+        /* Fija el ancho del contenido interno para generar los 80px de margen externo.
+         * Cálculo: 1440px - (80px * 2) = 1280px */
+        max-width: 1280px;
+    }
+}
+
+
+
+
+/* ====================================================== */
+/* ESTRUCTURA DEL CARRUSEL (MOBILE FIRST)                 */
+/* (Esta sección se mantiene igual, es la base móvil)     */
+/* ====================================================== */
+
+.game-carousel-section {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.carousel-title {
+    font-size: 14px;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.view-more-link {
+    font-size: 10px;
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.view-more-link:hover {
+    color: var(--color-secondaryLight2);
+}
+
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.carousel-nav-btn {
+    display: none;
+}
+
+/* ------------------------------------------------------ */
+/* CONTENEDOR DE LAS CARDS (MOBILE SCROLL)                */
+/* ------------------------------------------------------ */
+
+.cards-carousel-container {
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 7px;
+
+    /* Compensación de margen móvil */
+    margin-left: -3px;
+    padding-left: 3px;
+    padding-right: 3px;
+
+    flex-grow: 1;
+}
+
+.cards-carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* ------------------------------------------------------ */
+/* ESTILOS DE LA CARD (MOBILE FIRST)                     */
+/* ------------------------------------------------------ */
+
+/*
+ * HTML: <div class="game-card"> <img class="img-card"> <div class="body-card">...</div> </div>
+ * Altura Total: 154px
+ * Altura Imagen: 120px
+ * Altura Body: 34px (154 - 120)
+*/
+
+.game-card {
+    width: 118px;
+    height: 154px;
+    background-color: var(--color-navLight);
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------- A. Animacion  en la Card ----------------------------------------------------- */
+
+.game-card {
+    /* Mantener las transiciones de la card y la imagen */
+    transition: 
+        box-shadow 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
+    position: relative; /* Asegura que el ::before se posicione correctamente */
+}
+
+/* 3. Crea el efecto de brillo (pseudoelemento) */
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;   
+    width: 45%; /* Hacemos el ancho un poco más pequeño para que parezca más rápido */
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15); /* Aumentamos un poco la opacidad */
+    
+    /* El valor original funciona bien, pero lo centramos para que el 'left' sea el punto de inicio */
+    transform: skewX(-20deg); 
+    
+       /* ¡IMPORTANTE! Quitamos 'transition: transform 0.6s ease-in-out;'
+       porque ahora usaremos 'animation'. */
+    /*transition: transform 1.0s ease-in-out; */
+    z-index: 5;
+}
+
+.game-card:hover::before {
+    /* Aplicamos la animación */
+    animation-name: slide-glow;
+    animation-duration: 1.0s; /* Velocidad del barrido (1.5 segundos) */
+    animation-timing-function: linear; /* Movimiento constante (sin acelerar/desacelerar) */
+    animation-iteration-count: infinite; /* CLAVE: Repite la animación indefinidamente */
+}
+
+@keyframes slide-glow {
+    /* 0% (Inicio de la animación): Posición de arranque fuera del borde izquierdo */
+    0% {
+        transform: translateX(-100%) skewX(-20deg);
+    }
+    /* 100% (Fin de la animación): Posición final fuera del borde derecho */
+    100% {
+        /* Ajustamos el valor al 350% para que se desplace completamente */
+        transform: translateX(550%) skewX(-20deg); 
+    }
+}
+
+/* --- B. Contenedor de la Imagen y la Etiqueta (¡La Solución!) --- */
+.image-container {
+    width: 100%;
+    height: 120px;
+    /* Misma altura que la imagen */
+
+    /* CLAVE: Establece el contexto de posicionamiento para la etiqueta */
+    position: relative;
+
+    /* Asegura que no haya espacio extra debido al flexbox */
+    flex-shrink: 0;
+}
+
+
+
+
+.img-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    /* 3. CLAVE: Asegurarse de que no actúe como una línea de texto. */
+    display: block;
+}
+
+.body-card {
+    height: 34px;
+    display: flex;
+    flex-direction: column;
+    padding: 2px 4px;
+    gap: 1px;
+    font-size: var(--font-size-small);
+    text-align: left;
+    justify-content: flex-end;
+    align-items: flex-start;
+    /* CLAVE: Asegurar que el body no se desborde */
+    width: 100%;
+    /* Añade esto */
+    box-sizing: border-box;
+    /* Asegura que el padding se incluya en el ancho */
+}
+
+.title-card {
+    font-size: 12px;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* CLAVE: Limitar el ancho del título */
+    width: 100%;
+    /* Añade esto */
+    max-width: 100%;
+    /* Añade esto */
+}
+
+.title-card p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* CLAVE: Asegurar que el párrafo ocupe todo el ancho disponible */
+    width: 100%;
+    /* Añade esto */
+    margin: 0;
+    /* Eliminar márgenes por defecto */
+    padding: 0;
+    /* Eliminar padding por defecto */
+}
+
+.price {
+    color: var(--color-primaryLight1);
+    font-weight: 300;
+    font-size: var(--font-size-xsmall)
+}
+
+.free {
+    color: var(--color-text);
+}
+
+.discount {
+    color: var(--color-accent);
+}
+
+.old-price {
+    display: none;
+    font-size: var(--font-size-labels);
+}
+
+.offer-label {
+    width: 33px;
+    height: 14px;
+    background-color: var(--color-accent);
+    border-radius: 0 0 5px 5px;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    box-shadow: 3px 4px 5px 0 rgba(0, 0, 0, 0.43); 
+}
+
+.offer-label p {
+    text-align: center;
+    color: #000000;
+    font-weight: 700;
+    font-size: var(--font-size-xsmall);
+
+}
+
+
+/* ====================================================== */
+/* RESPONSIVIDAD (MIN-WIDTH - Desktop: 1440px)            */
+/* ====================================================== */
+
+@media (min-width: 1440px) {
+
+    /* -------------------------------------- */
+    /* A. Layout del Wrapper y Botones        */
+    /* -------------------------------------- */
+
+    .carousel-wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* -------------------------------------- */
+    /* B. Contenedor de Cards (Ancho Fijo)    */
+    /* -------------------------------------- */
+
+    .cards-carousel-container {
+        overflow-x: hidden;
+        gap: 10px;
+
+        /* ANCHO EXACTO de 6 cards + 5 gaps */
+        width: 1205px;
+        flex-shrink: 0;
+
+        /* Eliminamos la compensación móvil */
+        margin-left: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* C. Botones de Navegación (Margen Ajustado) */
+    .carousel-nav-btn {
+        /* ... (Estilos de botón se mantienen) ... */
+        display: flex;
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-box);
+        color: var(--color-text);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-size: 16px;
+    }
+
+    .prev-btn {
+        margin-right: 7.5px;
+    }
+
+    .next-btn {
+        margin-left: 7.5px;
+    }
+
+    /* -------------------------------------- */
+    /* D. Alineación del Encabezado (¡NUEVO!) */
+    /* -------------------------------------- */
+
+    .carousel-header {
+        /* 1. Fija el ancho del encabezado exactamente al de las 6 cards */
+        width: 1205px;
+
+        /* 2. CENTRA el encabezado dentro del main-content */
+        margin-left: auto;
+        margin-right: auto;
+
+        /* 3. Vuelve a eliminar el padding fluido del main-content */
+        padding-left: 0;
+        padding-right: 0;
+
+        /* IMPORTANTE: Si tu .carousel-header no está DENTRO del .main-content 
+           debes asegurarte de que su contenedor padre tenga max-width: 1280px */
+    }
+
+    /* -------------------------------------- */
+    /* E. Tarjeta y Texto */
+    /* -------------------------------------- */
+
+    .game-card {
+        width: 192.5px;
+        height: 174px;
+    }
+
+    .carousel-title {
+        font-size: 16px;
+        text-transform: capitalize;
+    }
+
+    .view-more-link {
+        font-size: 14px;
+    }
+
+    .price {
+        display: flex;
+        gap: 5px;
+        font-size: var(--font-size-small)
+    }
+
+    .image-container {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .body-card {
+        gap: 2px;
+    }
+
+    .offer-label {
+        display: none;
+    }
+
+    .old-price {
+        display: flex;
+        color: var(--color-textDark);
+        font-size: var(--font-size-xsmall);
+        text-decoration: line-through;
+        align-items: center;
+    }
+}
