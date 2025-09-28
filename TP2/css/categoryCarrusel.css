@@ -19,6 +19,7 @@
     font-size: 14px;
     color: var(--color-text);
     font-weight: 600;
+    text-transform: capitalize;
 }
 
 .view-more-link {
@@ -330,7 +331,6 @@
 
     .carousel-title {
         font-size: 16px;
-        text-transform: capitalize;
     }
 
     .view-more-link {

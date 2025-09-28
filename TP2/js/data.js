@@ -141,5 +141,3 @@ function isPromo(game) {
   let discountPrice = game.discountPrice;
   return discountPrice != 0 && discountPrice < price;
 }
-
-/* # vistas en renders 2*/
