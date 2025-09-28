@@ -1,14 +1,6 @@
 /* ===================================================== */
 /* VALORES CONCRETOS (Variables reemplazadas)           */
 /* ===================================================== */
-
-/* Reset mínimo */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
 html,
 body {
     height: 100%;
@@ -105,7 +97,7 @@ body {
     /* --label-shadow */
 }
 
-.price {
+.specialOfferPrice {
     display: flex;
     flex-direction: column;
     align-items: center;

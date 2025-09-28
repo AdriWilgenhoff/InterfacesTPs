@@ -221,8 +221,8 @@ function updatePasswordCriteria(value) {
                 registerContainer.classList.add('slide-out-up');
             }
 
-            const formAnimationDuration = 500; //  para el formulario
-            const messageDuration = 2400; //  para el cartel
+            const formAnimationDuration = 500; 
+            const messageDuration = 2400; 
 
             setTimeout(() => {
                 if (successMessage) {
@@ -241,9 +241,8 @@ function updatePasswordCriteria(value) {
     }
 });
 
-
-const EYE_OPEN_ICON_PATH = '../assets/logos/ojo.png'; 
-const EYE_CLOSED_ICON_PATH = '../assets/logos/ojocerrado.png';
+const EYE_OPEN_ICON_PATH = '../assets/logos_png/ojo.png'; 
+const EYE_CLOSED_ICON_PATH = '../assets/logos_png/ojocerrado.png';
 
 function setupPasswordToggle() {
     const togglePasswordIcons = document.querySelectorAll('.toggle-password');

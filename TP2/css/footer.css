@@ -12,6 +12,7 @@
 /* ===== Top ===== */
 .footer-top {
     background: var(--color-navDark, #121116);
+    width: 100%;
 }
 
 .footer-cols {
@@ -144,7 +145,7 @@
 
 /* ===== Bottom (Legal) ===== */
 .footer-bottom {
-    background: var(--color-bodyfullDark);
+    background: var(--color-bodyDark);
 }
 
 .footer-bottom-row {
@@ -209,7 +210,7 @@
     }
 
     .footer-container {
-        padding: 20px 80px;
+        padding: 20px 40px;
     }
 
     .footer-bottom-row {
@@ -272,7 +273,7 @@
     position: absolute;
     top: 0;
     left: -100%;
-    width: 100%;
+    width: 100%;    
     height: 100%;
     background-color: var(--color-accentShadow1);
     transition: left 0.4s ease-out;

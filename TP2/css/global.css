@@ -1,7 +1,7 @@
 * {
-  margin: 0;
   padding: 0;
-  box-sizing:border-box
+  margin: 0;
+  box-sizing: border-box
 }
 
 /********************************************************** paleta de color y variables *********************************************/
@@ -64,6 +64,7 @@
   --font-logo: 'Orbitron', sans-serif;
   --font-size-base: 14px;
   --font-size-small: 12px;
+  --font-size-xsmall: 10px;
   --font-size-title-h1: 48px;
   --font-size-title-h2: 24px;
   --font-size-title-h3: 20px;
@@ -78,25 +79,85 @@
   --space-titles-carrousel: 10px;
   --space-global: 20px 80px 20px 80px;
   --padding-global: 20px 5.56%;
-    /* TODO: agregar margenes y paddings globales*/
+  /* TODO: agregar margenes y paddings globales*/
 }
 
 body {
   font-family: var(--font-base);
   background-color: var(--color-bodyDark);
   color: var(--color-text);
-  
+
 }
 
-.padding-global{
+/*.padding-global {
   padding: 70px var(--padding-global);
-}
+}*/
 
-.search-results{
+.search-results {
   padding: 80px 90px;
   display: flex;
-  flex-wrap: wrap;      
-  gap: 15px;             /* separación entre elementos */
+  flex-wrap: wrap;
+  gap: 15px;
   justify-content: flex-start;
 }
 
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+
+  /* Propiedades de centrado que se mantienen en todas las resoluciones */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+
+@media (min-width: 1440px) {
+
+  .main-content {
+    /* Desactivamos el padding fluido. La fórmula de centrado se encarga de crear el margen. */
+    padding-left: 0;
+    padding-right: 0;
+
+    /* Fija el ancho del contenido interno para generar los 80px de margen externo.
+         * Cálculo: 1440px - (80px * 2) = 1280px */
+    max-width: 1280px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+
+@media (min-width: 430px) {
+  .main-content {
+    /* Usamos clamp() para la fluidez.
+         * - Mínimo: 3px (No bajará de este valor)
+         * - Preferido: Usaremos '8vw' o '8%' como estimación para que crezca
+         * suficientemente rápido para llegar a 80px en 1440px.
+         * - Máximo: 80px (El margen se detiene de crecer aquí)
+         */
+    padding-left: clamp(3px, 8vw, 80px);
+    padding-right: clamp(3px, 8vw, 80px);
+  }
+}

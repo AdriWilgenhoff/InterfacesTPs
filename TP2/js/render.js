@@ -146,7 +146,7 @@ function renderSearch(filteredGames) {
 
 /********************************************** Helpers Ofertas espciales y Comming Soon ************************************************/
 
-function createComingSoonSection(src = 'assets/images_games/soulmask-titel01_6292744-3472156468.jpg', alt = 'Coming Soon Game') {
+function createComingSoonSection(src = 'assets/images_games/VoyagerOfNera.jpg', alt = 'Coming Soon Game') {
   // <section class="comingSoon-section">
   const section = document.createElement('section');
   section.className = 'comingSoon-section';
@@ -197,7 +197,7 @@ function renderOfferSpecialCard(offer) {
   label.appendChild(rect);
 
   var priceBox = document.createElement('div');
-  priceBox.className = 'price';
+  priceBox.className = 'specialOfferPrice';
   rect.appendChild(priceBox);
 
   var oldSpan = document.createElement('span');
@@ -225,26 +225,26 @@ function renderOfferSpecialCard(offer) {
 function renderSpecialOffers() {
   var OFFERS = [
     {
-      title: 'Cyberpunk 2077 - Edición Base',
-      image: 'assets/images_games/20603-kejora-teaser-4245805646.jpg',
+      title: 'Kejora',
+      image: 'assets/images_games/Kejora.jpg',
       oldPrice: 59.99,
       newPrice: 45.99
     },
     {
-      title: 'The Witcher 3: Wild Hunt',
-      image: 'assets/images_games/Silent-Hill-f-Key-Art-2616265892.jpg',
+      title: 'Silent Hill F',
+      image: 'assets/images_games/SilentHillF.jpg',
       oldPrice: 20.99,
       newPrice: 15.99
     },
     {
-      title: 'Elden Ring',
-      image: 'assets/images_games/The+Witcher+2-557647869.jpeg',
+      title: 'The Witcher 2: Assassins of Kings',
+      image: 'assets/images_games/TheWitcher.jpeg',
       oldPrice: 70.99,
       newPrice: 60.99
     },
     {
-      title: 'Hollow Knight: Silksong',
-      image: 'assets/images_games/Ready-or-Not-Consoles_04-17-25-874354600.jpg',
+      title: 'Ready or Not',
+      image: 'assets/images_games/ReadyOrNot.jpg',
       oldPrice: 35.00,
       newPrice: 30.00
     }
