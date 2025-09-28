@@ -1,80 +1,3 @@
-.hero{
-  width: 100%;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-}
-
-.hero-main-container {
-  width: 100%;
-  height: 40vh;
-}
-
-.mainCardHero {
-  width: 100% ; 
-  height: 100%;
-  position: relative;
-  display: inline-block;
-  justify-content: flex-end;
-  width: 100%;
-  z-index: 5;
-}
-
-.mainCardHero img {
-  width: 800px;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  border-radius: 15px;
-  text-align: left;
-}
-
-.titleHeroCard {
-  position: absolute;
-  bottom: 10px;
-  left: 2%;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-  margin: 0;
-}
-
-.side-card {
-  flex: 0 0 15%;
-  filter: brightness(0.7) blur(1px);
-  transform: scale(0.9);
-  transition: all 0.3s ease;
-  border-radius: 12px;
-  overflow: hidden;
-  opacity: 0.8;
-  cursor: pointer;
-  width: 15vw;
-  height: 40vh;
-}
-
-.side-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.next-hero {
-  translate: -25%;
-  z-index: 0;
-}
-
-.previous-hero {
-  translate: 25%;
-}
-
-.hero-content{
-z-index: -2;
-}
-/* -------- CAROUSEL -------- */
-
 .carousel-content {
   display: flex;
   overflow: hidden;
@@ -84,7 +7,6 @@ z-index: -2;
   transition: transform 0.3s ease-in-out;
 }
 
-/* Contenedor principal del carrusel */
 .common-carousel-container {
   display: flex;
   align-items: center;
@@ -105,9 +27,7 @@ z-index: -2;
   color: var(--color-text);
 }
 
-
-
-/* Contenedor general de la card */
+/* Card */
 .game-card {
   width: 190px;
   background-color: #111;
@@ -125,14 +45,13 @@ z-index: -2;
   transform: scale(1.03);
 }
 
-/* Imagen */
 .card-img {
   width: 100%;
   height: 150px;
   object-fit: cover;
 }
 
-/* Contenedor inferior */
+
 
 .card-body {
   padding: 10px;
@@ -141,7 +60,6 @@ z-index: -2;
   justify-content: space-between;
 }
 
-/* Título */
 .card-title {
   font-size: 15px;
   font-weight: 500;
@@ -151,7 +69,7 @@ z-index: -2;
   text-overflow: ellipsis;
 }
 
-/* Precios */
+
 .precioComun {
   font-size: 14px;
   font-weight: bold;
@@ -171,42 +89,14 @@ z-index: -2;
   text-decoration: line-through;
 }
 
-.precioDescuento .precioComun {
+.precioDescuento  {
   font-size: 14px;
   font-weight: bold;
-  color: #f5c542; /* dorado para precio promo */
+  color: var(--color-accent); 
 }
-
-/* Botón */
-.btn {
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-  transition: background 0.2s;
+.precioComun{
+  color: var(--color-primaryLight3);
 }
-
-.buttonBuy {
-  background-color: #f5c542;
-  color: #111;
-}
-
-.buttonBuy:hover {
-  background-color: #ffdb6e;
-}
-
-.buttonFree {
-  background-color: #4caf50;
-  color: #fff;
-}
-
-.buttonFree:hover {
-  background-color: #5fdc6b;
-}
-
-/*ia card fin*/
 /* -------- RESPONSIVE -------- */
 
 @media (max-width: 768px) {
@@ -250,7 +140,7 @@ z-index: -2;
   padding-bottom: 30px;
 }
 
-/* Slide individual */
+
 .gallery-slide {
   position: absolute;
   width: 700px;
@@ -580,45 +470,7 @@ z-index: -2;
   gap: 4px;
 }
 
-/* ===== PRECIOS ===== */
 
-/* Precio normal */
-.precio-normal {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-primaryLight3);
-}
-
-/* Precio gratis */
-.precio-gratis {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-/* Contenedor de precio con descuento */
-.precio-descuento {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-/* Precio tachado */
-.precio-tachado {
-  font-size: 13px;
-  color: #888;
-  text-decoration: line-through;
-  opacity: 0.8;
-}
-
-/* Precio actual con descuento */
-.precio-actual {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-accent);
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
 
 /* Desktop grande (1200px+) */
 @media (min-width: 1200px) {
@@ -742,13 +594,13 @@ z-index: -2;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
-    -webkit-line-clamp: 1;
+   
   }
   
   .precio-normal,
   .precio-gratis,
   .precio-actual {
-    font-size: 14px;
+    font-size: 14px; /*usar variable global */ 
   }
   
   .precio-tachado {

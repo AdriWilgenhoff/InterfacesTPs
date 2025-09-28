@@ -3,41 +3,6 @@ window.addEventListener('load', () => {
   showRandomGames(5);
 });
 
-const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api';
-const URL_PRICES = '/js/prices.json';
-const URL_COMMENTS = 'https://68ccc70eda4697a7f3038624.mockapi.io/comments';
-
-// **************** FUNCIONES DE DATOS ****************
-
-async function getGames() {
-  try {
-    const [responseGamesData, responsePrices] = await Promise.all([
-      fetch(URL_GAMES),
-      fetch(URL_PRICES)
-    ]);
-
-    const gamesData = await responseGamesData.json();
-    const prices = await responsePrices.json();
-
-    return gamesData.map(game => ({ ...game, ...prices[game.id] }));
-
-  } catch (error) {
-    console.error('Error obteniendo juegos:', error);
-    return [];
-  }
-}
-
-async function getComments() {
-  try {
-    const responseComments = await fetch(URL_COMMENTS);
-    return await responseComments.json();
-  } catch (error) {
-    console.error('Error obteniendo comentarios:', error);
-    return [];
-  }
-}
-
-// **************** FUNCIONES DE COMENTARIOS ****************
 
 async function showComments() {
   const comments = await getComments();
@@ -115,8 +80,6 @@ async function postComment(commentData) {
   }
 }
 
-// **************** FUNCIONES DE JUEGOS RECOMENDADOS ****************
-
 function sampleUnique(arr, n) {
   const a = arr.slice();
   const k = Math.min(n, a.length);
@@ -149,8 +112,6 @@ async function showRandomGames(n = 5) {
     </li>
   `).join('');
 }
-
-// **************** MANEJO DE EVENTOS ****************
 
 document.addEventListener('DOMContentLoaded', () => {
   // Comentarios

@@ -1,9 +1,8 @@
 
-const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api';
+const URL_GAMES = 'https://vj.interfaces.jima.com.ar/api/v2';
 const URL_PRICES = window.location.pathname.includes('html/') ? '../js/prices.json' : './js/prices.json';
 const URL_COMMENTS = 'https://68ccc70eda4697a7f3038624.mockapi.io/comments';
 
-/* # data */
 
 async function getGames() {
   try {
@@ -41,8 +40,8 @@ async function getComments() {
     return []; 
   }
 }
-
-async function getCategories() {
+/*para traer los generos de la api*/
+/* async function getCategories() {
 
   let categories = [];
 
@@ -60,6 +59,25 @@ async function getCategories() {
   });
   console.log(categories);
   return categories;
+} */
+
+/*trae los generos del json nuestro*/
+async function getCategories() {
+  let categories = [];
+
+  const games = await getGames();
+
+  games.forEach(game => {
+    if (game.category) { // verificacion si existe para que no rompa
+      games.forEach(game => {
+        const categoryName = game.category.toLowerCase();
+        if (!categories.includes(categoryName)) {
+          categories.push(categoryName);
+        }
+      });
+    }
+  });
+  return categories;
 }
 
 async function getPromos() {
@@ -75,10 +93,8 @@ async function getPromos() {
   return promos;
 }
 
-/* # controller */
-/* ## filtros */
-
-async function filterBy(text, games) {
+/********************************************filtros ***************************************************** */
+/* async function filterBy(text, games) {
   let input = text.toLowerCase();
   let gamesFiltered = [];
 
@@ -91,8 +107,19 @@ async function filterBy(text, games) {
   }
 
   return gamesFiltered;
-}
+} */
+async function filterBy(text, games) {
+  let input = text.toLowerCase();
+  let gamesFiltered = [];
 
+  if (await isCategory(input)) {
+    gamesFiltered = games.filter(game => 
+      game.category.toLowerCase() == input);
+  } else { // busca por nombre
+    gamesFiltered = games.filter(game => game.name.toLowerCase().includes(input));
+  }
+  return gamesFiltered;
+}
 function filterByFree(games) {
   let gamesFiltered = games.filter(game => game.isFree == true);
   return gamesFiltered;

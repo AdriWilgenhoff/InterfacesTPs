@@ -1,4 +1,5 @@
-/* Navbar Styles */
+
+/****************************************************** navbar **************************************/
 
 nav {
   background-color: var(--color-navDark); 
@@ -30,7 +31,7 @@ nav {
 }
 
 
-/* Hamburger Menu */
+/****************************************************** acceso a menú hamburguesa **************************************/
 .hamburger-menu {
   background: none;
   border: none;
@@ -54,7 +55,7 @@ nav {
   transition: all 0.3s ease;
 }
 
-/* Logo */
+/****************************************************** logo **************************************/
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -79,7 +80,7 @@ nav {
   color: var(--color-primary);
 }
 
-/* Search Bar */
+/****************************************************** barra de busqueda  **************************************/
 .navbar-search {
   flex: 1;
   max-width: 400px;
@@ -150,7 +151,8 @@ nav {
   height: 18px;
 }
 
-/* User Avatar */
+/****************************************************** acceso a menu usuario  **************************************/
+
 .navbar-user {
   display: flex;
   align-items: center;
@@ -181,34 +183,69 @@ nav {
   display:flex;
   flex-direction: column;
 }
-/********************************************************* footer *************************************/
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar-search {
-    max-width: 200px;
-  }
 
-  .navbar-container {
-    padding: 0 15px;
-  }
 
-  nav {
-    padding: 0 15px;
-  }
+/*****/
+.hamburguer-menu{
+  position: fixed;
+  top: 60px;     
+  left: 0;     
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;  
 }
 
-@media (max-width: 480px) {
-  .navbar-logo .logo-text {
-    display: none;
-  }
-
-  .navbar-search {
-    max-width: 150px;
-  }
+.user-menu{ 
+  position: fixed;
+  top: 60px;     
+  right: 0;      
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
 }
 
-/*estilos de los menus*/
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
 
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.navbar-user.active {
+  background-color: var(--color-primaryShadow3);
+}
+
+/* Estilos para el botón de cerrar del menú hamburguesa */
+
+.hamburguer-menu-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 24px;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.hamburguer-menu-close:hover {
+  background-color: var(--color-hover);
+  color: var(--color-primary);
+}
+
+/***************************************   estilos comunes a menus dde navBar     **********************************/
 .row{
     display: flex;
     align-items: center;
@@ -273,81 +310,21 @@ nav {
     color: var(--color-warning);
 }
 
-.hamburguer-menu{
-  position: fixed;
-  top: 60px;     /* justo debajo de la navbar */
-  left: 0;      /* pegado al borde derecho */
-  z-index: 1000;
-  
-}
-
-.user-menu{ 
-  position: fixed;
-  top: 60px;     /* justo debajo de la navbar */
-  right: 0;      /* pegado al borde derecho */
-  z-index: 1000; /* para que quede por encima del contenido */
-}
-  
-
-/* ===== ESTILOS ADICIONALES PARA FUNCIONALIDAD DROPDOWN ===== */
-
-/* Estados iniciales ocultos para los menús */
-.hamburguer-menu {
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.user-menu {
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-}
-
-/* Estados activos para los botones */
-.hamburger-menu.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger-menu.active .hamburger-line:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-menu.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
-}
-
-.navbar-user.active {
-  background-color: var(--color-primaryShadow3);
-}
-
-/* Estilos para el botón de cerrar del menú hamburguesa */
-
-.hamburguer-menu-close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: var(--color-text);
-  font-size: 24px;
-  cursor: pointer;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-}
-
-.hamburguer-menu-close:hover {
-  background-color: var(--color-hover);
-  color: var(--color-primary);
-}
-
-/* Responsividad mejorada para móviles */
+/* ****************************************** RESPONSIVIDAD ********************************************************** */
 @media (max-width: 768px) {
   .navBarMenu {
     width: 280px;
+  }
+    .navbar-search {
+    max-width: 200px;
+  }
+
+  .navbar-container {
+    padding: 0 15px;
+  }
+
+  nav {
+    padding: 0 15px;
   }
 }
 
@@ -362,4 +339,15 @@ nav {
     right: 0;
     width: 280px;
   }
+    .navbar-logo .logo-text {
+    display: none;
+  }
+
+  .navbar-search {
+    max-width: 150px;
+  }
 }
+
+
+
+

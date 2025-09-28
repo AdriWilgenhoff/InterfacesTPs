@@ -119,7 +119,6 @@
     display: flex;
     gap: 54px;
     align-items: center;
-    justify-content: center;
 }
 
 .pay-title {
@@ -165,7 +164,6 @@
 .legal {
     display: grid;
     gap: 6px;
-    max-width: max-content;
 }
 
 .legal p {
@@ -256,6 +254,8 @@
     transform: scale(1.1);
     filter: brightness(1.5);
 }
+
+
 
 
 /********************* HOVER SUBSCRIBIRSE *************************/

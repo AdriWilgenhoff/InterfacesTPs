@@ -10,27 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const filteredGames = await filterBy(text, allGames);
       renderSearch(filteredGames);
     } else {
-      showHome(); // si no hay texto, muestro la home por defecto
+      showHome(); 
     }
   });
-
-  // también podemos escuchar "Enter" en el input
+  
   searchInput.addEventListener("keypress", async (e) => {
     if (e.key === "Enter") {
       searchBtn.click();
     }
   });
 });
-
-
-/* 
-
-document.querySelector(".menu-link.free").addEventListener("click", async () => {
-  const games = await getGames();
-  renderHome(filterByFree(games));
-});
-
-document.querySelector(".menu-link.promos").addEventListener("click", async () => {
-  const promos = await getPromos();
-  renderHome(promos);
-}); */

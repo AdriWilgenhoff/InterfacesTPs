@@ -257,16 +257,6 @@ class HeroCarrousel extends BaseCarrousel {
 
   }
 
-  next() {
-    this.currentIndex = (this.currentIndex + 1) % this.arrayGames.length;
-    this.updateDisplay();
-  }
-
-  prev() {
-    this.currentIndex = (this.currentIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-    this.updateDisplay();
-  }
-
   goToSlide(index) {
     this.currentIndex = index;
     this.updateDisplay();
@@ -288,28 +278,25 @@ class HeroCarrousel extends BaseCarrousel {
 
 
 
-  // Método para destruir el carousel (limpieza)
-  destroy() {
-    this.stopAutoPlay();
-    // Remover event listeners globales si es necesario
-    document.removeEventListener('keydown', this.keydownHandler);
-  }
+ 
 }
+
+/*********************************************************CARRUSEL COMUNNN ***********************************************/
 
 class CommonCarrousel extends BaseCarrousel {
 
-  constructor(category, arrayGames, cardsVisible = arrayGames.length) {
+    constructor(category, arrayGames, cardsVisible = arrayGames.length) {
 
-    super(category, arrayGames);
-    this.cardsVisible = cardsVisible;
-    this.renderCarrousel();
+        super(category, arrayGames);
+        this.cardsVisible = cardsVisible;
+        this.renderCarrousel();
 
-    // recalcular cards visibles al redimensionar
-    window.addEventListener('resize', () => this.updateDisplay());
-  }
+        // recalcular cards visibles al redimensionar
+        window.addEventListener('resize', () => this.updateDisplay());
+    }
 
-  renderCarrousel() {
-    this.DOMElement.innerHTML = `
+    renderCarrousel() {
+        this.DOMElement.innerHTML = `
       <div class="" style="display:flex, flex-direction:column; gap:10px;">
        <div class="carousel-header" >
        <div class="carousel-title" >${this.category}</div>
@@ -323,129 +310,76 @@ class CommonCarrousel extends BaseCarrousel {
       </div>
     `;
 
-    // botones
-    const prevBtn = this.DOMElement.querySelector('.prev');
-    const nextBtn = this.DOMElement.querySelector('.next');
+        // botones
+        const prevBtn = this.DOMElement.querySelector('.prev');
+        const nextBtn = this.DOMElement.querySelector('.next');
 
-    prevBtn.onclick = () => this.prev();
-    nextBtn.onclick = () => this.next();
+        prevBtn.onclick = () => this.prev();
+        nextBtn.onclick = () => this.next();
 
-    this.updateDisplay();
-  }
-
-  getCardsVisible() {
-    if (window.innerWidth <= 480) return 1;
-    if (window.innerWidth <= 768) return 2;
-    return this.cardsVisible; // default
-  }
-
-  updateDisplay() {
-    const contentDiv = this.DOMElement.querySelector('.carousel-content');
-    contentDiv.innerHTML = ''; // limpiar
-
-    const visible = this.getCardsVisible();
-
-    for (let i = 0; i < visible; i++) {
-      let index = (this.globalIndex + i) % this.arrayGames.length;
-      this.renderCard(this.arrayGames[index], contentDiv, true);
+        this.updateDisplay();
     }
-  }
 
-  next() {
-    this.globalIndex = (this.globalIndex + 1) % this.arrayGames.length;
-    this.updateDisplay();
-  }
+    getCardsVisible() {
+        if (window.innerWidth <= 480) return 1;
+        if (window.innerWidth <= 768) return 2;
+        return this.cardsVisible; // default
+    }
 
-  prev() {
-    this.globalIndex = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-    this.updateDisplay();
-  }
+    updateDisplay() {
+        const contentDiv = this.DOMElement.querySelector('.carousel-content');
+        contentDiv.innerHTML = ''; // limpiar
 
-  /*  renderCard(game, container, append = false) {
-     const promo = this.isPromo(game);
-     let priceHTML = '';
-     let buttonClass = '';
-     let buttonText = '';
- 
-     if (!promo) {
-       if (game.isFree) {
-         priceHTML = `<div class="precioComun">Gratis</div>`;
-         buttonClass = "buttonFree";
-         buttonText = "Jugar";
-       } else {
-         priceHTML = `<div class="precioComun">$${game.price}</div>`;
-         buttonClass = "buttonBuy";
-         buttonText = "Comprar";
-       }
-     } else {
-       priceHTML = `
-         <div class="precioDescuento">
-           <div class="precioTachado">$${game.price}</div>
-           <div class="precioComun">$${game.discountPrice}</div>
-         </div>
-       `;
-       buttonClass = "buttonBuy";
-       buttonText = "Comprar";
-     }
- 
-     const cardHTML = document.createElement('div');
-     cardHTML.classList.add('game-card');
-     cardHTML.innerHTML = `
-       <img src="${game.background_image}" alt="${game.name}" class="card-img">
-       <div class="card-body">
-         <h3 class="card-title">${game.name}</h3>
-         <div style="display:flex; justify-content: space-between; align-items: center;"> 
-           <div class="price-container">${priceHTML}</div>
-           <button class="btn buy ${buttonClass}">${buttonText}</button>
-         </div>
-       </div>
-     `;
- 
-     if (append) container.appendChild(cardHTML);
-     else container.innerHTML = cardHTML.outerHTML;
-   } */
+        const visible = this.getCardsVisible();
 
-  renderCard(game, container, append = false) {
+        for (let i = 0; i < visible; i++) {
+            let index = (this.globalIndex + i) % this.arrayGames.length;
+            this.renderCard(this.arrayGames[index], contentDiv, true);
+        }
+    }
 
-    const promo = this.isPromo ? this.isPromo(game) : false;
-    let priceHTML = '';
 
-    if (!promo) {
-      if (game.isFree) {
-        priceHTML = `<div class="precioComun">Gratis</div>`;
 
-      } else {
-        priceHTML = `<div class="precioComun">U$D ${game.price}</div>`;
-      }
-      
-    } else {
-      priceHTML = `
+    renderCard(game, container, append = false) {
+
+        const promo = this.isPromo ? this.isPromo(game) : false;
+        let priceHTML = '';
+
+        if (!promo) {
+            if (game.isFree) {
+                priceHTML = `<div class="precioComun">Gratis</div>`;
+
+            } else {
+                priceHTML = `<div class="precioComun">U$D ${game.price}</div>`;
+            }
+
+        } else {
+            priceHTML = `
       <div class="precioDescuento">
         <div class="precioTachado">U$D ${game.price}</div>
         <div class="precioComun">U$D ${game.discountPrice}</div>
       </div>
     `;
-    }
+        }
 
-    const cardHTML = document.createElement('div');
-    cardHTML.classList.add('game-card');
-    cardHTML.innerHTML = `
-    <img src="${game.background_image}" alt="${game.name}" class="card-img">
-    <div class="card-body">
-      <h3 class="card-title">${game.name}</h3>
-      <div class="card-footer">
-        <div class="price-container">${priceHTML}</div>        
-      </div>
-    </div>
+        const cardHTML = document.createElement('div');
+        cardHTML.classList.add('game-card');
+        cardHTML.innerHTML = `
+            <img src="${game.background_image}" alt="${game.name}" class="card-img">
+            <div class="card-body">
+            <h3 class="card-title">${game.name}</h3>
+            <div class="card-footer">
+                <div class="price-container">${priceHTML}</div>        
+            </div>
+            </div>
   `;
 
-    if (append) {
-      container.appendChild(cardHTML);
-    } else {
-      container.innerHTML = cardHTML.outerHTML;
+        if (append) {
+            container.appendChild(cardHTML);
+        } else {
+            container.innerHTML = cardHTML.outerHTML;
+        }
     }
-  }
 
 
 }
-

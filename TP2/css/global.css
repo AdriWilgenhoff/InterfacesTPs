@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-/* paleta de color y variables*/
+/********************************************************** paleta de color y variables *********************************************/
 
 :root {
   /* primario */
@@ -71,9 +71,6 @@
   --font-size-labels: 11px;
   --font-size-table: 15px;
 
-
-
-
   /* espaciado */
 
   --space-cards: 15px;
@@ -87,9 +84,18 @@ body {
   font-family: var(--font-base);
   background-color: var(--color-bodyDark);
   color: var(--color-text);
+  
 }
 
 .padding-global{
-  padding: var(--padding-global);
+  padding: 70px var(--padding-global);
+}
+
+.search-results{
+  padding: 80px 90px;
+  display: flex;
+  flex-wrap: wrap;      
+  gap: 15px;             /* separación entre elementos */
+  justify-content: flex-start;
 }
 
