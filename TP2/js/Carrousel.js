@@ -1,5 +1,4 @@
 
-
 class BaseCarrousel {
 
   constructor(category, arrayGames) {
@@ -34,74 +33,7 @@ class BaseCarrousel {
   renderCard(game, DOMElement) { }
 }
 
-/* class HeroCarrousel extends BaseCarrousel {
-  
-  constructor(category, arrayGames) {
-    super(category, arrayGames)
-    this.globalIndex = 2; 
-    this.DOMElement.classList.add('hero'); 
-    this.renderCarrousel();
-  }
-
-  renderCarrousel() {
-    console.log(this.arrayGames)
-    if (this.arrayGames.length < 5) {
-      console.error("No hay suficientes juegos para renderizar el hero");
-      return;
-    }
-
-    this.DOMElement.innerHTML = `
-      <div id="heroCardMoreElementsLeft" class="hero-content previous-hero"></div>
-      <div id="heroCardPrevious" class="hero-button-container"></div>
-      <div id="heroCardMain" class="hero-main-container"></div>
-      <div id="heroCardNext" class="hero-button-container"></div>      
-      <div id="heroCardMoreElementsRight" class="hero-content next-hero"></div>
-    `;
-    this.updateDisplay();
-    
-  }
-
-updateDisplay() {
-  // índices relativos
-  let prev2Index = (this.globalIndex - 2 + this.arrayGames.length) % this.arrayGames.length;
-  let prev1Index = (this.globalIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
-  let next1Index = (this.globalIndex + 1) % this.arrayGames.length;
-  let next2Index = (this.globalIndex + 2) % this.arrayGames.length;
-
-  // render principal
-  this.renderCard(this.arrayGames[this.globalIndex], document.querySelector('#heroCardMain'));
-
-  // render secundarios
-  this.renderButtons(this.arrayGames[prev2Index], "#heroCardMoreElementsLeft", "previous");
-  this.renderButtons(this.arrayGames[prev1Index], "#heroCardPrevious", "previous");
-  this.renderButtons(this.arrayGames[next1Index], "#heroCardNext", "next");
-  this.renderButtons(this.arrayGames[next2Index], "#heroCardMoreElementsRight", "next");
-}
-
-  renderButtons(game, selector, type) {
-
-    let DOMElement = document.querySelector(selector);
-    console.log("elemento tomado");
-    console.log(game); 
-
-    DOMElement.innerHTML = `
-      <div class="side-card ${type}-hero" style="cursor: pointer;"> 
-        <img src="${game.background_image}" alt="${game.name}">
-      </div>
-    `;
-
-    DOMElement.onclick = () => type === "previous" ? this.prev() : this.next();
-  }
-
-  renderCard(game, DOMElement) {
-    DOMElement.innerHTML = `
-      <div class="mainCardHero">
-        <img src="${game.background_image}" alt="${game.name}">
-        <h3 class="titleHeroCard">${game.name}</h3>          
-      </div>
-    `;
-  }
-} */
+/**************************** HERO CARRUSEL *************************/
 class HeroCarrousel extends BaseCarrousel {
   constructor(category, arrayGames) {
     super(category, arrayGames);
@@ -327,16 +259,16 @@ class CommonCarrousel extends BaseCarrousel {
     this.updateDisplay();
   }
 
-  getCardsVisible() {
+  /*getCardsVisible() {
     if (window.innerWidth <= 480) return 1;
     if (window.innerWidth <= 768) return 2;
     return this.cardsVisible; 
   }
-
+*/
   updateDisplay() {
     const contentDiv = this.DOMElement.querySelector('.cards-carousel-container');
     contentDiv.innerHTML = '';
-    const visible = this.getCardsVisible();
+    const visible = this.arrayGames.length; 
 
     for (let i = 0; i < visible; i++) {
       let index = (this.globalIndex + i) % this.arrayGames.length;
