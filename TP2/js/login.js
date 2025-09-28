@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isValid = validateAll();
             
             if (isValid) {
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             } else {
                 event.preventDefault(); 
             }
