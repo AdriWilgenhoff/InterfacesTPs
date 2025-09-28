@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
     const loginButton = document.getElementById('login-button');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -7,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordError = document.getElementById('password-error');
     const loginForm = document.querySelector('.login-form');
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     function displayError(inputElement, errorElement, message) {
         const groupElement = inputElement.parentElement;
@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (emailValue === '') {
             message = 'El correo electrónico es obligatorio.';
-        } else if (!emailValue.includes('@')) {
-            message = 'El correo electrónico debe contener un @.';
+       
+        } else if (!emailRegex.test(emailValue)) { 
+            message = 'Por favor, introduce un formato de correo electrónico válido (ej: usuario@ejemplo.com).';
         }
 
         displayError(emailInput, emailError, message);
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let message = '';
 
         if (passwordValue === '') {
-            message = 'La contraseña es obligatoria.';
+            message = 'Contraseña incorrecta.';
         }
         
         displayError(passwordInput, passwordError, message);

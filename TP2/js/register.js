@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const registerButton = document.getElementById('register-button');
     const registerForm = document.querySelector('.register-form');
-    
     const nameInput = document.getElementById('nombre');
     const lastNameInput = document.getElementById('apellido');
     const emailInput = document.getElementById('email');
@@ -9,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const repeatPasswordInput = document.getElementById('repeat-password');
     const dobInput = document.getElementById('fecha-nacimiento');
     const recaptchaCheckbox = document.getElementById('recaptcha-input');
+    const criterionLength = document.getElementById('criterion-length');
+    const criterionNumbers = document.getElementById('criterion-numbers');
+    const criterionUppercase = document.getElementById('criterion-uppercase');
+    const registerContainer = document.querySelector('.register-container'); 
+    const successMessage = document.querySelector('.success-message');   
 
     const inputs = [
         { input: nameInput, errorElement: createErrorElement(nameInput), validate: validateName },
@@ -20,16 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     const recaptchaError = createErrorElement(recaptchaCheckbox.parentElement.parentElement, true);
 
-    function createErrorElement(inputElement, isRecaptcha = false) {
-        const error = document.createElement('span');
-        error.classList.add('error-message');
-        if (isRecaptcha) {
-            inputElement.parentElement.appendChild(error);
+function createErrorElement(inputElement, isRecaptcha = false) {
+ const error = document.createElement('span');
+ error.classList.add('error-message');
+if (isRecaptcha) {
+inputElement.parentElement.appendChild(error); 
+} else {
+        const parentGroup = inputElement.closest('.input-group');
+        if (parentGroup) {
+            parentGroup.appendChild(error); 
         } else {
             inputElement.parentElement.appendChild(error);
         }
-        return error;
-    }
+}
+return error;
+}
 
 
     function displayError(inputElement, errorElement, message) {
@@ -78,46 +87,58 @@ document.addEventListener('DOMContentLoaded', function() {
         return message === '';
     }
 
-    function validateEmail() {
+     function validateEmail() {
         const input = emailInput;
         const error = inputs.find(i => i.input === input).errorElement;
         const value = input.value.trim();
         let message = '';
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
         if (value === '') {
             message = 'El correo electrónico es obligatorio.';
-        } else if (!value.includes('@')) {
-            message = 'Debe ser un correo electrónico válido.';
+        } else if (!emailRegex.test(value)) { 
+            message = 'Debe ser un correo electrónico válido (ej: usuario@dominio.com).';
         }
 
         displayError(input, error, message);
         return message === '';
     }
 
-    function validatePassword() {
+   function validatePassword() {
         const input = passwordInput;
         const error = inputs.find(i => i.input === input).errorElement;
         const value = input.value;
         let passwordErrors = [];
-
-        if (value.length < 6) {
-            passwordErrors.push('La contraseña debe tener al menos 6 caracteres.');
-        }
-        const hasNumbers = (value.match(/\d/g) || []).length >= 3;
-        if (!hasNumbers) {
-            passwordErrors.push('La contraseña debe tener al menos 3 números.');
-        }
-        const hasUppercase = /[A-Z]/.test(value);
-        if (!hasUppercase) {
-            passwordErrors.push('La contraseña debe tener al menos una letra mayúscula.');
-        }
         
+        const isValid = updatePasswordCriteria(value);                
         const message = passwordErrors.join('\n');
         displayError(input, error, message);
-
         validateRepeatPassword(); 
-        
         return message === '';
+    }
+
+function updatePasswordCriteria(value) {
+        const isLengthValid = value.length >= 6;
+        updateCriterion(criterionLength, isLengthValid, 'Al menos 6 caracteres');
+
+        const hasNumbers = (value.match(/\d/g) || []).length >= 3;
+        updateCriterion(criterionNumbers, hasNumbers, 'Al menos 3 números');
+
+        const hasUppercase = /[A-Z]/.test(value);
+        updateCriterion(criterionUppercase, hasUppercase, 'Al menos una mayúscula');
+
+        return isLengthValid && hasNumbers && hasUppercase;
+    }
+
+    function updateCriterion(element, isValid, text) {
+        const iconSpan = element.querySelector('.icon-status');
+        if (isValid) {
+            element.classList.add('valid');
+            iconSpan.textContent = '✓';
+        } else {
+            element.classList.remove('valid');
+            iconSpan.textContent = '✗';
+        }
     }
 
     function validateRepeatPassword() {
@@ -190,15 +211,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     if (registerButton) {
-        registerButton.addEventListener('click', function(event) {
-            const isValid = validateAll();
-            
-            if (isValid) {
-                window.location.href = 'index.html';
-            } else {
-                event.preventDefault(); 
+    registerButton.addEventListener('click', function(event) {
+        event.preventDefault(); 
+
+        const isValid = validateAll();
+
+        if (isValid) {
+            if (registerContainer) {
+                registerContainer.classList.add('slide-out-up');
             }
-        });
+
+            const formAnimationDuration = 500; //  para el formulario
+            const messageDuration = 2400; //  para el cartel
+
+            setTimeout(() => {
+                if (successMessage) {
+
+                    successMessage.classList.add('show');
+                }
+                setTimeout(() => {
+                    window.location.href = 'login.html'; 
+                }, messageDuration);
+
+            }, formAnimationDuration); 
+
+        } else {
+        }
+    });
     }
 });
 
+
+const EYE_OPEN_ICON_PATH = '../assets/logos/ojo.png'; 
+const EYE_CLOSED_ICON_PATH = '../assets/logos/ojocerrado.png';
+
+function setupPasswordToggle() {
+    const togglePasswordIcons = document.querySelectorAll('.toggle-password');
+
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const passwordInput = document.getElementById(targetId);
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        if (type === 'text') {
+            this.src = EYE_OPEN_ICON_PATH; 
+            this.alt = 'Ocultar Contraseña';
+        } else {
+            this.src = EYE_CLOSED_ICON_PATH; 
+            this.alt = 'Mostrar Contraseña';
+        }
+        });
+    });
+}
+setupPasswordToggle();
