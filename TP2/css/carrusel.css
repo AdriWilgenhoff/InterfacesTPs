@@ -27,7 +27,9 @@
   color: var(--color-text);
 }
 
-/* Card */
+
+
+/*********************************** Card ***********************************/
 .game-card {
   width: 190px;
   background-color: #111;
@@ -38,13 +40,13 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease;
+  /*transition: transform 0.2s ease;*/
 }
 
-.game-card:hover {
+/*.game-card:hover {
   transform: scale(1.03);
 }
-
+*/
 .card-img {
   width: 100%;
   height: 150px;
@@ -390,10 +392,10 @@
   position: relative;
 }
 
-.game-card:hover {
+/*.game-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-}
+}*/
 
 .game-card.promo {
   border: 2px solid var(--color-accent);
@@ -432,9 +434,9 @@
   transition: transform 0.3s ease;
 }
 
-.game-card:hover .card-img {
+/*.game-card:hover .card-img {
   transform: scale(1.05);
-}
+}*/
 
 /* Contenedor inferior */
 .card-body {
@@ -620,6 +622,10 @@
     left: 8px;
     padding: 3px 6px;
     font-size: 11px;
+  }
+
+  .carousel-btn {
+    display: none; /* Ocultar botones en móvil */
   }
 }
 

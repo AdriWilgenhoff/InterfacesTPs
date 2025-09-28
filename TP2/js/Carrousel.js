@@ -278,108 +278,137 @@ class HeroCarrousel extends BaseCarrousel {
 
 
 
- 
+
 }
 
 /*********************************************************CARRUSEL COMUNNN ***********************************************/
 
 class CommonCarrousel extends BaseCarrousel {
 
-    constructor(category, arrayGames, cardsVisible = arrayGames.length) {
+  constructor(category, arrayGames, cardsVisible = arrayGames.length) {
 
-        super(category, arrayGames);
-        this.cardsVisible = cardsVisible;
-        this.renderCarrousel();
+    super(category, arrayGames);
+    this.cardsVisible = cardsVisible;
+    this.renderCarrousel();
 
-        // recalcular cards visibles al redimensionar
-        window.addEventListener('resize', () => this.updateDisplay());
+    // recalcular cards visibles al redimensionar
+    window.addEventListener('resize', () => this.updateDisplay());
+  }
+
+  renderCarrousel() {
+    this.DOMElement.innerHTML = 
+      `
+        <header class="carousel-header">
+                <h2 class="carousel-title">${this.category}</h2>
+                <a href="#" class="view-more-link">Ver más</a>
+            </header>
+
+                  <div class="carousel-wrapper">
+                <button class="carousel-nav-btn prev-btn" aria-label="Anterior">
+                    &lt; </button>
+                 
+                 <div class="cards-carousel-container">
+                 
+                 </div>
+
+                 <button class="carousel-nav-btn next-btn" aria-label="Siguiente"> &gt; </button>
+
+
+      `
+
+
+    // botones
+    const prevBtn = this.DOMElement.querySelector('.prev-btn');
+    const nextBtn = this.DOMElement.querySelector('.next-btn');
+
+    prevBtn.onclick = () => this.prev();
+    nextBtn.onclick = () => this.next();
+
+    this.updateDisplay();
+  }
+
+  getCardsVisible() {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 768) return 2;
+    return this.cardsVisible; 
+  }
+
+  updateDisplay() {
+    const contentDiv = this.DOMElement.querySelector('.cards-carousel-container');
+    contentDiv.innerHTML = '';
+    const visible = this.getCardsVisible();
+
+    for (let i = 0; i < visible; i++) {
+      let index = (this.globalIndex + i) % this.arrayGames.length;
+      this.renderCard(this.arrayGames[index], contentDiv, true);
+    }
+  }
+
+
+renderCard(game, container, append = false) {
+
+    // 1. Lógica de Promoción y Precios
+    // Asume que 'isPromo' devuelve un objeto o valor que contiene el porcentaje de descuento
+    const promo = this.isPromo ? this.isPromo(game) : false;
+    let priceHTML = '';
+    let offerLabelHTML = '';
+
+    if (promo) {
+        // Asumiendo que 'promo' contiene el porcentaje de descuento, ej: 20
+        const discountPercentage = game.discountPercentage; 
+
+        // Crea el HTML para la etiqueta de descuento
+        offerLabelHTML = `
+            <div class="offer-label">
+                <p>-${discountPercentage}%</p>
+            </div>
+        `;
+        
+        // Crea el HTML para el precio con descuento
+        priceHTML = `
+            <div class="price discount"> 
+                <div class="old-price">U$D ${game.price}</div> 
+                <div class="new-price">U$D ${game.discountPrice}</div>
+            </div>
+        `;
+    } else {
+        // Sin promoción
+        if (game.isFree) {
+            priceHTML = `<div class="price free"><div class="new-price">Gratis</div></div>`;
+        } else {
+            priceHTML = `<div class="price common"><div class="new-price">U$D ${game.price}</div></div>`;
+        }
     }
 
-    renderCarrousel() {
-        this.DOMElement.innerHTML = `
-      <div class="" style="display:flex, flex-direction:column; gap:10px;">
-       <div class="carousel-header" >
-       <div class="carousel-title" >${this.category}</div>
-        <div>Ver Todos ></div>
-        </div>        
-        <div class="common-carousel-container" style="display: flex; align-items: center; gap: 10px; overflow: hidden;">
-          <button class="carousel-btn prev" style="padding: 0.5rem;">‹</button>
-          <div class="carousel-content" style="display:flex; gap:10px;"></div>
-          <button class="carousel-btn next" style="padding: 0.5rem;">›</button>
+
+    // 2. Construcción de la Tarjeta con la Nueva Estructura
+    const cardHTML = document.createElement('div');
+    cardHTML.classList.add('game-card');
+
+    cardHTML.innerHTML = `
+        <div class="main-card">
+            <div class="image-container">
+                <img class="img-card" 
+                     src="${game.background_image}" 
+                     alt="${game.name} cover" />           
+                ${offerLabelHTML} </div>
+            
+            <div class="body-card">
+                <div class="title-card">
+                    <p>${game.name}</p>
+                </div>
+                
+                ${priceHTML}
+            </div>
         </div>
-      </div>
     `;
 
-        // botones
-        const prevBtn = this.DOMElement.querySelector('.prev');
-        const nextBtn = this.DOMElement.querySelector('.next');
-
-        prevBtn.onclick = () => this.prev();
-        nextBtn.onclick = () => this.next();
-
-        this.updateDisplay();
+    // 3. Renderizado
+    if (append) {
+        container.appendChild(cardHTML);
+    } else {
+        container.innerHTML = cardHTML.outerHTML;
     }
-
-    getCardsVisible() {
-        if (window.innerWidth <= 480) return 1;
-        if (window.innerWidth <= 768) return 2;
-        return this.cardsVisible; // default
-    }
-
-    updateDisplay() {
-        const contentDiv = this.DOMElement.querySelector('.carousel-content');
-        contentDiv.innerHTML = ''; // limpiar
-
-        const visible = this.getCardsVisible();
-
-        for (let i = 0; i < visible; i++) {
-            let index = (this.globalIndex + i) % this.arrayGames.length;
-            this.renderCard(this.arrayGames[index], contentDiv, true);
-        }
-    }
-
-
-
-    renderCard(game, container, append = false) {
-
-        const promo = this.isPromo ? this.isPromo(game) : false;
-        let priceHTML = '';
-
-        if (!promo) {
-            if (game.isFree) {
-                priceHTML = `<div class="precioComun">Gratis</div>`;
-
-            } else {
-                priceHTML = `<div class="precioComun">U$D ${game.price}</div>`;
-            }
-
-        } else {
-            priceHTML = `
-      <div class="precioDescuento">
-        <div class="precioTachado">U$D ${game.price}</div>
-        <div class="precioComun">U$D ${game.discountPrice}</div>
-      </div>
-    `;
-        }
-
-        const cardHTML = document.createElement('div');
-        cardHTML.classList.add('game-card');
-        cardHTML.innerHTML = `
-            <img src="${game.background_image}" alt="${game.name}" class="card-img">
-            <div class="card-body">
-            <h3 class="card-title">${game.name}</h3>
-            <div class="card-footer">
-                <div class="price-container">${priceHTML}</div>        
-            </div>
-            </div>
-  `;
-
-        if (append) {
-            container.appendChild(cardHTML);
-        } else {
-            container.innerHTML = cardHTML.outerHTML;
-        }
-    }
-
+}
 
 }
