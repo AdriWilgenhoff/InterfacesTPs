@@ -73,10 +73,10 @@ async function renderMenuCategories() {
 
     //hardcode !!!!!!! para asignar un icon (malisimo)
     const iconsByCategory = {
-        action: "assets/icons_perfil/perfil.png",
-        rpg: "assets/icons_perfil/games.svg",
-        shooter: "assets/icons_perfil/config.svg",
-        arcade: "assets/icons_perfil/help.svg",
+        action: "../assets/icons_perfil/perfil.png",
+        rpg: "../assets/icons_perfil/games.svg",
+        shooter: "../assets/icons_perfil/config.svg",
+        arcade: "../assets/icons_perfil/help.svg",
         indie: "",
         adventure:""        
     };
@@ -146,7 +146,7 @@ function renderSearch(filteredGames) {
 
 /********************************************** Helpers Ofertas espciales y Comming Soon ************************************************/
 
-function createComingSoonSection(src = '/assets/images_games/soulmask-titel01_6292744-3472156468.jpg', alt = 'Coming Soon Game') {
+function createComingSoonSection(src = '../assets/images_games/soulmask-titel01_6292744-3472156468.jpg', alt = 'Coming Soon Game') {
   // <section class="comingSoon-section">
   const section = document.createElement('section');
   section.className = 'comingSoon-section';
@@ -226,25 +226,25 @@ function renderSpecialOffers() {
   var OFFERS = [
     {
       title: 'Cyberpunk 2077 - Edición Base',
-      image: '/assets/images_games/20603-kejora-teaser-4245805646.jpg',
+      image: '../assets/images_games/20603-kejora-teaser-4245805646.jpg',
       oldPrice: 59.99,
       newPrice: 45.99
     },
     {
       title: 'The Witcher 3: Wild Hunt',
-      image: '/assets/images_games/Silent-Hill-f-Key-Art-2616265892.jpg',
+      image: '../assets/images_games/Silent-Hill-f-Key-Art-2616265892.jpg',
       oldPrice: 20.99,
       newPrice: 15.99
     },
     {
       title: 'Elden Ring',
-      image: '/assets/images_games/The+Witcher+2-557647869.jpeg',
+      image: '../assets/images_games/The+Witcher+2-557647869.jpeg',
       oldPrice: 70.99,
       newPrice: 60.99
     },
     {
       title: 'Hollow Knight: Silksong',
-      image: '/assets/images_games/Ready-or-Not-Consoles_04-17-25-874354600.jpg',
+      image: '../assets/images_games/Ready-or-Not-Consoles_04-17-25-874354600.jpg',
       oldPrice: 35.00,
       newPrice: 30.00
     }
