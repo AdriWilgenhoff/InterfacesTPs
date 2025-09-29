@@ -145,7 +145,7 @@
 
 /* ===== Bottom (Legal) ===== */
 .footer-bottom {
-    background: var(--color-fullDark);
+    background: var(--color-bodyDark);
 }
 
 .footer-bottom-row {
