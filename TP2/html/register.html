@@ -1,40 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
+    <title>Registrate</title>
     <link rel="stylesheet" href="../css/forms.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/navBar.css">
 </head>
 <body>
-    <nav class="site-nav">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <img src="../assets/logos_png/Logo+Nombre.png" alt="Logo de UIVerse">
-            </a>
-        </div>
-    </nav>
-    <div class="login-container">
-        <form class="login-form">
-            <h2>Iniciar sesión</h2>
+     <div class="navbar-logo">
+        <img src="../assets/logos_png/mainLogo.png" alt="UIverse" class="logo-img">
+        <span class="logo-text"><span class="logo-title">UI</span>verse</span>
+    </div>
+    <div class="register-container">
+        <form class="register-form">
+            <h2>Crear cuenta</h2>
             <div class="input-group">
-                <label for="email" class="required" >Correo electrónico</label>   
-                <input type="email" id="email" required>
-                <span class="error-message" id="email-error"></span>
+                <label for="nombre" class="required">Nombre</label>
+                <input type="text" id="nombre" required maxlength="30">
             </div>
             <div class="input-group">
+                <label for="apellido" class="required">Apellido</label>
+                <input type="text" id="apellido" required maxlength="30">
+            </div>
+            <div class="input-group">
+                <label for="nick">Nick</label>
+                <input type="text" id="nick" maxlength="30">
+            </div>
+            <div class="input-group">
+                <label for="fecha-nacimiento" class="required">Fecha de nacimiento</label>
+                <div class="date-input-container">
+                    <input type="date" id="fecha-nacimiento" required placeholder="DD/MM/AAAA">
+                    <img src="../assets/logos_png/calendario.png" alt="Calendario" class="calendar-icon">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email" class="required">Correo electrónico</label>
+                <input type="email" id="email" required maxlength="40">
+            </div>
+           <div class="input-group">
                 <label for="password" class="required">Contraseña</label>
-                <input type="password" id="password" required>
-                <span class="error-message" id="password-error"></span>
+                <div class="password-container">
+                    <input type="password" id="password" required maxlength="30">
+                    <img src="../assets/logos_png/ojocerrado.png" alt="Mostrar Contraseña" class="toggle-password" data-target="password"> 
+                </div>
             </div>
-            <div class="forgot-password">
-                <a href="">¿Olvidaste la contraseña?</a>
+            <div class="input-group"> 
+                <label for="repeat-password" class="required">Repetir Contraseña</label>
+                <div class="password-container">
+                    <input type="password" id="repeat-password" required maxlength="30">
+                    <img src="../assets/logos_png/ojocerrado.png" alt="Mostrar Contraseña" class="toggle-password" data-target="repeat-password">
+                </div>
             </div>
-            <button type="button" class="login-button" id="login-button">Iniciar sesión</button>
+            <div class="password-criteria">
+                <p class="criteria-title">
+                    <img src="../assets/logos_png/Union.png" alt="Candado" class="lock-icon">
+                    Tu Password debe contener:
+                </p>
+                <p id="criterion-length">
+                    <span class="icon-status">✗</span>
+                    Al menos 6 caracteres
+                </p>
+                <p id="criterion-numbers">
+                    <span class="icon-status">✗</span>
+                    Al menos 3 números
+                </p>
+                <p id="criterion-uppercase">
+                    <span class="icon-status">✗</span>
+                    Al menos una mayúscula
+                </p>
+            </div>
+            <div class="recaptcha-group">
+                <div class="recaptcha-container">
+                    <label for="recaptcha-input" class="required">
+                        <input type="checkbox" id="recaptcha-input" required class="recaptcha-checkbox">
+                        <span class="recaptcha-text">I'm not a robot</span>
+                    </label>
+                    <div class="recaptcha-logo-container">
+                        <img src="../assets/logos_png/reCAPTCHA.png" alt="reCAPTCHA logo" class="recaptcha-logo">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="login-button" id="register-button">Registrarse</button>
             <div class="divider">
-                <h3>o continuar con</h3>
+                <h3>o registrarse con</h3>
             </div>
             <div class="social-login">
                 <a href="#" aria-label="Iniciar sesión con Facebook" class="social-icon facebook-icon">
@@ -45,11 +96,14 @@
                     </a>
             </div>
             <div class="signup-link">
-                <p>¿No tienes una cuenta? <a href="newAccount.html">¡Regístrate ahora!</a></p>
+                <p>¿Ya tienes una cuenta? </p><a href="logIn.html"> iniciar sesión</a>
             </div>
         </form>
     </div>
-    <script src="../js/login.js"></script>
+    <div class="success-message">
+        <h1>¡Registro Completado!</h1>
+        <p>Gracias por unirte, te estamos redirigiendo al login.</p>
+    </div>
 </body>
 <footer class="site-footer">
         <!-- TOP -->
@@ -189,7 +243,7 @@
                     <li><img src="../assets/logos_svg/payment/Amazon.svg" alt="Amazon Pay"></li>
                 </ul>
             </div>
-        </div>
+        </div>  
 
         <!-- BOTTOM -->
         <div class="footer-bottom">
@@ -206,5 +260,6 @@
                 </div>
             </div>
         </div>
-    </footer>
-</html> 
+    </footer>     
+    <script src="../js/register.js"></script>
+</html>
