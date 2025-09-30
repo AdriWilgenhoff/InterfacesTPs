@@ -82,7 +82,7 @@
   --space-cards: 15px;
   --space-titles-carrousel: 10px;
   --space-global: 20px 80px 20px 80px;
-  --padding-global: 20px 5.56%;
+  --padding-global: 0px 5.56%;
   /* TODO: agregar margenes y paddings globales*/
 }
 
@@ -93,9 +93,10 @@ body {
 
 }
 
-/*.padding-global {
-  padding: 70px var(--padding-global);
-}*/
+.padding-global {
+  padding: 40px var(--padding-global);
+  
+}
 
 .search-results {
   padding: 80px 90px;

@@ -24,25 +24,24 @@
     <link rel="stylesheet" href="css/load.css">
 </head>
 
-<body class="no-scroll">
-    <div id="loaderOverlay" aria-live="polite">
-        <main class="stage" id="loaderStage" aria-labelledby="title">
-            <h1 id="title" class="sr-only">Uiverse — Cargando</h1>
+<body class="no-scroll padding-global">
+    <div id="loaderOverlay">
+        <main class="stage" id="loaderStage">
             <div>
-                <div class="brandRow">
+                <div class="brandRow" id="brandRow">
                     <div class="logo" id="logoWrap">
                         <img class="logoImg" id="logoImg" src="assets/logos_png/mainLogo.png" alt="Uiverse">
-                        <div class="logoDark" id="logoDark" aria-hidden="true"></div>
+                        <div class="logoDark" id="logoDark"></div>
                     </div>
                     <span class="word" id="word"><span class="accent">UI</span>verse</span>
                 </div>
 
                 <div class="percent" id="percentWrap"><span id="percent">0</span>%</div>
-                <p class="sr-only" id="srStatus">Progreso 0%</p>
             </div>
         </main>
     </div>
     <script src="js/loader.js"></script>
+
 
     <div class="app-shell is-blurred">
         <header>
@@ -89,7 +88,7 @@
         <!-- menu hamburguesa -->
         <div class="navBarMenu hamburguer-menu" id="hamburguer-menu">
             <div class="hamburguer-menu-content">
-                
+
                 <!-- Perfil Mobile (solo visible en mobile) -->
                 <div class="mobile-user-profile">
                     <img src="assets/logos_svg/icons/Avatar-Principal.svg" alt="User Avatar" class="mobile-user-avatar">
@@ -99,7 +98,7 @@
                     </div>
                 </div>
                 <hr class="sep mobile-only">
-                
+
                 <!-- Mi Perfil (solo mobile) -->
                 <ul class="menu-list mobile-only">
                     <li class="menu-item">
@@ -108,30 +107,32 @@
                     </li>
                 </ul>
                 <hr class="sep mobile-only">
-                
+
                 <div>
                     <!-- perfil menu mobile render condicional -->
                     <!-- <li class="menu-item"><img class="menu-icon" src="assets/icons_perfil/perfil.png" alt=""><a href="#" class="menu-link">Favoritos</a></li> -->
 
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Heart.svg" alt=""><a href="#"
-                                class="menu-link">Favoritos</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a href="#" class="menu-link">Juegos
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Heart.svg" alt=""><a
+                                href="#" class="menu-link">Favoritos</a></li>
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a
+                                href="#" class="menu-link">Juegos
                                 Comprados</a></li>
                     </ul>
                     <hr class="sep">
-                    
+
                     <!-- Categorías dinámicas -->
                     <ul class="menu-list" id="hamburguer-menu-list">
                         <!-- Las categorías se renderizarán aquí dinámicamente -->
                     </ul>
-                    
+
                     <hr class="sep">
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Save.svg" alt=""><a href="#"
-                                class="menu-link">Gratis</a>
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Save.svg" alt=""><a
+                                href="#" class="menu-link">Gratis</a>
                         </li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/obejtivo.svg" alt=""><a href="#" class="menu-link">En
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/obejtivo.svg" alt=""><a
+                                href="#" class="menu-link">En
                                 oferta</a></li>
                     </ul>
                     <hr class="sep">
@@ -154,25 +155,28 @@
                 <hr class="sep">
                 <div>
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/perfil.svg" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/perfil.svg" alt=""><a
+                                href="#" class="menu-link">Perfil</a>
                         </li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a href="#" class="menu-link">Mis
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a
+                                href="#" class="menu-link">Mis
                                 Juegos</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/paymentMethods.svg" alt=""><a href="#" class="menu-link">Métodos
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/paymentMethods.svg"
+                                alt=""><a href="#" class="menu-link">Métodos
                                 de
                                 pago</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/help.svg" alt=""><a href="#" class="menu-link">Centro
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/help.svg" alt=""><a
+                                href="#" class="menu-link">Centro
                                 de
                                 ayuda</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/config.svg" alt=""><a href="#"
-                                class="menu-link">Configuración</a></li>
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/config.svg" alt=""><a
+                                href="#" class="menu-link">Configuración</a></li>
                     </ul>
 
                     <hr class="sep">
                     <ul class="menu-list ">
-                        <li class="menu-item exit"><img class="menu-icon exit" src="assets/logos_svg/icons/logOut.svg" alt=""><a href="#"
-                                class="menu-link exit">Cerrar Sesión</a></li>
+                        <li class="menu-item exit"><img class="menu-icon exit" src="assets/logos_svg/icons/logOut.svg"
+                                alt=""><a href="#" class="menu-link exit">Cerrar Sesión</a></li>
 
                     </ul>
                 </div>
