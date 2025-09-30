@@ -1,44 +1,34 @@
-/* ===================================================== */
-/* VALORES CONCRETOS (Variables reemplazadas)           */
-/* ===================================================== */
+
 html,
 body {
     height: 100%;
 }
 
-body {
+/* body {
     margin: 0;
     background: #0d0c10;
     color: #e4e4e4;
-    /* --colortexto */
+    
     font-family: "Inter", system-ui, ui-sans-serif, Segoe UI, Roboto, Arial;
-    /* --font-inter */
+   
     line-height: 1.35;
-    /* “márgenes” laterales de 3px en mobile */
+   
     padding-left: 3px;
-    /* --edge-padding */
+    
     padding-right: 3px;
-    /* --edge-padding */
+    
 }
+ */
 
 
-/* ===================================================== */
-/* GRID — MOBILE FIRST (2 COLUMNAS)                      */
-/* ===================================================== */
 .cardsSpecialsOffer-container {
-    /* Mantengo el nombre específico para la cuadrícula */
-    display: grid;
-    /* 2 columnas: 1fr cada una */
+    display: grid;   
     grid-template-columns: repeat(2, 1fr);
     gap: 7px;
-    /* --mobile-gap */
     width: 100%;
     margin: 0 auto;
 }
-
-/* ===================================================== */
-/* CARD (Estilos Base)                                   */
-/* ===================================================== */
+/************************************************cards *********************************************/
 .specialOffer-card {
     display: flex;
     flex-direction: column;
@@ -53,14 +43,14 @@ body {
 }
 
 .specialOffer-card:hover {
-    box-shadow: 0 0 15px 3px #f3ad38;
+    box-shadow: 0 0 15px 1px var(--color-primaryShadow3);
+      
 }
 
-/* --- Imagen (mobile por defecto) --- */
+
 .img-specialOffer-card {
     position: relative;
     width: 100%;
-    /* aspect-ratio: 190 / 183 (Valor de --aspect-mobile) */
     aspect-ratio: 190 / 183;
     overflow: hidden;
 }
@@ -74,7 +64,7 @@ body {
     display: block;
 }
 
-/* --- Etiqueta de precio (Contenedor de descuento) --- */
+/******************************** Etiqueta de precio ****************************************************************/
 .specialOffer-label {
     position: absolute;
     top: 0;
@@ -94,7 +84,7 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 6px 14px rgba(0, 0, 0, .45), 0 2px 6px rgba(0, 0, 0, .35);
-    /* --label-shadow */
+   
 }
 
 .specialOfferPrice {
@@ -105,30 +95,25 @@ body {
 }
 
 .specialOffer-old-price {
-    color: #777786;
-    /* --old-price-color */
-    font-size: 0.6875rem;
-    /* --text-xs (11px) */
+    color: var(--color-textDark);    
+    font-size: 0.6875rem;    
     text-decoration: line-through;
     white-space: nowrap;
 }
 
 .specialOffer-new-price {
-    color: #f3ad38;
-    /* --coloracento */
+    color: var(--color-accent);
     font-size: 0.75rem;
-    /* --text-sm (12px) */
     font-weight: 600;
     white-space: nowrap;
 }
 
-/* --- Cuerpo (título) --- */
+
 .body-specialOffer-card {
     display: flex;
     align-items: center;
     padding: 0 0.625rem;
     height: 1.6875rem;
-    /* --body-h-desktop (27px) */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -136,59 +121,51 @@ body {
 
 .titulo-de-specialOffer-card {
     font-size: 0.75rem;
-    /* --text-sm (12px) */
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* ===================================================== */
-/* BREAKPOINTS                                           */
-/* ===================================================== */
 
-/* (Opcional) Tablet: 3 columnas auto */
+
 @media (min-width: 768px) {
 
-    /* Asumo que cards-container en el original es el mismo que cardsSpecialsOffer-container */
+   
     .cardsSpecialsOffer-container {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
         padding-left: 0;
         padding-right: 0;
-        /* max-width: 3 * 290px + 2 * 12px = 900px */
+       
         max-width: min(100%, 900px);
     }
 }
 
-/* Desktop exacto: 4 columnas de 290px */
+
 @media (min-width: 1215px) {
     body {
         padding-left: 0;
         padding-right: 0;
     }
 
-    /* Asumo que cards-container en el original es el mismo que cardsSpecialsOffer-container */
+    
     .cardsSpecialsOffer-container {
         width: 100%;
         max-width: 1205px;
-        /* --desktop-container-w */
         margin: 0 auto;
         gap: 15px;
-        /* --desktop-gap */
         grid-template-columns: repeat(4, 290px);
-        /* --desktop-card-w */
     }
 
-    /* Card TOTAL = 197px exactos */
+   
     .specialOffer-card {
         height: 197px;
     }
 
-    /* La imagen ocupa (197 - alto del cuerpo) */
     .img-specialOffer-card {
         aspect-ratio: auto;
         height: calc(197px - 1.6875rem);
-        /* 197px - 27px ≈ 170px */
+        
     }
 }

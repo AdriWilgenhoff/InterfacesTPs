@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIverse</title>
+
     <!-- fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +20,11 @@
     <link rel="stylesheet" href="css/categoryCarrusel.css">
     <link rel="stylesheet" href="css/cardOferta.css">
     <link rel="stylesheet" href="css/comingSoon.css">
+    <link rel="stylesheet" href="css/searchResults.css">
     <link rel="stylesheet" href="css/load.css">
 </head>
 
 <body class="no-scroll">
-
     <div id="loaderOverlay" aria-live="polite">
         <main class="stage" id="loaderStage" aria-labelledby="title">
             <h1 id="title" class="sr-only">Uiverse — Cargando</h1>
@@ -59,6 +60,13 @@
                         </div>
                     </div>
                     <div class="navbar-search">
+                        <button class="search-toggle-btn" id="search-toggle-btn">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
                         <input type="text" placeholder="Busca algo" class="search-input">
                         <button class="search-btn">
                             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -81,70 +89,56 @@
         <!-- menu hamburguesa -->
         <div class="navBarMenu hamburguer-menu" id="hamburguer-menu">
             <div class="hamburguer-menu-content">
+                
+                <!-- Perfil Mobile (solo visible en mobile) -->
+                <div class="mobile-user-profile">
+                    <img src="assets/logos_svg/icons/Avatar-Principal.svg" alt="User Avatar" class="mobile-user-avatar">
+                    <div class="mobile-user-info">
+                        <h3 class="user-name">PepitoElPistolero123</h3>
+                        <p class="user-status">Online hace 5 horas</p>
+                    </div>
+                </div>
+                <hr class="sep mobile-only">
+                
+                <!-- Mi Perfil (solo mobile) -->
+                <ul class="menu-list mobile-only">
+                    <li class="menu-item">
+                        <img class="menu-icon" src="assets/logos_svg/icons/perfil.svg" alt="">
+                        <a href="#" class="menu-link">Mi Perfil</a>
+                    </li>
+                </ul>
+                <hr class="sep mobile-only">
+                
                 <div>
                     <!-- perfil menu mobile render condicional -->
                     <!-- <li class="menu-item"><img class="menu-icon" src="assets/icons_perfil/perfil.png" alt=""><a href="#" class="menu-link">Favoritos</a></li> -->
 
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Heart.svg" alt=""><a href="#"
                                 class="menu-link">Favoritos</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#" class="menu-link">Juegos
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a href="#" class="menu-link">Juegos
                                 Comprados</a></li>
                     </ul>
                     <hr class="sep">
-                    <ul class="menu-list"> <!-- renderizacion condicional de categorias -->
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Perfil</a>
-                        </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
-                                class="menu-link">Favoritos</a></li>
+                    
+                    <!-- Categorías dinámicas -->
+                    <ul class="menu-list" id="hamburguer-menu-list">
+                        <!-- Las categorías se renderizarán aquí dinámicamente -->
                     </ul>
+                    
                     <hr class="sep">
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/Save.svg" alt=""><a href="#"
                                 class="menu-link">Gratis</a>
                         </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#" class="menu-link">En
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/obejtivo.svg" alt=""><a href="#" class="menu-link">En
                                 oferta</a></li>
                     </ul>
                     <hr class="sep">
                     <div class="social-media-menu row ">
-                        <img src="" alt="">
-                        <img src="" alt="">
-                        <img src="" alt="">
+                        <img src="assets/logos_svg/icons/Discord.svg" alt="Discord">
+                        <img src="assets/logos_svg/icons/Instagram.svg" alt="Instagram">
+                        <img src="assets/logos_svg/icons/Facebook.svg" alt="Facebook">
                     </div>
                 </div>
             </div>
@@ -160,24 +154,24 @@
                 <hr class="sep">
                 <div>
                     <ul class="menu-list">
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/perfil.svg" alt=""><a href="#"
                                 class="menu-link">Perfil</a>
                         </li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#" class="menu-link">Mis
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/games.svg" alt=""><a href="#" class="menu-link">Mis
                                 Juegos</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#" class="menu-link">Métodos
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/paymentMethods.svg" alt=""><a href="#" class="menu-link">Métodos
                                 de
                                 pago</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#" class="menu-link">Centro
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/help.svg" alt=""><a href="#" class="menu-link">Centro
                                 de
                                 ayuda</a></li>
-                        <li class="menu-item"><img class="menu-icon" src="" alt=""><a href="#"
+                        <li class="menu-item"><img class="menu-icon" src="assets/logos_svg/icons/config.svg" alt=""><a href="#"
                                 class="menu-link">Configuración</a></li>
                     </ul>
 
                     <hr class="sep">
                     <ul class="menu-list ">
-                        <li class="menu-item exit"><img class="menu-icon exit" src="" alt=""><a href="#"
+                        <li class="menu-item exit"><img class="menu-icon exit" src="assets/logos_svg/icons/logOut.svg" alt=""><a href="#"
                                 class="menu-link exit">Cerrar Sesión</a></li>
 
                     </ul>
@@ -186,7 +180,7 @@
 
         </div>
         <!-- contenido de la pagina -->
-        <main id="home-container" class="home-container main-content">
+        <main id="home-container" class="home-container main-content padding-global">
 
         </main>
 
@@ -349,9 +343,9 @@
         </footer>
     </div>
 
+    <script src="js/data.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/searchbar.js"></script>
     <script src="js/Carrousel.js"></script>
-    <script src="js/data.js"></script>
     <script src="js/render.js"></script>
 </body>

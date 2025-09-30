@@ -1,0 +1,229 @@
+
+.search-results-section {
+    margin-top: 80px; 
+    padding: 20px 0;
+}
+
+.search-header {
+    margin-bottom: 20px;
+    padding: 0 3px;
+}
+
+.search-title {
+    font-size: 18px;
+    color: var(--color-text);
+    font-weight: 600;
+    margin: 0;
+}
+
+
+.search-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0 3px;
+}
+
+
+.search-card {
+    width: 100%;
+    height: 154px;
+}
+
+/************************************ resultados de busquedas vacíos ********************************************/
+
+.search-empty-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    min-height: 300px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 16px;
+    color: var(--color-text);
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.empty-suggestion {
+    font-size: 14px;
+    color: var(--color-textDark);
+    margin-bottom: 20px;
+}
+
+
+.categories-links-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    max-width: 600px;
+}
+
+.category-link-btn {
+    padding: 10px 20px;
+    background-color: var(--color-box);
+    color: var(--color-text);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+}
+
+.category-link-btn:hover {
+    background-color: var(--color-primaryShadow3);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.category-link-btn:active {
+    transform: translateY(0);
+}
+
+.btn-back-home {
+    padding: 12px 24px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-back-home:hover {
+    background-color: var(--color-primaryLight1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(144, 19, 254, 0.3);
+}
+
+
+
+@media (min-width: 768px) {
+    .search-results-section {
+        padding: 30px 0;
+    }
+
+    .search-header {
+        margin-bottom: 30px;
+    }
+
+    .search-title {
+        font-size: 24px;
+    }
+
+    .search-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .search-card {
+        height: 174px;
+    }
+
+    .empty-icon {
+        font-size: 80px;
+    }
+
+    .empty-text {
+        font-size: 18px;
+    }
+
+    .empty-suggestion {
+        font-size: 16px;
+    }
+    
+    .categories-links-container {
+        gap: 12px;
+        max-width: 700px;
+    }
+    
+    .category-link-btn {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .search-grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+}
+
+
+@media (min-width: 1440px) {
+    .search-results-section {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 40px 0;
+    }
+
+    .search-header {
+        margin-bottom: 40px;
+        padding: 0;
+    }
+
+    .search-title {
+        font-size: 28px;
+    }
+
+    .search-grid-container {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        padding: 0;
+        /* Exactamente el mismo ancho que el carrusel: 6 cards de 192.5px + 5 gaps de 10px */
+        width: 1205px;
+        margin: 0 auto;
+    }
+
+    .search-card {
+        width: 192.5px;
+        height: 174px;
+    }
+
+    .empty-icon {
+        font-size: 96px;
+    }
+
+    .empty-text {
+        font-size: 20px;
+    }
+
+    .empty-suggestion {
+        font-size: 16px;
+    }
+    
+    .categories-links-container {
+        gap: 15px;
+        max-width: 800px;
+    }
+    
+    .category-link-btn {
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+
+    .btn-back-home {
+        padding: 14px 32px;
+        font-size: 16px;
+    }
+}

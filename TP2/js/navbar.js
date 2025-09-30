@@ -1,16 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     const hamburgerButton = document.querySelector('#hamburger-menu');
     const hamburgerMenu = document.querySelector('#hamburguer-menu');
     const hamburgerCloseButton = document.querySelector('#hamburguer-menu-close');
     const userArea = document.querySelector('.navbar-user');
     const userMenu = document.querySelector('#user-menu');
+    const searchToggleBtn = document.querySelector('#search-toggle-btn');
+    const searchContainer = document.querySelector('.navbar-search');
 
-    
+
     let isHamburgerOpen = false;
     let isUserMenuOpen = false;
+    let isSearchExpanded = false;
 
-   
+
+    function toggleSearch() {
+        isSearchExpanded = !isSearchExpanded;
+
+        if (isSearchExpanded) {
+            searchContainer.classList.add('expanded');
+
+            setTimeout(() => {
+                const searchInput = searchContainer.querySelector('.search-input');
+                if (searchInput) searchInput.focus();
+            }, 300);
+        } else {
+            searchContainer.classList.remove('expanded');
+        }
+    }
+
+
     function toggleHamburgerMenu() {
         isHamburgerOpen = !isHamburgerOpen;
 
@@ -43,7 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
+
+    if (searchToggleBtn) {
+        searchToggleBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            toggleSearch();
+        });
+    }
+
     if (hamburgerButton) {
         hamburgerButton.addEventListener('click', e => {
             e.stopPropagation();
@@ -65,8 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
+
     document.addEventListener('click', e => {
+
+        if (isSearchExpanded &&
+            !searchContainer.contains(e.target)) {
+            toggleSearch();
+        }
+
         if (isHamburgerOpen &&
             !hamburgerMenu.contains(e.target) &&
             !hamburgerButton.contains(e.target)) {
@@ -80,15 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    
+
     if (hamburgerMenu) {
         hamburgerMenu.addEventListener('click', e => e.stopPropagation());
     }
     if (userMenu) {
         userMenu.addEventListener('click', e => e.stopPropagation());
     }
+    if (searchContainer) {
+        searchContainer.addEventListener('click', e => e.stopPropagation());
+    }
 
-    
+
     function initializeMenus() {
         if (hamburgerMenu) {
             hamburgerMenu.style.display = 'none';
@@ -105,5 +140,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initializeMenus();
 
-    
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 480 && isSearchExpanded) {
+            searchContainer.classList.remove('expanded');
+            isSearchExpanded = false;
+        }
+    });
+
+    /******************************** Renderizar Categorías ********************************/
+
+    async function renderMenuCategories() {
+        try {
+            let categories = await getCategories();
+            let menuContainer = document.querySelector('#hamburguer-menu-list');
+
+            if (!menuContainer) {
+                console.error('No se encontró el contenedor #hamburguer-menu-list');
+                return;
+            }
+
+           
+            menuContainer.innerHTML = '';
+
+            
+            const iconsByCategory = {
+                action: "/assets/logos_svg/categories/rpg3.svg",
+                rpg: "/assets/logos_svg/categories/rol.svg",
+                shooter: "/assets/logos_svg/categories/shooter.svg",
+                arcade: "/assets/logos_svg/categories/arcade.svg",
+                indie: "assets/icons_perfil/rpg2.svg",
+                adventure: "/assets/logos_svg/categories/adventure.svg"
+            };
+
+            categories.forEach(category => {
+                
+                let li = document.createElement("li");
+                li.classList.add("menu-item");
+
+                
+                let img = document.createElement("img");
+                img.classList.add("menu-icon");
+                img.src = iconsByCategory[category] || "assets/icons_perfil/perfil.png";
+                img.alt = category;
+
+               
+                let a = document.createElement("a");
+                a.classList.add("menu-link");
+                a.href = "#";
+                a.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+
+                
+                li.appendChild(img);
+                li.appendChild(a);
+
+                
+                menuContainer.appendChild(li);
+            });
+
+            console.log('Categorías renderizadas:', categories);
+        } catch (error) {
+            console.error('Error al renderizar categorías:', error);
+        }
+    }
+
+   
+    renderMenuCategories();
+
 });

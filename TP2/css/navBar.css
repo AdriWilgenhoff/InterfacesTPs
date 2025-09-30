@@ -194,7 +194,10 @@ nav {
   transform: translateX(-100%);
   transition: transform 0.3s ease;  
 }
-
+.menu-icon{
+  width:16px;
+  height: 16px;
+}
 .user-menu{ 
   position: fixed;
   top: 60px;     
@@ -262,7 +265,7 @@ nav {
     display: flex;
     flex-direction: column;
     list-style: none;
-    gap: 5px;
+    gap: 15px;
 }
 
 .sep{
@@ -276,16 +279,17 @@ nav {
     display: flex;
     align-items: center;
     gap: 10px;
+    
 } 
 
 .menu-item:hover{
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
 
 .menu-link{
     color: var(--color-text);
     display: flex;    
-    font-size: 12px;
+    font-size: 14px;
     text-decoration: none;
 }
 .menu-link:hover{
@@ -310,6 +314,44 @@ nav {
     color: var(--color-warning);
 }
 
+/* Botón de búsqueda toggle (oculto por defecto) */
+.search-toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--color-textDark);
+    transition: color 0.3s ease;
+}
+
+.search-toggle-btn:hover {
+    color: var(--color-primary);
+}
+
+/* Perfil mobile en menú hamburguesa */
+.mobile-user-profile {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+}
+
+.mobile-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mobile-user-info {
+    flex: 1;
+}
+
+.mobile-only {
+    display: none;
+}
+
 /* ****************************************** RESPONSIVIDAD ********************************************************** */
 @media (max-width: 768px) {
   .navBarMenu {
@@ -329,22 +371,98 @@ nav {
 }
 
 @media (max-width: 480px) {
+  /* Ocultar menú de usuario */
+  .navbar-user {
+    display: none;
+  }
+  
+  /* Mostrar elementos mobile en menú hamburguesa */
+  .mobile-user-profile,
+  .mobile-only {
+    display: flex;
+  }
+  
+  .mobile-only.sep {
+    display: block;
+  }
+  
+  .mobile-only.menu-list {
+    display: flex;
+  }
+  
+  /* Menú hamburguesa full width */
   .navBarMenu {
     width: 100vw;
     left: 0;
     right: 0;
   }
   
+  /* Ajustar menú de usuario (por si se accede de otra forma) */
   .user-menu {
     right: 0;
     width: 280px;
   }
-    .navbar-logo .logo-text {
+  
+  /* Configuración de búsqueda mobile */
+  .navbar-search {
+    position: relative;
+    max-width: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* Mostrar botón toggle */
+  .search-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Ocultar input y botón search por defecto */
+  .search-input,
+  .search-btn {
     display: none;
   }
-
-  .navbar-search {
-    max-width: 150px;
+  
+  /* Estado expandido de búsqueda */
+  .navbar-search.expanded {
+    max-width: 100%;
+    width: auto;
+    flex: 1;
+    background-color: var(--color-box);
+    border-radius: 25px;
+    padding: 0;
+    border: 2px solid transparent;
+  }
+  
+  .navbar-search.expanded .search-toggle-btn {
+    display: none;
+  }
+  
+  .navbar-search.expanded .search-input {
+    display: block;
+  }
+  
+  .navbar-search.expanded .search-btn {
+    display: block;
+  }
+  
+  /* Ocultar texto del logo cuando search está expandida */
+  .navbar-search.expanded ~ .navbar-container .logo-text,
+  .navbar-container:has(.navbar-search.expanded) .logo-text {
+    display: none;
+  }
+  
+  /* Ajustar el orden y layout del navbar container */
+  .navbar-container {
+    padding: 0 10px;
+  }
+  
+  nav {
+    padding: 0 10px;
   }
 }
 
