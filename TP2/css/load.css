@@ -1,14 +1,6 @@
 html.no-scroll,
 body.no-scroll { overflow: hidden !important; }
 
-/* Variables del loader mapeadas a tu :root */
-#loaderOverlay{
-  --primary: var(--color-primary);
-  --text:    var(--color-text);
-  --bg:      var(--color-bodyDark);
-  --gap:     24px;
-}
-
 /* Overlay full-screen */
 #loaderOverlay{
   position: fixed;
@@ -16,11 +8,11 @@ body.no-scroll { overflow: hidden !important; }
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: var(--bg);
+  background: var(--color-bodyDark);
   perspective: 1000px;
 }
 
-/* Contenido (esto es lo que animamos al final) */
+/* Contenido */
 #loaderOverlay .stage{
   width: 100%;
   display: grid;
@@ -36,16 +28,14 @@ body.no-scroll { overflow: hidden !important; }
   display: grid;
   place-items: center;
   min-height: 160px;
-
-  /* auto-escala para que siempre entre */
   transform: scale(var(--s, 1));
   transform-origin: center;
 }
 
-/* ===== Logo (wrap) + imagen + overlay oscuro revelable ===== */
+/* Logo + overlay oscuro revelable */
 #loaderOverlay .logo{
   position: relative;
-  width: clamp(120px, 32vw, 220px); /* un toque + flexible en móviles */
+  width: clamp(120px, 32vw, 220px);
   max-width: 220px;
   aspect-ratio: 1/1;
   display: block;
@@ -61,12 +51,12 @@ body.no-scroll { overflow: hidden !important; }
   display: block;
 }
 
-/* Overlay oscuro: se retira de DERECHA → IZQUIERDA (inset left = p%) */
+/* Capa oscura que se retira (clip) */
 #loaderOverlay .logoDark{
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: var(--bg);
+  background: var(--color-bodyDark);
   -webkit-mask-image: var(--mask-url);
   mask-image: var(--mask-url);
   -webkit-mask-repeat: no-repeat;
@@ -79,30 +69,28 @@ body.no-scroll { overflow: hidden !important; }
   transition: clip-path .08s linear;
 }
 
+/* Palabra */
 #loaderOverlay .word{
   position: absolute;
   left: 50%;
   transform: translateX(calc(-50% + var(--tx, 0)));
   opacity: 0;
-
-  /* usa tu font de logo y color de texto global */
   font-family: var(--font-logo, 'Orbitron'), sans-serif;
   font-weight: 800;
   letter-spacing: .5px;
   font-size: clamp(1.7rem, 4.6vw, 2.7rem);
-  color: var(--text);
-
+  color: var(--color-text); 
   white-space: nowrap;
   user-select: none;
   transition: transform .65s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
   will-change: transform, opacity;
 }
-#loaderOverlay .word .accent{ color: var(--primary); }
+#loaderOverlay .word .accent{ color: var(--color-primary); }
 
 /* Porcentaje */
 #loaderOverlay .percent{
   font-variant-numeric: tabular-nums;
-  font-size: 1.05rem; /* podés mapear a --font-size-base si querés */
+  font-size: var(--font-size-base);
   letter-spacing: .5px;
   text-align: center;
   margin-top: 12px;
@@ -112,7 +100,7 @@ body.no-scroll { overflow: hidden !important; }
   transition: opacity .35s ease;
 }
 
-/* Choque sutil (ambos) */
+/* Choque sutil */
 @keyframes bonkLogo{
   0%{   transform: translateX(var(--tx)) scale(1) }
   35%{  transform: translateX(calc(var(--tx) + 3px)) scale(.96,1.04) }
@@ -128,27 +116,11 @@ body.no-scroll { overflow: hidden !important; }
 #loaderOverlay .logo.bonk{ animation: bonkLogo .5s cubic-bezier(.2,.8,.2,1) }
 #loaderOverlay .word.bonk{ animation: bonkWord .5s cubic-bezier(.2,.8,.2,1) }
 
+/* Salida */
 @keyframes slide-out-fwd-center{
   0%{   transform: translateZ(0);   opacity: 1 }
   100%{ transform: translateZ(600px); opacity: 0 }
 }
 #loaderOverlay .slide-out-fwd-center{
   animation: slide-out-fwd-center .7s cubic-bezier(.55,.085,.68,.53) both;
-}
-
-/* Accesibilidad */
-#loaderOverlay .sr-only{
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
-
-@media (max-width: 480px){
-  #loaderOverlay{ --gap: 14px; }
 }
