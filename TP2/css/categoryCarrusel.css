@@ -63,6 +63,10 @@
     padding-right: 3px;
 
     flex-grow: 1;
+    
+    /* Scroll suave en móvil */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .card-container::-webkit-scrollbar {
@@ -204,6 +208,80 @@
     color: #000000;
     font-weight: 700;
     font-size: var(--font-size-xsmall);
+}
+
+/* ✅ MEDIA QUERIES PARA MÓVIL Y TABLET */
+
+/* Móvil pequeño (hasta 480px) */
+@media (max-width: 480px) {
+    .carousel-header {
+        margin-bottom: 8px;
+    }
+
+    .carousel-title {
+        font-size: 13px;
+    }
+
+    .view-more-link {
+        font-size: 10px;
+    }
+
+    .card-container {
+        gap: 7px;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .game-card {
+        width: 118px;
+        height: 154px;
+    }
+
+    .image-container {
+        height: 120px;
+    }
+
+    /* Asegurar scroll suave en móviles pequeños */
+    .card-container-viewport {
+        overflow: visible;
+    }
+}
+
+/* Tablet y móvil grande (481px - 1439px) */
+@media (min-width: 481px) and (max-width: 1439px) {
+    .carousel-header {
+        margin-bottom: 10px;
+    }
+
+    .carousel-title {
+        font-size: 15px;
+    }
+
+    .view-more-link {
+        font-size: 12px;
+    }
+
+    .card-container {
+        gap: 10px;
+    }
+
+    .game-card {
+        width: 140px;
+        height: 180px;
+    }
+
+    .image-container {
+        height: 140px;
+    }
+
+    .body-card {
+        height: 40px;
+        padding: 4px 6px;
+    }
+
+    .title-card {
+        font-size: 13px;
+    }
 }
 
 

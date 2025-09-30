@@ -260,6 +260,11 @@
     height: 60vh;
   }
   
+  /* ✅ Simplificar el efecto 3D en tablet para mejor performance */
+  .hero-conteiner {
+    perspective: 800px;
+  }
+  
   .gallery-slide {
     width: 400px;
     height: 250px;
@@ -292,16 +297,29 @@
     flex-direction: column;
     gap: 10px;
   }
+  
+  /* ✅ Mejorar la interacción táctil */
+  .gallery-slide.active {
+    touch-action: pan-y; /* Permitir scroll vertical pero capturar horizontal */
+  }
 }
 
 @media (max-width: 480px) {
   .hero-gallery {
     height: 50vh;
+    /* ✅ Reducir efectos 3D complejos en móvil para mejor performance */
+  }
+  
+  /* ✅ Perspectiva más simple para móvil */
+  .hero-conteiner {
+    perspective: 600px;
   }
   
   .gallery-slide {
     width: 300px;
     height: 200px;
+    /* ✅ Transición más rápida en móvil */
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .slide-title {
@@ -316,13 +334,21 @@
     right: 20px;
   }
   
+  /* ✅ Efecto 3D más sutil en móvil */
   .gallery-slide.next,
   .gallery-slide.prev {
-    transform: translateX(200px) translateZ(-100px) rotateY(-20deg) scale(0.6);
+    transform: translateX(200px) translateZ(-80px) rotateY(-15deg) scale(0.65);
   }
   
   .gallery-slide.prev {
-    transform: translateX(-200px) translateZ(-100px) rotateY(20deg) scale(0.6);
+    transform: translateX(-200px) translateZ(-80px) rotateY(15deg) scale(0.65);
+  }
+  
+  .gallery-slide.far-next,
+  .gallery-slide.far-prev {
+    /* ✅ Ocultar slides muy lejanos en móvil */
+    opacity: 0;
+    pointer-events: none;
   }
   
   .slide-overlay {
@@ -335,6 +361,22 @@
   
   .gallery-nav {
     bottom: 30px;
+  }
+  
+  /* ✅ Optimización táctil */
+  .gallery-slide.active {
+    touch-action: pan-y;
+  }
+  
+  /* ✅ Aumentar área táctil de los dots */
+  .nav-dot {
+    width: 25px;
+    height: 3px;
+    margin: 0 2px;
+  }
+  
+  .nav-dot.active {
+    width: 35px;
   }
 }
 
