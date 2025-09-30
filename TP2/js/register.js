@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const criterionNumbers = document.getElementById('criterion-numbers');
     const criterionUppercase = document.getElementById('criterion-uppercase');
     const registerContainer = document.querySelector('.register-container'); 
-    const successMessage = document.querySelector('.success-message');   
+    const successMessage = document.querySelector('.success-message');
+    const footer = document.querySelector('.site-footer');
+    const navBar = document.querySelector('.navbar-logo');
 
     const inputs = [
         { input: nameInput, errorElement: createErrorElement(nameInput), validate: validateName },
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     const recaptchaError = createErrorElement(recaptchaCheckbox.parentElement.parentElement, true);
 
-function createErrorElement(inputElement, isRecaptcha = false) {
+function createErrorElement(inputElement, isRecaptcha = false) {    
  const error = document.createElement('span');
  error.classList.add('error-message');
 if (isRecaptcha) {
@@ -195,51 +197,63 @@ function updatePasswordCriteria(value) {
     passwordInput.addEventListener('input', validateRepeatPassword); 
 
 
-    function validateAll() {
-        const results = [
-            validateName(),
-            validateLastName(),
-            validateEmail(),
-            validatePassword(),
-            validateRepeatPassword(),
-            validateDOB(),
-            validateRecaptcha()
-        ];
-        
-        return results.every(result => result === true);
-    }
+        function validateAll() {
+            const results = [
+                validateName(),
+                validateLastName(),
+                validateEmail(),
+                validatePassword(),
+                validateRepeatPassword(),
+                validateDOB(),
+                validateRecaptcha()
+            ];
+            
+            return results.every(result => result === true);
+        }
 
 
-    if (registerButton) {
-    registerButton.addEventListener('click', function(event) {
-        event.preventDefault(); 
+        if (registerButton) {
+            registerButton.addEventListener('click', function(event) {
+                event.preventDefault(); 
 
-        const isValid = validateAll();
+                const isValid = validateAll();
 
-        if (isValid) {
-            if (registerContainer) {
-                registerContainer.classList.add('slide-out-up');
-            }
+                if (isValid) {
+                    document.body.classList.add('scroll-bloqueado'); 
+                    
+                    if (successMessage) {
+                        successMessage.classList.add('popup-blur'); 
+                    }
+                    if (registerContainer) {
+                        registerContainer.classList.add('form-desaparece');
+                    }
 
-            const formAnimationDuration = 500; 
-            const messageDuration = 2400; 
+                    if (footer) {
+                        footer.classList.add('desaparece'); 
+                    }
 
-            setTimeout(() => {
-                if (successMessage) {
+                    if (navBar) {
+                        navBar.classList.add('desaparece'); 
+                    }
 
-                    successMessage.classList.add('show');
+                    const formAnimationDuration = 500; 
+                    const popupAnimationDuration = 700; 
+                    const messageDuration = 2400; 
+
+                    setTimeout(() => {
+                        if (registerContainer) {
+                            registerContainer.classList.add('form-oculto'); 
+                        }
+                        setTimeout(() => {
+                            window.location.href = 'login.html'; 
+                        }, popupAnimationDuration + messageDuration); 
+
+                    }, formAnimationDuration); 
+
                 }
-                setTimeout(() => {
-                    window.location.href = 'login.html'; 
-                }, messageDuration);
-
-            }, formAnimationDuration); 
-
-        } else {
+            });
         }
     });
-    }
-});
 
 const EYE_OPEN_ICON_PATH = '../assets/logos_png/ojo.png'; 
 const EYE_CLOSED_ICON_PATH = '../assets/logos_png/ojocerrado.png';

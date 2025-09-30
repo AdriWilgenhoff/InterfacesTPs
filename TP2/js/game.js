@@ -1,20 +1,123 @@
-window.addEventListener('load', () => {
+// ===== Inits que dependen del DOM =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Datos iniciales
   showComments();
   showRandomGames(5);
+
+  // --- Comentarios ---
+  const commentInput = document.querySelector('.comment-input');
+  const commentButton = document.querySelector('.button-comentar');
+  const userAvatar = document.querySelector('.comment-row .avatar')?.src;
+
+  if (commentButton && commentInput) {
+    commentButton.addEventListener('click', async () => {
+      const commentText = commentInput.value.trim();
+      if (!commentText) return;
+
+      const newCommentData = {
+        name: 'PepitoElPistolero',
+        comment: commentText,
+        avatar: userAvatar,
+        createdAt: new Date().toISOString()
+      };
+
+      const success = await postComment(newCommentData);
+      if (success) {
+        commentInput.value = '';
+        await showComments();
+      }
+    });
+  }
+
+  // --- Botones de like ---
+  const heartButton = document.getElementById('like-button');
+  const dedoButton = document.getElementById('like-button-dedo');
+
+  if (heartButton) {
+    heartButton.addEventListener('click', () => {
+      heartButton.classList.toggle('like-activo');
+    });
+  }
+
+  if (dedoButton) {
+    dedoButton.addEventListener('click', () => {
+      dedoButton.classList.toggle('like-activo-dedo');
+    });
+  }
+
+  // --- Popup de compartir ---
+  const shareButton = document.getElementById('share-button');
+  const sharePopup = document.querySelector('.share-popup');
+
+  if (shareButton && sharePopup) {
+    shareButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isActive = sharePopup.classList.toggle('active');
+      shareButton.classList.toggle('share-activo', isActive);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (sharePopup.classList.contains('active') &&
+          !shareButton.contains(event.target) &&
+          !sharePopup.contains(event.target)) {
+        sharePopup.classList.remove('active');
+        shareButton.classList.remove('share-activo');
+      }
+    });
+  }
+
+  // --- Botón comprar/jugar ---
+  let yaComprado = false;
+  const btnJugar = document.getElementById('btn_jugar');
+
+  if (btnJugar) {
+    btnJugar.addEventListener('click', function (event) {
+      const boton = this;
+
+      if (!yaComprado) {
+        // Permitir navegación inmediata
+        console.log("Navegando a la página de compra...");
+
+        // Programar cambios para después
+        setTimeout(() => {
+          boton.textContent = 'JUGAR';
+          boton.classList.remove('style-comprar', 'pulse-comprar');
+          boton.classList.add('style-jugar', 'pulse-jugar');
+          boton.removeAttribute('href');
+          boton.removeAttribute('target');
+          yaComprado = true;
+        }, 100);
+      } else {
+        console.log("En un futuro se podrá jugar cuando el juego esté implementado");
+        event.preventDefault(); // Solo prevenir en el segundo clic
+      }
+    });
+  }
+
+  // --- Fullscreen sección juego ---
+  const fullscreenButton = document.getElementById('fullscreen-button');
+  const gamePageContainer = document.querySelector('.game-section');
+
+  if (fullscreenButton && gamePageContainer) {
+    fullscreenButton.addEventListener('click', () => {
+      gamePageContainer.classList.toggle('fullscreen-active');
+    });
+  }
 });
 
 
+// ===== Funciones auxiliares (no dependen del DOM listo) =====
 async function showComments() {
   const comments = await getComments();
   const list = document.getElementById('comments-list-ul');
 
   list.textContent = '';
   const fragment = document.createDocumentFragment();
-  
+
   comments.forEach(comment => {
     fragment.appendChild(renderCommentItem(comment));
   });
-  
+
   list.appendChild(fragment);
 }
 
@@ -52,7 +155,7 @@ function renderCommentItem(comment) {
 
   bubble.appendChild(header);
   bubble.appendChild(text);
-  
+
   li.appendChild(img);
   li.appendChild(bubble);
 
@@ -63,9 +166,7 @@ async function postComment(commentData) {
   try {
     const response = await fetch(URL_COMMENTS, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(commentData),
     });
 
@@ -83,12 +184,12 @@ async function postComment(commentData) {
 function sampleUnique(arr, n) {
   const a = arr.slice();
   const k = Math.min(n, a.length);
-  
+
   for (let i = a.length - 1; i > a.length - 1 - k; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
-  
+
   return a.slice(-k);
 }
 
@@ -112,71 +213,3 @@ async function showRandomGames(n = 5) {
     </li>
   `).join('');
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Comentarios
-  const commentInput = document.querySelector('.comment-input');
-  const commentButton = document.querySelector('.button-comentar');
-  const userAvatar = document.querySelector('.comment-row .avatar')?.src;
-
-  if (commentButton && commentInput) {
-    commentButton.addEventListener('click', async () => {
-      const commentText = commentInput.value.trim();
-
-      if (!commentText) return;
-
-      const newCommentData = {
-        name: 'PepitoElPistolero',
-        comment: commentText,
-        avatar: userAvatar,
-        createdAt: new Date().toISOString()
-      };
-
-      const success = await postComment(newCommentData);
-
-      if (success) {
-        commentInput.value = '';
-        await showComments();
-      }
-    });
-  }
-
-  // Botones de like
-  const heartButton = document.getElementById('like-button');
-  const dedoButton = document.getElementById('like-button-dedo');
-
-  if (heartButton) {
-    heartButton.addEventListener('click', () => {
-      heartButton.classList.toggle('like-activo');
-    });
-  }
-
-  if (dedoButton) {
-    dedoButton.addEventListener('click', () => {
-      dedoButton.classList.toggle('like-activo-dedo');
-    });
-  }
-
-  // Popup de compartir
-  const shareButton = document.getElementById('share-button');
-  const sharePopup = document.querySelector('.share-popup');
-
-  if (shareButton && sharePopup) {
-    shareButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-      
-      const isActive = sharePopup.classList.toggle('active');
-      shareButton.classList.toggle('share-activo', isActive);
-    });
-
-    document.addEventListener('click', (event) => {
-      if (sharePopup.classList.contains('active') && 
-          !shareButton.contains(event.target) && 
-          !sharePopup.contains(event.target)) {
-        
-        sharePopup.classList.remove('active');
-        shareButton.classList.remove('share-activo');
-      }
-    });
-  }
-});

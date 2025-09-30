@@ -5,6 +5,8 @@ body {
     background: url("../assets/img/backgrounds/fondo.jpg") no-repeat center center fixed;
     background-size: cover;
     font-family: var(--font-base);
+    margin: 0; 
+    padding: 0;
 }
 
 .login-container {
@@ -19,7 +21,7 @@ body {
     background-color: var(--color-bodyDark);
     padding: 30px 40px; 
     border-radius: 15px;
-    width: 380px;
+    width: 380px; 
     text-align: center;
     margin: 35px;
 }
@@ -189,18 +191,19 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .register-form {
     background-color: var(--color-bodyDark);
-    padding: 40px;
+    padding: 30px 40px; 
     border-radius: 15px;
-    width: 420px;
+    width: 380px; 
     text-align: center;
-    margin: 0;
+    margin: 35px;
     color: var(--color-text);
     font-family: var(--font-base);
-    margin-top: 40px;
+    margin-top: 33px;
 }
 
 .register-form h2 {
@@ -387,38 +390,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-right: 8px; 
 }
 
-.register-form.slide-out-up {
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    transform: translateY(-100vh); 
-    opacity: 0;
-}
-.register-container.slide-out-up {
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    transform: translateY(-100vh); 
-    opacity: 0;
-}
-
-.success-message {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    
-    background-color: var(--color-bodyDark); 
-    color: var(--color-textLight);
-    z-index: 1000; 
-    padding: 20px;
-    transform: translateY(100%); 
-    opacity: 0;
-    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-}
-
 .success-message h1 {
     font-size: 3em;
     color: var(--color-ok); 
@@ -430,32 +401,73 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--color-text);
 }
 
-.success-message.show {
-    transform: translateY(0); 
-    opacity: 1;
-}
-
-.site-nav {
-    width: 100%;
-    background-color: var(--color-navDark); 
-    padding: 5px 0;
-}
-
-.nav-container {
-    margin: 0 auto;
-    padding: 0 20px;
+.navbar-logo {
     display: flex;
     justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    max-width: none; 
+    height: 48px; 
+    background-color: var(--color-navDark); 
 }
 
-.nav-logo img {
-    height: 35px; 
-    width: auto;
-    transition: transform 0.3s ease;
+body.scroll-bloqueado {
+    overflow-y: hidden;
+    width: 100%; 
+} 
+
+.register-container.form-desaparece {
+    opacity: 0;
+    transform: scale(0.9); 
 }
 
-.nav-logo:hover img {
-    transform: scale(1.15);
-    cursor: default;
+.register-container.form-oculto {
+    display: none;
 }
 
+.success-message {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--color-bodyDark); 
+    color: var(--color-textLight);
+    z-index: 1000; 
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none; 
+    transform: none; 
+    transition: none; 
+}
+
+.success-message.popup-blur {
+    opacity: 1;
+    pointer-events: auto;
+    animation: aparecerConBlur 1.7s ease-out forwards; 
+}
+
+@keyframes aparecerConBlur {
+    0% {
+        transform: scale(1.1);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+.site-footer.desaparece,
+.navbar-logo.desaparece { 
+ opacity: 0;
+ transition: opacity 0.5s ease-out; 
+pointer-events: none;
+}

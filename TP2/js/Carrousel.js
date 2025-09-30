@@ -1,4 +1,5 @@
 
+
 class BaseCarrousel {
 
   constructor(category, arrayGames) {
@@ -127,12 +128,14 @@ class HeroCarrousel extends BaseCarrousel {
     
     this.DOMElement.addEventListener('touchstart', (e) => {
       this.touchStartX = e.changedTouches[0].screenX;
+      this.stopAutoPlay(); // Detener autoplay al tocar en móvil
     });
 
     this.DOMElement.addEventListener('touchend', (e) => {
       this.touchEndX = e.changedTouches[0].screenX;
       if (this.touchStartX - this.touchEndX > 50) this.next();
       if (this.touchEndX - this.touchStartX > 50) this.prev();
+      this.startAutoPlay(); // Reiniciar autoplay después del swipe
     });
   }
 
@@ -193,14 +196,64 @@ class CommonCarrousel extends BaseCarrousel {
 
   constructor(category, arrayGames) {
     super(category, arrayGames);
-    this.cardWidth = 192.5;
-    this.gap = 10;
+    
+    // ✅ DETECCIÓN DINÁMICA DEL VIEWPORT
+    this.isDesktop = window.innerWidth >= 1440;
+    
+    // ✅ VALORES RESPONSIVOS BASADOS EN EL TAMAÑO DE PANTALLA
+    if (this.isDesktop) {
+      this.cardWidth = 192.5;
+      this.gap = 10;
+      this.viewportWidth = 1205;
+    } else {
+      // Valores móvil - scroll nativo, sin necesidad de cálculos precisos
+      this.cardWidth = 118;
+      this.gap = 7;
+      this.viewportWidth = window.innerWidth;
+    }
+    
     this.cardMove = this.cardWidth + this.gap;
     this.currentPosition = 0;
-    this.viewportWidth = 1205;
     
     this.renderCarrousel();
-    this.initializeCarousel();
+    
+    // ✅ SOLO inicializar navegación con botones en desktop
+    if (this.isDesktop) {
+      this.initializeCarousel();
+    }
+    
+    // ✅ LISTENER para detectar cambios de tamaño de ventana
+    this.handleResize = this.handleResize.bind(this);
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  handleResize() {
+    const wasDesktop = this.isDesktop;
+    this.isDesktop = window.innerWidth >= 1440;
+    
+    // Si cambió el modo (desktop <-> mobile), re-renderizar
+    if (wasDesktop !== this.isDesktop) {
+      // Actualizar valores
+      if (this.isDesktop) {
+        this.cardWidth = 192.5;
+        this.gap = 10;
+        this.viewportWidth = 1205;
+      } else {
+        this.cardWidth = 118;
+        this.gap = 7;
+        this.viewportWidth = window.innerWidth;
+      }
+      
+      this.cardMove = this.cardWidth + this.gap;
+      this.currentPosition = 0;
+      
+      // Re-renderizar el carrusel
+      this.renderCarrousel();
+      
+      if (this.isDesktop) {
+        this.initializeCarousel();
+      }
+    }
   }
 
   renderCarrousel() {
@@ -226,25 +279,25 @@ class CommonCarrousel extends BaseCarrousel {
       </section>
     `;
 
-   
     this.updateDisplay();
   }
 
   initializeCarousel() {
-    
+    // ✅ SOLO SE EJECUTA EN DESKTOP (>= 1440px)
     const viewport = this.DOMElement.querySelector('.card-container-viewport');
     const container = this.DOMElement.querySelector('.card-container');
     const prevButton = this.DOMElement.querySelector('.prev-btn');
     const nextButton = this.DOMElement.querySelector('.next-btn');
 
-   
     const totalCards = this.arrayGames.length;
     const totalContentWidth = (totalCards * this.cardWidth) + ((totalCards - 1) * this.gap);
     
-    
+    // ✅ Establecer ancho fijo SOLO en desktop
     container.style.width = `${totalContentWidth}px`;
-
     
+    // ✅ Asegurar que NO haya scroll en desktop (navegación con botones)
+    container.style.overflowX = 'hidden';
+
     const moveCarousel = (direction) => {
       if (direction === 'next') {
         const maxMovement = totalContentWidth - this.viewportWidth;
@@ -271,14 +324,11 @@ class CommonCarrousel extends BaseCarrousel {
         this.currentPosition = newPosition;
       }
       
-      
       const cards = container.querySelectorAll('.game-card');
       cards.forEach(card => card.classList.add('skewing'));
       
-     
       container.style.transform = `translateX(${this.currentPosition}px)`;
 
-      
       setTimeout(() => {
         cards.forEach(card => card.classList.remove('skewing'));
       }, 300);
@@ -286,7 +336,6 @@ class CommonCarrousel extends BaseCarrousel {
       updateButtonState();
     };
 
-   
     const updateButtonState = () => {
       prevButton.disabled = this.currentPosition >= 0;
 
@@ -295,26 +344,29 @@ class CommonCarrousel extends BaseCarrousel {
       nextButton.disabled = atEnd;
     };
 
-   
     nextButton.addEventListener('click', () => moveCarousel('next'));
     prevButton.addEventListener('click', () => moveCarousel('prev'));
 
-   
     updateButtonState();
   }
 
   updateDisplay() {
     const contentDiv = this.DOMElement.querySelector('.card-container');
     contentDiv.innerHTML = '';
+    
+    // ✅ EN MÓVIL: Resetear estilos inline que puedan interferir con el scroll nativo
+    if (!this.isDesktop) {
+      contentDiv.style.width = 'auto';
+      contentDiv.style.transform = 'none';
+      contentDiv.style.overflowX = 'scroll'; // Scroll nativo en móvil
+    }
 
-   
     this.arrayGames.forEach(game => {
       this.renderCard(game, contentDiv, true);
     });
   }
 
   renderCard(game, container, append = false) {
-    
     const promo = this.isPromo ? this.isPromo(game) : false;
     let priceHTML = '';
     let offerLabelHTML = '';
@@ -322,14 +374,12 @@ class CommonCarrousel extends BaseCarrousel {
     if (promo) {
       const discountPercentage = game.discountPercentage; 
 
-     
       offerLabelHTML = `
         <div class="offer-label">
           <p>-${discountPercentage}%</p>
         </div>
       `;
       
-     
       priceHTML = `
         <div class="price discount"> 
           <div class="old-price">U$D ${game.price}</div> 
@@ -337,7 +387,6 @@ class CommonCarrousel extends BaseCarrousel {
         </div>
       `;
     } else {
-      
       if (game.isFree) {
         priceHTML = `<div class="price free"><div class="new-price">Gratis</div></div>`;
       } else {
@@ -345,7 +394,6 @@ class CommonCarrousel extends BaseCarrousel {
       }
     }
 
-    
     const cardHTML = document.createElement('div');
     cardHTML.classList.add('game-card');
 
@@ -368,11 +416,15 @@ class CommonCarrousel extends BaseCarrousel {
       </div>
     `;
 
-    
     if (append) {
       container.appendChild(cardHTML);
     } else {
       container.innerHTML = cardHTML.outerHTML;
     }
+  }
+  
+  // ✅ Destructor para limpiar el event listener de resize
+  destroy() {
+    window.removeEventListener('resize', this.handleResize);
   }
 }

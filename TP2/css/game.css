@@ -88,12 +88,13 @@
     object-fit: cover;
     object-position: center;
     filter: blur(1.5px) brightness(.75);
-    /* Eliminar cualquier margen inferior que pueda existir */
     margin-bottom: 0;
     vertical-align: bottom;
 }
 
-.play-cta {
+
+
+.button-game {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -101,21 +102,44 @@
     padding: 10px 50px;
     border: 0;
     border-radius: 5px;
-    background: var(--color-primary);
     color: var(--color-textLight);
     font-size: var(--font-size-title-h4);
     font-family: var(--font-base);
     font-weight: 800;
     letter-spacing: .4px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-/* Animación pulso */
-.pulse {
-    animation: pulse 2s ease-in-out infinite;
+.style-comprar{
+    background: var(--color-accent);
 }
 
-@keyframes pulse {
+
+.style-jugar {
+    background: var(--color-primary);
+}
+
+.pulse-comprar {
+    animation: pulse-comprar 2s ease-in-out infinite;
+}
+
+@keyframes pulse-comprar {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 20px var(--color-accentLight2);
+    }
+}
+
+.pulse-jugar {
+    animation: pulse-jugar 2s ease-in-out infinite;
+}
+
+@keyframes pulse-jugar {
     0%, 100% {
         transform: translate(-50%, -50%) scale(1);
         box-shadow: 0 0 10px var(--color-primary);
@@ -135,6 +159,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    box-sizing: content-box;
 }
 
 .game-board-icons {
@@ -269,6 +294,7 @@ td a {
 
 td a:hover {
     color: var(--color-link-hover-secondary);
+    text-decoration: underline;
 }
 
 /* ===================================== COMUNIDAD ===================================== */
@@ -321,9 +347,10 @@ h3,
     border-radius: 12px;
     padding: 12px 14px;
     box-sizing: border-box;
-    resize: vertical;
+    resize: none;
     outline: none;
     transition: all 0.3s ease;
+
 }
 
 .comment-input:focus {
@@ -434,12 +461,12 @@ h3,
 }
 
 .rec-name {
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .rec-genre {
     color: var(--color-textDark);
-    font-size: var(--font-size-base-small);
+    font-size: var(--font-size-small);
 }
 
 .btn-play {
@@ -449,10 +476,14 @@ h3,
     border: 0;
     background: var(--color-secondary);
     color: var(--color-text);
-    font-size: var(--font-size-base-small);
-    font-weight: 600;
+    font-size: var(--font-size-small);
+    font-weight: 400;
     cursor: pointer;
     justify-self: start;
+}
+
+.btn-play:hover{
+    background: var(--color-secondaryShadow1);
 }
 
 /* ===================================== ICONOS Y ANIMACIONES ===================================== */
@@ -558,6 +589,13 @@ h3,
     box-shadow: 0 0 10px 2px var(--color-primary);
 }
 
+.animacion-boton-comentar:active {
+    animation: press 0.2s ease;
+    background-color: var(--color-primaryLight2);
+    transform: scale(0.95);
+    box-shadow: 0 0 15px 3px var(--color-primary);
+}
+
 @keyframes shake {
     0%, 100% { transform: translate(0, 0); }
     25% { transform: translate(-1px, 0); }
@@ -565,14 +603,29 @@ h3,
     75% { transform: translate(-1px, 0); }
 }
 
-.btn-jugar-especial {
-    transition: background-color 200ms ease, transform 300ms ease-in-out;
-    box-shadow: var(--color-primaryLight2) 0px 0px 0px 0px;
+@keyframes press {
+    0% { 
+        transform: scale(1) translate(0, 0); 
+    }
+    50% { 
+        transform: scale(0.92) translate(0, 1px); 
+    }
+    100% { 
+        transform: scale(0.95) translate(0, 0); 
+    }
 }
 
-.btn-jugar-especial:hover {
-    transform: scale(1.04);
-    background-color: var(--color-primaryLight2);
-    color: white;
-    animation: 1.2s cubic-bezier(0.8, 0, 0, 1) 0s infinite normal none running btn-pulsado;
+
+/*************************************************   FULL SIZE   *********************************************************************/
+/* 1. Ocultamos las columnas de la derecha (instrucciones y tabla) */
+.game-section.fullscreen-active .game-instructions{
+    display: none;
+}
+
+/* 2. Hacemos que las columnas de la izquierda ocupen todo el ancho disponible */
+.game-section.fullscreen-active .game-play,
+.game-section.fullscreen-active .description-images-text {
+    width: 100%;
+    max-width: 100%; /* Sobreescribimos el max-width que tenías */
+    flex: 1; /* Le decimos que ocupe todo el espacio en el contenedor flex */
 }
