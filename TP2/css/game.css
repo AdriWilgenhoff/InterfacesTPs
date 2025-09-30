@@ -457,7 +457,6 @@ h3,
 
 /* ===================================== ICONOS Y ANIMACIONES ===================================== */
 
-/* Base compartida para todos los iconos */
 .heart-icon,
 .share-icon,
 .like-icon,
@@ -470,7 +469,7 @@ h3,
     fill: none;
 }
 
-/* Hover base para todos los iconos */
+
 .icon-btn:hover .heart-icon,
 .icon-btn:hover .share-icon,
 .icon-btn:hover .like-icon,
@@ -481,12 +480,12 @@ h3,
     fill: var(--color-text);
 }
 
-/* Ajuste específico para like icon */
+
 .icon-btn:hover .like-icon {
     stroke: var(--color-box);
 }
 
-/* Estados activos con animación */
+
 .icon-btn.like-activo .heart-icon,
 .icon-btn.like-activo-dedo .like-icon {
     color: var(--color-text);
@@ -507,7 +506,7 @@ h3,
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
-/* Animación ripple */
+
 @keyframes btn-ripple {
     0% {
         box-shadow: 0 0 0 0px var(--color-text);
@@ -553,7 +552,6 @@ h3,
     transform: scale(1.1);
 }
 
-/* ANIMACIONES DE BOTONES */
 .animacion-boton-comentar:hover {
     animation: shake 0.5s;
     background-color: var(--color-primaryLight1);

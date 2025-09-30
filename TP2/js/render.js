@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function startApp() {
-  // marcamos como no listo antes de empezar
+ 
   window.APP_READY = false;
 
   try {
@@ -29,7 +29,7 @@ async function showHome(games) {
   const containerRender = document.querySelector('#home-container');
   containerRender.innerHTML = "";
 
-  // HERO
+ 
   const heroSection = document.createElement('section');
   heroSection.id = 'hero-slider';
   containerRender.appendChild(heroSection);
@@ -37,135 +37,186 @@ async function showHome(games) {
   const heroCards = await filterByHeroCard(games);
   new HeroCarrousel('hero', heroCards);
 
-  // CATEGORÍAS
+  
   const categoriesHome = ['action','rpg','shooter','arcade','indie','adventure'];
 
   for (let i = 0; i < categoriesHome.length; i++) {
     const category = categoriesHome[i];
 
-    // 1) creo la sección vacía para el carrusel
+   
     const section = document.createElement('section');
     section.id = `${category}-slider`;
     containerRender.appendChild(section);
 
-    // 2) traigo juegos y renderizo el carrusel
+   
     const gamesByCategory = await filterBy(category, games);
     new CommonCarrousel(category, gamesByCategory);
 
-    // 3) intercalo extras en posiciones fijas
+   
     if (i === 1) {
-      // después de 2 categorías
+      
       containerRender.appendChild(renderSpecialOffers());
     } else if (i === 3) {
-      // después de 4 categorías
-      containerRender.appendChild(createComingSoonSection()); // tu "banner"
+      
+      containerRender.appendChild(createComingSoonSection()); 
     }
   }
 }
 
 
-/******************************** Categorias ********************************/
 
-
-async function renderMenuCategories() {
-    let categories = await getCategories(); 
-    let menuContainer = document.querySelector('#hamburguer-menu-list');
-
-    //hardcode !!!!!!! para asignar un icon (malisimo)
-    const iconsByCategory = {
-        action: "assets/icons_perfil/perfil.png",
-        rpg: "assets/icons_perfil/games.svg",
-        shooter: "assets/icons_perfil/config.svg",
-        arcade: "assets/icons_perfil/help.svg",
-        indie: "",
-        adventure:""        
-    };
-
-    categories.forEach(category => {
-        // crear <li>
-        let li = document.createElement("li");
-        li.classList.add("menu-item");
-
-        // crear <img>
-        let img = document.createElement("img");
-        img.classList.add("menu-icon");
-        img.src = iconsByCategory[category] || "assets/icons_perfil/default.png";
-        img.alt = category;
-
-        // crear <a>
-        let a = document.createElement("a");
-        a.classList.add("menu-link");
-        a.href = "#";
-        a.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-
-        // armar estructura
-        li.appendChild(img);
-        li.appendChild(a);
-
-        // meter al contenedor
-        menuContainer.appendChild(li);
-    });
-}
 
 /********************************************** Search ************************************************/
 
-function renderSearch(filteredGames) {
-
+async function renderSearch(filteredGames, searchTerm = '') {
     const containerRender = document.querySelector('#home-container');
     containerRender.innerHTML = "";
+    containerRender.classList.remove('search-results'); 
 
+    
+    const searchSection = document.createElement('section');
+    searchSection.className = 'search-results-section';
+    
+   
+    const searchHeader = document.createElement('div');
+    searchHeader.className = 'search-header';
+    
+    const searchTitle = document.createElement('h2');
+    searchTitle.className = 'search-title';
+    
+    
     if (!filteredGames || filteredGames.length === 0) {
-        containerRender.innerHTML = "<p>No se encontraron resultados.</p>";
+        searchTitle.textContent = searchTerm ? `Sin resultados para "${searchTerm}"` : 'No se encontraron resultados';
+        searchHeader.appendChild(searchTitle);
+        searchSection.appendChild(searchHeader);
+        
+        
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'search-empty-message';
+        
+        const emptyIcon = document.createElement('div');
+        emptyIcon.className = 'empty-icon';
+        emptyIcon.textContent = '🔍';
+        
+        const emptyText = document.createElement('p');
+        emptyText.className = 'empty-text';
+        emptyText.textContent = 'No encontramos juegos que coincidan con tu búsqueda';
+        
+        const emptySuggestion = document.createElement('p');
+        emptySuggestion.className = 'empty-suggestion';
+        emptySuggestion.textContent = 'Explora nuestras categorías:';
+        
+        emptyMessage.appendChild(emptyIcon);
+        emptyMessage.appendChild(emptyText);
+        emptyMessage.appendChild(emptySuggestion);
+        
+        try {
+            const categories = await getCategories();
+            const categoriesContainer = document.createElement('div');
+            categoriesContainer.className = 'categories-links-container';
+            
+            categories.forEach(category => {
+                const categoryLink = document.createElement('button');
+                categoryLink.className = 'category-link-btn';
+                categoryLink.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                categoryLink.onclick = async () => {
+                    const allGames = await getGames();
+                    const gamesByCategory = await filterBy(category, allGames);
+                    renderSearch(gamesByCategory, category);
+                };
+                categoriesContainer.appendChild(categoryLink);
+            });
+            
+            emptyMessage.appendChild(categoriesContainer);
+        } catch (error) {
+            console.error('Error al cargar categorías:', error);
+        }
+        
+        const backButton = document.createElement('button');
+        backButton.className = 'btn-back-home';
+        backButton.textContent = 'Volver al inicio';
+        backButton.onclick = () => location.reload();
+        
+        emptyMessage.appendChild(backButton);
+        searchSection.appendChild(emptyMessage);
+        containerRender.appendChild(searchSection);
         return;
     }
 
+    
+    searchTitle.textContent = `${filteredGames.length} resultado${filteredGames.length !== 1 ? 's' : ''} ${searchTerm ? `para "${searchTerm}"` : ''}`;
+    searchHeader.appendChild(searchTitle);
+    searchSection.appendChild(searchHeader);
+
+   
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'search-grid-container';
+
     filteredGames.forEach((game) => {
-
         const card = document.createElement("div");
-        card.classList.add("game-card");
+        card.classList.add("game-card", "search-card");
 
-        /* el codigo de la card se renderiza aca! o se puede traer de otro archivo */
+        
+        const isPromo = game.discountPrice && game.discountPrice < game.price;
+        
+       
+        let priceHTML = '';
+        if (game.isFree) {
+            priceHTML = '<span class="price free">Gratis</span>';
+        } else if (isPromo) {
+            priceHTML = `
+                <div class="price discount">
+                    <span class="old-price">U$D ${game.price}</span>
+                    <span class="new-price">U$D ${game.discountPrice}</span>
+                </div>
+            `;
+        } else {
+            priceHTML = `<span class="price">U$D ${game.price || 'Gratis'}</span>`;
+        }
 
         card.innerHTML = `
-            <img src="${game.background_image}" alt="${game.name}" class="game-img">
-            <h3 class="game-title">${game.name}</h3>
-            <p class="game-price">
-                ${game.discountPrice && game.discountPrice < game.price
-                        ? `<span class="old-price">$${game.price}</span> <span class="promo-price">$${game.discountPrice}</span>`
-                        : `<span>$${game.price || "Gratis"}</span>`
-                    }
-            </p>
-         `;
+            <div class="image-container">
+                <img src="${game.background_image}" alt="${game.name}" class="img-card">
+                ${isPromo ? '<div class="offer-label"><p>OFERTA</p></div>' : ''}
+            </div>
+            <div class="body-card">
+                <div class="title-card">
+                    <p>${game.name}</p>
+                </div>
+                ${priceHTML}
+            </div>
+        `;
 
-        containerRender.appendChild(card);
-        containerRender.classList.add('search-results');
+        gridContainer.appendChild(card);
     });
 
+    searchSection.appendChild(gridContainer);
+    containerRender.appendChild(searchSection);
 }
 
 
 /********************************************** Helpers Ofertas espciales y Comming Soon ************************************************/
 
 function createComingSoonSection(src = 'assets/images_games/VoyagerOfNera.jpg', alt = 'Coming Soon Game') {
-  // <section class="comingSoon-section">
+ 
   const section = document.createElement('section');
   section.className = 'comingSoon-section';
 
-  // <div class="cardsComingSoon-container">
+ 
   const wrapper = document.createElement('div');
   wrapper.className = 'cardsComingSoon-container';
   section.appendChild(wrapper);
 
-  // <img ...>
+  
   const img = document.createElement('img');
-  img.src = src;         // ruta relativa hardcodeada por default
+  img.src = src;        
   img.alt = alt;
-  img.loading = 'lazy';  // mejora performance
+  img.loading = 'lazy'; 
   wrapper.appendChild(img);
 
-  // <div class="coningSoon-label"><p>Próximamente</p></div>
+
   const label = document.createElement('div');
-  label.className = 'coningSoon-label'; // mantiene tu clase tal cual la pasaste
+  label.className = 'coningSoon-label';
   const p = document.createElement('p');
   p.textContent = 'Próximamente';
   label.appendChild(p);

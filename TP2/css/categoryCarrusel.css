@@ -1,7 +1,4 @@
-/* ====================================================== */
-/* ESTRUCTURA DEL CARRUSEL (MOBILE FIRST)                 */
-/* (Esta sección se mantiene igual, es la base móvil)     */
-/* ====================================================== */
+/* *********************** estructura carrusel *********************************************************** */
 
 .game-carousel-section {
     margin-top: 25px;
@@ -33,21 +30,27 @@
     color: var(--color-secondaryLight2);
 }
 
-.carousel-wrapper {
+
+
+.carousel-section {
     display: flex;
     align-items: center;
-           width: 100%;
+    width: 100%;
 }
 
 .carousel-nav-btn {
     display: none;
 }
 
-/* ------------------------------------------------------ */
-/* CONTENEDOR DE LAS CARDS (MOBILE SCROLL)                */
-/* ------------------------------------------------------ */
 
-.cards-carousel-container {
+
+.card-container-viewport {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+.card-container {
     display: flex;
     overflow-x: scroll;
     scrollbar-width: none;
@@ -62,13 +65,11 @@
     flex-grow: 1;
 }
 
-.cards-carousel-container::-webkit-scrollbar {
+.card-container::-webkit-scrollbar {
     display: none;
 }
 
-/* ------------------------------------------------------ */
-/* ESTILOS DE LA CARD (MOBILE FIRST)                     */
-/* ------------------------------------------------------ */
+/************************************************cards *************************************************/
 
 .game-card {
     width: 118px;
@@ -80,75 +81,50 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
-}
-
-/* ---------------------------------------------------- Animacion  en la Card ----------------------------------------------------- */
-
-.game-card {
-    /* Mantener las transiciones de la card y la imagen */
+    
+    /* Transiciones de la card */
     transition:
         box-shadow 0.4s ease-in-out,
         background-color 0.4s ease-in-out;
     position: relative;
-    /* Asegura que el ::before se posicione correctamente */
 }
 
-/* 3. Crea el efecto de brillo (pseudoelemento) */
+/**************************************************animacion***********************************************/
 .game-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 45%;
-    /* Hacemos el ancho un poco más pequeño para que parezca más rápido */
     height: 100%;
     background: rgba(255, 255, 255, 0.15);
-    /* Aumentamos un poco la opacidad */
-
-    /* El valor original funciona bien, pero lo centramos para que el 'left' sea el punto de inicio */
     transform: skewX(-20deg);
-
-    /* ¡IMPORTANTE! Quitamos 'transition: transform 0.6s ease-in-out;'
-       porque ahora usaremos 'animation'. */
-    /*transition: transform 1.0s ease-in-out; */
     z-index: 5;
 }
 
 .game-card:hover::before {
-    /* Aplicamos la animación */
     animation-name: slide-glow;
     animation-duration: 1.0s;
-    /* Velocidad del barrido (1.5 segundos) */
     animation-timing-function: linear;
-    /* Movimiento constante (sin acelerar/desacelerar) */
     animation-iteration-count: infinite;
-    /* CLAVE: Repite la animación indefinidamente */
+    opacity: 0.5;
 }
 
 @keyframes slide-glow {
-
-    /* 0% (Inicio de la animación): Posición de arranque fuera del borde izquierdo */
     0% {
         transform: translateX(-100%) skewX(-20deg);
     }
-
-    /* 100% (Fin de la animación): Posición final fuera del borde derecho */
     100% {
-        /* Ajustamos el valor al 350% para que se desplace completamente */
         transform: translateX(550%) skewX(-20deg);
     }
 }
 
-/* --- B. Contenedor de la Imagen y la Etiqueta (¡La Solución!) --- */
+
+
 .image-container {
     width: 100%;
     height: 120px;
-    /* Misma altura que la imagen */
-
-    /* CLAVE: Establece el contexto de posicionamiento para la etiqueta */
     position: relative;
-
-    /* Asegura que no haya espacio extra debido al flexbox */
     flex-shrink: 0;
 }
 
@@ -157,7 +133,6 @@
     height: 100%;
     object-fit: cover;
     border-radius: 8px 8px 0 0;
-    /* 3. CLAVE: Asegurarse de que no actúe como una línea de texto. */
     display: block;
 }
 
@@ -171,11 +146,8 @@
     text-align: left;
     justify-content: flex-end;
     align-items: flex-start;
-    /* CLAVE: Asegurar que el body no se desborde */
     width: 100%;
-    /* Añade esto */
     box-sizing: border-box;
-    /* Asegura que el padding se incluya en el ancho */
 }
 
 .title-card {
@@ -184,28 +156,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    /* CLAVE: Limitar el ancho del título */
     width: 100%;
-    /* Añade esto */
     max-width: 100%;
-    /* Añade esto */
 }
 
 .title-card p {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    /* CLAVE: Asegurar que el párrafo ocupe todo el ancho disponible */
     width: 100%;
-    /* Añade esto */
     margin: 0;
-    /* Eliminar márgenes por defecto */
     padding: 0;
-    /* Eliminar padding por defecto */
 }
 
 .price {
-    color: var(--color-primaryLight1);
+    color: var(--color-primaryLight);
     font-weight: 300;
     font-size: var(--font-size-xsmall)
 }
@@ -239,48 +204,67 @@
     color: #000000;
     font-weight: 700;
     font-size: var(--font-size-xsmall);
-
 }
 
 
-/* ====================================================== */
-/* RESPONSIVIDAD (MIN-WIDTH - Desktop: 1440px)            */
-/* ====================================================== */
-
 @media (min-width: 1440px) {
 
-    /* -------------------------------------- */
-    /* A. Layout del Wrapper y Botones        */
-    /* -------------------------------------- */
-
-    .carousel-wrapper {
+ 
+    .carousel-section {
         display: flex;
         align-items: center;
         width: 100%;
         justify-content: space-between;
     }
 
-    /* -------------------------------------- */
-    /* B. Contenedor de Cards (Ancho Fijo)    */
-    /* -------------------------------------- */
-
-    .cards-carousel-container {
-        overflow-x: hidden;
-        gap: 10px;
-
-        /* ANCHO EXACTO de 6 cards + 5 gaps */
+    .card-container-viewport {
         width: 1205px;
-        flex-shrink: 0;
+        overflow: hidden;
+        box-sizing: content-box;
+        padding: 10px;
+    }
 
-        /* Eliminamos la compensación móvil */
+    .card-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px 0px;
+        justify-content: normal;
+        overflow-x: hidden;
+        
+        
+        transition: transform 0.3s ease;
+        will-change: transform;
+
+        
         margin-left: 0;
         padding-left: 0;
         padding-right: 0;
+        
+       
+        flex-shrink: 0;
     }
 
-    /* C. Botones de Navegación (Margen Ajustado) */
+
+
+    .game-card {
+        transition: transform 0.3s ease;
+    }
+
+    .game-card:hover {
+        transform: scale(1.03);
+        /* box-shadow: 0 0 7px 3px #9013FE70; */
+        z-index: 1000;
+    }
+
+    .game-card.skewing {
+        transform: skewY(-2deg);
+        transition: transform 0.3s ease;
+    }
+
+ 
+
     .carousel-nav-btn {
-        /* ... (Estilos de botón se mantienen) ... */
         display: flex;
         width: 30px;
         height: 30px;
@@ -296,6 +280,16 @@
         font-size: 16px;
     }
 
+    .carousel-nav-btn:hover {
+        background-color: var(--color-navLight);
+    }
+
+    .carousel-nav-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        background-color: var(--color-navLight);
+    }
+
     .prev-btn {
         margin-right: 7.5px;
     }
@@ -305,24 +299,12 @@
     }
 
     .carousel-header {
-        /* 1. Fija el ancho del encabezado exactamente al de las 6 cards */
         width: 1205px;
-
-        /* 2. CENTRA el encabezado dentro del main-content */
         margin-left: auto;
         margin-right: auto;
-
-        /* 3. Vuelve a eliminar el padding fluido del main-content */
         padding-left: 0;
         padding-right: 0;
-
-        /* IMPORTANTE: Si tu .carousel-header no está DENTRO del .main-content 
-           debes asegurarte de que su contenedor padre tenga max-width: 1280px */
     }
-
-    /* -------------------------------------- */
-    /* E. Tarjeta y Texto */
-    /* -------------------------------------- */
 
     .game-card {
         width: 192.5px;

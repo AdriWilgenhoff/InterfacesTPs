@@ -151,13 +151,7 @@ body {
 
 
 @media (min-width: 430px) {
-  .main-content {
-    /* Usamos clamp() para la fluidez.
-         * - Mínimo: 3px (No bajará de este valor)
-         * - Preferido: Usaremos '8vw' o '8%' como estimación para que crezca
-         * suficientemente rápido para llegar a 80px en 1440px.
-         * - Máximo: 80px (El margen se detiene de crecer aquí)
-         */
+  .main-content {    
     padding-left: clamp(3px, 8vw, 80px);
     padding-right: clamp(3px, 8vw, 80px);
   }

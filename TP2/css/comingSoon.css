@@ -1,31 +1,23 @@
-/* ====================================================== */
-/* 1. MOBILE FIRST (Ancho fluido, Altura fija o relativa) */
-/* ====================================================== */
-
 .comingSoon-section {
-    /* El contenedor principal de la sección solo define márgenes si los necesita */
+
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
 .cardsComingSoon-container {
-    /* El contenedor padre de la imagen y el label es clave: */
+
     width: 100%;
-    /* * Altura Fija en Mobile: 174px
-     * Usamos una altura mínima y aspect-ratio (si fuera necesario) para control.
-     * Aquí lo forzaremos a 174px.
-     */
+
     height: 174px;
 
-    /* Permite posicionar el label 'Próximamente' de forma absoluta */
+
     position: relative;
 
-    /* Asegura que el contenido que se desborda (como el label si es muy grande) 
-       se mantenga dentro del contenedor visualmente si es necesario. */
+
     overflow: hidden;
 
     border-radius: 10px;
-    /* Un poco de radio para el contenedor */
+
 }
 
 /* --- Imagen --- */
@@ -33,62 +25,58 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Asegura que la imagen cubra todo el espacio sin distorsión */
+
     display: block;
 }
 
 /* --- Label "Próximamente" (Mobile) --- */
 .coningSoon-label {
-    /* Posicionamiento: arriba a la derecha */
+
     position: absolute;
     top: 0px;
     right: 10px;
     z-index: 10;
 
-    /* Estilos del label */
+
     background-color: var(--color-accent);
-    /* Fondo semi-transparente */
+
     color: var(--color-fullDark);
     padding: 5px 10px;
     border-radius: 0px 0px 10px 10px;
-    /* Bordes redondeados solo en la parte inferior */
+
     font-size: 14px;
     font-weight: bold;
     box-shadow: 3px 4px 5px 0 rgba(0, 0, 0, 0.43);
-    /* Sombra interna para dar efecto de profundidad */
 
-    /* Usamos Flexbox para centrar el texto dentro del label si el padding no es suficiente */
+
+
     display: flex;
     align-items: center;
-    /* Centrado vertical */
+
     justify-content: center;
-    /* Centrado horizontal (aunque el padding ya lo hace) */
+
 }
 
 .coningSoon-label p {
     margin: 0;
-    /* Elimina el margen por defecto del párrafo */
+
 }
 
-/* ====================================================== */
-/* 2. DESKTOP (1440px o más)                              */
-/* ====================================================== */
+
 
 @media (min-width: 1200px) {
-    /* Usamos un breakpoint cercano a tu ancho máximo para activarlo */
+
 
     .cardsComingSoon-container {
-        /* Dimensiones fijas para desktop (1205 x 220) */
+
         width: 1205px;
         height: 220px;
 
-        /* Centrar el contenedor en el centro de la pantalla, 
-           asumiendo que tiene espacio para los 1205px */
         margin-left: auto;
         margin-right: auto;
     }
 
-    /* Opcional: Ajuste del label si queremos que sea más grande o con otro estilo en desktop */
+
     .coningSoon-label {
         font-size: var(--font-size-title-h4);
         font-weight: 800;

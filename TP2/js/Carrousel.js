@@ -53,23 +53,7 @@ class HeroCarrousel extends BaseCarrousel {
     this.setupEventListeners();
     this.startAutoPlay();
   }
-  /* renderCarrousel() {
-      console.log(this.arrayGames)
-      if (this.arrayGames.length < 5) {
-        console.error("No hay suficientes juegos para renderizar el hero");
-        return;
-      }
-  
-      this.DOMElement.innerHTML = `
-        <div id="heroCardMoreElementsLeft" class="hero-content previous-hero"></div>
-        <div id="heroCardPrevious" class="hero-button-container"></div>
-        <div id="heroCardMain" class="hero-main-container"></div>
-        <div id="heroCardNext" class="hero-button-container"></div>      
-        <div id="heroCardMoreElementsRight" class="hero-content next-hero"></div>
-      `;
-      this.updateDisplay();
-      
-    } */
+
   renderCarrousel() {
     this.DOMElement.innerHTML = `
             
@@ -110,9 +94,6 @@ class HeroCarrousel extends BaseCarrousel {
     });
   }
 
-
-
-
   renderNavigation() {
     this.navContainer.innerHTML = '';
 
@@ -126,7 +107,6 @@ class HeroCarrousel extends BaseCarrousel {
 
   setupEventListeners() {
 
-    // Navigation dots
     this.navContainer.addEventListener('click', (e) => {
       if (e.target.classList.contains('nav-dot')) {
         const index = parseInt(e.target.dataset.index);
@@ -134,17 +114,17 @@ class HeroCarrousel extends BaseCarrousel {
       }
     });
 
-    // Navegación con teclado
+    
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') this.prev();
       if (e.key === 'ArrowRight') this.next();
     });
 
-    // Pausar autoplay al hacer hover
+    
     this.DOMElement.addEventListener('mouseenter', () => this.stopAutoPlay());
     this.DOMElement.addEventListener('mouseleave', () => this.startAutoPlay());
 
-    // Touch/Swipe support para móviles
+    
     this.DOMElement.addEventListener('touchstart', (e) => {
       this.touchStartX = e.changedTouches[0].screenX;
     });
@@ -181,12 +161,10 @@ class HeroCarrousel extends BaseCarrousel {
       }
     });
 
-    // Actualizar navigation dots
+   
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === this.currentIndex);
     });
-
-
   }
 
   goToSlide(index) {
@@ -207,140 +185,194 @@ class HeroCarrousel extends BaseCarrousel {
       this.autoPlayInterval = null;
     }
   }
-
-
-
-
 }
 
 /*********************************************************CARRUSEL COMUNNN ***********************************************/
 
 class CommonCarrousel extends BaseCarrousel {
 
-  constructor(category, arrayGames, cardsVisible = arrayGames.length) {
-
+  constructor(category, arrayGames) {
     super(category, arrayGames);
-    this.cardsVisible = cardsVisible;
+    this.cardWidth = 192.5;
+    this.gap = 10;
+    this.cardMove = this.cardWidth + this.gap;
+    this.currentPosition = 0;
+    this.viewportWidth = 1205;
+    
     this.renderCarrousel();
-
-    // recalcular cards visibles al redimensionar
-    window.addEventListener('resize', () => this.updateDisplay());
+    this.initializeCarousel();
   }
 
   renderCarrousel() {
-    this.DOMElement.innerHTML = 
-      `
-        <header class="carousel-header">
-                <h2 class="carousel-title">${this.category}</h2>
-                <a href="#" class="view-more-link">Ver más</a>
-            </header>
+    this.DOMElement.innerHTML = `
+      <header class="carousel-header">
+        <h2 class="carousel-title">${this.category}</h2>
+        <a href="#" class="view-more-link">Ver más</a>
+      </header>
 
-                  <div class="carousel-wrapper">
-                <button class="carousel-nav-btn prev-btn" aria-label="Anterior">
-                    &lt; </button>
-                 
-                 <div class="cards-carousel-container">
-                 
-                 </div>
+      <section class="carousel-section">
+        <button class="carousel-nav-btn prev-btn" aria-label="Anterior">
+          &lt;
+        </button>
+        
+        <div class="card-container-viewport">
+          <div class="card-container">
+          </div>
+        </div>
 
-                 <button class="carousel-nav-btn next-btn" aria-label="Siguiente"> &gt; </button>
+        <button class="carousel-nav-btn next-btn" aria-label="Siguiente">
+          &gt;
+        </button>
+      </section>
+    `;
 
-
-      `
-
-
-    // botones
-    const prevBtn = this.DOMElement.querySelector('.prev-btn');
-    const nextBtn = this.DOMElement.querySelector('.next-btn');
-
-    prevBtn.onclick = () => this.prev();
-    nextBtn.onclick = () => this.next();
-
+   
     this.updateDisplay();
   }
 
-  /*getCardsVisible() {
-    if (window.innerWidth <= 480) return 1;
-    if (window.innerWidth <= 768) return 2;
-    return this.cardsVisible; 
+  initializeCarousel() {
+    
+    const viewport = this.DOMElement.querySelector('.card-container-viewport');
+    const container = this.DOMElement.querySelector('.card-container');
+    const prevButton = this.DOMElement.querySelector('.prev-btn');
+    const nextButton = this.DOMElement.querySelector('.next-btn');
+
+   
+    const totalCards = this.arrayGames.length;
+    const totalContentWidth = (totalCards * this.cardWidth) + ((totalCards - 1) * this.gap);
+    
+    
+    container.style.width = `${totalContentWidth}px`;
+
+    
+    const moveCarousel = (direction) => {
+      if (direction === 'next') {
+        const maxMovement = totalContentWidth - this.viewportWidth;
+
+        let newPosition = this.currentPosition - this.cardMove;
+
+        if (Math.abs(newPosition) > maxMovement) {
+          newPosition = -maxMovement;
+        }
+
+        if (this.currentPosition === newPosition) return;
+
+        this.currentPosition = newPosition;
+
+      } else if (direction === 'prev') {
+        let newPosition = this.currentPosition + this.cardMove;
+
+        if (newPosition > 0) {
+          newPosition = 0;
+        }
+
+        if (this.currentPosition === newPosition) return;
+
+        this.currentPosition = newPosition;
+      }
+      
+      
+      const cards = container.querySelectorAll('.game-card');
+      cards.forEach(card => card.classList.add('skewing'));
+      
+     
+      container.style.transform = `translateX(${this.currentPosition}px)`;
+
+      
+      setTimeout(() => {
+        cards.forEach(card => card.classList.remove('skewing'));
+      }, 300);
+
+      updateButtonState();
+    };
+
+   
+    const updateButtonState = () => {
+      prevButton.disabled = this.currentPosition >= 0;
+
+      const maxMovement = totalContentWidth - this.viewportWidth;
+      const atEnd = Math.abs(this.currentPosition) >= maxMovement - 1;
+      nextButton.disabled = atEnd;
+    };
+
+   
+    nextButton.addEventListener('click', () => moveCarousel('next'));
+    prevButton.addEventListener('click', () => moveCarousel('prev'));
+
+   
+    updateButtonState();
   }
-*/
+
   updateDisplay() {
-    const contentDiv = this.DOMElement.querySelector('.cards-carousel-container');
+    const contentDiv = this.DOMElement.querySelector('.card-container');
     contentDiv.innerHTML = '';
-    const visible = this.arrayGames.length; 
 
-    for (let i = 0; i < visible; i++) {
-      let index = (this.globalIndex + i) % this.arrayGames.length;
-      this.renderCard(this.arrayGames[index], contentDiv, true);
-    }
+   
+    this.arrayGames.forEach(game => {
+      this.renderCard(game, contentDiv, true);
+    });
   }
 
-
-renderCard(game, container, append = false) {
-
-    // 1. Lógica de Promoción y Precios
-    // Asume que 'isPromo' devuelve un objeto o valor que contiene el porcentaje de descuento
+  renderCard(game, container, append = false) {
+    
     const promo = this.isPromo ? this.isPromo(game) : false;
     let priceHTML = '';
     let offerLabelHTML = '';
 
     if (promo) {
-        // Asumiendo que 'promo' contiene el porcentaje de descuento, ej: 20
-        const discountPercentage = game.discountPercentage; 
+      const discountPercentage = game.discountPercentage; 
 
-        // Crea el HTML para la etiqueta de descuento
-        offerLabelHTML = `
-            <div class="offer-label">
-                <p>-${discountPercentage}%</p>
-            </div>
-        `;
-        
-        // Crea el HTML para el precio con descuento
-        priceHTML = `
-            <div class="price discount"> 
-                <div class="old-price">U$D ${game.price}</div> 
-                <div class="new-price">U$D ${game.discountPrice}</div>
-            </div>
-        `;
+     
+      offerLabelHTML = `
+        <div class="offer-label">
+          <p>-${discountPercentage}%</p>
+        </div>
+      `;
+      
+     
+      priceHTML = `
+        <div class="price discount"> 
+          <div class="old-price">U$D ${game.price}</div> 
+          <div class="new-price">U$D ${game.discountPrice}</div>
+        </div>
+      `;
     } else {
-        // Sin promoción
-        if (game.isFree) {
-            priceHTML = `<div class="price free"><div class="new-price">Gratis</div></div>`;
-        } else {
-            priceHTML = `<div class="price common"><div class="new-price">U$D ${game.price}</div></div>`;
-        }
+      
+      if (game.isFree) {
+        priceHTML = `<div class="price free"><div class="new-price">Gratis</div></div>`;
+      } else {
+        priceHTML = `<div class="price common"><div class="new-price">U$D ${game.price}</div></div>`;
+      }
     }
 
-
-    // 2. Construcción de la Tarjeta con la Nueva Estructura
+    
     const cardHTML = document.createElement('div');
     cardHTML.classList.add('game-card');
 
     cardHTML.innerHTML = `
-        <div class="main-card">
-            <div class="image-container">
-                <img class="img-card" 
-                     src="${game.background_image}" 
-                     alt="${game.name} cover" />           
-                ${offerLabelHTML} </div>
-            
-            <div class="body-card">
-                <div class="title-card">
-                    <p>${game.name}</p>
-                </div>
-                
-                ${priceHTML}
-            </div>
+      <div class="main-card">
+        <div class="image-container">
+          <img class="img-card" 
+               src="${game.background_image}" 
+               alt="${game.name}" />           
+          ${offerLabelHTML}
         </div>
+        
+        <div class="body-card">
+          <div class="title-card">
+            <p>${game.name}</p>
+          </div>
+          
+          ${priceHTML}
+        </div>
+      </div>
     `;
 
-    // 3. Renderizado
+    
     if (append) {
-        container.appendChild(cardHTML);
+      container.appendChild(cardHTML);
     } else {
-        container.innerHTML = cardHTML.outerHTML;
+      container.innerHTML = cardHTML.outerHTML;
     }
-}
-
+  }
 }

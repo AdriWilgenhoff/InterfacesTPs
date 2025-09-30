@@ -20,7 +20,7 @@ async function getGames() {
       gamesWithPrices.push(product);
     });
 
-    //game withPrices.add(juegoNuestro);
+    
 
     return gamesWithPrices;
 
@@ -62,21 +62,21 @@ async function getComments() {
 } */
 
 /*trae los generos del json nuestro*/
+
 async function getCategories() {
   let categories = [];
 
   const games = await getGames();
 
   games.forEach(game => {
-    if (game.category) { // verificacion si existe para que no rompa
-      games.forEach(game => {
-        const categoryName = game.category.toLowerCase();
-        if (!categories.includes(categoryName)) {
-          categories.push(categoryName);
-        }
-      });
+    if (game.category) { 
+      const categoryName = game.category.toLowerCase();
+      if (!categories.includes(categoryName)) {
+        categories.push(categoryName);
+      }
     }
   });
+  
   return categories;
 }
 
@@ -94,6 +94,7 @@ async function getPromos() {
 }
 
 /********************************************filtros ***************************************************** */
+
 /* async function filterBy(text, games) {
   let input = text.toLowerCase();
   let gamesFiltered = [];
@@ -108,6 +109,7 @@ async function getPromos() {
 
   return gamesFiltered;
 } */
+
 async function filterBy(text, games) {
   let input = text.toLowerCase();
   let gamesFiltered = [];

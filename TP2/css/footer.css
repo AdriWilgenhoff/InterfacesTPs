@@ -9,7 +9,7 @@
     padding: 10px 20px;
 }
 
-/* ===== Top ===== */
+/******************************************** Footer top ******************************************************/
 .footer-top {
     background: var(--color-navDark, #121116);
     width: 100%;
@@ -43,13 +43,13 @@
 
 
 .footer-links a {
-    color: #A5A5A7;
+    color: var(--color-textDark);
     text-decoration: none;
     font-size: 12px;
 }
 
 .footer-links a:hover {
-    text-decoration: underline;
+    text-decoration: none;
     color: var(--color-text);
 }
 
@@ -81,7 +81,8 @@
 .newsletter-note {
     margin: 8px 0 0;
     font-size: 10px;
-    color: var(--color-textTable)
+    color: var(--color-textTable);
+    text-align: left;
 }
 
 .newsletter-note a {
@@ -110,8 +111,7 @@
     justify-content: center;
 }
 
-
-/* ===== Mid (métodos de pago) ===== */
+/********************************** mid (metodos de pago) ***************************************************/
 .footer-mid {
     background: var(--color-bodyDark, #100f14);
 }
@@ -143,9 +143,9 @@
     padding: 6px 7px;
 }
 
-/* ===== Bottom (Legal) ===== */
+/*******************************************bottom legales **********************************************/
 .footer-bottom {
-    background: var(--color-bodyDark);
+    background: var(--color-fullDark);
 }
 
 .footer-bottom-row {
@@ -267,7 +267,7 @@
     transition: color 0.3s ease;
 }
 
-/* Efecto de relleno simple */
+
 .newsletter-form button:before {
     content: '';
     position: absolute;
@@ -281,7 +281,7 @@
 }
 
 .newsletter-form button:hover:before {
-    left: 0; /* Se desliza para cubrir todo el botón */
+    left: 0; 
 }
 
 /***************************** HOVER SOCIALES FIN *****************************/
