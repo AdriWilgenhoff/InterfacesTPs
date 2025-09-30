@@ -1,6 +1,7 @@
 .site-footer {
     color: var(--color-text, #e4e4e4);
     font-family: var(--font-base);
+    box-sizing: content-box;
 }
 
 .footer-container {

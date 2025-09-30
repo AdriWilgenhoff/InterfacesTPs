@@ -58,6 +58,9 @@
   --color-link: ;
   --color-link-hover: ;
 
+  --color-link-secondary: var(--color-secondary);
+  --color-link-hover-secondary: var(--color-SecondaryLight1);
+
   /* tipografia */
 
 
