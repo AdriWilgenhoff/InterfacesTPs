@@ -19,14 +19,15 @@ async function getGames() {
       const product = { ...game, ...prices[game.id] };
       gamesWithPrices.push(product);
     });
+    console.log(gamesData)
+    gamesData
 
-    
 
     return gamesWithPrices;
 
   } catch (error) {
     console.error('Error:', error);
-    return []; 
+    return [];
   }
 }
 
@@ -37,7 +38,7 @@ async function getComments() {
     return comments;
   } catch (error) {
     console.log('error:', error);
-    return []; 
+    return [];
   }
 }
 /*para traer los generos de la api*/
@@ -69,14 +70,14 @@ async function getCategories() {
   const games = await getGames();
 
   games.forEach(game => {
-    if (game.category) { 
+    if (game.category) {
       const categoryName = game.category.toLowerCase();
       if (!categories.includes(categoryName)) {
         categories.push(categoryName);
       }
     }
   });
-  
+
   return categories;
 }
 
@@ -115,7 +116,7 @@ async function filterBy(text, games) {
   let gamesFiltered = [];
 
   if (await isCategory(input)) {
-    gamesFiltered = games.filter(game => 
+    gamesFiltered = games.filter(game =>
       game.category.toLowerCase() == input);
   } else { // busca por nombre
     gamesFiltered = games.filter(game => game.name.toLowerCase().includes(input));
@@ -129,8 +130,26 @@ function filterByFree(games) {
 
 function filterByHeroCard(games) {
   let gamesFiltered = games.filter(game => game.isHeroCard == true);
+
+   juegoNuestro = {
+      id: 6660,
+      name: "Peg Debugging",
+      released: "2013-09-17",
+      background_image: "/assets/img/peg/pegDebugger.png",
+      isFree: false,
+       price: 49.99,
+       discountPrice: 49.99,
+        discountPercentage: 0, 
+        isHeroCard: false, 
+        category: "adventure"
+    }
+ 
+  gamesFiltered = [
+    ...gamesFiltered, juegoNuestro] 
+   
   return gamesFiltered;
-}
+  }
+
 
 async function isCategory(text) {
   let categories = await getCategories();

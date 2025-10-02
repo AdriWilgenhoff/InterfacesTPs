@@ -165,11 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             
             const iconsByCategory = {
-                action: "/assets/logos_svg/categories/rpg3.svg",
-                rpg: "/assets/logos_svg/categories/rol.svg",
+                action: "/assets/logos_svg/categories/action.svg",
+                rpg: "/assets/logos_svg/categories/rpg.svg",
                 shooter: "/assets/logos_svg/categories/shooter.svg",
                 arcade: "/assets/logos_svg/categories/arcade.svg",
-                indie: "assets/icons_perfil/rpg2.svg",
+                indie: "assets/logos_svg/categories/indie.svg",
                 adventure: "/assets/logos_svg/categories/adventure.svg"
             };
 
@@ -190,6 +190,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.href = "#";
                 a.textContent = category.charAt(0).toUpperCase() + category.slice(1);
 
+                // Agregar evento click para filtrar por categoría
+                a.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        // Cerrar el menú hamburguesa
+                        if (isHamburgerOpen) toggleHamburgerMenu();
+                        
+                        // Obtener todos los juegos
+                        const allGames = await getGames();
+                        
+                        // Filtrar por categoría
+                        const gamesByCategory = await filterBy(category, allGames);
+                        
+                        // Renderizar resultados
+                        renderSearch(gamesByCategory, category);
+                        
+                        console.log(`Categoría ${category} filtrada:`, gamesByCategory.length, 'juegos');
+                    } catch (error) {
+                        console.error('Error al filtrar por categoría:', error);
+                    }
+                });
+
                 
                 li.appendChild(img);
                 li.appendChild(a);
@@ -206,5 +228,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
    
     renderMenuCategories();
+
+    /******************************** Funcionalidad Logo - Volver al Home ********************************/
+    
+    const navbarLogo = document.querySelector('.navbar-logo');
+    
+    if (navbarLogo) {
+        // Agregar cursor pointer para indicar que es clickeable
+        navbarLogo.style.cursor = 'pointer';
+        
+        navbarLogo.addEventListener('click', async () => {
+            try {
+                // Cerrar menús si están abiertos
+                if (isHamburgerOpen) toggleHamburgerMenu();
+                if (isUserMenuOpen) toggleUserMenu();
+                if (isSearchExpanded) toggleSearch();
+                
+                // Obtener juegos y renderizar home
+                const games = await getGames();
+                await showHome(games);
+                
+                console.log('Home renderizado desde el logo');
+            } catch (error) {
+                console.error('Error al volver al home desde el logo:', error);
+            }
+        });
+    }
 
 });

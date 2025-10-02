@@ -1,8 +1,7 @@
-
 /****************************************************** navbar **************************************/
 
 nav {
-  background-color: var(--color-navDark); 
+  background-color: var(--color-navDark);
   position: fixed;
   top: 0;
   left: 0;
@@ -27,7 +26,7 @@ nav {
 .navbar-container .row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 
@@ -55,11 +54,11 @@ nav {
   transition: all 0.3s ease;
 }
 
-/****************************************************** logo **************************************/
+/****************************************************** logo ***********************************************************/
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   color: var(--color-text);
   font-family: var(--font-logo);
   font-size: 24px;
@@ -80,6 +79,33 @@ nav {
   color: var(--color-primary);
 }
 
+.logo-img {
+  display: inline-block;
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+}
+
+/* Animación se activa al hacer hover en todo el logo, pero solo afecta a la imagen */
+.navbar-logo:hover .logo-img {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+}
+
 /****************************************************** barra de busqueda  **************************************/
 .navbar-search {
   flex: 1;
@@ -89,7 +115,7 @@ nav {
   align-items: center;
   background-color: var(--color-box);
   border-radius: 25px;
-  overflow: hidden;  
+  overflow: hidden;
   max-height: 40px;
   border: 2px solid transparent;
   transition: all 0.3s ease;
@@ -147,8 +173,8 @@ nav {
 }
 
 .search-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 /****************************************************** acceso a menu usuario  **************************************/
@@ -160,55 +186,86 @@ nav {
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
+  /*  transition: background-color 0.3s ease; */
 }
 
 .navbar-user:hover {
-  background-color: var(--color-hover);
+  transform: scale(1.1);
+  transition: 0.3s ease;
+
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-container::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-ok);
+  opacity: 0.8;
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+  border: 3px solid var(--color-background);
+  transform: translate(-5px,-5px);
 }
 
 .navbar-user img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.navbar-user img:last-child {
+/* .navbar-user img:last-child {
   width: 16px;
   height: 16px;
   border-radius: 0;
-}
-.user-menu{
-  display:flex;
+} */
+
+.user-menu {
+  display: flex;
   flex-direction: column;
 }
 
+.arrow {
+  opacity: 0.8;
+}
 
-/*****/
-.hamburguer-menu{
+.navbar-user.active {
+  background-color: var(--color-navDark);
+}
+
+/** menu hamburguesa boton ***/
+.hamburguer-menu {
   position: fixed;
-  top: 60px;     
-  left: 0;     
+  top: 60px;
+  left: 0;
   z-index: 1000;
   transform: translateX(-100%);
-  transition: transform 0.3s ease;  
+  transition: transform 0.3s ease;
 }
-.menu-icon{
-  width:16px;
-  height: 16px;
-}
-.user-menu{ 
+
+.menu-icon {
+  width:25px;
+  height: 20px;
+  transition: filter 0.1s ease;}
+
+.user-menu {
   position: fixed;
-  top: 60px;     
-  right: 0;      
+  top: 60px;
+  right: 0;
   z-index: 1000;
   transform: translateX(100%);
   transition: transform 0.3s ease;
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: rotate(43deg) translate(5px, 3px);
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(2) {
@@ -216,12 +273,9 @@ nav {
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
+  transform: rotate(318deg) translate(6px, -5px);
 }
 
-.navbar-user.active {
-  background-color: var(--color-primaryShadow3);
-}
 
 /* Estilos para el botón de cerrar del menú hamburguesa */
 
@@ -249,107 +303,153 @@ nav {
 }
 
 /***************************************   estilos comunes a menus dde navBar     **********************************/
-.row{
-    display: flex;
-    align-items: center;
-    
+.row {
+  display: flex;
+  align-items: center;
 }
 
-.navBarMenu{
-    background-color: var(--color-navDark);
-    width: 15%;   
-    padding: 10px 20px;    
+.navBarMenu {
+  background-color: var(--color-navDark);
+  width: 15%;
+  padding: 10px 20px;
 }
 
-.menu-list{
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    gap: 15px;
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 15px;
 }
 
-.sep{
-    color: var(--color-textDark);
-    margin: 10px 0px;
-    opacity: 0.09;
+.sep {
+  color: var(--color-textDark);
+  margin: 10px 0px;
+  opacity: 0.09;
 }
 
- .menu-item{
-    color: var(--color-text);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    
-} 
+.menu-item {
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-.menu-item:hover{
+}
+
+/* .menu-item:hover{
     color: var(--color-secondary);
+} */
+
+.menu-link {
+  color: var(--color-text);
+  display: flex;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.1s ease;
+  
 }
 
-.menu-link{
-    color: var(--color-text);
-    display: flex;    
-    font-size: 14px;
-    text-decoration: none;
+.social-media-menu {
+  margin: 25px 0px;
+  gap: 10px;
+  align-items: center;
 }
-.menu-link:hover{
+
+.user-name {
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+.user-status {
+  font-size: 12px;
+  color: var(--color-textDark);
+}
+
+.menu-link-exit {
+  display: flex;
+  font-size: 14px;  
+  color: var(--color-warning);
+  text-decoration: none;
+  transition: color 0.1s ease;
+
+}.menu-list-exit,
+.menu-item {
+  opacity: 0.9;
+}
+
+.menu-item:hover {
+  opacity: 1;
+  transform: translate(3px);
+  transition: 0.1s ease;
+}
+.menu-item:hover .menu-icon {
+   filter: brightness(0) saturate(100%) invert(22%) sepia(97%) saturate(6532%) hue-rotate(265deg) brightness(101%) contrast(103%);
+}
+/* Cambio de color para links normales cuando haces hover en el menu-item */
+.menu-item:hover .menu-link {
   color: var(--color-primary);
 }
-.social-media-menu{
-    margin: 25px 0px;
-    gap: 15px;
-    align-items: center;
+
+/* Cambio de color para el link de cerrar sesión cuando haces hover en el menu-item */
+.menu-item:hover .menu-link-exit {
+  opacity: 1;
 }
 
-.user-name{
-    font-size: 20px;
-}
 
-.user-status{
-    font-size: 12px;
-    color: var(--color-textDark);
-}
-
-.exit{
-    color: var(--color-warning);
-}
 
 /* Botón de búsqueda toggle (oculto por defecto) */
 .search-toggle-btn {
-    display: none;
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    color: var(--color-textDark);
-    transition: color 0.3s ease;
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--color-textDark);
+  transition: color 0.3s ease;
 }
 
 .search-toggle-btn:hover {
-    color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 /* Perfil mobile en menú hamburguesa */
 .mobile-user-profile {
-    display: none;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 0;
+  display: none;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+.mobile-avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.mobile-avatar-container::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-warning);
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+  border: 2px solid var(--color-background);
 }
 
 .mobile-user-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .mobile-user-info {
-    flex: 1;
+  flex: 1;
 }
 
 .mobile-only {
-    display: none;
+  display: none;
 }
 
 /* ****************************************** RESPONSIVIDAD ********************************************************** */
@@ -357,7 +457,8 @@ nav {
   .navBarMenu {
     width: 280px;
   }
-    .navbar-search {
+
+  .navbar-search {
     max-width: 200px;
   }
 
@@ -371,38 +472,44 @@ nav {
 }
 
 @media (max-width: 480px) {
+
+  .navbar-logo {
+    margin-right: 15px;
+
+  }
+
   /* Ocultar menú de usuario */
   .navbar-user {
     display: none;
   }
-  
+
   /* Mostrar elementos mobile en menú hamburguesa */
   .mobile-user-profile,
   .mobile-only {
     display: flex;
   }
-  
+
   .mobile-only.sep {
     display: block;
   }
-  
+
   .mobile-only.menu-list {
     display: flex;
   }
-  
+
   /* Menú hamburguesa full width */
   .navBarMenu {
     width: 100vw;
     left: 0;
     right: 0;
   }
-  
+
   /* Ajustar menú de usuario (por si se accede de otra forma) */
   .user-menu {
     right: 0;
     width: 280px;
   }
-  
+
   /* Configuración de búsqueda mobile */
   .navbar-search {
     position: relative;
@@ -413,20 +520,20 @@ nav {
     padding: 0;
     transition: all 0.3s ease;
   }
-  
+
   /* Mostrar botón toggle */
   .search-toggle-btn {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Ocultar input y botón search por defecto */
   .search-input,
   .search-btn {
     display: none;
   }
-  
+
   /* Estado expandido de búsqueda */
   .navbar-search.expanded {
     max-width: 100%;
@@ -437,35 +544,31 @@ nav {
     padding: 0;
     border: 2px solid transparent;
   }
-  
+
   .navbar-search.expanded .search-toggle-btn {
     display: none;
   }
-  
+
   .navbar-search.expanded .search-input {
     display: block;
   }
-  
+
   .navbar-search.expanded .search-btn {
     display: block;
   }
-  
+
   /* Ocultar texto del logo cuando search está expandida */
-  .navbar-search.expanded ~ .navbar-container .logo-text,
+  .navbar-search.expanded~.navbar-container .logo-text,
   .navbar-container:has(.navbar-search.expanded) .logo-text {
     display: none;
   }
-  
+
   /* Ajustar el orden y layout del navbar container */
   .navbar-container {
     padding: 0 10px;
   }
-  
+
   nav {
     padding: 0 10px;
   }
 }
-
-
-
-

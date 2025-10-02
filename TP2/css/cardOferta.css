@@ -27,6 +27,7 @@ body {
     gap: 7px;
     width: 100%;
     margin: 0 auto;
+    /* padding: 15px 10px; */
 }
 /************************************************cards *********************************************/
 .specialOffer-card {
@@ -36,15 +37,16 @@ body {
     overflow: hidden;
     background: #18171c;
     cursor: pointer;
+    font-weight: 400;
 }
 
 .specialOffer-card {
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .specialOffer-card:hover {
-    box-shadow: 0 0 15px 1px var(--color-primaryShadow3);
-      
+    transform: scale(1.05);
+    filter: brightness(1.15);
 }
 
 
@@ -135,8 +137,7 @@ body {
     .cardsSpecialsOffer-container {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
-        padding-left: 0;
-        padding-right: 0;
+        padding: 15px 10px;
        
         max-width: min(100%, 900px);
     }
@@ -156,6 +157,7 @@ body {
         margin: 0 auto;
         gap: 15px;
         grid-template-columns: repeat(4, 290px);
+        /* padding: 20px 15px; */
     }
 
    
