@@ -1,4 +1,4 @@
-/* *********************** estructura carrusel *********************************************************** */
+/* ************************************** estructura carrusel ************************************************ */
 
 .game-carousel-section {
     margin-top: 25px;
@@ -21,16 +21,23 @@
 
 .view-more-link {
     font-size: 10px;
-    color: var(--color-secondary);
+    color: var(--color-primaryShadow1);
     text-decoration: none;
     transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .view-more-link:hover {
-    color: var(--color-secondaryLight2);
+    color: var(--color-primary);
 }
 
-
+.view-more-arrow {
+    width: 10px;
+    height: 10px;
+    transition: inherit;
+}
 
 .carousel-section {
     display: flex;
@@ -41,8 +48,6 @@
 .carousel-nav-btn {
     display: none;
 }
-
-
 
 .card-container-viewport {
     width: 100%;
@@ -73,7 +78,7 @@
     display: none;
 }
 
-/************************************************cards *************************************************/
+/********************************************** Cards *************************************************/
 
 .game-card {
     width: 118px;
@@ -87,43 +92,9 @@
     overflow: hidden;
     
     /* Transiciones de la card */
-    transition:
-        box-shadow 0.4s ease-in-out,
-        background-color 0.4s ease-in-out;
+    transition: all 0.3s ease;
     position: relative;
 }
-
-/**************************************************animacion***********************************************/
-.game-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 45%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    transform: skewX(-20deg);
-    z-index: 5;
-}
-
-.game-card:hover::before {
-    animation-name: slide-glow;
-    animation-duration: 1.0s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    opacity: 0.5;
-}
-
-@keyframes slide-glow {
-    0% {
-        transform: translateX(-100%) skewX(-20deg);
-    }
-    100% {
-        transform: translateX(550%) skewX(-20deg);
-    }
-}
-
-
 
 .image-container {
     width: 100%;
@@ -181,6 +152,10 @@
 
 .free {
     color: var(--color-text);
+}
+
+.common {
+    color: var(--color-primaryLight1);
 }
 
 .discount {
@@ -293,45 +268,37 @@
         align-items: center;
         width: 100%;
         justify-content: space-between;
+        gap: 9.5px;
     }
 
     .card-container-viewport {
         width: 1205px;
         overflow: hidden;
         box-sizing: content-box;
-        padding: 10px;
+        /* margin: 0 15px; */        
     }
 
     .card-container {
         display: flex;
-        flex-direction: row;
         gap: 10px;
         padding: 10px 0px;
         justify-content: normal;
         overflow-x: hidden;
-        
-        
         transition: transform 0.3s ease;
         will-change: transform;
-
-        
         margin-left: 0;
         padding-left: 0;
         padding-right: 0;
-        
-       
         flex-shrink: 0;
     }
 
-
-
     .game-card {
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .game-card:hover {
-        transform: scale(1.03);
-        /* box-shadow: 0 0 7px 3px #9013FE70; */
+        transform: scale(1.05);
+        filter: brightness(1.15);
         z-index: 1000;
     }
 
@@ -339,41 +306,42 @@
         transform: skewY(-2deg);
         transition: transform 0.3s ease;
     }
-
- 
+    
+    .game-card.skewing:hover {
+        transform: skewY(-2deg) scale(1.05);
+        filter: brightness(1.15);
+    }
 
     .carousel-nav-btn {
         display: flex;
-        width: 30px;
-        height: 30px;
         flex-shrink: 0;
         align-items: center;
         justify-content: center;
-        background-color: var(--color-box);
+        background-color: transparent;
         color: var(--color-text);
         border: none;
-        border-radius: 50%;
         cursor: pointer;
-        transition: background-color 0.2s;
-        font-size: 16px;
+        transition: color 0.2s;
+        padding: 0;
+    }
+
+    .carousel-arrow {
+        width: 28px;
+        height: 28px;
+        transition: inherit;
+    }
+    .view-more-arrow{
+        width: 15px;
     }
 
     .carousel-nav-btn:hover {
-        background-color: var(--color-navLight);
+        color: var(--color-primary);
     }
 
     .carousel-nav-btn:disabled {
         opacity: 0.3;
         cursor: not-allowed;
-        background-color: var(--color-navLight);
-    }
-
-    .prev-btn {
-        margin-right: 7.5px;
-    }
-
-    .next-btn {
-        margin-left: 7.5px;
+        color: var(--color-text);
     }
 
     .carousel-header {
@@ -400,7 +368,8 @@
     .price {
         display: flex;
         gap: 5px;
-        font-size: var(--font-size-small)
+        font-size: var(--font-size-small);
+        
     }
 
     .image-container {

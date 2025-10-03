@@ -17,6 +17,7 @@
     display: flex;
     list-style: none;
     font-size: var(--font-size-base);
+    margin-top: 50px;;
 }
 
 .bc-item a {

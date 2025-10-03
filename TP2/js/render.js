@@ -45,6 +45,7 @@ async function showHome(games) {
 
    
     const section = document.createElement('section');
+    section.classList.add('common-carrusel-padding');
     section.id = `${category}-slider`;
     containerRender.appendChild(section);
 
@@ -63,9 +64,6 @@ async function showHome(games) {
   }
 }
 
-
-
-
 /********************************************** Search ************************************************/
 
 async function renderSearch(filteredGames, searchTerm = '') {
@@ -73,6 +71,8 @@ async function renderSearch(filteredGames, searchTerm = '') {
     containerRender.innerHTML = "";
     containerRender.classList.remove('search-results'); 
 
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     
     const searchSection = document.createElement('section');
     searchSection.className = 'search-results-section';
@@ -96,18 +96,28 @@ async function renderSearch(filteredGames, searchTerm = '') {
         
         const emptyIcon = document.createElement('div');
         emptyIcon.className = 'empty-icon';
-        emptyIcon.textContent = '🔍';
+        emptyIcon.innerHTML = `
+          <div class="empty-content-wrapper">
+            <div class="empty-images">
+              <img class="empty-search-img" src="/assets/img/emptystate.png" alt="">
+              <img class="empty-search-logo" src="/assets/logos_png/mainLogo.png" alt="">
+            </div>
+            <div class="empty-text">
+            <p class="empty-text-1">Oops! ningun juego por aqui..</p>
+            <p class="empty-text-2">pero tampoco bugs ;)</p>
+          </div>
+        `;
         
-        const emptyText = document.createElement('p');
+        /* const emptyText = document.createElement('p');
         emptyText.className = 'empty-text';
-        emptyText.textContent = 'No encontramos juegos que coincidan con tu búsqueda';
+        emptyText.textContent = 'Oops! nada por aquí! '; */
         
         const emptySuggestion = document.createElement('p');
         emptySuggestion.className = 'empty-suggestion';
-        emptySuggestion.textContent = 'Explora nuestras categorías:';
+        emptySuggestion.textContent = 'Descubrí mas juegos en nuestras categorías: ';
         
         emptyMessage.appendChild(emptyIcon);
-        emptyMessage.appendChild(emptyText);
+        /* emptyMessage.appendChild(emptyText); */
         emptyMessage.appendChild(emptySuggestion);
         
         try {
@@ -132,12 +142,8 @@ async function renderSearch(filteredGames, searchTerm = '') {
             console.error('Error al cargar categorías:', error);
         }
         
-        const backButton = document.createElement('button');
-        backButton.className = 'btn-back-home';
-        backButton.textContent = 'Volver al inicio';
-        backButton.onclick = () => location.reload();
-        
-        emptyMessage.appendChild(backButton);
+   
+       
         searchSection.appendChild(emptyMessage);
         containerRender.appendChild(searchSection);
         return;
@@ -146,6 +152,9 @@ async function renderSearch(filteredGames, searchTerm = '') {
     
     searchTitle.textContent = `${filteredGames.length} resultado${filteredGames.length !== 1 ? 's' : ''} ${searchTerm ? `para "${searchTerm}"` : ''}`;
     searchHeader.appendChild(searchTitle);
+    
+  
+    
     searchSection.appendChild(searchHeader);
 
    

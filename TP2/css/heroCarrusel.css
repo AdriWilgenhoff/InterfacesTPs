@@ -1,587 +1,189 @@
-.carousel-content {
-  display: flex;
-  overflow: hidden;
-  width: 100%;
-  margin-bottom: 20px;
-  gap: 10px;
-  transition: transform 0.3s ease-in-out;
-}
+/* ===================== HERO CAROUSEL (MOBILE FIRST) ===================== */
 
-.common-carousel-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/*********************************** Card ***********************************/
-
-.card-img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card-title {
-  font-size: 15px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-.precioComun {
-  font-size: 14px;
-  font-weight: bold;
-  color: #f5c542; /* dorado */
-}
-
-.precioDescuento {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
-}
-
-.precioTachado {
-  font-size: 13px;
-  color: #aaa;
-  text-decoration: line-through;
-}
-
-.precioDescuento  {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--color-accent); 
-}
-.precioComun{
-  color: var(--color-primaryLight3);
-}
-/* -------- RESPONSIVE -------- */
-
-
-
-/******************************************************* estilos hero principal **************************************/
-
-.hero-gallery {
+/* Contenedor principal */
+.hero-gallery{
   position: relative;
   width: 100%;
-  height: 50vh; 
+  height: 50vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   border-radius: 20px;
-  gap: 25px;
+  gap: 10px;
 }
 
-
+/* Área de slides (con perspectiva) */
 .hero-conteiner{
   position: relative;
   width: 90%;
-  height: 100%;
-  perspective: 1200px;
+  height: 50vh;
+  perspective: 600px;                  /* mobile */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 30px;
+/*   padding-bottom: 30px; */
 }
 
-
-.gallery-slide {
+/* Slide base */
+.gallery-slide{
   position: absolute;
-  width: 700px;
-  height: 350px;
-  border-radius: 20px;
+  width: 300px;                        /* mobile */
+  height: 40vh;                       /* mobile */
+  border-radius: 10px;                 /* mobile */
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-  padding: 20px;
+  padding: 0;                          /* mobile */
+  /* margin-top: 30px; */
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* mobile */
 }
 
-.gallery-slide img {
+.gallery-slide img{
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.8s ease;
 }
 
-/* Overlay con información del juego */
-
-.slide-overlay {
+/* Overlay con info */
+.slide-overlay{
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  left: 0; right: 0; bottom: 0;
   background: linear-gradient(transparent, rgba(0,0,0,0.9));
-  padding: 40px 30px 30px;
+  padding: 20px 15px 15px;             /* mobile */
   color: var(--color-text);
   transform: translateY(100%);
   transition: transform 0.6s ease;
 }
 
-.slide-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+.slide-title{
+  font-size: 1.4rem;                   /* mobile */
+  font-weight: 700;
+  margin: 0;
   color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
-
-
-.slide-actions {
+.slide-actions{
   display: flex;
-  gap: 15px;
+  gap: 10px;                           /* mobile */
   align-items: center;
 }
 
-/* Slide activa (centro) */
-.gallery-slide.active {
+/* Estados */
+.gallery-slide.active{
   transform: translateX(0) translateZ(0) scale(1);
-  z-index: 10;
-  opacity: 1;
-  filter: brightness(1) blur(0);
+  z-index: 10; opacity: 1; filter: brightness(1) blur(0);
+}
+.gallery-slide.active:hover{
+  transform: translateX(0) scale(1.02);
+  filter: brightness(1.15);
+}
+.gallery-slide.active .slide-overlay{ transform: translateY(0); }
+.gallery-slide.active img{ transform: scale(1.1); }
+
+/* Mobile: efecto 3D más sutil */
+.gallery-slide.next{
+  transform: translateX(200px) translateZ(-80px) rotateY(-15deg) scale(0.65);
+  z-index: 5; opacity: .7; filter: brightness(.7) blur(0);
+}
+.gallery-slide.prev{
+  transform: translateX(-200px) translateZ(-80px) rotateY(15deg) scale(0.65);
+  z-index: 5; opacity: .7; filter: brightness(.7) blur(0);
+}
+.gallery-slide.far-next,
+.gallery-slide.far-prev{
+  opacity: 0;
+  pointer-events: none;
 }
 
-.gallery-slide.active:hover {
-  transform: translateX(0)  scale(1.025);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+/* Dots de navegación */
+.gallery-nav{
+  /* position: absolute;
+  left: 50%; bottom: 30px;             
+  transform: translateX(-50%); */
+  display: flex; gap: 5px; z-index: 20;
 }
-
-.gallery-slide.active .slide-overlay {
-  transform: translateY(0);
-}
-
-.gallery-slide {
-  margin-top: 30px;
-}
-.gallery-slide.active img {
-  transform: scale(1.1 );
-}
-
-
-.gallery-slide.next {
-  transform: translateX(400px) translateZ(-200px) rotateY(-25deg) scale(0.8);
-  z-index: 5;
-  opacity: 0.7;
-  filter: brightness(0.7) blur(2px);
-}
-
-
-.gallery-slide.prev {
-  transform: translateX(-400px) translateZ(-200px) rotateY(25deg) scale(0.8);
-  z-index: 5;
-  opacity: 0.7;
-  filter: brightness(0.7) blur(2px);
-}
-
-
-.gallery-slide.far-next {
-  transform: translateX(600px) translateZ(-400px) rotateY(-45deg) scale(0.6);
-  z-index: 1;
-  opacity: 0.4;
-  filter: brightness(0.5) blur(4px);
-}
-
-.gallery-slide.far-prev {
-  transform: translateX(-600px) translateZ(-400px) rotateY(45deg) scale(0.6);
-  z-index: 1;
-  opacity: 0.4;
-  filter: brightness(0.5) blur(4px);
-}
-
-
-.gallery-nav {
-  
-  bottom: 0px;
-  left: 50%;
-  
-  display: flex;
-  gap: 5px;
-  z-index: 20;
-}
-
-.nav-dot {
-  width: 30px;
-  height: 2px;
+.nav-dot{
+  width: 25px; height: 3px;           
   border-radius: 20px;
   background: var(--color-bodyLight);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all .3s ease;
   border: 2px solid transparent;
 }
-
-.nav-dot.active {
+.nav-dot.active{
   background: var(--color-primaryShadow1);
-  width: 40px;  
+  width: 35px;                         /* mobile */
   box-shadow: 0 0 15px var(--color-primary);
 }
 
-@media (max-width: 1200px) {
-  .gallery-slide {
-    width: 500px;
-    height: 350px;
-  }
-  
-  .gallery-slide.next,
-  .gallery-slide.prev {
-    transform: translateX(350px) translateZ(-200px) rotateY(-25deg) scale(0.8);
-  }
-  
-  .gallery-slide.prev {
-    transform: translateX(-350px) translateZ(-200px) rotateY(25deg) scale(0.8);
-  }
+/* Gestos: arrastrar en X pero permitir scroll en Y */
+.hero-gallery,
+.hero-conteiner,
+.gallery-slide,
+.gallery-slide *{ touch-action: pan-y; }
+
+/* Evitar drag nativo de imágenes en iOS y que capten eventos en vez del slide */
+.hero-gallery img{
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  .hero-gallery {
-    height: 60vh;
-  }
-  
-  /* ✅ Simplificar el efecto 3D en tablet para mejor performance */
-  .hero-conteiner {
-    perspective: 800px;
-  }
-  
-  .gallery-slide {
-    width: 400px;
-    height: 250px;
-  }
+/* ===================== TABLET (≥ 768px) ===================== */
+@media (min-width: 768px){
+  /* .hero-gallery{ height: 60vh; } */
 
-  .slide-title {
-    font-size: 1.8rem;
-  }
+  .hero-conteiner{ perspective: 800px; }
 
-  .slide-description {
-    font-size: 0.9rem;
-  }
-
-  .gallery-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-  }
-  
-  .gallery-slide.next,
-  .gallery-slide.prev {
-    transform: translateX(250px) translateZ(-150px) rotateY(-25deg) scale(0.7);
-  }
-  
-  .gallery-slide.prev {
-    transform: translateX(-250px) translateZ(-150px) rotateY(25deg) scale(0.7);
-  }
-  
-  .slide-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  /* ✅ Mejorar la interacción táctil */
-  .gallery-slide.active {
-    touch-action: pan-y; /* Permitir scroll vertical pero capturar horizontal */
-  }
-}
-
-@media (max-width: 480px) {
-  .home-container{
-    padding-top: 10px;;
-  }
-  .hero-gallery {
-    height: 50vh;
-    
-    
-    /* ✅ Reducir efectos 3D complejos en móvil para mejor performance */
-  }
-  
-  /* ✅ Perspectiva más simple para móvil */
-  .hero-conteiner {
-    perspective: 600px;
+  .gallery-slide{
+    width: 400px; 
     height: 40vh;
-    
-  }
-  
-  .gallery-slide {
-    width: 300px;
-     height: 350px; 
-    /* ✅ Transición más rápida en móvil */
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    padding: 0px;
-    border-radius: 10px;    
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
- 
-
-  .slide-title {
-    font-size: 1.4rem;
-  }
-
-  .gallery-btn.prev-btn {
-    left: 20px;
-  }
-
-  .gallery-btn.next-btn {
-    right: 20px;
-  }
-  
-  /* ✅ Efecto 3D más sutil en móvil */
-  .gallery-slide.next,
-  .gallery-slide.prev {
-    transform: translateX(200px) translateZ(-80px) rotateY(-15deg) scale(0.65);
-  }
-  
-  .gallery-slide.prev {
-    transform: translateX(-200px) translateZ(-80px) rotateY(15deg) scale(0.65);
-  }
-  
-  .gallery-slide.far-next,
-  .gallery-slide.far-prev {
-    /* ✅ Ocultar slides muy lejanos en móvil */
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .slide-overlay {
-    padding: 20px 15px 15px;
-  }
-  
-  .progress-bar {
-    width: 150px;
-  }
-  
-  .gallery-nav {
-    bottom: 30px;
-  }
-  
-  /* ✅ Optimización táctil */
-  .gallery-slide.active {
-    touch-action: pan-y;
-  }
-  
-  /* ✅ Aumentar área táctil de los dots */
-  .nav-dot {
-    width: 25px;
-    height: 3px;
-    margin: 0 2px;
-  }
-  
-  .nav-dot.active {
-    width: 35px;
-  }
-}
-
-.card-image-container {
-  position: relative;
-  overflow: hidden;
-}
-
-/******************************************** Label de descuento (solo móvil) **********************************/
-.discount-label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: var(--color-accent);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-
-.card-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.card-body {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
-}
-
-
-.card-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  line-height: 1.3;
-  color: var(--color-text);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-.card-footer {
-  margin-top: auto;
-}
-
-.price-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-
-
-
-@media (min-width: 1200px) {
-  .carousel-content {
-    gap: 25px;
-  }
-  
-  .card-img {
-    height: 180px;
-  }
-  
-  .card-title {
-    font-size: 17px;
-  }
-}
-
-
-@media (max-width: 1199px) {
-
-  .carousel-content {
-    gap: 18px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .common-carousel-container {
-    gap: 10px;
-  }
-  
-  .carousel-content {
-    gap: 15px;
-  }
-  
-
-  .card-img {
-    height: 140px;
-  }
-  
-  .card-body {
-    padding: 12px;
-  }
-  
-  .card-title {
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-  
-  .carousel-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-}
-
-
-@media (max-width: 480px) {
-
-  .hero-gallery{
-    height: fit-content;
-  }
-  .carousel-section {
-    margin-bottom: 30px;
-  }
-  
- 
-  .ver-todos {
-    align-self: flex-end;
-    font-size: 0.8rem;
-  }
-  
-  .common-carousel-container {
-    gap: 8px;
-    padding: 0 5px;
-  }
-  
-  .carousel-content {
-    gap: 12px;
-  }
-
-  .card-img {
-    height: 120px;
-  }
-  
-  .card-body {
-    padding: 10px;
-  }
-  
-  .card-title {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 8px;
-   
-  }
-  
-  .precio-normal,
-  .precio-gratis,
-  .precio-actual {
-    font-size: 14px; /*usar variable global */ 
-  }
-  
-  .precio-tachado {
-    font-size: 11px;
-  }
-  
-  .carousel-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 14px;
-  }
-  
- 
-  .discount-label {
-    display: block;
-    top: 8px;
-    left: 8px;
-    padding: 3px 6px;
-    font-size: 11px;
-  }
-
-  .carousel-btn {
-    display: none; 
-  }
+  .slide-title{ font-size: 1.8rem; }
+  .slide-actions{ gap: 10px; flex-direction: column; }
 
   .gallery-slide.next{
-    transform: translateX(390px) translateZ(-200px) rotateY(0deg) scale(1.15);
-    filter: blur(0);
-}
+    transform: translateX(250px) translateZ(-150px) rotateY(-25deg) scale(0.7);
+    filter: brightness(.7) blur(2px);
+  }
   .gallery-slide.prev{
-  
-transform: translateX(-390px) translateZ(-200px) rotateY(0deg) scale(1.15);
-  z-index: 5;
-  opacity: 0.7;
-  filter: brightness(0.7) blur(0);
+    transform: translateX(-250px) translateZ(-150px) rotateY(25deg) scale(0.7);
+    filter: brightness(.7) blur(2px);
   }
-@media (min-width: 769px) {
-  .discount-label {
-    display: none;
+}
+
+/* ===================== DESKTOP (≥ 1200px) ===================== */
+@media (min-width: 1200px){
+  .hero-conteiner{ perspective: 1200px; height: 100%; }
+
+  .gallery-slide{
+    width: 700px; height: 350px;
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-}}
+
+  .slide-overlay{ padding: 40px 30px 30px; }
+  .slide-title{ font-size: 1.5rem; }
+
+  .gallery-slide.next{
+    transform: translateX(450px) translateZ(-200px) rotateY(0deg) scale(0.8);
+  }
+  .gallery-slide.prev{
+    transform: translateX(-450px) translateZ(-200px) rotateY(0deg) scale(0.8);
+  }
+  .gallery-slide.far-next{
+    transform: translateX(600px) translateZ(-400px) rotateY(-45deg) scale(0.6);
+    z-index: 1; opacity: .4; filter: brightness(.5) blur(4px);
+  }
+  .gallery-slide.far-prev{
+    transform: translateX(-600px) translateZ(-400px) rotateY(45deg) scale(0.6);
+    z-index: 1; opacity: .4; filter: brightness(.5) blur(4px);
+  }
+}
