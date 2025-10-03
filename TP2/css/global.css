@@ -83,7 +83,6 @@
   --space-titles-carrousel: 10px;
   --space-global: 20px 80px 20px 80px;
   --padding-global: 0px 5.56%;
-  /* TODO: agregar margenes y paddings globales*/
 }
 
 body {
@@ -93,10 +92,10 @@ body {
 
 }
 
-.padding-global {
-  padding: 40px var(--padding-global);
+/*.padding-global {
+  padding: 60px var(--padding-global);
   
-}
+}*/
 
 .search-results {
   padding: 80px 90px;
@@ -124,7 +123,7 @@ body {
 .app-shell {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  padding-top: 70px;
 }
 
 
@@ -149,7 +148,6 @@ body {
   .app-shell {
     display: flex;
     flex-direction: column;
-    gap: 15px;
   }
 }
 
