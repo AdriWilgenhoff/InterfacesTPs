@@ -64,9 +64,6 @@ async function showHome(games) {
   }
 }
 
-
-
-
 /********************************************** Search ************************************************/
 
 async function renderSearch(filteredGames, searchTerm = '') {

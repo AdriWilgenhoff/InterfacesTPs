@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 rpg: "/assets/logos_svg/categories/rpg.svg",
                 shooter: "/assets/logos_svg/categories/shooter.svg",
                 arcade: "/assets/logos_svg/categories/arcade.svg",
-                indie: "assets/logos_svg/categories/indie.svg",
+                indie: "/assets/logos_svg/categories/indie.svg",
                 adventure: "/assets/logos_svg/categories/adventure.svg"
             };
 
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 let img = document.createElement("img");
                 img.classList.add("menu-icon");
-                img.src = iconsByCategory[category] || "assets/icons_perfil/perfil.png";
+                img.src = iconsByCategory[category] || "/assets/icons_perfil/perfil.png";
                 img.alt = category;
 
                

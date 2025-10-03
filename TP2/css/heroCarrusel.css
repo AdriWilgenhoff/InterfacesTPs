@@ -585,3 +585,21 @@ transform: translateX(-390px) translateZ(-200px) rotateY(0deg) scale(1.15);
     display: none;
   }
 }}
+
+
+/* el área donde el usuario “arrastra” */
+/* El hero y sus hijos: que la página siga scrolleando en Y,
+   pero el X quede libre para el carrusel */
+.hero-gallery,
+.hero-conteiner,
+.gallery-slide,
+.gallery-slide * {
+  touch-action: pan-y;
+}
+
+/* Evita que la imagen se “arrastra” como elemento nativo en iOS */
+.hero-gallery img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none; /* importante: los eventos los toma el slide, no la img */
+}

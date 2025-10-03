@@ -1,5 +1,3 @@
-
-
 class BaseCarrousel {
 
   constructor(category, arrayGames) {
@@ -38,13 +36,13 @@ class BaseCarrousel {
 class HeroCarrousel extends BaseCarrousel {
   constructor(category, arrayGames) {
     super(category, arrayGames);
+    if (!this.DOMElement) return; // evita continuar si no existe el nodo
+
     this.currentIndex = 0;
     this.autoPlayInterval = null;
-    this.touchStartX = 0;
-    this.touchEndX = 0;
 
     // Verificar que tenemos suficientes juegos
-    if (this.arrayGames.length < 3) {
+    if (!Array.isArray(this.arrayGames) || this.arrayGames.length < 3) {
       console.error("Se necesitan al menos 3 juegos para la galería hero");
       return;
     }
@@ -55,16 +53,29 @@ class HeroCarrousel extends BaseCarrousel {
     this.startAutoPlay();
   }
 
+  // 🔁 Override para que el hero use currentIndex (no globalIndex)
+  next() {
+    this.currentIndex = (this.currentIndex + 1) % this.arrayGames.length;
+    this.updateDisplay();
+  }
+
+  prev() {
+    this.currentIndex = (this.currentIndex - 1 + this.arrayGames.length) % this.arrayGames.length;
+    this.updateDisplay();
+  }
+
   renderCarrousel() {
     this.DOMElement.innerHTML = `
-            
-            <div class="hero-conteiner" id="hero-container"></div>
-            <div class="gallery-nav" id="gallery-nav-${this.category}"></div>  
-
-        `;
+      <div class="hero-conteiner" id="hero-container"></div>
+      <div class="gallery-nav" id="gallery-nav-${this.category}"></div>
+    `;
 
     this.container = this.DOMElement.querySelector('#hero-container');
     this.navContainer = this.DOMElement.querySelector(`#gallery-nav-${this.category}`);
+
+    // Habilitar gesto horizontal sin bloquear el scroll vertical
+    if (this.container) this.container.style.touchAction = 'pan-y';
+    this.DOMElement.style.touchAction = 'pan-y';
 
     this.renderSlides();
     this.renderNavigation();
@@ -79,20 +90,48 @@ class HeroCarrousel extends BaseCarrousel {
       slide.className = 'gallery-slide';
       slide.dataset.index = index;
 
+      // url/href de destino cuando esté al frente (active)
+      const href = game?.url || game?.href || '';
+      if (href) slide.dataset.href = href;
+
       slide.innerHTML = `
-                <img src="${game.background_image}" alt="${game.name}" loading="lazy">
-                <div class="slide-overlay">
-                    <h2 class="slide-title">${game.name}</h2>
-                </div>
-            `;
-      // Event listener para click en slide
+        <img src="${game.background_image}" 
+             alt="${game.name}" 
+             loading="lazy" 
+             draggable="false" 
+             style="pointer-events:none;-webkit-user-drag:none;user-select:none;">
+        <div class="slide-overlay">
+          <h2 class="slide-title">${game.name}</h2>
+        </div>
+      `;
+
+      // ✅ Click según estado visual:
+      // - active + tiene href  -> navegar
+      // - next                 -> this.next()
+      // - prev                 -> this.prev()
+      // - cualquier otra       -> llevarla al frente
       slide.addEventListener('click', (e) => {
-        if (e.target.closest('.slide-actions')) return; // No cambiar slide si se hace click en botones
+        if (e.target.closest('.slide-actions')) return; // no interferir con botones internos
+
+        const isActive = slide.classList.contains('active');
+        const isNext   = slide.classList.contains('next');
+        const isPrev   = slide.classList.contains('prev');
+
+        if (isActive && slide.dataset.href) {
+          window.location.assign(slide.dataset.href);
+          return;
+        }
+        if (isNext) { this.next(); return; }
+        if (isPrev) { this.prev(); return; }
+
         this.goToSlide(index);
       });
 
       this.container.appendChild(slide);
     });
+
+    // Evitar drag nativo de la imagen en iOS/desktop
+    this.container.addEventListener('dragstart', (e) => e.preventDefault());
   }
 
   renderNavigation() {
@@ -107,36 +146,97 @@ class HeroCarrousel extends BaseCarrousel {
   }
 
   setupEventListeners() {
-
+    // Click en dots
     this.navContainer.addEventListener('click', (e) => {
       if (e.target.classList.contains('nav-dot')) {
-        const index = parseInt(e.target.dataset.index);
+        const index = parseInt(e.target.dataset.index, 10);
         this.goToSlide(index);
       }
     });
 
-    
+    // Navegación por teclado
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') this.prev();
       if (e.key === 'ArrowRight') this.next();
     });
 
-    
+    // Autoplay pausa/reanuda en desktop
     this.DOMElement.addEventListener('mouseenter', () => this.stopAutoPlay());
     this.DOMElement.addEventListener('mouseleave', () => this.startAutoPlay());
 
-    
-    this.DOMElement.addEventListener('touchstart', (e) => {
-      this.touchStartX = e.changedTouches[0].screenX;
-      this.stopAutoPlay(); // Detener autoplay al tocar en móvil
-    });
+    // ======== Swipe SOLO touch/pen (no mouse) ========
+    const area = this.container || this.DOMElement;
+    const ACTIVATE = 10;  // px para “activar” swipe horizontal
+    const ACTION   = 50;  // px para cambiar de slide
 
-    this.DOMElement.addEventListener('touchend', (e) => {
-      this.touchEndX = e.changedTouches[0].screenX;
-      if (this.touchStartX - this.touchEndX > 50) this.next();
-      if (this.touchEndX - this.touchStartX > 50) this.prev();
-      this.startAutoPlay(); // Reiniciar autoplay después del swipe
-    });
+    let startX = 0, startY = 0, dx = 0, dy = 0;
+    let isSwiping = false;
+
+    const begin = (x, y) => {
+      this.stopAutoPlay();
+      startX = x; startY = y; dx = dy = 0;
+      isSwiping = false;
+    };
+
+    const move = (x, y, e) => {
+      dx = x - startX;
+      dy = y - startY;
+
+      // Activar swipe solo si predomina X
+      if (!isSwiping && Math.abs(dx) > ACTIVATE && Math.abs(dx) > Math.abs(dy)) {
+        isSwiping = true;
+      }
+      // Mientras estamos swiping horizontal, bloquear scroll del navegador
+      if (isSwiping && e && e.cancelable) e.preventDefault();
+    };
+
+    const end = () => {
+      if (isSwiping && Math.abs(dx) > ACTION) {
+        (dx < 0) ? this.next() : this.prev();
+      }
+      startX = startY = dx = dy = 0;
+      isSwiping = false;
+      this.startAutoPlay();
+    };
+
+    if ('PointerEvent' in window) {
+      // 👉 ignoramos mouse: sólo touch/pen
+      const onDown = (e) => {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        begin(e.clientX, e.clientY);
+        area.setPointerCapture?.(e.pointerId);
+      };
+      const onMove = (e) => {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        move(e.clientX, e.clientY, e);
+      };
+      const onUp = (e) => {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        try { area.releasePointerCapture?.(e.pointerId); } catch {}
+        end();
+      };
+
+      area.addEventListener('pointerdown', onDown, { passive: true });
+      area.addEventListener('pointermove', onMove,  { passive: false }); // necesario para preventDefault
+      area.addEventListener('pointerup',   onUp,    { passive: true });
+      area.addEventListener('pointercancel', onUp,  { passive: true });
+
+    } else {
+      // Fallback Touch (webviews viejas)
+      area.addEventListener('touchstart', (e) => {
+        const t = e.changedTouches[0];
+        begin(t.clientX, t.clientY);
+      }, { passive: true });
+
+      area.addEventListener('touchmove', (e) => {
+        const t = e.changedTouches[0];
+        move(t.clientX, t.clientY, e);
+      }, { passive: false });
+
+      area.addEventListener('touchend', () => end(), { passive: true });
+      area.addEventListener('touchcancel', () => end(), { passive: true });
+    }
+    // ======== FIN Swipe ========
   }
 
   updateDisplay() {
@@ -151,34 +251,40 @@ class HeroCarrousel extends BaseCarrousel {
 
       if (diff === 0) {
         slide.classList.add('active');
+
+        // cursor: clickable si hay link al frente
+        slide.style.cursor = slide.dataset.href ? 'pointer' : 'default';
+
       } else if (diff === 1 || diff === -(totalSlides - 1)) {
         slide.classList.add('next');
+        slide.style.cursor = 'pointer'; // “botón” para mover
       } else if (diff === -1 || diff === totalSlides - 1) {
         slide.classList.add('prev');
+        slide.style.cursor = 'pointer'; // “botón” para mover
       } else if (diff > 1 || diff < -1) {
         if (diff > 0 || diff === -(totalSlides - 2)) {
           slide.classList.add('far-next');
         } else {
           slide.classList.add('far-prev');
         }
+        slide.style.cursor = 'default';
       }
     });
 
-   
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === this.currentIndex);
     });
   }
 
   goToSlide(index) {
-    this.currentIndex = index;
+    this.currentIndex = ((index % this.arrayGames.length) + this.arrayGames.length) % this.arrayGames.length;
     this.updateDisplay();
   }
 
   startAutoPlay() {
     this.stopAutoPlay();
     this.autoPlayInterval = setInterval(() => {
-      this.next();
+      this.next(); // usa el override del hero
     }, 5000);
   }
 
@@ -190,16 +296,17 @@ class HeroCarrousel extends BaseCarrousel {
   }
 }
 
-/*********************************************************CARRUSEL COMUNNN ***********************************************/
 
+/********************************************************* CARRUSEL COMÚN ***********************************************/
 class CommonCarrousel extends BaseCarrousel {
 
   constructor(category, arrayGames) {
     super(category, arrayGames);
-    
+    if (!this.DOMElement) return;
+
     // ✅ DETECCIÓN DINÁMICA DEL VIEWPORT
     this.isDesktop = window.innerWidth >= 1440;
-    
+
     // ✅ VALORES RESPONSIVOS BASADOS EN EL TAMAÑO DE PANTALLA
     if (this.isDesktop) {
       this.cardWidth = 192.5;
@@ -211,17 +318,17 @@ class CommonCarrousel extends BaseCarrousel {
       this.gap = 7;
       this.viewportWidth = window.innerWidth;
     }
-    
+
     this.cardMove = this.cardWidth + this.gap;
     this.currentPosition = 0;
-    
+
     this.renderCarrousel();
-    
+
     // ✅ SOLO inicializar navegación con botones en desktop
     if (this.isDesktop) {
       this.initializeCarousel();
     }
-    
+
     // ✅ LISTENER para detectar cambios de tamaño de ventana
     this.handleResize = this.handleResize.bind(this);
     window.addEventListener('resize', this.handleResize);
@@ -230,7 +337,7 @@ class CommonCarrousel extends BaseCarrousel {
   handleResize() {
     const wasDesktop = this.isDesktop;
     this.isDesktop = window.innerWidth >= 1440;
-    
+
     // Si cambió el modo (desktop <-> mobile), re-renderizar
     if (wasDesktop !== this.isDesktop) {
       // Actualizar valores
@@ -243,20 +350,20 @@ class CommonCarrousel extends BaseCarrousel {
         this.gap = 7;
         this.viewportWidth = window.innerWidth;
       }
-      
+
       this.cardMove = this.cardWidth + this.gap;
       this.currentPosition = 0;
-      
+
       // Re-renderizar el carrusel
       this.renderCarrousel();
-      
+
       if (this.isDesktop) {
         this.initializeCarousel();
       }
     }
   }
 
-  renderCarrousel() { /* achicar flecha de svg */
+  renderCarrousel() {
     this.DOMElement.innerHTML = `
       <header class="carousel-header">
         <h2 class="carousel-title">${this.category}</h2>  
@@ -273,8 +380,7 @@ class CommonCarrousel extends BaseCarrousel {
         </button>
         
         <div class="card-container-viewport">
-          <div class="card-container">
-          </div>
+          <div class="card-container"></div>
         </div>
 
         <button class="carousel-nav-btn next-btn" aria-label="Siguiente">
@@ -285,7 +391,6 @@ class CommonCarrousel extends BaseCarrousel {
       </section>
     `;
 
-    // Agregar evento click al link "Ver más"
     const viewMoreLink = this.DOMElement.querySelector('.view-more-link');
     if (viewMoreLink) {
       viewMoreLink.addEventListener('click', async (e) => {
@@ -312,10 +417,10 @@ class CommonCarrousel extends BaseCarrousel {
 
     const totalCards = this.arrayGames.length;
     const totalContentWidth = (totalCards * this.cardWidth) + ((totalCards - 1) * this.gap);
-    
+
     // ✅ Establecer ancho fijo SOLO en desktop
     container.style.width = `${totalContentWidth}px`;
-    
+
     // ✅ Asegurar que NO haya scroll en desktop (navegación con botones)
     container.style.overflowX = 'hidden';
 
@@ -344,10 +449,10 @@ class CommonCarrousel extends BaseCarrousel {
 
         this.currentPosition = newPosition;
       }
-      
+
       const cards = container.querySelectorAll('.game-card');
       cards.forEach(card => card.classList.add('skewing'));
-      
+
       container.style.transform = `translateX(${this.currentPosition}px)`;
 
       setTimeout(() => {
@@ -374,7 +479,7 @@ class CommonCarrousel extends BaseCarrousel {
   updateDisplay() {
     const contentDiv = this.DOMElement.querySelector('.card-container');
     contentDiv.innerHTML = '';
-    
+
     // ✅ EN MÓVIL: Resetear estilos inline que puedan interferir con el scroll nativo
     if (!this.isDesktop) {
       contentDiv.style.width = 'auto';
@@ -393,14 +498,14 @@ class CommonCarrousel extends BaseCarrousel {
     let offerLabelHTML = '';
 
     if (promo) {
-      const discountPercentage = game.discountPercentage; 
+      const discountPercentage = game.discountPercentage;
 
       offerLabelHTML = `
         <div class="offer-label">
           <p>-${discountPercentage}%</p>
         </div>
       `;
-      
+
       priceHTML = `
         <div class="price discount"> 
           <div class="old-price">U$D ${game.price}</div> 
@@ -443,7 +548,7 @@ class CommonCarrousel extends BaseCarrousel {
       container.innerHTML = cardHTML.outerHTML;
     }
   }
-  
+
   // ✅ Destructor para limpiar el event listener de resize
   destroy() {
     window.removeEventListener('resize', this.handleResize);

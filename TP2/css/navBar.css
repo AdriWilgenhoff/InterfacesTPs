@@ -146,7 +146,7 @@ nav {
   transition: color 0.3s ease;
 }
 
-.navbar-search:focus-within .search-input::placeholder {
+.navbar-search:focus-within {
   color: var(--color-primary);
   opacity: 0.7;
 }
