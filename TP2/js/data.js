@@ -136,7 +136,7 @@ function filterByHeroCard(games) {
       name: "Peg Debugging",
       released: "2013-09-17",
       url: "html/game.html",
-      background_image: "../assets/img/peg/pegDebugger.png",
+      background_image: "assets/img/peg/pegDebugger.png",
       isFree: false,
        price: 49.99,
        discountPrice: 49.99,

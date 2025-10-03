@@ -103,15 +103,11 @@ async function renderSearch(filteredGames, searchTerm = '') {
               <img class="empty-search-logo" src="/assets/logos_png/mainLogo.png" alt="">
             </div>
             <div class="empty-text">
-            <p class="empty-text-1">Oops! ningun juego por aqui..</p>
-            <p class="empty-text-2">pero tampoco bugs ;)</p>
+            <p class="empty-text-1">Oops! Ningun juego por aqui..</p>
+            <p class="empty-text-2">Pero tampoco bugs ;)</p>
           </div>
         `;
-        
-        /* const emptyText = document.createElement('p');
-        emptyText.className = 'empty-text';
-        emptyText.textContent = 'Oops! nada por aquí! '; */
-        
+              
         const emptySuggestion = document.createElement('p');
         emptySuggestion.className = 'empty-suggestion';
         emptySuggestion.textContent = 'Descubrí mas juegos en nuestras categorías: ';
@@ -180,13 +176,13 @@ async function renderSearch(filteredGames, searchTerm = '') {
                 </div>
             `;
         } else {
-            priceHTML = `<span class="price">U$D ${game.price || 'Gratis'}</span>`;
+            priceHTML = `<span class="price common">U$D ${game.price || 'Gratis'}</span>`;
         }
 
-        card.innerHTML = `
+       card.innerHTML = `
             <div class="image-container">
                 <img src="${game.background_image}" alt="${game.name}" class="img-card">
-                ${isPromo ? '<div class="offer-label"><p>OFERTA</p></div>' : ''}
+                ${isPromo ? '<div class="offer-label"><p>-' + game.discountPercentage + '%</p></div>' : ''} 
             </div>
             <div class="body-card">
                 <div class="title-card">
@@ -194,7 +190,7 @@ async function renderSearch(filteredGames, searchTerm = '') {
                 </div>
                 ${priceHTML}
             </div>
-        `;
+        `;  
 
         gridContainer.appendChild(card);
     });

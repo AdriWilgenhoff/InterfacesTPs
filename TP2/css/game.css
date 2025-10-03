@@ -2,9 +2,10 @@
 .game-page {
     max-width: 1280px;
     width: 100%;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
+    margin: auto;
+}
+
+.game-page .app-shell {
     gap: 15px;
 }
 
@@ -17,7 +18,6 @@
     display: flex;
     list-style: none;
     font-size: var(--font-size-base);
-    margin-top: 50px;;
 }
 
 .bc-item a {
@@ -60,19 +60,21 @@
 .game-play {
     flex: 0 0 900px;
     max-width: 900px;
-    gap: 0px}
+    gap: 0px
+}
 
 .community-content {
     gap: 25px;
 }
 
 /* Contenedor especial para imagen + barra unidos */
-.game-play > *:not(:first-child) {
+.game-play>*:not(:first-child) {
     margin-top: 20px;
 }
 
 .game-play .game-board {
-    margin-top: 0; /* La barra se pega a la imagen */
+    margin-top: 0;
+    /* La barra se pega a la imagen */
 }
 
 /* MEDIA Y CONTROLES DEL JUEGO */
@@ -112,7 +114,7 @@
     text-decoration: none;
 }
 
-.style-comprar{
+.style-comprar {
     background: var(--color-accent);
 }
 
@@ -126,10 +128,13 @@
 }
 
 @keyframes pulse-comprar {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(-50%, -50%) scale(1);
         box-shadow: 0 0 10px var(--color-accent);
     }
+
     50% {
         transform: translate(-50%, -50%) scale(1.1);
         box-shadow: 0 0 20px var(--color-accentLight2);
@@ -141,10 +146,13 @@
 }
 
 @keyframes pulse-jugar {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(-50%, -50%) scale(1);
         box-shadow: 0 0 10px var(--color-primary);
     }
+
     50% {
         transform: translate(-50%, -50%) scale(1.1);
         box-shadow: 0 0 20px var(--color-primaryLight2);
@@ -277,7 +285,8 @@ table {
     overflow: hidden;
 }
 
-th, td {
+th,
+td {
     padding-left: 10px;
     text-align: left;
     border: 1px solid #1E1D22;
@@ -483,7 +492,7 @@ h3,
     justify-self: start;
 }
 
-.btn-play:hover{
+.btn-play:hover {
     background: var(--color-secondaryShadow1);
 }
 
@@ -543,6 +552,7 @@ h3,
     0% {
         box-shadow: 0 0 0 0px var(--color-text);
     }
+
     100% {
         box-shadow: 0 0 0 20px rgba(228, 228, 228, 0);
     }
@@ -598,28 +608,43 @@ h3,
 }
 
 @keyframes shake {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(-1px, 0); }
-    50% { transform: translate(1px, 0); }
-    75% { transform: translate(-1px, 0); }
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-1px, 0);
+    }
+
+    50% {
+        transform: translate(1px, 0);
+    }
+
+    75% {
+        transform: translate(-1px, 0);
+    }
 }
 
 @keyframes press {
-    0% { 
-        transform: scale(1) translate(0, 0); 
+    0% {
+        transform: scale(1) translate(0, 0);
     }
-    50% { 
-        transform: scale(0.92) translate(0, 1px); 
+
+    50% {
+        transform: scale(0.92) translate(0, 1px);
     }
-    100% { 
-        transform: scale(0.95) translate(0, 0); 
+
+    100% {
+        transform: scale(0.95) translate(0, 0);
     }
 }
 
 
 /*************************************************   FULL SIZE   *********************************************************************/
 /* 1. Ocultamos las columnas de la derecha (instrucciones y tabla) */
-.game-section.fullscreen-active .game-instructions{
+.game-section.fullscreen-active .game-instructions {
     display: none;
 }
 
@@ -627,6 +652,8 @@ h3,
 .game-section.fullscreen-active .game-play,
 .game-section.fullscreen-active .description-images-text {
     width: 100%;
-    max-width: 100%; /* Sobreescribimos el max-width que tenías */
-    flex: 1; /* Le decimos que ocupe todo el espacio en el contenedor flex */
+    max-width: 100%;
+    /* Sobreescribimos el max-width que tenías */
+    flex: 1;
+    /* Le decimos que ocupe todo el espacio en el contenedor flex */
 }

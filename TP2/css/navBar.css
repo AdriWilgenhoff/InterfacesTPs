@@ -310,8 +310,7 @@ nav {
 
 .navBarMenu {
   background-color: var(--color-navDark);
-  width: 15%;
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 
 .menu-list {
@@ -335,10 +334,6 @@ nav {
 
 }
 
-/* .menu-item:hover{
-    color: var(--color-secondary);
-} */
-
 .menu-link {
   color: var(--color-text);
   display: flex;
@@ -350,7 +345,7 @@ nav {
 }
 
 .social-media-menu {
-  margin: 25px 0px;
+  margin: 20px 0px 0px 0px;
   gap: 10px;
   align-items: center;
 }
