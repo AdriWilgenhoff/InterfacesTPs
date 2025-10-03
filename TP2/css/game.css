@@ -90,7 +90,7 @@
     height: 475px;
     object-fit: cover;
     object-position: center;
-    filter: blur(1.5px) brightness(.75);
+    filter: blur(2.5px) brightness(.75);
     margin-bottom: 0;
     vertical-align: bottom;
 }

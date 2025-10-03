@@ -1,8 +1,9 @@
-// ===== Inits que dependen del DOM =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Datos iniciales
+
   showComments();
   showRandomGames(5);
+
+
 
   // --- Comentarios ---
   const commentInput = document.querySelector('.comment-input');
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
   // --- Botones de like ---
   const heartButton = document.getElementById('like-button');
   const dedoButton = document.getElementById('like-button-dedo');
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dedoButton.classList.toggle('like-activo-dedo');
     });
   }
+
 
   // --- Popup de compartir ---
   const shareButton = document.getElementById('share-button');
@@ -65,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
 
   // --- Botón comprar/jugar ---
   let yaComprado = false;
@@ -89,10 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
       } else {
         console.log("En un futuro se podrá jugar cuando el juego esté implementado");
-        event.preventDefault(); // Solo prevenir en el segundo clic
+        event.preventDefault();
       }
     });
   }
+
 
   // --- Fullscreen sección juego ---
   const fullscreenButton = document.getElementById('fullscreen-button');
@@ -106,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ===== Funciones auxiliares (no dependen del DOM listo) =====
+
 async function showComments() {
   const comments = await getComments();
   const list = document.getElementById('comments-list-ul');
@@ -120,6 +125,7 @@ async function showComments() {
 
   list.appendChild(fragment);
 }
+
 
 function renderCommentItem(comment) {
   const li = document.createElement('li');
@@ -162,6 +168,7 @@ function renderCommentItem(comment) {
   return li;
 }
 
+
 async function postComment(commentData) {
   try {
     const response = await fetch(URL_COMMENTS, {
@@ -180,6 +187,7 @@ async function postComment(commentData) {
     return false;
   }
 }
+
 
 function sampleUnique(arr, n) {
   const a = arr.slice();

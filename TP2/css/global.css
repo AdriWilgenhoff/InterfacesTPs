@@ -110,13 +110,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-left: 3px;
-  padding-right: 3px;
-
-  /* Propiedades de centrado que se mantienen en todas las resoluciones */
+  padding-left: 5px;
+  padding-right: 5px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+/*   padding-left: clamp(5px, 4%, 80px);
+  padding-right: clamp(5px, 4%, 80px); */
 
 }
 
@@ -130,30 +130,10 @@ body {
 @media (min-width: 1440px) {
 
   .main-content {
-    /* Desactivamos el padding fluido. La fórmula de centrado se encarga de crear el margen. */
     padding-left: 0;
     padding-right: 0;
-
-    /* Fija el ancho del contenido interno para generar los 80px de margen externo.
-         * Cálculo: 1440px - (80px * 2) = 1280px */
     max-width: 1280px;
-
-    display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 15px;
-  }
-
-  .app-shell {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-
-@media (min-width: 430px) {
-  .main-content {    
-    padding-left: clamp(3px, 8vw, 80px);
-    padding-right: clamp(3px, 8vw, 80px);
   }
 }
