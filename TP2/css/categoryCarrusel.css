@@ -1,4 +1,4 @@
-/* ************************************** estructura carrusel *********************************************************** */
+/* ************************************** estructura carrusel ************************************************ */
 
 .game-carousel-section {
     margin-top: 25px;
@@ -39,11 +39,6 @@
     transition: inherit;
 }
 
-
-/* .common-carrusel-padding{
-    padding: 0px 5px;
-} */
-
 .carousel-section {
     display: flex;
     align-items: center;
@@ -83,7 +78,7 @@
     display: none;
 }
 
-/************************************************cards *************************************************/
+/********************************************** Cards *************************************************/
 
 .game-card {
     width: 118px;
@@ -100,38 +95,6 @@
     transition: all 0.3s ease;
     position: relative;
 }
-
-/**************************************************animacion***********************************************/
-.game-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 45%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    transform: skewX(-10deg);
-    z-index: 5;
-}
-/* 
-.game-card:hover::before {
-    animation-name: slide-glow;
-    animation-duration: 1.0s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    opacity: 0.5;
-}
- */
-@keyframes slide-glow {
-    0% {
-        transform: translateX(-100%) skewX(-10deg);
-    }
-    100% {
-        transform: translateX(550%) skewX(-10deg);
-    }
-}
-
-
 
 .image-container {
     width: 100%;
@@ -305,19 +268,18 @@
         align-items: center;
         width: 100%;
         justify-content: space-between;
+        gap: 9.5px;
     }
 
     .card-container-viewport {
         width: 1205px;
         overflow: hidden;
         box-sizing: content-box;
-        margin: 0 15px;
-        
+        /* margin: 0 15px; */        
     }
 
     .card-container {
         display: flex;
-        flex-direction: row;
         gap: 10px;
         padding: 10px 0px;
         justify-content: normal;
@@ -352,8 +314,6 @@
 
     .carousel-nav-btn {
         display: flex;
-        width: 40px;
-        height: 40px;
         flex-shrink: 0;
         align-items: center;
         justify-content: center;
@@ -382,14 +342,6 @@
         opacity: 0.3;
         cursor: not-allowed;
         color: var(--color-text);
-    }
-
-    .prev-btn {
-        margin-right: 7.5px;
-    }
-
-    .next-btn {
-        margin-left: 7.5px;
     }
 
     .carousel-header {
