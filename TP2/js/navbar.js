@@ -165,12 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             
             const iconsByCategory = {
-                action: "../assets/logos_svg/categories/action.svg",
-                rpg: "../assets/logos_svg/categories/rpg.svg",
-                shooter: "../assets/logos_svg/categories/shooter.svg",
-                arcade: "../assets/logos_svg/categories/arcade.svg",
-                indie: "../assets/logos_svg/categories/indie.svg",
-                adventure: "../assets/logos_svg/categories/adventure.svg"
+                action: "/InterfacesTPs/TP2/assets/logos_svg/categories/action.svg",
+                rpg: "/InterfacesTPs/TP2/assets/logos_svg/categories/rpg.svg",
+                shooter: "/InterfacesTPs/TP2/assets/logos_svg/categories/shooter.svg",
+                arcade: "/InterfacesTPs/TP2/assets/logos_svg/categories/arcade.svg",
+                indie: "/InterfacesTPs/TP2/assets/logos_svg/categories/indie.svg",
+                adventure: "/InterfacesTPs/TP2/assets/logos_svg/categories/adventure.svg"
             };
 
             categories.forEach(category => {
