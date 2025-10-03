@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 menuContainer.appendChild(li);
             });
 
-            console.log('Categorías renderizadas:', categories);
         } catch (error) {
             console.error('Error al renderizar categorías:', error);
         }

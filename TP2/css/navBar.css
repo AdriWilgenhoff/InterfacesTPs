@@ -390,8 +390,6 @@ nav {
   opacity: 1;
 }
 
-
-
 /* Botón de búsqueda toggle (oculto por defecto) */
 .search-toggle-btn {
   display: none;
@@ -447,7 +445,8 @@ nav {
   display: none;
 }
 
-/* ****************************************** RESPONSIVIDAD ********************************************************** */
+/******************************************* RESPONSIVIDAD *******************************************/
+
 @media (max-width: 768px) {
   .navBarMenu {
     width: 280px;

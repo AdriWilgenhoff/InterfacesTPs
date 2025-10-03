@@ -1,35 +1,22 @@
-
-html,
-body {
-    height: 100%;
+.specialOffer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-
-/* body {
-    margin: 0;
-    background: #0d0c10;
-    color: #e4e4e4;
-    
-    font-family: "Inter", system-ui, ui-sans-serif, Segoe UI, Roboto, Arial;
-   
-    line-height: 1.35;
-   
-    padding-left: 3px;
-    
-    padding-right: 3px;
-    
-}
- */
 
 
 .cardsSpecialsOffer-container {
-    display: grid;   
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 7px;
     width: 100%;
     margin: 0 auto;
-    /* padding: 15px 10px; */
 }
+
+.carousel-header-oferta {}
+
 /************************************************cards *********************************************/
+
 .specialOffer-card {
     display: flex;
     flex-direction: column;
@@ -66,7 +53,8 @@ body {
     display: block;
 }
 
-/******************************** Etiqueta de precio ****************************************************************/
+/******************************** Etiqueta de precio ********************************/
+
 .specialOffer-label {
     position: absolute;
     top: 0;
@@ -80,13 +68,12 @@ body {
 .rectangle-3 {
     background: #000;
     border-radius: 0 0 0.3125rem 0.3125rem;
-    /* --radius-sm (5px) */
     padding: 0.1875rem 0.3125rem;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 6px 14px rgba(0, 0, 0, .45), 0 2px 6px rgba(0, 0, 0, .35);
-   
+
 }
 
 .specialOfferPrice {
@@ -97,8 +84,8 @@ body {
 }
 
 .specialOffer-old-price {
-    color: var(--color-textDark);    
-    font-size: 0.6875rem;    
+    color: var(--color-textDark);
+    font-size: 0.6875rem;
     text-decoration: line-through;
     white-space: nowrap;
 }
@@ -109,7 +96,6 @@ body {
     font-weight: 600;
     white-space: nowrap;
 }
-
 
 .body-specialOffer-card {
     display: flex;
@@ -136,18 +122,16 @@ body {
         padding-right: 0;
     }
 
-    
+
     .cardsSpecialsOffer-container {
         width: 100%;
         max-width: 1205px;
         margin: 0 auto;
-        padding-top: 10px;
         gap: 15px;
         grid-template-columns: repeat(4, 290px);
-        /* padding: 20px 15px; */
     }
 
-   
+
     .specialOffer-card {
         height: 197px;
     }
@@ -155,6 +139,6 @@ body {
     .img-specialOffer-card {
         aspect-ratio: auto;
         height: calc(197px - 1.6875rem);
-        
+
     }
 }

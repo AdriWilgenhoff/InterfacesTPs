@@ -5,11 +5,16 @@
     margin-bottom: 25px;
 }
 
+.common-carrusel-padding {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
 .carousel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
 }
 
 .carousel-title {
@@ -63,12 +68,12 @@
     gap: 7px;
 
     /* Compensación de margen móvil */
-    margin-left: -3px;
+/*     margin-left: -3px;
     padding-left: 3px;
-    padding-right: 3px;
+    padding-right: 3px; */
 
     flex-grow: 1;
-    
+
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
 }
@@ -89,7 +94,7 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
-    
+
     /* Transiciones de la card */
     transition: all 0.3s ease;
     position: relative;
@@ -179,16 +184,13 @@
 
 .offer-label p {
     text-align: center;
-    color: #000000;
+    color: var(--color-fullDark);
     font-weight: 700;
     font-size: var(--font-size-xsmall);
 }
 
-/* Tablet y móvil grande (481px - 1439px) */
+
 @media (min-width: 481px) and (max-width: 1439px) {
-    .carousel-header {
-        margin-bottom: 10px;
-    }
 
     .carousel-title {
         font-size: 15px;
@@ -224,7 +226,6 @@
 
 @media (min-width: 1440px) {
 
- 
     .carousel-section {
         display: flex;
         align-items: center;
@@ -233,11 +234,14 @@
         gap: 9.5px;
     }
 
+    .common-carrusel-padding {
+        gap: 0px
+    }
+
     .card-container-viewport {
         width: 1205px;
         overflow: hidden;
         box-sizing: content-box;
-        /* margin: 0 15px; */        
     }
 
     .card-container {
@@ -268,7 +272,7 @@
         transform: skewY(-2deg);
         transition: transform 0.3s ease;
     }
-    
+
     .game-card.skewing:hover {
         transform: skewY(-2deg) scale(1.05);
         filter: brightness(1.15);
@@ -292,7 +296,8 @@
         height: 28px;
         transition: inherit;
     }
-    .view-more-arrow{
+
+    .view-more-arrow {
         width: 15px;
     }
 
@@ -331,7 +336,7 @@
         display: flex;
         gap: 5px;
         font-size: var(--font-size-small);
-        
+
     }
 
     .image-container {
