@@ -67,11 +67,23 @@ async function renderSearch(filteredGames, searchTerm = '') {
   containerRender.innerHTML = "";
   containerRender.classList.remove('search-results');
 
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const searchSection = document.createElement('section');
   searchSection.className = 'search-results-section';
+
+  /*Bradcrumbs*/
+  const breadcrumbs = document.createElement('div');
+  breadcrumbs.className = 'breadcrumbs';
+  breadcrumbs.innerHTML = `
+      <ol class="bc-list">
+        <li class="bc-item"><a href="../index.html">Home</a></li>
+        <li class="separator">›</li>
+        <li class="bc-item current">${searchTerm}</li>
+      </ol>
+    `;
+
+  searchSection.appendChild(breadcrumbs);
 
 
   const searchHeader = document.createElement('div');

@@ -289,9 +289,9 @@
 
 @media (min-width: 1440px) {
     .search-results-section {
-        max-width: 1280px;
-        margin-left: auto;
-        margin-right: auto;
+        /*max-width: 1280px;*/
+        width: 100%;
+        margin: 0 auto;
         padding: 40px 0;
     }
 
@@ -354,4 +354,37 @@
         padding: 14px 32px;
         font-size: 16px;
     }
+}
+
+
+
+/************************************ BREADCRUMBS **************************************/
+
+.breadcrumbs {
+    width: 100%;
+}
+
+.search-results-section .bc-list {
+    display: flex;
+    list-style: none;
+    font-size: var(--font-size-base);
+    margin-bottom: 20px;
+}
+
+.bc-item a {
+    color: var(--color-textDark);
+    text-decoration: none;
+}
+
+.bc-item a:hover {
+    text-decoration: underline;
+}
+
+.bc-item.current {
+    color: var(--color-text);
+}
+
+.separator {
+    margin: 0 8px;
+    color: var(--color-textDark);
 }
