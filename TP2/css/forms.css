@@ -1,13 +1,24 @@
+/* ========================================
+   FORMS.CSS - SOLO ESTILOS COMUNES
+   ======================================== */
+
+/* ========================================
+   BODY Y CONTENEDORES GENERALES
+   ======================================== */
+
 body {
     display: flex;
     flex-direction: column; 
     min-height: 100vh;
-    background: url("../assets/img/backgrounds/fondo.jpg") no-repeat center center fixed;
     background-size: cover;
     font-family: var(--font-base);
     margin: 0; 
     padding: 0;
 }
+
+/* ========================================
+   LOGIN CONTAINER
+   ======================================== */
 
 .login-container {
     flex: 1;
@@ -17,7 +28,12 @@ body {
     padding: 20px;
 }
 
-.login-form {
+/* ========================================
+   FORMULARIOS - ESTILOS COMPARTIDOS
+   ======================================== */
+
+.login-form,
+.register-form {
     background-color: var(--color-bodyDark);
     padding: 30px 40px; 
     border-radius: 15px;
@@ -26,13 +42,18 @@ body {
     margin: 35px;
 }
 
-.login-form h2 {
+.login-form h2,
+.register-form h2 {
     font-family: var(--font-base); 
     font-size: 18px;
     margin-bottom: 25px;
     color: var(--color-text); 
     font-weight: normal; 
-}       
+}
+
+/* ========================================
+   INPUT GROUPS
+   ======================================== */
 
 .input-group {
     text-align: left;
@@ -70,6 +91,46 @@ body {
     margin-left: 4px;
 }
 
+/* ========================================
+   PASSWORD CONTAINER CON TOGGLE
+   ======================================== */
+
+.password-container {
+    position: relative; 
+    display: flex; 
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute; 
+    right: 15px; 
+    cursor: pointer;
+    width: 20px; 
+    height: 20px; 
+}
+
+/* ========================================
+   ERROR MESSAGES
+   ======================================== */
+
+.error-message {
+    color: var(--color-warning);    
+    font-size: 10px;
+    margin-top: 5px;
+    display: block; 
+    height: auto;   
+    white-space: pre-wrap; 
+    margin-bottom: 10px;
+}
+
+.input-group.error input {
+    border-color: var(--color-warning);
+}   
+
+/* ========================================
+   FORGOT PASSWORD (LOGIN)
+   ======================================== */
+
 .forgot-password {
     text-align: left;
     margin-top: 5px;
@@ -86,6 +147,10 @@ body {
 .forgot-password a:hover {
     color: var(--color-primaryLight2);
 }
+
+/* ========================================
+   BOTONES
+   ======================================== */
 
 .login-button {
     width: 100%;
@@ -113,15 +178,17 @@ body {
   0% {
     background-position: 0% 0%;
   }
- 
   50% {
     background-position: 100% 100%;
   }
- 
   100% {
     background-position: 0% 0%;
   }
 }
+
+/* ========================================
+   DIVIDER Y SOCIAL LOGIN
+   ======================================== */
 
 .divider {
     display: flex;
@@ -163,6 +230,10 @@ body {
     fill: var(--color-primaryLight1); 
 }
 
+/* ========================================
+   SIGNUP/LOGIN LINK
+   ======================================== */
+
 .signup-link {
     display: flex; 
     justify-content: center;
@@ -185,221 +256,9 @@ body {
     color: var(--color-primaryLight2);
 }
 
-.register-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.register-form {
-    background-color: var(--color-bodyDark);
-    padding: 30px 40px; 
-    border-radius: 15px;
-    width: 380px; 
-    text-align: center;
-    margin: 35px;
-    color: var(--color-text);
-    font-family: var(--font-base);
-    margin-top: 33px;
-}
-
-.register-form h2 {
-    font-size: 18px;
-    margin-bottom: 30px;
-    font-weight: normal; 
-}
-
-.date-input-container {
-    position: relative;
-    width: 100%; 
-}
-
-.date-input-container input {
-    width: 100%;
-    padding-right: 40px; 
-}
-
-.calendar-icon {
-    position: absolute;
-    top: 50%;
-    right: 15px; 
-    transform: translateY(-50%);
-    width: 25px; 
-    height: 25px;
-}
-
-.recaptcha-group {
-    display: flex; 
-    justify-content: center;
-    flex-direction: column; 
-    align-items: center; 
-}
-
-.recaptcha-container {
-    display: flex;
-    align-items: center;
-    background-color: var(--color-box);
-    padding: 10px 15px;
-    border-radius: 4px;
-    color: var(--color-text);
-}
-
-.recaptcha-text {
-    margin-left: 10px;
-    font-size: 14px;
-    font-family: var(--font-base);
-}
-
-.recaptcha-logo-container {
-    margin-left: 50px;
-}
-
-.recaptcha-logo {
-    width: 35px;
-}
-
-.recaptcha-checkbox {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
-    border: 0.5px solid var(--color-textDark); 
-    background-color: var(--color-box); 
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-}
-
-.recaptcha-checkbox:checked {
-    background-color: var(--color-hover); 
-}
-
-.recaptcha-checkbox:checked::after {
-    content: "✔";
-    color: var(--color-textLight);
-    font-size: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-}
-
-label.required {
-    align-items: center; 
-}
-
-.recaptcha-checkbox {
-    transform: scale(2); 
-    cursor: pointer;
-}
-
-.recaptcha-text {
-    margin-left: 15px; 
-white-space: nowrap; 
-}
-
-.error-message {
-    color: var(--color-warning);    
-    font-size: 10px;
-    margin-top: 5px;
-    display: block; 
-    height: auto;   
-    white-space: pre-wrap; 
-    margin-bottom: 10px;
-}
-
-.input-group.error input {
-    border-color: var(--color-warning);
-}   
-
-.password-container {
-    position: relative; 
-    display: flex; 
-    align-items: center;
-}
-
-.toggle-password {
-    position: absolute; 
-    right: 15px; 
-    cursor: pointer;
-    width: 20px; 
-    height: 20px; 
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;
-    appearance: none;
-    display: none;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.password-criteria {
-    text-align: left;
-    border-radius: 8px;
-    font-size: 11px;
-    padding-bottom: 10px;
-    margin-left: 25px;
-    margin-top: -10px;
-}
-
-.password-criteria p {
-    margin: 5px 0;
-    color: var(--color-textDark);
-    display: flex;
-    align-items: center;
-}
-
-#criterion-length,
-#criterion-numbers,
-#criterion-uppercase {
-    margin-left: 20px;
-}
-
-.password-criteria p.valid {
-    color: var(--color-ok); 
-}
-
-.password-criteria p .icon-status {
-    margin-right: 8px;
-    font-weight: bold;
-    width: 15px; 
-    text-align: center;
-    font-size: 16px;
-}
-
-.password-criteria p.valid .icon-status {
-    content: '✓'; 
-}
-
-.criteria-title {
-    color: var(--color-text);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; 
-}
-
-
-.criteria-title .lock-icon {
-    width: 17px; 
-    height: 20px;
-    margin-right: 8px; 
-}
-
-.success-message h1 {
-    font-size: 3em;
-    color: var(--color-ok); 
-    margin-bottom: 20px;
-}
-
-.success-message p {
-    font-size: 1.5em;
-    color: var(--color-text);
-}
+/* ========================================
+   NAVBAR LOGO
+   ======================================== */
 
 .navbar-logo {
     display: flex;
@@ -407,67 +266,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items: center; 
     width: 100%; 
     max-width: none; 
-    height: 48px; 
+    height: 60px; /* Cambiado de 48px a 60px */
     background-color: var(--color-navDark); 
-}
-
-body.scroll-bloqueado {
-    overflow-y: hidden;
-    width: 100%; 
-} 
-
-.register-container.form-desaparece {
-    opacity: 0;
-    transform: scale(0.9); 
-}
-
-.register-container.form-oculto {
-    display: none;
-}
-
-.success-message {
-    position: fixed; 
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: var(--color-bodyDark); 
-    color: var(--color-textLight);
-    z-index: 1000; 
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none; 
-    transform: none; 
-    transition: none; 
-}
-
-.success-message.popup-blur {
-    opacity: 1;
-    pointer-events: auto;
-    animation: aparecerConBlur 1.7s ease-out forwards; 
-}
-
-@keyframes aparecerConBlur {
-    0% {
-        transform: scale(1.1);
-        opacity: 0;
-        filter: blur(10px);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-        filter: blur(0px);
-    }
-}
-
-.site-footer.desaparece,
-.navbar-logo.desaparece { 
- opacity: 0;
- transition: opacity 0.5s ease-out; 
-pointer-events: none;
 }
