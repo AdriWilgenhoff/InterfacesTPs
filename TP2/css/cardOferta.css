@@ -129,6 +129,7 @@
         margin: 0 auto;
         gap: 15px;
         grid-template-columns: repeat(4, 290px);
+        padding-bottom: 10px;
     }
 
 

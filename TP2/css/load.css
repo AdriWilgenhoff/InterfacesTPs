@@ -1,7 +1,24 @@
-html.no-scroll,
-body.no-scroll { overflow: hidden !important; }
+/* Bloqueo de scroll */
+html.no-scroll, body.no-scroll { overflow: hidden !important; }
 
-/* Overlay full-screen */
+/* ====== Variables (mobile por defecto) ====== */
+:root{
+  /* Distancias solo para espaciados/traslaciones */
+  --dx-word-near: 70px;   /* palabra cerca del logo */
+  --dx-word-far:  300px;  /* palabra lejos del logo */
+  --dx-logo:      70px;   /* desplazamiento del logo a la izq */
+}
+
+/* Desktop / pantallas grandes: override de distancias */
+@media (min-width: 600px){
+  :root{
+    --dx-word-near: 130px;
+    --dx-word-far:  400px;
+    --dx-logo:      130px;
+  }
+}
+
+/* ====== Overlay fullscreen ====== */
 #loaderOverlay{
   position: fixed;
   inset: 0;
@@ -12,36 +29,36 @@ body.no-scroll { overflow: hidden !important; }
   perspective: 1000px;
 }
 
-/* Contenido */
 #loaderOverlay .stage{
   width: 100%;
   display: grid;
   place-items: center;
   padding: 16px;
   transform-origin: center;
-  will-change: transform, opacity;
 }
 
-/* Marca centrada */
+/* Marca: logo + palabra */
 #loaderOverlay .brandRow{
   position: relative;
   display: grid;
   place-items: center;
   min-height: 160px;
-  transform: scale(var(--s, 1));
   transform-origin: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-/* Logo + overlay oscuro revelable */
+/* Logo */
 #loaderOverlay .logo{
   position: relative;
   width: clamp(120px, 32vw, 220px);
   max-width: 220px;
   aspect-ratio: 1/1;
   display: block;
-  transform: translateX(var(--tx, 0));
-  transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  transform: translateX(0);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
+  z-index: 2;
 }
 
 #loaderOverlay .logoImg{
@@ -51,76 +68,87 @@ body.no-scroll { overflow: hidden !important; }
   display: block;
 }
 
-/* Capa oscura que se retira (clip) */
+/* Capa oscura con máscara (revelado durante la carga) */
 #loaderOverlay .logoDark{
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: var(--color-bodyDark);
-  -webkit-mask-image: var(--mask-url);
-  mask-image: var(--mask-url);
   -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  mask-position: center;
   -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
   mask-size: contain;
-  clip-path: inset(0 var(--right, 0%) 0 var(--left, 0%) round 0);
-  transition: clip-path .08s linear;
+  transition: clip-path 0.08s linear;
 }
 
 /* Palabra */
 #loaderOverlay .word{
   position: absolute;
   left: 50%;
-  transform: translateX(calc(-50% + var(--tx, 0)));
+  transform: translateX(-50%);
   opacity: 0;
   font-family: var(--font-logo, 'Orbitron'), sans-serif;
   font-weight: 800;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   font-size: clamp(1.7rem, 4.6vw, 2.7rem);
-  color: var(--color-text); 
+  color: var(--color-text);
   white-space: nowrap;
   user-select: none;
-  transition: transform .65s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.45s ease;
   will-change: transform, opacity;
+  z-index: 1;
 }
+
 #loaderOverlay .word .accent{ color: var(--color-primary); }
 
 /* Porcentaje */
 #loaderOverlay .percent{
   font-variant-numeric: tabular-nums;
   font-size: var(--font-size-base);
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   text-align: center;
   margin-top: 12px;
-}
-#loaderOverlay .percent.fade-out{
-  opacity: 0;
-  transition: opacity .35s ease;
+  transition: opacity 0.35s ease;
 }
 
-/* Choque sutil */
-@keyframes bonkLogo{
-  0%{   transform: translateX(var(--tx)) scale(1) }
-  35%{  transform: translateX(calc(var(--tx) + 3px)) scale(.96,1.04) }
-  65%{  transform: translateX(calc(var(--tx) - 2px)) scale(1.04,.96) }
-  100%{ transform: translateX(var(--tx)) scale(1) }
-}
-@keyframes bonkWord{
-  0%{   transform: translateX(calc(-50% + var(--tx))) scale(1) }
-  35%{  transform: translateX(calc(-50% + var(--tx) - 3px)) scale(.96,1.04) }
-  65%{  transform: translateX(calc(-50% + var(--tx) + 2px)) scale(1.04,.96) }
-  100%{ transform: translateX(calc(-50% + var(--tx))) scale(1) }
-}
-#loaderOverlay .logo.bonk{ animation: bonkLogo .5s cubic-bezier(.2,.8,.2,1) }
-#loaderOverlay .word.bonk{ animation: bonkWord .5s cubic-bezier(.2,.8,.2,1) }
+/* Estado .go */
+#loaderOverlay.go .percent{ opacity: 0; }
+#loaderOverlay.go .word,
+#loaderOverlay.go .logo{ transition: none; }
 
-/* Salida */
+/* ====== Animación de entrada ====== */
+@keyframes word-master{
+  0%   { opacity:0; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  20%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-far)))  scale(1); }
+  50%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-far)))  scale(1); }
+  65%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  75%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  80%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(0.96, 1.04); }
+  90%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1.04, 0.96); }
+  100% { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+}
+
+@keyframes logo-master{
+  0%,55% { transform: translateX(0) scale(1); }
+  70%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(1); }
+  80%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(0.96, 1.04); }
+  90%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(1.04, 0.96); }
+  100%   { transform: translateX(calc(-1 * var(--dx-logo))) scale(1); }
+}
+
+#loaderOverlay.go .word{ animation: word-master 1830ms ease-out forwards; }
+#loaderOverlay.go .logo{ animation: logo-master 1830ms ease-out forwards; }
+
+/* ====== Animación de salida ====== */
 @keyframes slide-out-fwd-center{
-  0%{   transform: translateZ(0);   opacity: 1 }
-  100%{ transform: translateZ(600px); opacity: 0 }
+  0% { opacity: 1; }
+  55% { opacity: 0.55; }
+  100% { opacity: 0; }
 }
-#loaderOverlay .slide-out-fwd-center{
-  animation: slide-out-fwd-center .7s cubic-bezier(.55,.085,.68,.53) both;
+
+#loaderOverlay.go .brandRow{
+  animation: slide-out-fwd-center 700ms linear both;
+  animation-delay: 2130ms;
 }
