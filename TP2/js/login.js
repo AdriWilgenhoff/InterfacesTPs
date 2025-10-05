@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let message = '';
 
         if (passwordValue === '') {
-            message = 'Contraseña incorrecta.';
+            message = 'La contraseña es obligatoria.';
         }
         
         displayError(passwordInput, passwordError, message);

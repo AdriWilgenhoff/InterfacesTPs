@@ -1,12 +1,11 @@
 (function () {
-  // Referencias DOM
   var percentEl = document.getElementById('percent');
   var percentWrap = document.getElementById('percentWrap');
   var logoImg = document.getElementById('logoImg');
   var logoDark = document.getElementById('logoDark');
   var overlay = document.getElementById('loaderOverlay');
 
-  var STEP_MS = 10; // cada 50ms sube 1% (50ms x 100 = 5 segundos)
+  var STEP_MS = 10;
   var p = 0;
 
   // Configura la máscara del logo

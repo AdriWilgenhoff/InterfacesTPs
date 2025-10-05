@@ -26,7 +26,6 @@ class BaseCarrousel {
     return game.discountPrice !== 0 && game.discountPrice < game.price;
   }
 
-  // Cada clase hija define estos metodos
   renderCarrousel() { }
   updateDisplay() { }
   renderCard(game, DOMElement) { }
@@ -480,7 +479,7 @@ class CommonCarrousel extends BaseCarrousel {
     const contentDiv = this.DOMElement.querySelector('.card-container');
     contentDiv.innerHTML = '';
 
-    // ✅ EN MÓVIL: Resetear estilos inline que puedan interferir con el scroll nativo
+    // EN MÓVIL: Resetear estilos inline que puedan interferir con el scroll nativo
     if (!this.isDesktop) {
       contentDiv.style.width = 'auto';
       contentDiv.style.transform = 'none';
@@ -508,15 +507,15 @@ class CommonCarrousel extends BaseCarrousel {
 
       priceHTML = `
         <div class="price discount"> 
-          <div class="old-price">U$D ${game.price}</div> 
-          <div class="new-price">U$D ${game.discountPrice}</div>
+          <div class="old-price">U$D ${game.price.toFixed(2)}</div> 
+          <div class="new-price">U$D ${game.discountPrice.toFixed(2)}</div>
         </div>
       `;
     } else {
       if (game.isFree) {
         priceHTML = `<div class="price free"><div class="new-price">Gratis</div></div>`;
       } else {
-        priceHTML = `<div class="price common"><div class="new-price">U$D ${game.price}</div></div>`;
+        priceHTML = `<div class="price common"><div class="new-price">U$D ${game.price.toFixed(2)}</div></div>`;
       }
     }
 
@@ -549,7 +548,7 @@ class CommonCarrousel extends BaseCarrousel {
     }
   }
 
-  // ✅ Destructor para limpiar el event listener de resize
+  // Destructor para limpiar el event listener de resize
   destroy() {
     window.removeEventListener('resize', this.handleResize);
   }

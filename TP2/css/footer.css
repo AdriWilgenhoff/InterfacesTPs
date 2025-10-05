@@ -216,8 +216,6 @@
     display: none;
 }
 
-
-/* ===== Responsive ===== */
 @media (min-width: 769px) {
 
     .footer-cols .footer-col:nth-child(1),

@@ -8,11 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchToggleBtn = document.querySelector('#search-toggle-btn');
     const searchContainer = document.querySelector('.navbar-search');
 
-
     let isHamburgerOpen = false;
     let isUserMenuOpen = false;
     let isSearchExpanded = false;
-
 
     function toggleSearch() {
         isSearchExpanded = !isSearchExpanded;
@@ -160,10 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-           
+
             menuContainer.innerHTML = '';
 
-            
+
             const iconsByCategory = {
                 action: "/InterfacesTPs/TP2/assets/logos_svg/categories/action.svg",
                 rpg: "/InterfacesTPs/TP2/assets/logos_svg/categories/rpg.svg",
@@ -174,17 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             categories.forEach(category => {
-                
+
                 let li = document.createElement("li");
                 li.classList.add("menu-item");
 
-                
+
                 let img = document.createElement("img");
                 img.classList.add("menu-icon");
                 img.src = iconsByCategory[category] || "/assets/icons_perfil/perfil.png";
                 img.alt = category;
 
-               
+
                 let a = document.createElement("a");
                 a.classList.add("menu-link");
                 a.href = "#";
@@ -196,27 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     try {
                         // Cerrar el menú hamburguesa
                         if (isHamburgerOpen) toggleHamburgerMenu();
-                        
-                        // Obtener todos los juegos
+
                         const allGames = await getGames();
-                        
-                        // Filtrar por categoría
                         const gamesByCategory = await filterBy(category, allGames);
-                        
-                        // Renderizar resultados
                         renderSearch(gamesByCategory, category);
-                        
+
                         console.log(`Categoría ${category} filtrada:`, gamesByCategory.length, 'juegos');
                     } catch (error) {
                         console.error('Error al filtrar por categoría:', error);
                     }
                 });
 
-                
+
                 li.appendChild(img);
                 li.appendChild(a);
 
-                
+
                 menuContainer.appendChild(li);
             });
 
@@ -225,29 +218,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-   
+
     renderMenuCategories();
 
     /******************************** Funcionalidad Logo - Volver al Home ********************************/
-    
+
     const navbarLogo = document.querySelector('.navbar-logo');
-    
+
     if (navbarLogo) {
-        // Agregar cursor pointer para indicar que es clickeable
-        navbarLogo.style.cursor = 'pointer';
-        
+
         navbarLogo.addEventListener('click', async () => {
             try {
                 // Cerrar menús si están abiertos
                 if (isHamburgerOpen) toggleHamburgerMenu();
                 if (isUserMenuOpen) toggleUserMenu();
                 if (isSearchExpanded) toggleSearch();
-                
-                // Obtener juegos y renderizar home
+
                 const games = await getGames();
                 await showHome(games);
-                
-                console.log('Home renderizado desde el logo');
+
             } catch (error) {
                 console.error('Error al volver al home desde el logo:', error);
             }

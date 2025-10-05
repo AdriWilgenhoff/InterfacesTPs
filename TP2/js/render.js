@@ -1,5 +1,5 @@
 
-/********************************************* APP ***********************************************************************/
+/******************************************************************* APP *******************************************************************/
 
 document.addEventListener('DOMContentLoaded', () => {
   startApp();
@@ -12,13 +12,12 @@ async function startApp() {
   try {
     const games = await getGames();
     await showHome(games);
-    initSearch();
+    /* initSearch(); */
     window.APP_READY = true;
   } catch (err) {
     console.error('Error al iniciar la app:', err);
   }
 }
-
 
 /******************************************************************* HOME *******************************************************************/
 
@@ -26,14 +25,12 @@ async function showHome(games) {
   const containerRender = document.querySelector('#home-container');
   containerRender.innerHTML = "";
 
-
   const heroSection = document.createElement('section');
   heroSection.id = 'hero-slider';
   containerRender.appendChild(heroSection);
 
   const heroCards = await filterByHeroCard(games);
   new HeroCarrousel('hero', heroCards);
-
 
   const categoriesHome = ['action', 'rpg', 'shooter', 'arcade', 'indie', 'adventure'];
 
@@ -51,16 +48,14 @@ async function showHome(games) {
     new CommonCarrousel(category, gamesByCategory);
 
     if (i === 1) {
-
       containerRender.appendChild(renderSpecialOffers());
     } else if (i === 3) {
-
       containerRender.appendChild(createComingSoonSection());
     }
   }
 }
 
-/********************************************** Search ************************************************/
+/***************************************************************** SEARCH *****************************************************************/
 
 async function renderSearch(filteredGames, searchTerm = '') {
   const containerRender = document.querySelector('#home-container');
@@ -145,8 +140,6 @@ async function renderSearch(filteredGames, searchTerm = '') {
       console.error('Error al cargar categorías:', error);
     }
 
-
-
     searchSection.appendChild(emptyMessage);
     containerRender.appendChild(searchSection);
     return;
@@ -156,10 +149,7 @@ async function renderSearch(filteredGames, searchTerm = '') {
   searchTitle.textContent = `${filteredGames.length} resultado${filteredGames.length !== 1 ? 's' : ''} ${searchTerm ? `para "${searchTerm}"` : ''}`;
   searchHeader.appendChild(searchTitle);
 
-
-
   searchSection.appendChild(searchHeader);
-
 
   const gridContainer = document.createElement('div');
   gridContainer.className = 'search-grid-container';
@@ -178,12 +168,12 @@ async function renderSearch(filteredGames, searchTerm = '') {
     } else if (isPromo) {
       priceHTML = `
                 <div class="price discount">
-                    <span class="old-price">U$D ${game.price}</span>
+                    <span class="old-price">U$D ${game.price.toFixed(2)}</span>
                     <span class="new-price">U$D ${game.discountPrice}</span>
                 </div>
             `;
     } else {
-      priceHTML = `<span class="price common">U$D ${game.price || 'Gratis'}</span>`;
+      priceHTML = `<span class="price common">U$D ${game.price.toFixed(2) || 'Gratis'}</span>`;
     }
 
     card.innerHTML = `
@@ -207,25 +197,22 @@ async function renderSearch(filteredGames, searchTerm = '') {
 }
 
 
-/********************************************** Helpers Ofertas espciales y Comming Soon ************************************************/
+/********************************************** Ofertas espciales y Comming Soon ************************************************/
 
 function createComingSoonSection(src = 'assets/images_games/VoyagerOfNera.jpg', alt = 'Coming Soon Game') {
 
   const section = document.createElement('section');
   section.className = 'comingSoon-section';
 
-
   const wrapper = document.createElement('div');
   wrapper.className = 'cardsComingSoon-container';
   section.appendChild(wrapper);
-
 
   const img = document.createElement('img');
   img.src = src;
   img.alt = alt;
   img.loading = 'lazy';
   wrapper.appendChild(img);
-
 
   const label = document.createElement('div');
   label.className = 'coningSoon-label';
