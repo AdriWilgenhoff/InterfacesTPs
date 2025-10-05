@@ -3,9 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   showComments();
   showRandomGames(5);
 
-
-
-  // --- Comentarios ---
   const commentInput = document.querySelector('.comment-input');
   const commentButton = document.querySelector('.button-comentar');
   const userAvatar = document.querySelector('.comment-row .avatar')?.src;
@@ -16,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!commentText) return;
 
       const newCommentData = {
-        name: 'PepitoElPistolero',
+        name: 'ElProfeDeInterfaces',
         comment: commentText,
         avatar: userAvatar,
         createdAt: new Date().toISOString()
@@ -61,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('click', (event) => {
       if (sharePopup.classList.contains('active') &&
-          !shareButton.contains(event.target) &&
-          !sharePopup.contains(event.target)) {
+        !shareButton.contains(event.target) &&
+        !sharePopup.contains(event.target)) {
         sharePopup.classList.remove('active');
         shareButton.classList.remove('share-activo');
       }
@@ -79,10 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const boton = this;
 
       if (!yaComprado) {
-        // Permitir navegación inmediata
-        console.log("Navegando a la página de compra...");
 
-        // Programar cambios para después
         setTimeout(() => {
           boton.textContent = 'JUGAR';
           boton.classList.remove('style-comprar', 'pulse-comprar');
@@ -92,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
           yaComprado = true;
         }, 100);
       } else {
-        console.log("En un futuro se podrá jugar cuando el juego esté implementado");
         event.preventDefault();
       }
     });
@@ -109,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
 
 
 async function showComments() {

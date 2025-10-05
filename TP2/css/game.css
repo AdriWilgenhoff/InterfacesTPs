@@ -74,7 +74,6 @@
 
 .game-play .game-board {
     margin-top: 0;
-    /* La barra se pega a la imagen */
 }
 
 /* MEDIA Y CONTROLES DEL JUEGO */
@@ -92,7 +91,7 @@
     object-position: center;
     filter: blur(2.5px) brightness(.75);
     margin-bottom: 0;
-    vertical-align: bottom;
+    /* vertical-align: bottom; */
 }
 
 
@@ -319,7 +318,6 @@ td a:hover {
     gap: 10px;
 }
 
-/* TÍTULOS */
 h2 {
     font-size: var(--font-size-title-h2);
 }
@@ -359,14 +357,13 @@ h3,
     box-sizing: border-box;
     resize: none;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all .3s ease;
 
 }
 
 .comment-input:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.2);
-    transform: translateY(-1px);
 }
 
 .comment-input::placeholder {
@@ -506,7 +503,7 @@ h3,
     height: 28px;
     cursor: pointer;
     transition: transform 0.3s ease-out, filter 0.3s ease-out, color 0.3s ease-out, fill 0.3s ease-out;
-    color: #e4e4e4;
+    color: var(--color-text);
     fill: none;
 }
 
@@ -526,13 +523,12 @@ h3,
     stroke: var(--color-box);
 }
 
-
 .icon-btn.like-activo .heart-icon,
 .icon-btn.like-activo-dedo .like-icon {
     color: var(--color-text);
     fill: var(--color-text);
     transform: scale(1.1);
-    animation: btn-ripple 0.4s ease-out 0s 1 normal forwards;
+    /* animation: btn-ripple 0.4s ease-out 0s 1 normal forwards; */
 }
 
 .icon-btn.like-activo-dedo .like-icon {
@@ -548,7 +544,7 @@ h3,
 }
 
 
-@keyframes btn-ripple {
+/* @keyframes btn-ripple {
     0% {
         box-shadow: 0 0 0 0px var(--color-text);
     }
@@ -556,7 +552,7 @@ h3,
     100% {
         box-shadow: 0 0 0 20px rgba(228, 228, 228, 0);
     }
-}
+} */
 
 /* POPUP DE COMPARTIR */
 .share-popup {
@@ -642,18 +638,14 @@ h3,
 }
 
 
-/*************************************************   FULL SIZE   *********************************************************************/
-/* 1. Ocultamos las columnas de la derecha (instrucciones y tabla) */
+/*************************************************   FULL SIZE   *************************************************/
 .game-section.fullscreen-active .game-instructions {
     display: none;
 }
 
-/* 2. Hacemos que las columnas de la izquierda ocupen todo el ancho disponible */
 .game-section.fullscreen-active .game-play,
 .game-section.fullscreen-active .description-images-text {
     width: 100%;
     max-width: 100%;
-    /* Sobreescribimos el max-width que tenías */
     flex: 1;
-    /* Le decimos que ocupe todo el espacio en el contenedor flex */
 }
