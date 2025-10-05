@@ -1,6 +1,6 @@
-.comingSoon-section {
+/* .comingSoon-section {
 
-}
+} */
 
 .cardsComingSoon-container {
 
@@ -20,7 +20,7 @@
     display: block;
 }
 
-/********************************* Label "Próximamente ********************************/
+/********************************* Label Próximamente ********************************/
 .coningSoon-label {
 
     position: absolute;

@@ -4,8 +4,6 @@
   box-sizing: border-box
 }
 
-/********************************************************** paleta de color y variables *********************************************/
-
 :root {
   /* primario */
   --color-primary: #9013FE;
@@ -24,7 +22,6 @@
   --color-secondaryShadow1: #077BC8;
   --color-secondaryShadow2: #14528A;
   --color-secondaryShadow3: #12334c;
-
 
   /* acento */
   --color-accent: #F3AD38;
@@ -53,16 +50,14 @@
   --color-textDark: #777786;
   --color-textLight: #ffffff;
 
-  /*COMPLETAR */
 
-  --color-link: ;
-  --color-link-hover: ;
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primaryLight1);
 
   --color-link-secondary: var(--color-secondary);
   --color-link-hover-secondary: var(--color-SecondaryLight1);
 
   /* tipografia */
-
 
   --font-base: 'Inter', sans-serif;
   --font-logo: 'Orbitron', sans-serif;
@@ -89,13 +84,7 @@ body {
   font-family: var(--font-base);
   background-color: var(--color-bodyDark);
   color: var(--color-text);
-
 }
-
-/*.padding-global {
-  padding: 60px var(--padding-global);
-  
-}*/
 
 .search-results {
   padding: 80px 90px;
@@ -125,7 +114,6 @@ body {
   flex-direction: column;
   padding-top: 70px;
 }
-
 
 @media (min-width: 1440px) {
 

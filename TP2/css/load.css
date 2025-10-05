@@ -1,7 +1,5 @@
-/* Bloqueo de scroll */
 html.no-scroll, body.no-scroll { overflow: hidden !important; }
 
-/* ====== Variables (mobile por defecto) ====== */
 :root{
   /* Distancias solo para espaciados/traslaciones */
   --dx-word-near: 70px;   /* palabra cerca del logo */
@@ -9,8 +7,7 @@ html.no-scroll, body.no-scroll { overflow: hidden !important; }
   --dx-logo:      70px;   /* desplazamiento del logo a la izq */
 }
 
-/* Desktop / pantallas grandes: override de distancias */
-@media (min-width: 600px){
+@media (min-width: 1200px){
   :root{
     --dx-word-near: 130px;
     --dx-word-far:  400px;
