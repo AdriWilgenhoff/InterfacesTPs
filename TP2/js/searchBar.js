@@ -8,21 +8,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (text.length === 0) {
       renderSearch([], '');
-      searchInput.value = '';     
+      searchInput.value = '';
       searchInput.blur();
       return;
     }
 
     const allGames = await getGames();
     const filteredGames = await filterBy(text, allGames);
+
     renderSearch(filteredGames, text);
+    searchInput.value = '';
+    searchInput.blur();
   }
 
-  searchInput.value = '';
-  searchInput.blur();
   searchBtn.addEventListener("click", performSearch);
 
-  searchInput.addEventListener("keydown", (e) => {
+  searchInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       performSearch();
     }
