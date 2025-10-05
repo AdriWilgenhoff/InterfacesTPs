@@ -77,7 +77,7 @@ async function renderSearch(filteredGames, searchTerm = '') {
   breadcrumbs.className = 'breadcrumbs';
   breadcrumbs.innerHTML = `
       <ol class="bc-list">
-        <li class="bc-item"><a href="../index.html">Home</a></li>
+        <li class="bc-item"><a href="index.html">Home</a></li>
         <li class="separator">›</li>
         <li class="bc-item current">${searchTerm}</li>
       </ol>
