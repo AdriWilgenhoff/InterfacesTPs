@@ -73,6 +73,12 @@
     color: #111;
 }
 
+.newsletter-form input[type="email"]{
+    background-color: var(--color-text) !important;
+    height:43px !important;
+
+}
+
 .newsletter-form button {
     height: 43px;
     padding: 0 14px;

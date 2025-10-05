@@ -320,7 +320,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 label.required {
-    align-items: center; 
+    align-items: center;
+    display: flex;
+    gap: 5px;
 }
 
 /* ========================================

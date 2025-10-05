@@ -267,7 +267,8 @@ body {
 }
 
 label.required {
-    align-items: center; 
+    align-items: center;
+    display: flex;
 }
 
 .recaptcha-checkbox {
