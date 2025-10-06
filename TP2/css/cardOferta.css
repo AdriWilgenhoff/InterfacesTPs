@@ -12,8 +12,6 @@
     margin: 0 auto;
 }
 
-/* .carousel-header-oferta {} */
-
 /****************************************** Cards *********************************************/
 
 .specialOffer-card {
@@ -29,7 +27,6 @@
 
 .specialOffer-card:hover {
     transform: translateY(-5px);
-    /* transform: scale(1.05); */
     filter: brightness(1.25);
 }
 
@@ -111,11 +108,7 @@
 }
 
 @media (min-width: 1215px) {
-/*      body {
-        padding-left: 0;
-        padding-right: 0;
-    }
-  */
+
     .cardsSpecialsOffer-container {
         width: 100%;
         max-width: 1205px;
