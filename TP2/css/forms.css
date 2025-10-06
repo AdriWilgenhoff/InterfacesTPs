@@ -266,6 +266,6 @@ body {
     align-items: center; 
     width: 100%; 
     max-width: none; 
-    height: 60px; /* Cambiado de 48px a 60px */
+    height: 60px;
     background-color: var(--color-navDark); 
 }

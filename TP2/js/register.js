@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const registerButton = document.getElementById('register-button');
     const registerForm = document.querySelector('.register-form');
     const nameInput = document.getElementById('nombre');
@@ -11,10 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const criterionLength = document.getElementById('criterion-length');
     const criterionNumbers = document.getElementById('criterion-numbers');
     const criterionUppercase = document.getElementById('criterion-uppercase');
-    const registerContainer = document.querySelector('.register-container'); 
+    const registerContainer = document.querySelector('.register-container');
     const successMessage = document.querySelector('.success-message');
     const footer = document.querySelector('.site-footer');
     const navBar = document.querySelector('.navbar-logo');
+
+    const characterLeft = document.querySelector('.character-left'); //nuevo
+    const characterRight = document.querySelector('.character-right'); //nuevo
+    const benefitsSection = document.querySelector('.benefits-section'); //nuevo
+
 
     const inputs = [
         { input: nameInput, errorElement: createErrorElement(nameInput), validate: validateName },
@@ -26,21 +31,21 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     const recaptchaError = createErrorElement(recaptchaCheckbox.parentElement.parentElement, true);
 
-function createErrorElement(inputElement, isRecaptcha = false) {    
- const error = document.createElement('span');
- error.classList.add('error-message');
-if (isRecaptcha) {
-inputElement.parentElement.appendChild(error); 
-} else {
-        const parentGroup = inputElement.closest('.input-group');
-        if (parentGroup) {
-            parentGroup.appendChild(error); 
-        } else {
+    function createErrorElement(inputElement, isRecaptcha = false) {
+        const error = document.createElement('span');
+        error.classList.add('error-message');
+        if (isRecaptcha) {
             inputElement.parentElement.appendChild(error);
+        } else {
+            const parentGroup = inputElement.closest('.input-group');
+            if (parentGroup) {
+                parentGroup.appendChild(error);
+            } else {
+                inputElement.parentElement.appendChild(error);
+            }
         }
-}
-return error;
-}
+        return error;
+    }
 
 
     function displayError(inputElement, errorElement, message) {
@@ -89,16 +94,16 @@ return error;
         return message === '';
     }
 
-     function validateEmail() {
+    function validateEmail() {
         const input = emailInput;
         const error = inputs.find(i => i.input === input).errorElement;
         const value = input.value.trim();
         let message = '';
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (value === '') {
             message = 'El correo electrónico es obligatorio.';
-        } else if (!emailRegex.test(value)) { 
+        } else if (!emailRegex.test(value)) {
             message = 'Debe ser un correo electrónico válido (ej: usuario@dominio.com).';
         }
 
@@ -106,20 +111,20 @@ return error;
         return message === '';
     }
 
-   function validatePassword() {
+    function validatePassword() {
         const input = passwordInput;
         const error = inputs.find(i => i.input === input).errorElement;
         const value = input.value;
         let passwordErrors = [];
-        
-        const isValid = updatePasswordCriteria(value);                
+
+        const isValid = updatePasswordCriteria(value);
         const message = passwordErrors.join('\n');
         displayError(input, error, message);
-        validateRepeatPassword(); 
+        validateRepeatPassword();
         return message === '';
     }
 
-function updatePasswordCriteria(value) {
+    function updatePasswordCriteria(value) {
         const isLengthValid = value.length >= 6;
         updateCriterion(criterionLength, isLengthValid, 'Al menos 6 caracteres');
 
@@ -182,7 +187,7 @@ function updatePasswordCriteria(value) {
         }
         const recaptchaGroup = recaptchaCheckbox.closest('.recaptcha-group');
         displayError(recaptchaCheckbox, error, message);
-        
+
         return message === '';
     }
 
@@ -193,88 +198,96 @@ function updatePasswordCriteria(value) {
     repeatPasswordInput.addEventListener('input', validateRepeatPassword);
     dobInput.addEventListener('change', validateDOB);
     recaptchaCheckbox.addEventListener('change', validateRecaptcha);
-    
-    passwordInput.addEventListener('input', validateRepeatPassword); 
+
+    passwordInput.addEventListener('input', validateRepeatPassword);
 
 
-        function validateAll() {
-            const results = [
-                validateName(),
-                validateLastName(),
-                validateEmail(),
-                validatePassword(),
-                validateRepeatPassword(),
-                validateDOB(),
-                validateRecaptcha()
-            ];
-            
-            return results.every(result => result === true);
-        }
+    function validateAll() {
+        const results = [
+            validateName(),
+            validateLastName(),
+            validateEmail(),
+            validatePassword(),
+            validateRepeatPassword(),
+            validateDOB(),
+            validateRecaptcha()
+        ];
+
+        return results.every(result => result === true);
+    }
 
 
-        if (registerButton) {
-            registerButton.addEventListener('click', function(event) {
-                event.preventDefault(); 
+    if (registerButton) {
+        registerButton.addEventListener('click', function (event) {
+            event.preventDefault();
 
-                const isValid = validateAll();
+            const isValid = validateAll();
 
-                if (isValid) {
-                    document.body.classList.add('scroll-bloqueado'); 
-                    
-                    if (successMessage) {
-                        successMessage.classList.add('popup-blur'); 
-                    }
-                    if (registerContainer) {
-                        registerContainer.classList.add('form-desaparece');
-                    }
+            if (isValid) {
+                document.body.classList.add('scroll-bloqueado');
 
-                    if (footer) {
-                        footer.classList.add('desaparece'); 
-                    }
-
-                    if (navBar) {
-                        navBar.classList.add('desaparece'); 
-                    }
-
-                    const formAnimationDuration = 500; 
-                    const popupAnimationDuration = 700; 
-                    const messageDuration = 2400; 
-
-                    setTimeout(() => {
-                        if (registerContainer) {
-                            registerContainer.classList.add('form-oculto'); 
-                        }
-                        setTimeout(() => {
-                            window.location.href = 'login.html'; 
-                        }, popupAnimationDuration + messageDuration); 
-
-                    }, formAnimationDuration); 
-
+                if (successMessage) {
+                    successMessage.classList.add('popup-blur');
                 }
-            });
-        }
-    });
+                if (registerContainer) {
+                    registerContainer.classList.add('form-desaparece');
+                }
 
-const EYE_OPEN_ICON_PATH = '../assets/logos_png/ojo.png'; 
+                if (footer) {
+                    footer.classList.add('desaparece');
+                }
+
+                if (navBar) {
+                    navBar.classList.add('desaparece');
+                }
+
+                if (characterLeft) characterLeft.classList.add('desaparece'); 
+                if (characterRight) characterRight.classList.add('desaparece'); 
+                if (benefitsSection) benefitsSection.classList.add('desaparece');
+
+                const formAnimationDuration = 500;
+                const popupAnimationDuration = 1000;
+                const messageDuration = 2400;
+
+                if (successMessage) {
+                    successMessage.classList.add('popup-blur');
+                }
+
+                setTimeout(() => {
+                    if (registerContainer) {
+                        /* registerContainer.classList.add('form-oculto'); */
+                    }
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, popupAnimationDuration + messageDuration);
+
+                }, formAnimationDuration);
+
+            }
+        });
+    }
+});
+
+const EYE_OPEN_ICON_PATH = '../assets/logos_png/ojo.png';
 const EYE_CLOSED_ICON_PATH = '../assets/logos_png/ojocerrado.png';
 
 function setupPasswordToggle() {
     const togglePasswordIcons = document.querySelectorAll('.toggle-password');
 
     togglePasswordIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-        const targetId = this.dataset.target;
-        const passwordInput = document.getElementById(targetId);
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
+        icon.addEventListener('click', function () {
+            const targetId = this.dataset.target;
+            const passwordInput = document.getElementById(targetId);
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
 
-        if (type === 'text') {
-            this.src = EYE_OPEN_ICON_PATH; 
-            this.alt = 'Ocultar Contraseña';
-        } else {
-            this.src = EYE_CLOSED_ICON_PATH; 
-            this.alt = 'Mostrar Contraseña';
-        }
+            if (type === 'text') {
+                this.src = EYE_OPEN_ICON_PATH;
+                this.alt = 'Ocultar Contraseña';
+            } else {
+                this.src = EYE_CLOSED_ICON_PATH;
+                this.alt = 'Mostrar Contraseña';
+            }
         });
     });
 }

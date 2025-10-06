@@ -1,9 +1,4 @@
 /* ========================================
-   REGISTER-FIX.CSS - ESTILOS ESPECÍFICOS DE REGISTER
-   CONSOLIDADO SIN DUPLICACIONES NI !important
-   ======================================== */
-
-/* ========================================
    1. FONDO Y BODY
    ======================================== */
 
@@ -95,18 +90,24 @@ body.register-body .character-right {
 }
 
 @keyframes floatLeft {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) translateX(-10%);
     }
+
     50% {
         transform: translateY(-20px) translateX(-15%);
     }
 }
 
 @keyframes floatRight {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) translateX(10%);
     }
+
     50% {
         transform: translateY(-15px) translateX(15%);
     }
@@ -217,20 +218,20 @@ body.register-body .register-form h2 {
 
 body.register-body .date-input-container {
     position: relative;
-    width: 100%; 
+    width: 100%;
 }
 
 body.register-body .date-input-container input {
     width: 100%;
-    padding-right: 40px; 
+    padding-right: 40px;
 }
 
 body.register-body .calendar-icon {
     position: absolute;
     top: 50%;
-    right: 15px; 
+    right: 15px;
     transform: translateY(-50%);
-    width: 25px; 
+    width: 25px;
     height: 25px;
 }
 
@@ -247,9 +248,9 @@ body.register-body input[type="date"]::-webkit-calendar-picker-indicator {
    ======================================== */
 
 body.register-body .recaptcha-group {
-    display: flex; 
+    display: flex;
     justify-content: center;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     margin-bottom: 18px;
 }
@@ -268,7 +269,7 @@ body.register-body .recaptcha-text {
     margin-left: 10px;
     font-size: 14px;
     font-family: var(--font-base);
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 body.register-body .recaptcha-logo-container {
@@ -285,18 +286,18 @@ body.register-body .recaptcha-checkbox {
     -webkit-appearance: none;
     width: 15px;
     height: 15px;
-    border: 1px solid var(--color-textDark); 
+    border: 1px solid var(--color-textDark);
     border-radius: 2px;
-    background-color: var(--color-box); 
+    background-color: var(--color-box);
     cursor: pointer;
     position: relative;
     display: inline-block;
-    transform: scale(2); 
+    transform: scale(2);
     margin: 5px;
 }
 
 body.register-body .recaptcha-checkbox:checked {
-    background-color: var(--color-hover); 
+    background-color: var(--color-hover);
 }
 
 body.register-body .recaptcha-checkbox:checked::after {
@@ -344,19 +345,19 @@ body.register-body #criterion-uppercase {
 }
 
 body.register-body .password-criteria p.valid {
-    color: var(--color-ok); 
+    color: var(--color-ok);
 }
 
 body.register-body .password-criteria p .icon-status {
     margin-right: 8px;
     font-weight: bold;
-    width: 15px; 
+    width: 15px;
     text-align: center;
     font-size: 16px;
 }
 
 body.register-body .password-criteria p.valid .icon-status {
-    content: '✓'; 
+    content: '✓';
 }
 
 body.register-body .criteria-title {
@@ -364,13 +365,13 @@ body.register-body .criteria-title {
     font-weight: 500;
     display: flex;
     align-items: center;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 body.register-body .criteria-title .lock-icon {
-    width: 17px; 
+    width: 17px;
     height: 20px;
-    margin-right: 8px; 
+    margin-right: 8px;
 }
 
 /* ========================================
@@ -378,7 +379,7 @@ body.register-body .criteria-title .lock-icon {
    ======================================== */
 
 body.register-body .success-message {
-    position: fixed; 
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -388,19 +389,27 @@ body.register-body .success-message {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: var(--color-bodyDark); 
+    background-color: var(--color-bodyDark);
     color: var(--color-textLight);
-    z-index: 1000; 
+    z-index: 1000;
     padding: 20px;
     opacity: 0;
-    pointer-events: none; 
-    transform: none; 
-    transition: none; 
+    pointer-events: none;
+    transform: scale(0.98); 
+    filter: blur(6px);
+    transition: opacity 1s ease, transform 1s ease, filter 1s ease;
+}
+
+body.register-body .success-message.popup-blur {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    filter: blur(0);
 }
 
 body.register-body .success-message h1 {
     font-size: 3em;
-    color: var(--color-ok); 
+    color: var(--color-ok);
     margin-bottom: 20px;
 }
 
@@ -411,7 +420,7 @@ body.register-body .success-message p {
 
 body.register-body .register-container.form-desaparece {
     opacity: 0;
-    transform: scale(0.9); 
+    transform: scale(0.9);
 }
 
 body.register-body .register-container.form-oculto {
@@ -419,14 +428,18 @@ body.register-body .register-container.form-oculto {
 }
 
 body.register-body .site-footer.desaparece,
-body.register-body .navbar-logo.desaparece { 
+body.register-body .navbar-logo.desaparece,
+body.register-body .register-container.form-desaparece,
+body.register-body .character-left.desaparece,
+body.register-body .character-right.desaparece,
+body.register-body .benefits-section.desaparece {
     opacity: 0;
-    transition: opacity 0.5s ease-out; 
+    transition: opacity 0.5s ease-out;
     pointer-events: none;
 }
 
 /* ========================================
-   11. INPUTS - ALTURA REDUCIDA 36PX
+   11. INPUTS
    ======================================== */
 
 body.register-body .input-group input,
@@ -499,33 +512,40 @@ body.register-body .signup-link {
    ======================================== */
 
 @media (max-width: 1200px) {
+
     body.register-body .character-left,
     body.register-body .character-right {
         height: 70vh;
         opacity: 0.8;
     }
-    
+
     body.register-body .character-left {
         transform: translateX(-20%);
     }
-    
+
     body.register-body .character-right {
         transform: translateX(20%);
     }
-    
+
     @keyframes floatLeft {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: translateY(0) translateX(-20%);
         }
+
         50% {
             transform: translateY(-20px) translateX(-25%);
         }
     }
-    
+
     @keyframes floatRight {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: translateY(0) translateX(20%);
         }
+
         50% {
             transform: translateY(-15px) translateX(25%);
         }
@@ -538,14 +558,14 @@ body.register-body .signup-link {
         max-width: 500px;
         gap: 12px;
     }
-    
+
     body.register-body .character-left,
     body.register-body .character-right {
         height: 60vh;
         opacity: 0.5;
         transform: translateX(-30%);
     }
-    
+
     body.register-body .character-right {
         transform: translateX(30%);
     }
@@ -555,41 +575,41 @@ body.register-body .signup-link {
     body.register-body .benefits-section {
         padding: 30px 15px 0px 15px;
     }
-    
+
     body.register-body .benefits-container {
         grid-template-columns: 1fr;
         gap: 10px;
         max-width: 350px;
     }
-    
+
     body.register-body .benefit-card {
         padding: 10px 12px;
         min-height: 55px;
     }
-    
+
     body.register-body .benefit-icon {
         width: 32px;
         height: 32px;
         min-width: 32px;
     }
-    
+
     body.register-body .benefit-icon svg {
         width: 18px;
         height: 18px;
     }
-    
+
     body.register-body .benefit-text h4 {
         font-size: 12px;
     }
-    
+
     body.register-body .benefit-text p {
         font-size: 10px;
     }
-    
+
     body.register-body .form-with-background {
         min-height: 70vh;
     }
-    
+
     body.register-body .character-left,
     body.register-body .character-right {
         height: 50vh;
@@ -597,11 +617,11 @@ body.register-body .signup-link {
         filter: blur(2px) drop-shadow(0 0 40px rgba(144, 19, 254, 0.2));
         transform: translateX(-40%);
     }
-    
+
     body.register-body .character-right {
         transform: translateX(40%);
     }
-    
+
     body.register-body .register-container {
         padding: 15px;
     }
@@ -611,28 +631,28 @@ body.register-body .signup-link {
     body.register-body .benefits-section {
         padding: 20px 10px 0px 10px;
     }
-    
+
     body.register-body .benefit-card {
         padding: 8px 10px;
         min-height: 50px;
         gap: 8px;
     }
-    
+
     body.register-body .benefit-icon {
         width: 28px;
         height: 28px;
         min-width: 28px;
     }
-    
+
     body.register-body .benefit-icon svg {
         width: 16px;
         height: 16px;
     }
-    
+
     body.register-body .form-with-background {
         min-height: 60vh;
     }
-    
+
     body.register-body .character-left,
     body.register-body .character-right {
         display: none;
