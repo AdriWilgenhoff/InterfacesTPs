@@ -22,17 +22,13 @@
 
     if (p === 100) {
       clearInterval(timer);
-      
-      // Desvanece el porcentaje
+    
       percentWrap.style.opacity = '0';
       
-      // Dispara la animación después de 400ms
       setTimeout(function () {
         overlay.classList.add('go');
       }, 400);
 
-      // Remueve el overlay después de todas las animaciones
-      // 2830ms (animaciones) + 400ms (fade porcentaje) = 3230ms
       setTimeout(function () {
         overlay.remove();
         document.documentElement.classList.remove('no-scroll');
