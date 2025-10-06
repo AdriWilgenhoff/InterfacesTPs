@@ -1,0 +1,271 @@
+/* ========================================
+   FORMS.CSS - SOLO ESTILOS COMUNES
+   ======================================== */
+
+/* ========================================
+   BODY Y CONTENEDORES GENERALES
+   ======================================== */
+
+body {
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh;
+    background-size: cover;
+    font-family: var(--font-base);
+    margin: 0; 
+    padding: 0;
+}
+
+/* ========================================
+   LOGIN CONTAINER
+   ======================================== */
+
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ========================================
+   FORMULARIOS - ESTILOS COMPARTIDOS
+   ======================================== */
+
+.login-form,
+.register-form {
+    background-color: var(--color-bodyDark);
+    padding: 30px 40px; 
+    border-radius: 15px;
+    width: 380px; 
+    text-align: center;
+    margin: 35px;
+}
+
+.login-form h2,
+.register-form h2 {
+    font-family: var(--font-base); 
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: var(--color-text); 
+    font-weight: normal; 
+}
+
+/* ========================================
+   INPUT GROUPS
+   ======================================== */
+
+.input-group {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--color-box);
+    border: 0px solid var(--color-hover);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--color-primaryLight1);
+    border: 0.5px solid var(--color-primary);
+}
+
+.input-group label.required::after {
+    content: '*';
+    color: var(--color-warning);
+    margin-left: 4px;
+}
+
+/* ========================================
+   PASSWORD CONTAINER CON TOGGLE
+   ======================================== */
+
+.password-container {
+    position: relative; 
+    display: flex; 
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute; 
+    right: 15px; 
+    cursor: pointer;
+    width: 20px; 
+    height: 20px; 
+}
+
+/* ========================================
+   ERROR MESSAGES
+   ======================================== */
+
+.error-message {
+    color: var(--color-warning);    
+    font-size: 10px;
+    margin-top: 5px;
+    display: block; 
+    height: auto;   
+    white-space: pre-wrap; 
+    margin-bottom: 10px;
+}
+
+.input-group.error input {
+    border-color: var(--color-warning);
+}   
+
+/* ========================================
+   FORGOT PASSWORD (LOGIN)
+   ======================================== */
+
+.forgot-password {
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.forgot-password a {
+    color: var(--color-textDark);
+    text-decoration: none;
+    font-size: 12px;    
+    transition: color 0.3s;
+}
+
+.forgot-password a:hover {
+    color: var(--color-primaryLight2);
+}
+
+/* ========================================
+   BOTONES
+   ======================================== */
+
+.login-button {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--color-primary);
+    color: var(--color-textLight);
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+ 
+.login-button:hover {
+    background: linear-gradient(45deg, #af48ff, #9013FE, #7905d4, #9013FE, #af48ff, #7905d4, #9013FE);
+    background-size: 400% 400%;
+    background-position: 100% 100%;
+    border-radius: 7px;
+    animation: gradientMovement 4s ease infinite; 
+    transform: scale(1.1);
+}
+ 
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* ========================================
+   DIVIDER Y SOCIAL LOGIN
+   ======================================== */
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 10px 0;
+    font-size: 12px;
+    color: var(--color-text);
+}
+
+.divider h3 {
+    font-weight: normal;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 30px;
+    margin-top: -10px;
+}   
+
+.social-login a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px; 
+    height: 44px;
+}
+
+.social-login svg {
+    width: 30px; 
+    height: 30px;
+    fill: var(--color-text); 
+    shape-rendering: geometricPrecision; 
+}
+
+.social-login a:hover svg {
+    fill: var(--color-primaryLight1); 
+}
+
+/* ========================================
+   SIGNUP/LOGIN LINK
+   ======================================== */
+
+.signup-link {
+    display: flex; 
+    justify-content: center;
+    gap: 5px;
+}
+
+.signup-link p {
+    font-size: 14px;
+    color: var(--color-text);
+}
+
+.signup-link a {
+    color: var(--color-primaryLight1);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.signup-link a:hover {
+    color: var(--color-primaryLight2);
+}
+
+/* ========================================
+   NAVBAR LOGO
+   ======================================== */
+
+.navbar-logo {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    max-width: none; 
+    height: 60px; /* Cambiado de 48px a 60px */
+    background-color: var(--color-navDark); 
+}

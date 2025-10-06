@@ -1,0 +1,366 @@
+/* ************************************** estructura carrusel ************************************************ */
+
+.game-carousel-section {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.common-carrusel-padding {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carousel-title {
+    font-size: 13px;
+    color: var(--color-text);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.view-more-link {
+    font-size: 10px;
+    color: var(--color-primaryShadow1);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.view-more-link:hover {
+    color: var(--color-primary);
+}
+
+.view-more-arrow {
+    width: 10px;
+    height: 10px;
+    transition: inherit;
+}
+
+.carousel-section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.carousel-nav-btn {
+    display: none;
+}
+
+.card-container-viewport {
+    width: 100%;
+    overflow: visible;
+    box-sizing: content-box;
+}
+
+.card-container {
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 7px;
+
+    /* Compensación de margen móvil */
+/*     margin-left: -3px;
+    padding-left: 3px;
+    padding-right: 3px; */
+
+    flex-grow: 1;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-container::-webkit-scrollbar {
+    display: none;
+}
+
+/********************************************** Cards *************************************************/
+
+.game-card {
+    width: 118px;
+    height: 154px;
+    background-color: var(--color-navLight);
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+
+    /* Transiciones de la card */
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.image-container {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.img-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    display: block;
+}
+
+.body-card {
+    height: 34px;
+    display: flex;
+    flex-direction: column;
+    padding: 2px 4px;
+    gap: 1px;
+    font-size: var(--font-size-small);
+    text-align: left;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.title-card {
+    font-size: 12px;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 100%;
+}
+
+.title-card p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.price {
+    color: var(--color-primaryLight);
+    font-weight: 300;
+    font-size: var(--font-size-xsmall)
+}
+
+.free {
+    color: var(--color-text);
+}
+
+.common {
+    color: var(--color-primaryLight1);
+}
+
+.discount {
+    color: var(--color-accent);
+}
+
+.old-price {
+    display: none;
+    font-size: var(--font-size-labels);
+}
+
+.offer-label {
+    width: 33px;
+    height: 14px;
+    background-color: var(--color-accent);
+    border-radius: 0 0 5px 5px;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    box-shadow: 3px 4px 5px 0 rgba(0, 0, 0, 0.43);
+}
+
+.offer-label p {
+    text-align: center;
+    color: var(--color-fullDark);
+    font-weight: 700;
+    font-size: var(--font-size-xsmall);
+}
+
+
+@media (min-width: 481px) and (max-width: 1439px) {
+
+    .carousel-title {
+        font-size: 15px;
+    }
+
+    .view-more-link {
+        font-size: 12px;
+    }
+
+    .card-container {
+        gap: 10px;
+    }
+
+    .game-card {
+        width: 140px;
+        height: 180px;
+    }
+
+    .image-container {
+        height: 140px;
+    }
+
+    .body-card {
+        height: 40px;
+        padding: 4px 6px;
+    }
+
+    .title-card {
+        font-size: 13px;
+    }
+}
+
+
+@media (min-width: 1440px) {
+
+    .carousel-section {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        gap: 9.5px;
+    }
+
+    .common-carrusel-padding {
+        gap: 0px
+    }
+
+    .card-container-viewport {
+        width: 1205px;
+        overflow: hidden;
+        box-sizing: content-box;
+    }
+
+    .card-container {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0px;
+        justify-content: normal;
+        overflow-x: hidden;
+        transition: transform 0.3s ease;
+        will-change: transform;
+        margin-left: 0;
+        padding-left: 0;
+        padding-right: 0;
+        flex-shrink: 0;
+    }
+
+    .game-card {
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .game-card:hover {
+        /*transform: scale(1.05);*/
+        transform: translateY(-5px);
+        filter: brightness(1.25);
+        z-index: 1000;
+    }
+
+    .game-card.skewing {
+        transform: skewY(-2deg);
+        transition: transform 0.3s ease;
+    }
+
+    .game-card.skewing:hover {
+        transform: skewY(-2deg) scale(1.05);
+        filter: brightness(1.15);
+    }
+
+    .carousel-nav-btn {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        color: var(--color-text);
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 0;
+    }
+
+    .carousel-arrow {
+        width: 28px;
+        height: 28px;
+        transition: inherit;
+    }
+
+    .view-more-arrow {
+        width: 15px;
+        height: 15px;
+    }
+
+    .carousel-nav-btn:hover {
+        color: var(--color-primary);
+    }
+
+    .carousel-nav-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        color: var(--color-text);
+    }
+
+    .carousel-header {
+        width: 1205px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .game-card {
+        width: 192.5px;
+        height: 174px;
+    }
+
+    .carousel-title {
+        font-size: 16px;
+    }
+
+    .view-more-link {
+        font-size: 14px;
+    }
+
+    .price {
+        display: flex;
+        gap: 5px;
+        font-size: var(--font-size-small);
+
+    }
+
+    .image-container {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .body-card {
+        display: block;
+    }
+
+    .offer-label {
+        display: none;
+    }
+
+    .old-price {
+        display: flex;
+        color: var(--color-textDark);
+        font-size: var(--font-size-xsmall);
+        text-decoration: line-through;
+        align-items: center;
+    }
+}

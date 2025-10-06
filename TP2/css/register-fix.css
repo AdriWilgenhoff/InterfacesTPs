@@ -1,0 +1,678 @@
+/* ========================================
+   REGISTER-FIX.CSS - ESTILOS ESPECÍFICOS DE REGISTER
+   CONSOLIDADO SIN DUPLICACIONES
+   ======================================== */
+
+/* ========================================
+   1. FONDO Y BODY
+   ======================================== */
+
+body.register-body {
+    background: var(--color-bodyDark) !important;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ========================================
+   2. ESTRUCTURA DE LAYOUT
+   ======================================== */
+
+.main-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none !important;
+}
+
+.content-column {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0 !important;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none !important;
+}
+
+.benefits-section {
+    width: 100%;
+    padding: 40px 20px 0px 20px;
+    margin: 0;
+    background: none !important;
+    display: flex;
+    justify-content: center;
+}
+
+.form-with-background {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    
+    margin: 0;
+    background: none !important;
+}
+
+.form-with-background::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* ========================================
+   3. PERSONAJES DE FONDO
+   ======================================== */
+
+.character-left,
+.character-right {
+    position: absolute;
+    height: 1070px;
+    width: auto;
+    object-fit: contain;
+    bottom: 0;
+    filter: drop-shadow(0 0 60px var(--color-navLight));
+    z-index: 0;
+    opacity: 0.7;
+    
+}
+
+.character-left {
+    left: 0;
+    transform: translateX(-10%) translateY(3%) scale(1.1);
+    ;
+   /*  animation: floatLeft 6s ease-in-out infinite; */
+}
+
+.character-right {
+    right: 0;
+    transform: translateX(10%) translateY(4%);
+   /*  animation: floatRight 6s ease-in-out infinite; */
+}
+
+@keyframes floatLeft {
+    0%, 100% {
+        transform: translateY(0) translateX(-10%);
+    }
+    50% {
+        transform: translateY(-20px) translateX(-15%);
+    }
+}
+
+@keyframes floatRight {
+    0%, 100% {
+        transform: translateY(0) translateX(10%);
+    }
+    50% {
+        transform: translateY(-15px) translateX(15%);
+    }
+}
+
+/* ========================================
+   4. BENEFIT CARDS (sobrescrito por benefit-cards-new.css)
+   ======================================== */
+
+.benefits-container {
+    max-width: 900px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 0 20px;
+    background: none !important;
+}
+
+.benefit-card {
+    background:var(--color-navLight);
+    backdrop-filter: blur(10px);
+    /* border: 1px solid rgba(144, 19, 254, 0.2); */
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+}
+
+
+.benefit-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background: rgba(144, 19, 254, 0.15); */
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+
+.benefit-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-textDark);
+    stroke-width: 2.5;
+}
+
+.benefit-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.benefit-text h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    font-family: var(--font-base);
+    line-height: 1.2;
+}
+
+.benefit-text p {
+    font-size: 11px;
+    color: var(--color-textDark);
+    margin: 0;
+    font-family: var(--font-base);
+    line-height: 1.3;
+}
+
+/* ========================================
+   5. REGISTER CONTAINER Y FORM
+   ======================================== */
+
+.register-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px 20px 20px 20px; */
+    margin: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    background: none !important;
+}
+
+.register-body .register-form {
+    background-color: var(--color-navLight) !important;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
+    position: relative;
+    z-index: 2;
+    padding: 25px 35px !important;
+}
+
+.register-body .register-form h2 {
+    margin-bottom: 20px !important;
+    font-size: 17px !important;
+}
+
+/* ========================================
+   6. DATE INPUT
+   ======================================== */
+
+.date-input-container {
+    position: relative;
+    width: 100%; 
+}
+
+.date-input-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px; 
+    transform: translateY(-50%);
+    width: 25px; 
+    height: 25px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.recaptcha-group {
+    display: flex; 
+    justify-content: center;
+    flex-direction: column; 
+    align-items: center;
+    margin-bottom: 18px !important;
+}
+
+.recaptcha-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-box) !important;
+    padding: 8px 12px !important;
+    min-height: 36px !important;
+    border-radius: 4px;
+    color: var(--color-text);
+   
+}
+
+.recaptcha-text {
+    margin-left: 10px;
+    font-size: 14px;
+    font-family: var(--font-base);
+    white-space: nowrap; 
+    
+}
+
+.recaptcha-logo-container {
+    margin-left: 50px;
+    border-radius: 5px;
+    
+    
+}
+
+.recaptcha-logo {
+    width: 35px;
+}
+
+.recaptcha-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px !important;
+    height: 15px !important;
+    border: 1px solid var(--color-textDark); 
+    border-radius: 2px;
+    background-color: var(--color-box); 
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transform: scale(2); 
+    margin: 5px;
+}
+
+.recaptcha-checkbox:checked {
+    background-color: var(--color-hover); 
+}
+
+.recaptcha-checkbox:checked::after {
+    content: "✔";
+    color: var(--color-textLight);
+    font-size: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+}
+
+label.required {
+    align-items: center;
+    display: flex;
+    gap: 5px;
+}
+
+/* ========================================
+   8. PASSWORD CRITERIA
+   ======================================== */
+
+.password-criteria {
+    text-align: left;
+    border-radius: 8px;
+    font-size: 11px;
+    padding-bottom: 8px !important;
+    margin-left: 25px;
+    margin-top: -8px !important;
+    margin-bottom: 15px !important;
+}
+
+.password-criteria p {
+    margin: 4px 0 !important;
+    font-size: 10.5px !important;
+    color: var(--color-textDark);
+    display: flex;
+    align-items: center;
+}
+
+#criterion-length,
+#criterion-numbers,
+#criterion-uppercase {
+    margin-left: 20px;
+}
+
+.password-criteria p.valid {
+    color: var(--color-ok); 
+}
+
+.password-criteria p .icon-status {
+    margin-right: 8px;
+    font-weight: bold;
+    width: 15px; 
+    text-align: center;
+    font-size: 16px;
+}
+
+.password-criteria p.valid .icon-status {
+    content: '✓'; 
+}
+
+.criteria-title {
+    color: var(--color-text);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; 
+}
+
+.criteria-title .lock-icon {
+    width: 17px; 
+    height: 20px;
+    margin-right: 8px; 
+}
+
+/* ========================================
+   9. SUCCESS MESSAGE
+   ======================================== */
+
+.success-message {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--color-bodyDark); 
+    color: var(--color-textLight);
+    z-index: 1000; 
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none; 
+    transform: none; 
+    transition: none; 
+}
+
+.success-message h1 {
+    font-size: 3em;
+    color: var(--color-ok); 
+    margin-bottom: 20px;
+}
+
+.success-message p {
+    font-size: 1.5em;
+    color: var(--color-text);
+}
+
+.success-message.popup-blur {
+    opacity: 1;
+    pointer-events: auto;
+    animation: aparecerConBlur 1.7s ease-out forwards; 
+}
+
+@keyframes aparecerConBlur {
+    0% {
+        transform: scale(1.1);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+/* ========================================
+   10. ANIMACIONES Y TRANSICIONES
+   ======================================== */
+
+body.scroll-bloqueado {
+    overflow-y: hidden;
+    width: 100%; 
+} 
+
+.register-container.form-desaparece {
+    opacity: 0;
+    transform: scale(0.9); 
+}
+
+.register-container.form-oculto {
+    display: none;
+}
+
+.site-footer.desaparece,
+.navbar-logo.desaparece { 
+    opacity: 0;
+    transition: opacity 0.5s ease-out; 
+    pointer-events: none;
+}
+
+/* ========================================
+   11. INPUTS - ALTURA REDUCIDA 36PX
+   ======================================== */
+
+.register-body .input-group input,
+.register-body .date-input-container input,
+.register-body .password-container input,
+.register-body input[type="text"],
+.register-body input[type="email"],
+.register-body input[type="password"],
+.register-body input[type="date"] {
+    height: 36px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    background-color: var(--color-box) !important;
+}
+
+.register-body .date-input-container input {
+    padding-right: 40px !important;
+}
+
+.register-body .password-container input {
+    padding-right: 40px !important;
+}
+
+.register-body .calendar-icon {
+    width: 20px !important;
+    height: 20px !important;
+    right: 12px !important;
+}
+
+.register-body .toggle-password {
+    width: 18px !important;
+    height: 18px !important;
+    right: 12px !important;
+}
+
+.register-body .login-button {
+    height: 40px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    background-color: var(--color-primary) !important;
+}
+
+.register-body .input-group label {
+    margin-bottom: 6px !important;
+}
+
+.register-body .input-group {
+    margin-bottom: 18px !important;
+}
+
+/* ========================================
+   12. ESPACIADO COMPACTO DEL FORMULARIO
+   ======================================== */
+
+.register-body .divider {
+    margin: 20px 0 8px 0 !important;
+}
+
+.register-body .social-login {
+    margin-bottom: 20px !important;
+}
+
+.register-body .signup-link {
+    margin-top: 0 !important;
+}
+
+/* ========================================
+   13. RESPONSIVE - CONSOLIDADO
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .character-left,
+    .character-right {
+        height: 70vh;
+        opacity: 0.8;
+    }
+    
+    .character-left {
+        transform: translateX(-20%);
+    }
+    
+    .character-right {
+        transform: translateX(20%);
+    }
+    
+    @keyframes floatLeft {
+        0%, 100% {
+            transform: translateY(0) translateX(-20%);
+        }
+        50% {
+            transform: translateY(-20px) translateX(-25%);
+        }
+    }
+    
+    @keyframes floatRight {
+        0%, 100% {
+            transform: translateY(0) translateX(20%);
+        }
+        50% {
+            transform: translateY(-15px) translateX(25%);
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .benefits-container {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 500px;
+        gap: 12px;
+    }
+    
+    .character-left,
+    .character-right {
+        height: 60vh;
+        opacity: 0.5;
+        transform: translateX(-30%);
+    }
+    
+    .character-right {
+        transform: translateX(30%);
+    }
+}
+
+@media (max-width: 768px) {
+    .benefits-section {
+        padding: 30px 15px 0px 15px;
+    }
+    
+    .benefits-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        max-width: 350px;
+    }
+    
+    .benefit-card {
+        padding: 10px 12px;
+        min-height: 55px;
+    }
+    
+    .benefit-icon {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+    }
+    
+    .benefit-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .benefit-text h4 {
+        font-size: 12px;
+    }
+    
+    .benefit-text p {
+        font-size: 10px;
+    }
+    
+    .form-with-background {
+        min-height: 70vh;
+    }
+    
+    .character-left,
+    .character-right {
+        height: 50vh;
+        opacity: 0.3;
+        filter: blur(2px) drop-shadow(0 0 40px rgba(144, 19, 254, 0.2));
+        transform: translateX(-40%);
+    }
+    
+    .character-right {
+        transform: translateX(40%);
+    }
+    
+    .register-container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits-section {
+        padding: 20px 10px 0px 10px;
+    }
+    
+    .benefit-card {
+        padding: 8px 10px;
+        min-height: 50px;
+        gap: 8px;
+    }
+    
+    .benefit-icon {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+    }
+    
+    .benefit-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .form-with-background {
+        min-height: 60vh;
+    }
+    
+    .character-left,
+    .character-right {
+        display: none;
+    }
+}

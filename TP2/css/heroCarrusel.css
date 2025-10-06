@@ -1,0 +1,189 @@
+/* ===================== HERO CAROUSEL (MOBILE FIRST) ===================== */
+
+/* Contenedor principal */
+.hero-gallery{
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  gap: 10px;
+}
+
+/* Área de slides (con perspectiva) */
+.hero-conteiner{
+  position: relative;
+  width: 90%;
+  height: 50vh;
+  perspective: 600px;                
+  display: flex;
+  align-items: center;
+  justify-content: center;
+/*   padding-bottom: 30px; */
+}
+
+/* Slide base */
+.gallery-slide{
+  position: absolute;
+  width: 300px;                       
+  height: 45vh;                      
+  border-radius: 10px;                
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;                         
+  /* margin-top: 30px; */
+ /*  box-shadow: 0 20px 40px rgba(0,0,0,0.4); */
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+.gallery-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+/* Overlay con info */
+.slide-overlay{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  padding: 20px 15px 15px;            
+  color: var(--color-text);
+  transform: translateY(100%);
+  transition: transform 0.6s ease;
+}
+
+.slide-title{
+  font-size: 1.4rem;                   
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.slide-actions{
+  display: flex;
+  gap: 10px;                         
+  align-items: center;
+}
+
+/* Estados */
+.gallery-slide.active{
+  transform: translateX(0) translateZ(0) scale(1);
+  z-index: 10; opacity: 1; filter: brightness(1) blur(0);
+}
+.gallery-slide.active:hover{
+  transform: translateX(0) scale(1.02);
+  filter: brightness(1.15);
+}
+.gallery-slide.active .slide-overlay{ transform: translateY(0); }
+.gallery-slide.active img{ transform: scale(1.1); }
+
+/* Mobile: efecto 3D más sutil */
+.gallery-slide.next{
+  transform: translateX(200px) translateZ(-80px) rotateY(-15deg) scale(0.65);
+  z-index: 5; opacity: .7; filter: brightness(.7) blur(0);
+}
+.gallery-slide.prev{
+  transform: translateX(-200px) translateZ(-80px) rotateY(15deg) scale(0.65);
+  z-index: 5; opacity: .7; filter: brightness(.7) blur(0);
+}
+.gallery-slide.far-next,
+.gallery-slide.far-prev{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dots de navegación */
+.gallery-nav{
+  /* position: absolute;
+  left: 50%; bottom: 30px;             
+  transform: translateX(-50%); */
+  display: flex; gap: 5px; z-index: 20;
+}
+.nav-dot{
+  width: 25px; height: 3px;           
+  border-radius: 20px;
+  background: var(--color-bodyLight);
+  cursor: pointer;
+  transition: all .3s ease;
+  border: 2px solid transparent;
+}
+.nav-dot.active{
+  background: var(--color-primaryShadow1);
+  width: 35px;                      
+  box-shadow: 0 0 15px var(--color-primary);
+}
+
+/* Gestos: arrastrar en X pero permitir scroll en Y */
+.hero-gallery,
+.hero-conteiner,
+.gallery-slide,
+.gallery-slide *{ touch-action: pan-y; }
+
+/* Evitar drag nativo de imágenes en iOS y que capten eventos en vez del slide */
+.hero-gallery img{
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ===================== TABLET (≥ 768px) ===================== */
+@media (min-width: 768px){
+  /* .hero-gallery{ height: 60vh; } */
+
+  .hero-conteiner{ perspective: 800px; }
+
+  .gallery-slide{
+    width: 400px; 
+    height: 45vh;
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .slide-title{ font-size: 1.8rem; }
+  .slide-actions{ gap: 10px; flex-direction: column; }
+
+  .gallery-slide.next{
+    transform: translateX(250px) translateZ(-150px) rotateY(-25deg) scale(0.7);
+    filter: brightness(.7) blur(2px);
+  }
+  .gallery-slide.prev{
+    transform: translateX(-250px) translateZ(-150px) rotateY(25deg) scale(0.7);
+    filter: brightness(.7) blur(2px);
+  }
+}
+
+/* ===================== DESKTOP (≥ 1200px) ===================== */
+@media (min-width: 1200px){
+  .hero-conteiner{ perspective: 1200px; height: 100%; }
+
+  .gallery-slide{
+    width: 700px; height: 45vh;
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .slide-overlay{ padding: 40px 30px 30px; }
+  .slide-title{ font-size: 1.5rem; }
+
+  .gallery-slide.next{
+    transform: translateX(450px) translateZ(-200px) rotateY(0deg) scale(0.8);
+  }
+  .gallery-slide.prev{
+    transform: translateX(-450px) translateZ(-200px) rotateY(0deg) scale(0.8);
+  }
+  .gallery-slide.far-next{
+    transform: translateX(600px) translateZ(-400px) rotateY(-45deg) scale(0.6);
+    z-index: 1; opacity: .4; filter: brightness(.5) blur(4px);
+  }
+  .gallery-slide.far-prev{
+    transform: translateX(-600px) translateZ(-400px) rotateY(45deg) scale(0.6);
+    z-index: 1; opacity: .4; filter: brightness(.5) blur(4px);
+  }
+}
