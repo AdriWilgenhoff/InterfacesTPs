@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const footer = document.querySelector('.site-footer');
     const navBar = document.querySelector('.navbar-logo');
 
-    const characterLeft = document.querySelector('.character-left'); //nuevo
-    const characterRight = document.querySelector('.character-right'); //nuevo
-    const benefitsSection = document.querySelector('.benefits-section'); //nuevo
+    const characterLeft = document.querySelector('.character-left'); 
+    const characterRight = document.querySelector('.character-right');
+    const benefitsSection = document.querySelector('.benefits-section');
 
 
     const inputs = [
@@ -255,7 +255,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 setTimeout(() => {
                     if (registerContainer) {
-                        /* registerContainer.classList.add('form-oculto'); */
                     }
                     setTimeout(() => {
                         window.location.href = 'login.html';
