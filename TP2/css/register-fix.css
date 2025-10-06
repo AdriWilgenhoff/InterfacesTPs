@@ -1,6 +1,6 @@
 /* ========================================
    REGISTER-FIX.CSS - ESTILOS ESPECÍFICOS DE REGISTER
-   CONSOLIDADO SIN DUPLICACIONES
+   CONSOLIDADO SIN DUPLICACIONES NI !important
    ======================================== */
 
 /* ========================================
@@ -8,7 +8,7 @@
    ======================================== */
 
 body.register-body {
-    background: var(--color-bodyDark) !important;
+    background: var(--color-bodyDark);
     position: relative;
     overflow-x: hidden;
     min-height: 100vh;
@@ -18,7 +18,7 @@ body.register-body {
    2. ESTRUCTURA DE LAYOUT
    ======================================== */
 
-.main-container {
+body.register-body .main-container {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -27,54 +27,53 @@ body.register-body {
     border: none;
     margin: 0;
     padding: 0;
-    background: none !important;
+    background: none;
 }
 
-.content-column {
+body.register-body .content-column {
     width: 100%;
     max-width: 1400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0 !important;
+    gap: 0;
     border: none;
     margin: 0;
     padding: 0;
-    background: none !important;
+    background: none;
 }
 
-.benefits-section {
+body.register-body .benefits-section {
     width: 100%;
     padding: 40px 20px 0px 20px;
     margin: 0;
-    background: none !important;
+    background: none;
     display: flex;
     justify-content: center;
 }
 
-.form-with-background {
+body.register-body .form-with-background {
     width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    
     margin: 0;
-    background: none !important;
+    background: none;
 }
 
-.form-with-background::before {
-    content: none !important;
-    display: none !important;
+body.register-body .form-with-background::before {
+    content: none;
+    display: none;
 }
 
 /* ========================================
    3. PERSONAJES DE FONDO
    ======================================== */
 
-.character-left,
-.character-right {
+body.register-body .character-left,
+body.register-body .character-right {
     position: absolute;
     height: 1070px;
     width: auto;
@@ -83,20 +82,16 @@ body.register-body {
     filter: drop-shadow(0 0 60px var(--color-navLight));
     z-index: 0;
     opacity: 0.7;
-    
 }
 
-.character-left {
+body.register-body .character-left {
     left: 0;
     transform: translateX(-10%) translateY(3%) scale(1.1);
-    ;
-   /*  animation: floatLeft 6s ease-in-out infinite; */
 }
 
-.character-right {
+body.register-body .character-right {
     right: 0;
     transform: translateX(10%) translateY(4%);
-   /*  animation: floatRight 6s ease-in-out infinite; */
 }
 
 @keyframes floatLeft {
@@ -118,23 +113,22 @@ body.register-body {
 }
 
 /* ========================================
-   4. BENEFIT CARDS (sobrescrito por benefit-cards-new.css)
+   4. BENEFIT CARDS
    ======================================== */
 
-.benefits-container {
+body.register-body .benefits-container {
     max-width: 900px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
     padding: 0 20px;
-    background: none !important;
+    background: none;
 }
 
-.benefit-card {
-    background:var(--color-navLight);
+body.register-body .benefit-card {
+    background: var(--color-navLight);
     backdrop-filter: blur(10px);
-    /* border: 1px solid rgba(144, 19, 254, 0.2); */
     border-radius: 10px;
     padding: 12px 14px;
     display: flex;
@@ -148,34 +142,32 @@ body.register-body {
     min-height: 60px;
 }
 
-
-.benefit-icon {
+body.register-body .benefit-icon {
     width: 36px;
     height: 36px;
     min-width: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background: rgba(144, 19, 254, 0.15); */
     border-radius: 8px;
     margin-bottom: 0;
 }
 
-.benefit-icon svg {
+body.register-body .benefit-icon svg {
     width: 20px;
     height: 20px;
     color: var(--color-textDark);
     stroke-width: 2.5;
 }
 
-.benefit-text {
+body.register-body .benefit-text {
     display: flex;
     flex-direction: column;
     gap: 2px;
     flex: 1;
 }
 
-.benefit-text h4 {
+body.register-body .benefit-text h4 {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
@@ -184,7 +176,7 @@ body.register-body {
     line-height: 1.2;
 }
 
-.benefit-text p {
+body.register-body .benefit-text p {
     font-size: 11px;
     color: var(--color-textDark);
     margin: 0;
@@ -196,45 +188,44 @@ body.register-body {
    5. REGISTER CONTAINER Y FORM
    ======================================== */
 
-.register-container {
+body.register-body .register-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* padding: 10px 20px 20px 20px; */
     margin: 0;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    background: none !important;
+    background: none;
 }
 
-.register-body .register-form {
-    background-color: var(--color-navLight) !important;
+body.register-body .register-form {
+    background-color: var(--color-navLight);
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
     position: relative;
     z-index: 2;
-    padding: 25px 35px !important;
+    padding: 25px 35px;
 }
 
-.register-body .register-form h2 {
-    margin-bottom: 20px !important;
-    font-size: 17px !important;
+body.register-body .register-form h2 {
+    margin-bottom: 20px;
+    font-size: 17px;
 }
 
 /* ========================================
    6. DATE INPUT
    ======================================== */
 
-.date-input-container {
+body.register-body .date-input-container {
     position: relative;
     width: 100%; 
 }
 
-.date-input-container input {
+body.register-body .date-input-container input {
     width: 100%;
     padding-right: 40px; 
 }
 
-.calendar-icon {
+body.register-body .calendar-icon {
     position: absolute;
     top: 50%;
     right: 15px; 
@@ -243,7 +234,7 @@ body.register-body {
     height: 25px;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+body.register-body input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
     appearance: none;
     display: none;
@@ -251,50 +242,49 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     pointer-events: none;
 }
 
+/* ========================================
+   7. RECAPTCHA
+   ======================================== */
 
-.recaptcha-group {
+body.register-body .recaptcha-group {
     display: flex; 
     justify-content: center;
     flex-direction: column; 
     align-items: center;
-    margin-bottom: 18px !important;
+    margin-bottom: 18px;
 }
 
-.recaptcha-container {
+body.register-body .recaptcha-container {
     display: flex;
     align-items: center;
-    background-color: var(--color-box) !important;
-    padding: 8px 12px !important;
-    min-height: 36px !important;
+    background-color: var(--color-box);
+    padding: 8px 12px;
+    min-height: 36px;
     border-radius: 4px;
     color: var(--color-text);
-   
 }
 
-.recaptcha-text {
+body.register-body .recaptcha-text {
     margin-left: 10px;
     font-size: 14px;
     font-family: var(--font-base);
     white-space: nowrap; 
-    
 }
 
-.recaptcha-logo-container {
+body.register-body .recaptcha-logo-container {
     margin-left: 50px;
     border-radius: 5px;
-    
-    
 }
 
-.recaptcha-logo {
+body.register-body .recaptcha-logo {
     width: 35px;
 }
 
-.recaptcha-checkbox {
+body.register-body .recaptcha-checkbox {
     appearance: none;
     -webkit-appearance: none;
-    width: 15px !important;
-    height: 15px !important;
+    width: 15px;
+    height: 15px;
     border: 1px solid var(--color-textDark); 
     border-radius: 2px;
     background-color: var(--color-box); 
@@ -305,11 +295,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin: 5px;
 }
 
-.recaptcha-checkbox:checked {
+body.register-body .recaptcha-checkbox:checked {
     background-color: var(--color-hover); 
 }
 
-.recaptcha-checkbox:checked::after {
+body.register-body .recaptcha-checkbox:checked::after {
     content: "✔";
     color: var(--color-textLight);
     font-size: 10px;
@@ -319,7 +309,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: translate(-50%, -55%);
 }
 
-label.required {
+body.register-body label.required {
     align-items: center;
     display: flex;
     gap: 5px;
@@ -329,35 +319,35 @@ label.required {
    8. PASSWORD CRITERIA
    ======================================== */
 
-.password-criteria {
+body.register-body .password-criteria {
     text-align: left;
     border-radius: 8px;
     font-size: 11px;
-    padding-bottom: 8px !important;
+    padding-bottom: 8px;
     margin-left: 25px;
-    margin-top: -8px !important;
-    margin-bottom: 15px !important;
+    margin-top: -8px;
+    margin-bottom: 15px;
 }
 
-.password-criteria p {
-    margin: 4px 0 !important;
-    font-size: 10.5px !important;
+body.register-body .password-criteria p {
+    margin: 4px 0;
+    font-size: 10.5px;
     color: var(--color-textDark);
     display: flex;
     align-items: center;
 }
 
-#criterion-length,
-#criterion-numbers,
-#criterion-uppercase {
+body.register-body #criterion-length,
+body.register-body #criterion-numbers,
+body.register-body #criterion-uppercase {
     margin-left: 20px;
 }
 
-.password-criteria p.valid {
+body.register-body .password-criteria p.valid {
     color: var(--color-ok); 
 }
 
-.password-criteria p .icon-status {
+body.register-body .password-criteria p .icon-status {
     margin-right: 8px;
     font-weight: bold;
     width: 15px; 
@@ -365,11 +355,11 @@ label.required {
     font-size: 16px;
 }
 
-.password-criteria p.valid .icon-status {
+body.register-body .password-criteria p.valid .icon-status {
     content: '✓'; 
 }
 
-.criteria-title {
+body.register-body .criteria-title {
     color: var(--color-text);
     font-weight: 500;
     display: flex;
@@ -377,7 +367,7 @@ label.required {
     margin-bottom: 10px; 
 }
 
-.criteria-title .lock-icon {
+body.register-body .criteria-title .lock-icon {
     width: 17px; 
     height: 20px;
     margin-right: 8px; 
@@ -387,7 +377,7 @@ label.required {
    9. SUCCESS MESSAGE
    ======================================== */
 
-.success-message {
+body.register-body .success-message {
     position: fixed; 
     bottom: 0;
     left: 0;
@@ -408,56 +398,28 @@ label.required {
     transition: none; 
 }
 
-.success-message h1 {
+body.register-body .success-message h1 {
     font-size: 3em;
     color: var(--color-ok); 
     margin-bottom: 20px;
 }
 
-.success-message p {
+body.register-body .success-message p {
     font-size: 1.5em;
     color: var(--color-text);
 }
 
-.success-message.popup-blur {
-    opacity: 1;
-    pointer-events: auto;
-    animation: aparecerConBlur 1.7s ease-out forwards; 
-}
-
-@keyframes aparecerConBlur {
-    0% {
-        transform: scale(1.1);
-        opacity: 0;
-        filter: blur(10px);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-        filter: blur(0px);
-    }
-}
-
-/* ========================================
-   10. ANIMACIONES Y TRANSICIONES
-   ======================================== */
-
-body.scroll-bloqueado {
-    overflow-y: hidden;
-    width: 100%; 
-} 
-
-.register-container.form-desaparece {
+body.register-body .register-container.form-desaparece {
     opacity: 0;
     transform: scale(0.9); 
 }
 
-.register-container.form-oculto {
+body.register-body .register-container.form-oculto {
     display: none;
 }
 
-.site-footer.desaparece,
-.navbar-logo.desaparece { 
+body.register-body .site-footer.desaparece,
+body.register-body .navbar-logo.desaparece { 
     opacity: 0;
     transition: opacity 0.5s ease-out; 
     pointer-events: none;
@@ -467,69 +429,69 @@ body.scroll-bloqueado {
    11. INPUTS - ALTURA REDUCIDA 36PX
    ======================================== */
 
-.register-body .input-group input,
-.register-body .date-input-container input,
-.register-body .password-container input,
-.register-body input[type="text"],
-.register-body input[type="email"],
-.register-body input[type="password"],
-.register-body input[type="date"] {
-    height: 36px !important;
-    padding: 8px 12px !important;
-    font-size: 13px !important;
-    line-height: 1.4 !important;
-    background-color: var(--color-box) !important;
+body.register-body .input-group input,
+body.register-body .date-input-container input,
+body.register-body .password-container input,
+body.register-body input[type="text"],
+body.register-body input[type="email"],
+body.register-body input[type="password"],
+body.register-body input[type="date"] {
+    height: 36px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    background-color: var(--color-box);
 }
 
-.register-body .date-input-container input {
-    padding-right: 40px !important;
+body.register-body .date-input-container input {
+    padding-right: 40px;
 }
 
-.register-body .password-container input {
-    padding-right: 40px !important;
+body.register-body .password-container input {
+    padding-right: 40px;
 }
 
-.register-body .calendar-icon {
-    width: 20px !important;
-    height: 20px !important;
-    right: 12px !important;
+body.register-body .calendar-icon {
+    width: 20px;
+    height: 20px;
+    right: 12px;
 }
 
-.register-body .toggle-password {
-    width: 18px !important;
-    height: 18px !important;
-    right: 12px !important;
+body.register-body .toggle-password {
+    width: 18px;
+    height: 18px;
+    right: 12px;
 }
 
-.register-body .login-button {
-    height: 40px !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
-    background-color: var(--color-primary) !important;
+body.register-body .login-button {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+    background-color: var(--color-primary);
 }
 
-.register-body .input-group label {
-    margin-bottom: 6px !important;
+body.register-body .input-group label {
+    margin-bottom: 6px;
 }
 
-.register-body .input-group {
-    margin-bottom: 18px !important;
+body.register-body .input-group {
+    margin-bottom: 18px;
 }
 
 /* ========================================
    12. ESPACIADO COMPACTO DEL FORMULARIO
    ======================================== */
 
-.register-body .divider {
-    margin: 20px 0 8px 0 !important;
+body.register-body .divider {
+    margin: 20px 0 8px 0;
 }
 
-.register-body .social-login {
-    margin-bottom: 20px !important;
+body.register-body .social-login {
+    margin-bottom: 20px;
 }
 
-.register-body .signup-link {
-    margin-top: 0 !important;
+body.register-body .signup-link {
+    margin-top: 0;
 }
 
 /* ========================================
@@ -537,17 +499,17 @@ body.scroll-bloqueado {
    ======================================== */
 
 @media (max-width: 1200px) {
-    .character-left,
-    .character-right {
+    body.register-body .character-left,
+    body.register-body .character-right {
         height: 70vh;
         opacity: 0.8;
     }
     
-    .character-left {
+    body.register-body .character-left {
         transform: translateX(-20%);
     }
     
-    .character-right {
+    body.register-body .character-right {
         transform: translateX(20%);
     }
     
@@ -571,108 +533,108 @@ body.scroll-bloqueado {
 }
 
 @media (max-width: 992px) {
-    .benefits-container {
+    body.register-body .benefits-container {
         grid-template-columns: repeat(2, 1fr);
         max-width: 500px;
         gap: 12px;
     }
     
-    .character-left,
-    .character-right {
+    body.register-body .character-left,
+    body.register-body .character-right {
         height: 60vh;
         opacity: 0.5;
         transform: translateX(-30%);
     }
     
-    .character-right {
+    body.register-body .character-right {
         transform: translateX(30%);
     }
 }
 
 @media (max-width: 768px) {
-    .benefits-section {
+    body.register-body .benefits-section {
         padding: 30px 15px 0px 15px;
     }
     
-    .benefits-container {
+    body.register-body .benefits-container {
         grid-template-columns: 1fr;
         gap: 10px;
         max-width: 350px;
     }
     
-    .benefit-card {
+    body.register-body .benefit-card {
         padding: 10px 12px;
         min-height: 55px;
     }
     
-    .benefit-icon {
+    body.register-body .benefit-icon {
         width: 32px;
         height: 32px;
         min-width: 32px;
     }
     
-    .benefit-icon svg {
+    body.register-body .benefit-icon svg {
         width: 18px;
         height: 18px;
     }
     
-    .benefit-text h4 {
+    body.register-body .benefit-text h4 {
         font-size: 12px;
     }
     
-    .benefit-text p {
+    body.register-body .benefit-text p {
         font-size: 10px;
     }
     
-    .form-with-background {
+    body.register-body .form-with-background {
         min-height: 70vh;
     }
     
-    .character-left,
-    .character-right {
+    body.register-body .character-left,
+    body.register-body .character-right {
         height: 50vh;
         opacity: 0.3;
         filter: blur(2px) drop-shadow(0 0 40px rgba(144, 19, 254, 0.2));
         transform: translateX(-40%);
     }
     
-    .character-right {
+    body.register-body .character-right {
         transform: translateX(40%);
     }
     
-    .register-container {
+    body.register-body .register-container {
         padding: 15px;
     }
 }
 
 @media (max-width: 480px) {
-    .benefits-section {
+    body.register-body .benefits-section {
         padding: 20px 10px 0px 10px;
     }
     
-    .benefit-card {
+    body.register-body .benefit-card {
         padding: 8px 10px;
         min-height: 50px;
         gap: 8px;
     }
     
-    .benefit-icon {
+    body.register-body .benefit-icon {
         width: 28px;
         height: 28px;
         min-width: 28px;
     }
     
-    .benefit-icon svg {
+    body.register-body .benefit-icon svg {
         width: 16px;
         height: 16px;
     }
     
-    .form-with-background {
+    body.register-body .form-with-background {
         min-height: 60vh;
     }
     
-    .character-left,
-    .character-right {
+    body.register-body .character-left,
+    body.register-body .character-right {
         display: none;
     }
 }
