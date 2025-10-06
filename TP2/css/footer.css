@@ -72,8 +72,8 @@
 }
 
 .newsletter-form input[type="email"] {
-    background-color: var(--color-text) !important;
-    height: 43px !important;
+    background-color: var(--color-text);
+    height: 43px;
 }
 
 .newsletter-form button {

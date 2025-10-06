@@ -1,4 +1,4 @@
-html.no-scroll, body.no-scroll { overflow: hidden !important; }
+html.no-scroll, body.no-scroll { overflow: hidden; }
 
 :root{
   /* Distancias solo para espaciados/traslaciones */
