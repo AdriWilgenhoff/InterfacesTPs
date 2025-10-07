@@ -5,7 +5,7 @@
   var logoDark = document.getElementById('logoDark');
   var overlay = document.getElementById('loaderOverlay');
 
-  var STEP_MS = 10;
+  var STEP_MS = 50;
   var p = 0;
 
   // Configura la máscara del logo
