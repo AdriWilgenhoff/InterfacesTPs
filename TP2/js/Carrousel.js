@@ -3,7 +3,6 @@ class BaseCarrousel {
   constructor(category, arrayGames) {
     this.category = category;
     this.arrayGames = arrayGames;
-    this.globalIndex = 0;
     this.DOMElement = document.querySelector(`#${category}-slider`);
 
     if (!this.DOMElement) {
@@ -11,6 +10,7 @@ class BaseCarrousel {
       return;
     }
   }
+
   isPromo(game) {
     return game.discountPrice !== 0 && game.discountPrice < game.price;
   }
@@ -22,17 +22,13 @@ class BaseCarrousel {
 
 /**************************** HERO CARRUSEL *************************/
 class HeroCarrousel extends BaseCarrousel {
+
   constructor(category, arrayGames) {
     super(category, arrayGames);
     if (!this.DOMElement) return;
 
     this.currentIndex = 0;
     this.autoPlayInterval = null;
-
-    if (!Array.isArray(this.arrayGames) || this.arrayGames.length < 3) {
-      console.error("Se necesitan al menos 3 juegos para la galería hero");
-      return;
-    }
 
     this.DOMElement.classList.add('hero-gallery');
     this.renderCarrousel();
@@ -60,7 +56,6 @@ class HeroCarrousel extends BaseCarrousel {
     this.navContainer = this.DOMElement.querySelector(`#gallery-nav-${this.category}`);
 
     if (this.container) this.container.style.touchAction = 'pan-y';
-    this.DOMElement.style.touchAction = 'pan-y';
 
     this.renderSlides();
     this.renderNavigation();
@@ -73,7 +68,6 @@ class HeroCarrousel extends BaseCarrousel {
     this.arrayGames.forEach((game, index) => {
       const slide = document.createElement('div');
       slide.className = 'gallery-slide';
-      slide.dataset.index = index;
 
       const href = game?.url || game?.href || '';
       if (href) slide.dataset.href = href;
@@ -93,8 +87,8 @@ class HeroCarrousel extends BaseCarrousel {
         if (e.target.closest('.slide-actions')) return;
 
         const isActive = slide.classList.contains('active');
-        const isNext   = slide.classList.contains('next');
-        const isPrev   = slide.classList.contains('prev');
+        const isNext = slide.classList.contains('next');
+        const isPrev = slide.classList.contains('prev');
 
         if (isActive && slide.dataset.href) {
           window.location.assign(slide.dataset.href);
@@ -142,10 +136,11 @@ class HeroCarrousel extends BaseCarrousel {
     this.DOMElement.addEventListener('mouseenter', () => this.stopAutoPlay());
     this.DOMElement.addEventListener('mouseleave', () => this.startAutoPlay());
 
-    // ======== Swipe SOLO touch ========
+
+    // ********* Swipe solo para mobile *********
     const area = this.container || this.DOMElement;
     const ACTIVATE = 10;
-    const ACTION   = 50;
+    const ACTION = 50;
 
     let startX = 0, startY = 0, dx = 0, dy = 0;
     let isSwiping = false;
@@ -175,41 +170,26 @@ class HeroCarrousel extends BaseCarrousel {
       this.startAutoPlay();
     };
 
-    if ('PointerEvent' in window) {
-      const onDown = (e) => {
-        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
-        begin(e.clientX, e.clientY);
-        area.setPointerCapture?.(e.pointerId);
-      };
-      const onMove = (e) => {
-        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
-        move(e.clientX, e.clientY, e);
-      };
-      const onUp = (e) => {
-        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
-        try { area.releasePointerCapture?.(e.pointerId); } catch {}
-        end();
-      };
+    const onDown = (e) => {
+      if (e.pointerType !== 'touch') return;
+      begin(e.clientX, e.clientY);
+      area.setPointerCapture?.(e.pointerId);
+    };
+    const onMove = (e) => {
+      if (e.pointerType !== 'touch') return;
+      move(e.clientX, e.clientY, e);
+    };
+    const onUp = (e) => {
+      if (e.pointerType !== 'touch') return;
+      try { area.releasePointerCapture?.(e.pointerId); } catch { }
+      end();
+    };
 
-      area.addEventListener('pointerdown', onDown, { passive: true });
-      area.addEventListener('pointermove', onMove,  { passive: false });
-      area.addEventListener('pointerup',   onUp,    { passive: true });
-      area.addEventListener('pointercancel', onUp,  { passive: true });
+    area.addEventListener('pointerdown', onDown, { passive: true });
+    area.addEventListener('pointermove', onMove, { passive: false });
+    area.addEventListener('pointerup', onUp, { passive: true });
+    area.addEventListener('pointercancel', onUp, { passive: true });
 
-    } else {
-      area.addEventListener('touchstart', (e) => {
-        const t = e.changedTouches[0];
-        begin(t.clientX, t.clientY);
-      }, { passive: true });
-
-      area.addEventListener('touchmove', (e) => {
-        const t = e.changedTouches[0];
-        move(t.clientX, t.clientY, e);
-      }, { passive: false });
-
-      area.addEventListener('touchend', () => end(), { passive: true });
-      area.addEventListener('touchcancel', () => end(), { passive: true });
-    }
   }
 
   updateDisplay() {
@@ -224,13 +204,10 @@ class HeroCarrousel extends BaseCarrousel {
 
       if (diff === 0) {
         slide.classList.add('active');
-
-        // cursor: clickable si hay link al frente
         slide.style.cursor = slide.dataset.href ? 'pointer' : 'default';
-
       } else if (diff === 1 || diff === -(totalSlides - 1)) {
         slide.classList.add('next');
-        slide.style.cursor = 'pointer'; 
+        slide.style.cursor = 'pointer';
       } else if (diff === -1 || diff === totalSlides - 1) {
         slide.classList.add('prev');
         slide.style.cursor = 'pointer';
@@ -276,19 +253,7 @@ class CommonCarrousel extends BaseCarrousel {
     super(category, arrayGames);
     if (!this.DOMElement) return;
 
-    this.isDesktop = window.innerWidth >= 1440;
-
-    if (this.isDesktop) {
-      this.cardWidth = 192.5;
-      this.gap = 10;
-      this.viewportWidth = 1205;
-    } else {
-      this.cardWidth = 118;
-      this.gap = 7;
-      this.viewportWidth = window.innerWidth;
-    }
-
-    this.cardMove = this.cardWidth + this.gap;
+    this.updateDimensions();
     this.currentPosition = 0;
 
     this.renderCarrousel();
@@ -297,28 +262,32 @@ class CommonCarrousel extends BaseCarrousel {
       this.initializeCarousel();
     }
 
+    //Detecta cambios de tamaño de ventana
     this.handleResize = this.handleResize.bind(this);
     window.addEventListener('resize', this.handleResize);
+  }
+
+  updateDimensions() {
+    this.isDesktop = window.innerWidth >= 1440;
+
+    if (this.isDesktop) {
+      this.cardWidth = 192.5;
+      this.gap = 10;
+      this.viewportWidth = 1205;
+      this.cardMove = this.cardWidth + this.gap;
+    }
   }
 
   handleResize() {
     const wasDesktop = this.isDesktop;
     this.isDesktop = window.innerWidth >= 1440;
 
-     if (wasDesktop !== this.isDesktop) {
-      if (this.isDesktop) {
-        this.cardWidth = 192.5;
-        this.gap = 10;
-        this.viewportWidth = 1205;
-      } else {
-        this.cardWidth = 118;
-        this.gap = 7;
-        this.viewportWidth = window.innerWidth;
-      }
-
-      this.cardMove = this.cardWidth + this.gap;
+    // Si cambió el modo (desktop <-> mobile), re-renderizar
+    if (wasDesktop !== this.isDesktop) {
+      this.updateDimensions();
       this.currentPosition = 0;
 
+      // Re-renderizar el carrusel
       this.renderCarrousel();
 
       if (this.isDesktop) {
@@ -326,6 +295,65 @@ class CommonCarrousel extends BaseCarrousel {
       }
     }
   }
+
+  initializeCarousel() {
+    const container = this.DOMElement.querySelector('.card-container');
+    const prevButton = this.DOMElement.querySelector('.prev-btn');
+    const nextButton = this.DOMElement.querySelector('.next-btn');
+
+    const totalCards = this.arrayGames.length;
+    const totalContentWidth = (totalCards * this.cardWidth) + ((totalCards - 1) * this.gap);
+
+    container.style.width = `${totalContentWidth}px`;
+
+    container.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'transform') {
+        container.classList.remove('moving');
+      }
+    });
+
+    const moveCarousel = (direction) => {
+      const maxMovement = totalContentWidth - this.viewportWidth;
+      const step = this.cardMove;
+
+      let newPosition = this.currentPosition + (direction === 'next' ? -step : step);
+      newPosition = Math.min(0, Math.max(newPosition, -maxMovement));
+
+      if (newPosition === this.currentPosition) return;
+
+      this.currentPosition = newPosition;
+
+      container.classList.add('moving');
+      container.style.transform = `translateX(${this.currentPosition}px)`;
+
+      updateButtonState();
+    };
+
+    //Actualiza estados de lo botones next y prev
+    const updateButtonState = () => {
+      prevButton.disabled = this.currentPosition >= 0;
+
+      const maxMovement = totalContentWidth - this.viewportWidth;
+      const atEnd = Math.abs(this.currentPosition) >= maxMovement - 1;
+      nextButton.disabled = atEnd;
+    };
+
+    nextButton.addEventListener('click', () => moveCarousel('next'));
+    prevButton.addEventListener('click', () => moveCarousel('prev'));
+
+    updateButtonState();
+  }
+
+  updateDisplay() {
+    const contentDiv = this.DOMElement.querySelector('.card-container');
+    contentDiv.innerHTML = '';
+
+    this.arrayGames.forEach(game => {
+      this.renderCard(game, contentDiv, true);
+    });
+  }
+
+  /***************************** CREAR CARRUSEL *********************************/
 
   renderCarrousel() {
     this.DOMElement.innerHTML = `
@@ -372,85 +400,7 @@ class CommonCarrousel extends BaseCarrousel {
     this.updateDisplay();
   }
 
-  initializeCarousel() {
-    const container = this.DOMElement.querySelector('.card-container');
-    const prevButton = this.DOMElement.querySelector('.prev-btn');
-    const nextButton = this.DOMElement.querySelector('.next-btn');
-
-    const totalCards = this.arrayGames.length;
-    const totalContentWidth = (totalCards * this.cardWidth) + ((totalCards - 1) * this.gap);
-
-    container.style.width = `${totalContentWidth}px`;
-
-    container.style.overflowX = 'hidden';
-
-    const moveCarousel = (direction) => {
-      if (direction === 'next') {
-        const maxMovement = totalContentWidth - this.viewportWidth;
-
-        let newPosition = this.currentPosition - this.cardMove;
-
-        if (Math.abs(newPosition) > maxMovement) {
-          newPosition = -maxMovement;
-        }
-
-        if (this.currentPosition === newPosition) return;
-
-        this.currentPosition = newPosition;
-
-      } else if (direction === 'prev') {
-        let newPosition = this.currentPosition + this.cardMove;
-
-        if (newPosition > 0) {
-          newPosition = 0;
-        }
-
-        if (this.currentPosition === newPosition) return;
-
-        this.currentPosition = newPosition;
-      }
-
-      const cards = container.querySelectorAll('.game-card');
-      cards.forEach(card => card.classList.add('skewing'));
-
-      container.style.transform = `translateX(${this.currentPosition}px)`;
-
-      setTimeout(() => {
-        cards.forEach(card => card.classList.remove('skewing'));
-      }, 300);
-
-      updateButtonState();
-    };
-
-    const updateButtonState = () => {
-      prevButton.disabled = this.currentPosition >= 0;
-
-      const maxMovement = totalContentWidth - this.viewportWidth;
-      const atEnd = Math.abs(this.currentPosition) >= maxMovement - 1;
-      nextButton.disabled = atEnd;
-    };
-
-    nextButton.addEventListener('click', () => moveCarousel('next'));
-    prevButton.addEventListener('click', () => moveCarousel('prev'));
-
-    updateButtonState();
-  }
-
-  updateDisplay() {
-    const contentDiv = this.DOMElement.querySelector('.card-container');
-    contentDiv.innerHTML = '';
-
-
-    if (!this.isDesktop) {
-      contentDiv.style.width = 'auto';
-      contentDiv.style.transform = 'none';
-      contentDiv.style.overflowX = 'scroll';
-    }
-
-    this.arrayGames.forEach(game => {
-      this.renderCard(game, contentDiv, true);
-    });
-  }
+  /***************************** CREAR CARD *********************************/
 
   renderCard(game, container, append = false) {
     const promo = this.isPromo ? this.isPromo(game) : false;
