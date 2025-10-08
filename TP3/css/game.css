@@ -1,0 +1,640 @@
+/* ===================================== LAYOUT PRINCIPAL ===================================== */
+.game-page {
+    max-width: 1280px;
+    width: 100%;
+    margin: auto;
+}
+
+.game-page .app-shell {
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* ===================================== BREADCRUMBS ===================================== */
+.breadcrumbs {
+    width: 100%;
+}
+
+.bc-list {
+    display: flex;
+    list-style: none;
+    font-size: var(--font-size-base);
+}
+
+.bc-item a {
+    color: var(--color-textDark);
+    text-decoration: none;
+}
+
+.bc-item a:hover {
+    text-decoration: underline;
+}
+
+.bc-item.current {
+    color: var(--color-text);
+}
+
+.separator {
+    margin: 0 8px;
+    color: var(--color-textDark);
+}
+
+/* ===================================== GAME SECTION ===================================== */
+.game-section,
+.description,
+.community {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+/* COLUMNA IZQUIERDA */
+.game-play,
+.description-images-text,
+.community-content {
+    display: flex;
+    flex-direction: column;
+    width: 900px;
+    gap: 20px;
+}
+
+.game-play {
+    flex: 0 0 900px;
+    max-width: 900px;
+    gap: 0px
+}
+
+.community-content {
+    gap: 25px;
+}
+
+/* Contenedor especial para imagen + barra unidos */
+.game-play>*:not(:first-child) {
+    margin-top: 20px;
+}
+
+.game-play .game-board {
+    margin-top: 0;
+}
+
+/* MEDIA Y CONTROLES DEL JUEGO */
+.game-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+}
+
+.game-image {
+    display: block;
+    width: 100%;
+    height: 475px;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(2.5px) brightness(.75);
+    margin-bottom: 0;
+}
+
+
+
+.button-game {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 50px;
+    border: 0;
+    border-radius: 5px;
+    color: var(--color-textLight);
+    font-size: var(--font-size-title-h4);
+    font-family: var(--font-base);
+    font-weight: 800;
+    letter-spacing: .4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.style-comprar {
+    background: var(--color-accent);
+}
+
+
+.style-jugar {
+    background: var(--color-primary);
+}
+
+.pulse-comprar {
+    animation: pulse-comprar 2s ease-in-out infinite;
+}
+
+@keyframes pulse-comprar {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 10px var(--color-accent);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 20px var(--color-accentLight2);
+    }
+}
+
+.pulse-jugar {
+    animation: pulse-jugar 2s ease-in-out infinite;
+}
+
+@keyframes pulse-jugar {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 10px var(--color-primary);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 20px var(--color-primaryLight2);
+    }
+}
+
+/* BARRA DE CONTROLES */
+.game-board {
+    height: 24px;
+    display: flex;
+    background-color: var(--color-box);
+    border-radius: 0 0 15px 15px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: content-box;
+}
+
+.game-board-icons {
+    display: flex;
+    gap: 15px;
+    position: relative;
+}
+
+.icon-btn {
+    background: none;
+    border: 0;
+    line-height: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===================================== INSTRUCCIONES DEL JUEGO ===================================== */
+.game-instructions,
+.description-box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: var(--color-box);
+}
+
+.game-instructions {
+    justify-content: center;
+    align-items: center;
+    color: var(--color-textDark);
+    font-family: var(--font-base);
+    font-size: var(--font-size-small);
+    padding: 0 20px;
+}
+
+.description-box {
+    gap: 15px;
+}
+
+.game-instructions h4,
+.community-recommends h4 {
+    font-size: var(--font-size-title-h4);
+    font-weight: 600;
+}
+
+.instructions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.game-instructions-2-images {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.game-instructions-1,
+.game-instructions-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+/* ===================================== DESCRIPCIÓN ===================================== */
+.description-game-images {
+    display: flex;
+    justify-content: space-between;
+}
+
+.description-game-images div {
+    overflow: hidden;
+}
+
+.description-game-images img {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.description-game-images img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.description-p {
+    font-size: var(--font-size-base);
+    line-height: 22px;
+}
+
+/* TABLA DE INFORMACIÓN */
+.description-table,
+.community-recommends {
+    width: 360px;
+}
+
+.description-table {
+    border-collapse: collapse;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 15px;
+    overflow: hidden;
+    font-family: var(--font-base);
+    font-size: var(--font-size-table);
+    color: var(--color-textTable);
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding-left: 10px;
+    text-align: left;
+    border: 1px solid #1E1D22;
+    font-weight: 400;
+}
+
+td {
+    color: var(--color-text);
+}
+
+td a {
+    color: var(--color-link-secondary);
+    text-decoration: none;
+}
+
+td a:hover {
+    color: var(--color-link-hover-secondary);
+    text-decoration: underline;
+}
+
+/* ===================================== COMUNIDAD ===================================== */
+.community {
+    align-items: flex-start;
+}
+
+.comments {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+h2 {
+    font-size: var(--font-size-title-h2);
+}
+
+h3,
+.description-box h3 {
+    font-size: var(--font-size-title-h3);
+    font-weight: 600;
+}
+
+.line {
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    width: 100%;
+    margin: 0 0 8px;
+}
+
+/* COMENTARIOS */
+.comment-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.input-col {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.comment-input {
+    width: 100%;
+    min-height: 120px;
+    background: var(--bodyclaro, #201f24);
+    color: var(--color-text);
+    border: 1px solid #ffffff14;
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    resize: none;
+    outline: none;
+    transition: all .3s ease;
+
+}
+
+.comment-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.2);
+}
+
+.comment-input::placeholder {
+    color: var(--color-textDark);
+    font-family: var(--font-base);
+}
+
+.button-comentar {
+    align-self: flex-end;
+    background: var(--color-primary);
+    color: var(--color-textLight);
+    font-family: var(--font-base);
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* LISTA DE COMENTARIOS */
+#comments-list-ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#comments-list-ul .empty {
+    color: var(--color-textDark);
+}
+
+.comment-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.comment-item .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-item .bubble {
+    padding: 10px 12px;
+}
+
+.comment-item .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-item .name {
+    font-weight: 600;
+    color: var(--color-textLight);
+}
+
+.comment-item .date {
+    color: var(--color-textDark);
+    font-size: var(--font-size-base);
+}
+
+.comment-item .text {
+    font-size: var(--font-size-small);
+    line-height: 24px;
+}
+
+/* JUEGOS RECOMENDADOS */
+.community-recommends {
+    margin-top: 25px;
+}
+
+.rec-list {
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.rec-card {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.rec-cover {
+    width: 110px;
+    height: 135px;
+    object-fit: cover;
+    border-radius: 5px;
+    flex: 0 0 auto;
+    background: #2a2a2f;
+}
+
+.rec-body {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+}
+
+.rec-name {
+    font-weight: 400;
+}
+
+.rec-genre {
+    color: var(--color-textDark);
+    font-size: var(--font-size-small);
+}
+
+.btn-play {
+    display: inline-block;
+    padding: 5px 23px;
+    border-radius: 3.28px;
+    border: 0;
+    background: var(--color-secondary);
+    color: var(--color-text);
+    font-size: var(--font-size-small);
+    font-weight: 400;
+    cursor: pointer;
+    justify-self: start;
+}
+
+.btn-play:hover {
+    background: var(--color-secondaryShadow1);
+}
+
+/* ===================================== ICONOS Y ANIMACIONES ===================================== */
+
+.heart-icon,
+.share-icon,
+.like-icon,
+.fullscreen-icon {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: transform 0.3s ease-out, filter 0.3s ease-out, color 0.3s ease-out, fill 0.3s ease-out;
+    color: var(--color-text);
+    fill: none;
+}
+
+
+.icon-btn:hover .heart-icon,
+.icon-btn:hover .share-icon,
+.icon-btn:hover .like-icon,
+.icon-btn:hover .fullscreen-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    color: var(--color-text);
+    fill: var(--color-text);
+}
+
+
+.icon-btn:hover .like-icon {
+    stroke: var(--color-box);
+}
+
+.icon-btn.like-activo .heart-icon,
+.icon-btn.like-activo-dedo .like-icon {
+    color: var(--color-text);
+    fill: var(--color-text);
+    transform: scale(1.1);
+}
+
+.icon-btn.like-activo-dedo .like-icon {
+    stroke: var(--color-box);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+.icon-btn.share-activo .share-icon {
+    color: var(--color-text);
+    fill: var(--color-text);
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* POPUP DE COMPARTIR */
+.share-popup {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-77%) translateY(-30%);
+    background-color: var(--color-box);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.share-popup.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.share-icon-link img {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    transition: transform 0.2s ease-out;
+}
+
+.share-icon-link img:hover {
+    transform: scale(1.1);
+}
+
+.animacion-boton-comentar:hover {
+    animation: shake 0.5s;
+    background-color: var(--color-primaryLight1);
+    box-shadow: 0 0 10px 2px var(--color-primary);
+}
+
+.animacion-boton-comentar:active {
+    animation: press 0.2s ease;
+    background-color: var(--color-primaryLight2);
+    transform: scale(0.95);
+    box-shadow: 0 0 15px 3px var(--color-primary);
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-1px, 0);
+    }
+
+    50% {
+        transform: translate(1px, 0);
+    }
+
+    75% {
+        transform: translate(-1px, 0);
+    }
+}
+
+@keyframes press {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    50% {
+        transform: scale(0.92) translate(0, 1px);
+    }
+
+    100% {
+        transform: scale(0.95) translate(0, 0);
+    }
+}
+
+/*************************************************   FULL SIZE   *************************************************/
+
+.game-section.fullscreen-active .game-instructions {
+    display: none;
+}
+
+.game-section.fullscreen-active .game-play,
+.game-section.fullscreen-active .description-images-text {
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+}

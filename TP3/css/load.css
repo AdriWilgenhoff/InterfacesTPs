@@ -1,0 +1,151 @@
+html.no-scroll, body.no-scroll { overflow: hidden; }
+
+:root{
+  /* Distancias solo para espaciados/traslaciones */
+  --dx-word-near: 70px;   /* palabra cerca del logo */
+  --dx-word-far:  300px;  /* palabra lejos del logo */
+  --dx-logo:      70px;   /* desplazamiento del logo a la izq */
+}
+
+@media (min-width: 1200px){
+  :root{
+    --dx-word-near: 130px;
+    --dx-word-far:  400px;
+    --dx-logo:      130px;
+  }
+}
+
+/* ====== Overlay fullscreen ====== */
+#loaderOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--color-bodyDark);
+  perspective: 1000px;
+}
+
+#loaderOverlay .stage{
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  transform-origin: center;
+}
+
+/* Marca: logo + palabra */
+#loaderOverlay .brandRow{
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  transform-origin: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Logo */
+#loaderOverlay .logo{
+  position: relative;
+  width: clamp(120px, 32vw, 220px);
+  max-width: 220px;
+  aspect-ratio: 1/1;
+  display: block;
+  transform: translateX(0);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  z-index: 2;
+}
+
+#loaderOverlay .logoImg{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Capa oscura con máscara (revelado durante la carga) */
+#loaderOverlay .logoDark{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--color-bodyDark);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  transition: clip-path 0.08s linear;
+}
+
+/* Palabra */
+#loaderOverlay .word{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  font-family: var(--font-logo, 'Orbitron'), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-size: clamp(1.7rem, 4.6vw, 2.7rem);
+  color: var(--color-text);
+  white-space: nowrap;
+  user-select: none;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.45s ease;
+  will-change: transform, opacity;
+  z-index: 1;
+}
+
+#loaderOverlay .word .accent{ color: var(--color-primary); }
+
+/* Porcentaje */
+#loaderOverlay .percent{
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-base);
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-top: 12px;
+  transition: opacity 0.35s ease;
+}
+
+/* Estado .go */
+#loaderOverlay.go .percent{ opacity: 0; }
+#loaderOverlay.go .word,
+#loaderOverlay.go .logo{ transition: none; }
+
+/* ====== Animación de entrada ====== */
+@keyframes word-master{
+  0%   { opacity:0; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  20%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-far)))  scale(1); }
+  50%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-far)))  scale(1); }
+  65%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  75%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+  80%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(0.96, 1.04); }
+  90%  { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1.04, 0.96); }
+  100% { opacity:1; transform: translateX(calc(-50% + var(--dx-word-near))) scale(1); }
+}
+
+@keyframes logo-master{
+  0%,55% { transform: translateX(0) scale(1); }
+  70%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(1); }
+  80%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(0.96, 1.04); }
+  90%    { transform: translateX(calc(-1 * var(--dx-logo))) scale(1.04, 0.96); }
+  100%   { transform: translateX(calc(-1 * var(--dx-logo))) scale(1); }
+}
+
+#loaderOverlay.go .word{ animation: word-master 1830ms ease-out forwards; }
+#loaderOverlay.go .logo{ animation: logo-master 1830ms ease-out forwards; }
+
+/* ====== Animación de salida ====== */
+@keyframes slide-out-fwd-center{
+  0% { opacity: 1; }
+  55% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+#loaderOverlay.go .brandRow{
+  animation: slide-out-fwd-center 700ms linear both;
+  animation-delay: 2130ms;
+}
