@@ -348,10 +348,16 @@
             <section class="game-section">
                 <div class="game-play">
                     <div class="game-media">
-                        <img class="game-image" src="../assets/img/blocka/blocka.png"
+                        <!-- Imagen de fondo (visible al inicio) -->
+                        <img class="game-image" id="game-image" src="../assets/img/blocka/blocka.png"
                             alt="Captura del juego Peg Debugging" loading="lazy" decoding="async" />
+
+                        <!-- Botón (inicialmente COMPRAR) -->
                         <a href="https://mpago.la/2uX6dKB" id="btn_jugar"
                             class="button-game style-comprar pulse-comprar" role="button" target="_blank">COMPRAR</a>
+
+                        <!-- Canvas (oculto al inicio) -->
+                        <canvas id="game" width="900" height="475"></canvas>
                     </div>
 
                     <div class="game-board">
@@ -444,10 +450,11 @@
                             la imagen final.
                         </p>
                         <div class="game-instructions-2-images">
-                            <img src="../assets/logos_svg/icons/block-instrucciones.svg" alt="Icon movimiento" loading="lazy"
-                                decoding="async" />
+                            <img src="../assets/logos_svg/icons/block-instrucciones.svg" alt="Icon movimiento"
+                                loading="lazy" decoding="async" />
                         </div>
-                        <p>¡Pero apresúrate! En los niveles avanzados, el tiempo se convierte en tu mayor desafío; si el temporizador llega a cero antes de resolver la blocka, perderás el nivel.</p>
+                        <p>¡Pero apresúrate! En los niveles avanzados, el tiempo se convierte en tu mayor desafío; si el
+                            temporizador llega a cero antes de resolver la blocka, perderás el nivel.</p>
                     </div>
                 </div>
             </section>
@@ -715,7 +722,7 @@
     <script src="../js/navbar.js"></script>
     <script src="../js/searchbar.js"></script>
     <script src="../js/data.js"></script>
-
+    <script type="module" src="../js/game/main.js"></script>
 </body>
 
 </html>

@@ -69,14 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Botón comprar/jugar ---
   let yaComprado = false;
+  let juegoIniciado = false;
   const btnJugar = document.getElementById('btn_jugar');
+  const gameImage = document.getElementById('game-image');
+  const canvas = document.getElementById('game');
+  const gameMedia = document.querySelector('.game-media'); // 👈 AGREGAR
 
   if (btnJugar) {
     btnJugar.addEventListener('click', function (event) {
       const boton = this;
 
       if (!yaComprado) {
-
+        // Primer click - COMPRAR
         setTimeout(() => {
           boton.textContent = 'JUGAR';
           boton.classList.remove('style-comprar', 'pulse-comprar');
@@ -86,12 +90,25 @@ document.addEventListener('DOMContentLoaded', () => {
           yaComprado = true;
         }, 100);
       } else {
+        // Segundo click - JUGAR
         event.preventDefault();
+
+        if (!juegoIniciado) {
+          // Ocultar imagen y botón
+          gameImage.classList.add('hidden');
+          boton.classList.add('hidden');
+
+          // Cambiar contenedor a position static
+          gameMedia.classList.add('playing'); // 👈 AGREGAR
+
+          // Mostrar canvas
+          canvas.classList.add('active');
+
+          juegoIniciado = true;
+        }
       }
     });
   }
-
-
   // --- Fullscreen sección juego ---
   const fullscreenButton = document.getElementById('fullscreen-button');
   const gamePageContainer = document.querySelector('.game-section');

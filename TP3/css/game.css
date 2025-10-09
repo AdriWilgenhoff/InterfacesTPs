@@ -186,6 +186,43 @@
     justify-content: center;
 }
 
+/* Canvas del juego (oculto por defecto) */
+/* Canvas del juego (oculto por defecto) */
+#game {
+    display: none;
+    /* Oculto al inicio */
+    width: 100%;
+    height: 475px;
+    border-radius: 15px 15px 0 0;
+    cursor: pointer;
+    background-color: #1a1a1a;
+}
+
+/* Cuando el juego está activo */
+#game.active {
+    display: block;
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: 1;
+}
+
+/* Cuando el juego está activo, el contenedor ya no necesita position relative */
+.game-media.playing {
+    position: static;
+}
+
+/* Ocultar imagen cuando el juego está activo */
+.game-image.hidden {
+    display: none;
+    z-index: 1;
+}
+
+/* Ocultar botón cuando el juego está activo */
+.button-game.hidden {
+    display: none;
+}
+
 /* ===================================== INSTRUCCIONES DEL JUEGO ===================================== */
 .game-instructions,
 .description-box {
