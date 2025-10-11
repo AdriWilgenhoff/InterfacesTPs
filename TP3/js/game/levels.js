@@ -25,18 +25,24 @@ export const LEVELS_CONFIG = {
   }
 };
 
-export const LEVELS = [
+/* export const LEVELS = [
   { nivel: 1, dificultad: 'facil', division: 4, filtro: 'facil', timer: 'sinTimer', ayudita: true }, 
   { nivel: 2, dificultad: 'facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }, 
   { nivel: 3, dificultad: 'medio', division: 9, filtro: 'facil', timer: 'sinTimer', ayudita: true },
   { nivel: 4, dificultad: 'medio', division: 9, filtro: 'medio', timer: 'sinTimer', ayudita: true },
-  { nivel: 5, dificultad: 'medio', division: 9, filtro: 'dificil', timer: 'relajado', ayudita: true },
-  { nivel: 6, dificultad: 'dificil', division: 16, filtro: 'facil', timer: 'relajado', ayudita: true },
-  { nivel: 7, dificultad: 'dificil', division: 16, filtro: 'medio', timer: 'normal', ayudita: true },
-  { nivel: 8, dificultad: 'dificil', division: 16, filtro: 'dificil', timer: 'normal', ayudita: true },
-  { nivel: 9, dificultad: 'extremo', division: 25, filtro: 'medio', timer: 'rapido', ayudita: true },
-  { nivel: 10, dificultad: 'extremo', division: 25, filtro: 'extremo', timer: 'extremo', ayudita: true }
+  { nivel: 5, dificultad: 'medio', division: 9, filtro: 'dificil', timer: 'sinTimer', ayudita: true },
+  { nivel: 6, dificultad: 'dificil', division: 16, filtro: 'facil', timer: 'sinTimer', ayudita: true },
+  { nivel: 7, dificultad: 'dificil', division: 16, filtro: 'medio', timer: 'sinTimer', ayudita: true },
+  { nivel: 8, dificultad: 'dificil', division: 16, filtro: 'dificil', timer: 'sinTimer', ayudita: true },
+  { nivel: 9, dificultad: 'extremo', division: 25, filtro: 'medio', timer: 'sinTimer', ayudita: true },
+  { nivel: 10, dificultad: 'extremo', division: 25, filtro: 'extremo', timer: 'sinTimer', ayudita: true }
+]; */
+
+export const LEVELS = [
+  { nivel: 1, dificultad: 'facil', division: 4, filtro: 'facil', timer: 'sinTimer', ayudita: false }, 
+  { nivel: 2, dificultad: 'facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
 ];
+
 export function cargarNivel(numeroNivel) {
   const config = LEVELS[numeroNivel - 1];
 

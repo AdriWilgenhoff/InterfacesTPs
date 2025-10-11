@@ -13,7 +13,7 @@
  * @param {number} a - Valor alpha/transparencia (0-255)
  */
 function setPixel(imageData, x, y, r, g, b, a) {
-    const index = (y * imageData.width + x) * 4;
+    const index = (x + y * imageData.width) * 4;
     imageData.data[index + 0] = r;
     imageData.data[index + 1] = g;
     imageData.data[index + 2] = b;
@@ -28,7 +28,7 @@ function setPixel(imageData, x, y, r, g, b, a) {
  * @returns {Object} - Objeto con propiedades r, g, b, a
  */
 function getPixel(imageData, x, y) {
-    const index = (y * imageData.width + x) * 4;
+    const index = (x + y * imageData.width) * 4;
     return {
         r: imageData.data[index + 0],
         g: imageData.data[index + 1],
@@ -49,8 +49,9 @@ export function aplicarFiltroEscalaGrises(ctx, canvas) {
     for (let y = 0; y < imageData.height; y++) {
         for (let x = 0; x < imageData.width; x++) {
             const pixel = getPixel(imageData, x, y);
-            // Promedio simple de los 3 canales RGB
-            const gris = (pixel.r + pixel.g + pixel.b) / 3;
+
+            const gris = pixel.r * 0.299 + pixel.g * 0.587 + pixel.b * 0.114;
+            
             setPixel(imageData, x, y, gris, gris, gris, pixel.a);
         }
     }
@@ -208,3 +209,84 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
             console.warn(`Filtro desconocido: ${nombreFiltro}`);
     }
 }
+
+
+/* DEGRADE */
+
+/**
+ * Dibuja un degradado vertical de 2 colores usando setPixel.
+ * @param {CanvasRenderingContext2D} ctx - El contexto 2D.
+ * @param {{r,g,b}} colorInicio - Objeto con el color de inicio.
+ * @param {{r,g,b}} colorFin - Objeto con el color final.
+ */
+function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
+    const canvas = ctx.canvas;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    for (let y = 0; y < canvas.height; y++) {
+        // 1. Calcular el factor de progreso (0.0 en la cima, 1.0 en la base)
+        const factor = y / (canvas.height - 1);
+
+        // 2. Interpolar cada canal de color usando el factor
+        const r = colorInicio.r + (colorFin.r - colorInicio.r) * factor;
+        const g = colorInicio.g + (colorFin.g - colorInicio.g) * factor;
+        const b = colorInicio.b + (colorFin.b - colorInicio.b) * factor;
+
+        // 3. Aplicar el color calculado a toda la fila
+        for (let x = 0; x < canvas.width; x++) {
+            setPixel(imageData, x, y, r, g, b, 255); // 255 para alfa opaco
+        }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+}
+
+// --- Ejemplo de uso ---
+// const color1 = { r: 255, g: 0, b: 0 }; // Rojo
+// const color2 = { r: 0, g: 0, b: 255 }; // Azul
+// dibujarDegradado2Colores(ctx, color1, color2);
+
+/**
+ * Dibuja un degradado vertical de 3 colores usando setPixel.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {{r,g,b}} color1 - Color de inicio.
+ * @param {{r,g,b}} color2 - Color del medio.
+ * @param {{r,g,b}} color3 - Color final.
+ */
+ export function dibujarDegradado3Colores(ctx, color1, color2, color3) {
+    const canvas = ctx.canvas;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const mitad = canvas.height / 2;
+
+    for (let y = 0; y < canvas.height; y++) {
+        let r, g, b;
+
+        if (y < mitad) {
+            // --- PRIMERA MITAD: de color1 a color2 ---
+            // El factor debe ir de 0 a 1 dentro de esta mitad
+            const factor = y / mitad;
+            r = color1.r + (color2.r - color1.r) * factor;
+            g = color1.g + (color2.g - color1.g) * factor;
+            b = color1.b + (color2.b - color1.b) * factor;
+        } else {
+            // --- SEGUNDA MITAD: de color2 a color3 ---
+            // El factor también debe ir de 0 a 1 dentro de esta segunda mitad
+            const factor = (y - mitad) / mitad;
+            r = color2.r + (color3.r - color2.r) * factor;
+            g = color2.g + (color3.g - color2.g) * factor;
+            b = color2.b + (color3.b - color2.b) * factor;
+        }
+
+        for (let x = 0; x < canvas.width; x++) {
+            setPixel(imageData, x, y, r, g, b, 255);
+        }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+}
+
+// --- Ejemplo de uso ---
+// const c1 = { r: 255, g: 0, b: 0 }; // Rojo
+// const c2 = { r: 255, g: 255, b: 0 }; // Amarillo
+// const c3 = { r: 0, g: 0, b: 255 }; // Azul
+// dibujarDegradado3Colores(ctx, c1, c2, c3);

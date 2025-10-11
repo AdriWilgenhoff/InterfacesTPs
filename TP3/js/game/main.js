@@ -19,7 +19,7 @@ import { SeleccionadorImagen } from './seleccionadorImagen.js';
 async function inicializarJuego() {
     // === Configuración del Canvas ===
     const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     canvas.width = 900;
     canvas.height = 475;
 
@@ -35,6 +35,10 @@ async function inicializarJuego() {
     let juegoEnPausa = false;
     let estadoJuego = 'inicio';             // Estados: 'inicio', 'seleccionando', 'jugando', 'modal'
     let tiempoTotalJuego = 0;               // Acumulador de tiempo de todos los niveles
+    let contadorMovimientos = 0;  // 👈 NUEVO - Contador de clicks
+    let dificultadActual = '';     // 👈 NUEVO - Guardar dificultad del nivel actual
+    let contadorAyudas = 0;  // 👈 NUEVO
+    let movimientosTotales = 0;  // 👈 NUEVO - Acumulador
 
     // === Inicialización de Módulos ===
     const audio = new GestorAudio(SOUNDS);
@@ -96,6 +100,9 @@ async function inicializarJuego() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 gestorRotacion.redibujarImagen();
                 return;
+            } else if (botonHUD === 'ayuda') { 
+                usarAyudita();
+                return;
             }
         }
 
@@ -105,6 +112,8 @@ async function inicializarJuego() {
             pantallaInicial.ocultar();
             nivelActual = 1;
             tiempoTotalJuego = 0;
+            contadorAyudas = 0;
+            movimientosTotales = 0;
             iniciarSeleccionYNivel(1);
         }
 
@@ -113,19 +122,20 @@ async function inicializarJuego() {
             const botonClickeado = modal.clickEnBoton(x, y);
 
             if (botonClickeado === 'siguiente') {
-                // Avanzar al siguiente nivel
                 nivelActual++;
-                if (nivelActual <= getTotalNiveles()) {
+
+                // Si pasamos del nivel 10, mostrar modal de juego completado
+                if (nivelActual > getTotalNiveles()) {
                     modal.ocultar();
-                    estadoJuego = 'seleccionando';
-                    iniciarSeleccionYNivel(nivelActual);
-                } else {
-                    // Juego completado - mostrar modal final
-                    modal.ocultar();
-                    modal.mostrarJuegoCompletado(tiempoTotalJuego);
+                    modal.mostrarJuegoCompletado(tiempoTotalJuego, movimientosTotales, contadorAyudas);
                     if (gestorRotacion) {
                         gestorRotacion.redibujarImagen();
                     }
+                } else {
+                    // Todavía hay niveles, continuar al siguiente
+                    modal.ocultar();
+                    estadoJuego = 'seleccionando';
+                    iniciarSeleccionYNivel(nivelActual);
                 }
             } else if (botonClickeado === 'reintentar') {
                 // Reintentar el nivel actual
@@ -140,6 +150,8 @@ async function inicializarJuego() {
                 nivelActual = 1;
                 tiempoTotalJuego = 0;
                 tiempoActual = 0;
+                contadorAyudas = 0;
+                movimientosTotales = 0;
                 gestorRotacion = null;
 
                 // Mostrar pantalla inicial con loop de animación
@@ -187,6 +199,7 @@ async function inicializarJuego() {
     async function iniciarNivel(numeroNivel, rutaImagen) {
         juegoEnPausa = false;
         estadoJuego = 'jugando';
+        contadorMovimientos = 0;
 
         // Cargar configuración del nivel
         const nivel = cargarNivel(numeroNivel);
@@ -197,6 +210,7 @@ async function inicializarJuego() {
 
         // Guardar si el nivel permite usar ayudita
         window.ayuditaHabilitada = nivel.ayudita;
+        dificultadActual = nivel.dificultad;
 
         detenerTimer();
 
@@ -213,6 +227,7 @@ async function inicializarJuego() {
             // Configurar callback para reproducir sonido al rotar
             gestorRotacion.establecerCallbackMovimiento(() => {
                 if (estadoJuego === 'jugando') {
+                    contadorMovimientos++;
                     audio.reproducir('movimiento');
                 }
             });
@@ -224,6 +239,10 @@ async function inicializarJuego() {
 
             // Dibujar la imagen dividida y rotada aleatoriamente
             gestorRotacion.dibujarImagenDividida(nivel.divisiones, 400);
+
+            // Actualizar posición del botón de ayuda
+            hud.actualizarBotonAyuda(400);
+            hud.establecerAyudaHabilitada(nivel.ayudita);
 
             // Aplicar filtro visual si corresponde
             if (nivel.filtro !== 'ninguno') {
@@ -304,6 +323,7 @@ async function inicializarJuego() {
 
         // Acumular tiempo al total del juego
         tiempoTotalJuego += tiempoFinal;
+        movimientosTotales += contadorMovimientos; (nivelActual > getTotalNiveles())
 
         estadoJuego = 'completado';
         detenerTimer();
@@ -314,7 +334,13 @@ async function inicializarJuego() {
         // Esperar 2 segundos antes de mostrar el modal
         setTimeout(() => {
             estadoJuego = 'modal';
-            modal.mostrarCompletado(nivelActual, tiempoFinal, tieneTimerLimite);
+            modal.mostrarCompletado(
+                nivelActual,
+                tiempoFinal,
+                tieneTimerLimite,
+                dificultadActual,
+                contadorMovimientos
+            );
             gestorRotacion.redibujarImagen();
         }, 2000);
     }
@@ -359,6 +385,8 @@ async function inicializarJuego() {
         if (malPosicionados === 0) {
             return;
         }
+
+        contadorAyudas++;
 
         // Aplicar penalización de tiempo
         if (tieneTimerLimite) {

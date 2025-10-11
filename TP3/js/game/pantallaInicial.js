@@ -1,23 +1,19 @@
 // pantallaInicial.js - Pantalla de inicio/menú principal del juego
 
+import { dibujarDegradado3Colores } from './filtros.js';
+
 export class PantallaInicial {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
-        this.visible = true;       // Si la pantalla está visible o no
-        this.botonRect = null;     // Rectángulo del botón de inicio para detección de clicks
+        this.visible = true;
+        this.botonRect = null;
     }
     
-    /**
-     * Muestra la pantalla inicial
-     */
     mostrar() {
         this.visible = true;
     }
     
-    /**
-     * Oculta la pantalla inicial
-     */
     ocultar() {
         this.visible = false;
     }
@@ -30,9 +26,43 @@ export class PantallaInicial {
         
         this.ctx.save();
         
-        // Fondo oscuro
-        this.ctx.fillStyle = '#201F24'; //  #1a1a1a
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        // 👇 CAMBIAR - Usar degradado en lugar de fillRect
+        //const color1 = { r: 20, g: 20, b: 25 };   // Gris muy oscuro (arriba)
+        //const color2 = { r: 32, g: 31, b: 36 };   // Tu color #201F24 (medio)
+        //const color3 = { r: 50, g: 50, b: 55 };   // Gris más claro (abajo)
+
+/*         const color1 = { r: 10, g: 15, b: 35 };   // Azul muy oscuro
+const color2 = { r: 25, g: 42, b: 86 };   // Azul medianoche
+const color3 = { r: 44, g: 62, b: 80 };   // Azul grisáceo */
+        
+/*         const color1 = { r: 25, g: 10, b: 35 };   // Morado muy oscuro
+const color2 = { r: 54, g: 27, b: 82 };   // Morado profundo
+const color3 = { r: 88, g: 45, b: 120 };  // Morado medio */
+
+/* const color1 = { r: 5, g: 20, b: 10 };    // Verde muy oscuro
+const color2 = { r: 15, g: 40, b: 25 };   // Verde oscuro
+const color3 = { r: 30, g: 65, b: 45 };   // Verde bosque */
+
+/* const color1 = { r: 25, g: 5, b: 10 };    // Rojo muy oscuro
+const color2 = { r: 50, g: 15, b: 20 };   // Rojo profundo
+const color3 = { r: 75, g: 30, b: 35 };   // Rojo apagado
+ */
+/* const color1 = { r: 10, g: 25, b: 30 };   // Cyan muy oscuro
+const color2 = { r: 20, g: 45, b: 52 };   // Teal oscuro
+const color3 = { r: 35, g: 70, b: 78 };   // Teal medio */
+
+/* const color1 = { r: 30, g: 15, b: 5 };    // Naranja muy oscuro
+const color2 = { r: 60, g: 30, b: 10 };   // Naranja profundo
+const color3 = { r: 90, g: 50, b: 20 };   // Naranja medio */
+
+/* const color1 = { r: 18, g: 20, b: 28 };   // Gris azulado oscuro
+const color2 = { r: 35, g: 40, b: 52 };   // Gris azulado medio
+const color3 = { r: 55, g: 62, b: 75 };   // Gris azulado claro
+ */
+const color3 = { r: 20, g: 15, b: 10 };   // Marrón muy oscuro
+const color2 = { r: 45, g: 35, b: 25 };   // Marrón oscuro
+const color1 = { r: 70, g: 55, b: 40 };   // Marrón medio
+        dibujarDegradado3Colores(this.ctx, color1, color2, color3);
         
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
@@ -54,7 +84,6 @@ export class PantallaInicial {
         const buttonX = centerX - buttonWidth / 2;
         const buttonY = centerY + 40;
         
-        // Guardar posición del botón para detección de clicks
         this.botonRect = {
             x: buttonX,
             y: buttonY,
@@ -84,12 +113,6 @@ export class PantallaInicial {
         this.ctx.restore();
     }
     
-    /**
-     * Detecta si se hizo click en el botón de inicio
-     * @param {number} x - Coordenada X del click
-     * @param {number} y - Coordenada Y del click
-     * @returns {boolean} - true si se clickeó el botón, false si no
-     */
     clickEnBoton(x, y) {
         if (!this.visible || !this.botonRect) return false;
         
