@@ -28,6 +28,7 @@ export const COLORES = {
   textoOscuro: '#333333',
 
   bordePieza: '#333333',
+  juegoTerminado: '#FFD700',
 
   // Colores de botones
   botonPrimario: '#4CAF50',

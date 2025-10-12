@@ -225,7 +225,7 @@ export class HUD {
         this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
 
         // Línea 1: Tiempo actual
-        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.font = FUENTES.textoPequeño;
 
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
             const tiempoRestante = this.tiempoLimite - this.tiempoActual;
@@ -249,7 +249,7 @@ export class HUD {
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
             this.ctx.fillText(`Tiempo límite: ${this.formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
         } else {
-            this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);  // 👈 Misma posición
+            this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);
         }
 
         yPos += altoBoxTiempo + espacioEntreBoxes;
@@ -258,7 +258,7 @@ export class HUD {
         this.ctx.fillStyle = COLORES.fondoModal;
         this.ctx.fillRect(margen - 10, yPos, 200, 40);
 
-        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoPrimario;
         this.ctx.fillText(`📊 Nivel: ${this.nivel}`, margen, yPos + 12);
 
@@ -268,7 +268,7 @@ export class HUD {
         this.ctx.fillStyle = COLORES.fondoModal;
         this.ctx.fillRect(margen - 10, yPos, 200, 40);
 
-        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.font = FUENTES.textoPequeño;
 
         // "Dificultad:" en blanco
         this.ctx.fillStyle = COLORES.textoPrimario;
@@ -295,7 +295,7 @@ export class HUD {
                 this.ctx.fillStyle = '#ffffff';
         }
 
-        this.ctx.fillText(this.dificultad.toUpperCase(), margen + anchoDificultad, yPos + 12);
+        this.ctx.fillText(this.dificultad, margen + anchoDificultad, yPos + 12);
 
         // Dibujar botones de control
         this.dibujarBotones(audioMuteado);

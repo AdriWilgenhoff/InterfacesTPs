@@ -69,18 +69,18 @@ export class PantallaInicial {
         this.ctx.fillStyle = COLORES.textoPrimario;
         this.ctx.font = FUENTES.tituloGrande;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('BLOCKA', centerX, centerY - 100);
+        this.ctx.fillText('BLOCKA', centerX, centerY - 130);
 
         // Subtítulo descriptivo
         this.ctx.fillStyle = COLORES.textoSecundario;
         this.ctx.font = FUENTES.textoMedio;
-        this.ctx.fillText('Rota las piezas para completar la imagen', centerX, centerY - 40);
+        this.ctx.fillText('Rota las piezas para completar la imagen', centerX, centerY - 80);
 
         // Configuración del botón "INICIAR JUEGO"
         const buttonWidth = 300;
-        const buttonHeight = 80;
+        const buttonHeight = 60;
         const buttonX = centerX - buttonWidth / 2;
-        const buttonY = centerY + 40;
+        const buttonY = centerY;
 
         this.botonRect = {
             x: buttonX,
@@ -106,12 +106,18 @@ export class PantallaInicial {
         // Texto del botón
         this.ctx.fillStyle = COLORES.textoPrimario;
         this.ctx.font = FUENTES.botonGrande;
-        this.ctx.fillText('INICIAR JUEGO', centerX, buttonY + 50);
+        this.ctx.fillText('INICIAR JUEGO', centerX, buttonY + 40);
 
         // Instrucciones de controles
         this.ctx.fillStyle = COLORES.textoSecundario;
         this.ctx.font = FUENTES.textoPequeño;
-        this.ctx.fillText('Clic izquierdo: rotar ↺  |  Clic derecho: rotar ↻', centerX, centerY + 180);
+        this.ctx.fillText('Clic izquierdo: rota izquierda ↺  |  Clic derecho: rota derecha ↻', centerX, centerY + 150);
+
+        // Explicacion ayuda
+        this.ctx.fillStyle = COLORES.textoSecundario;
+        this.ctx.font = FUENTES.textoPequeño;
+        this.ctx.fillText('Si en un nivel difícil no sabes cómo seguir, usá ayudas para ubicar una pieza. Esto te costará tiempo.', centerX, centerY + 190);
+
 
         this.ctx.restore();
     }

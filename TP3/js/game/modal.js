@@ -100,16 +100,20 @@ export class Modal {
         this.ctx.fillRect(modalX, modalY, modalWidth, modalHeight);
 
         // Borde del modal
-        this.ctx.strokeStyle = COLORES.bordePieza;
-        this.ctx.lineWidth = 3;
-        this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
+         this.ctx.lineWidth = 3;
 
         // Dibujar contenido según el tipo de modal
         if (this.tipo === 'completado') {
+            this.ctx.strokeStyle = COLORES.botonPrimario;
+            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
             this.dibujarCompletado(modalX, modalY, modalWidth, modalHeight);
         } else if (this.tipo === 'fallido') {
+            this.ctx.strokeStyle = COLORES.botonPeligro;
+            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
             this.dibujarFallido(modalX, modalY, modalWidth, modalHeight);
         } else if (this.tipo === 'juegoCompletado') {
+            this.ctx.strokeStyle = COLORES.juegoTerminado;
+            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
             this.dibujarJuegoCompletado(modalX, modalY, modalWidth, modalHeight);
         }
 
@@ -133,7 +137,7 @@ export class Modal {
         this.ctx.fillStyle = COLORES.textoPrimario;
 
         currentY += 55;
-       // const dificultad = this.datos.dificultad;//.charAt(0).toUpperCase() + this.datos.dificultad.slice(1);
+        // const dificultad = this.datos.dificultad;//.charAt(0).toUpperCase() + this.datos.dificultad.slice(1);
         this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
 
         currentY += 35;
@@ -143,7 +147,7 @@ export class Modal {
         this.ctx.fillText(`🔄 Movimientos: ${this.datos.movimientos}`, centerX, currentY);
 
         currentY += 60;
-        
+
         const buttonWidth = 220;
         const buttonHeight = 55;
         const espaciado = 20;
@@ -209,7 +213,7 @@ export class Modal {
         let currentY = y + 65;
 
         // Título
-        this.ctx.fillStyle = '#FFD700';
+        this.ctx.fillStyle = COLORES.juegoTerminado;
         this.ctx.font = FUENTES.tituloPequeño;
         this.ctx.textAlign = 'center';
         this.ctx.fillText('🏆 ¡FELICITACIONES! 🏆', centerX, currentY);

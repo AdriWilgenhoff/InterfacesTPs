@@ -27,7 +27,7 @@ async function inicializarJuego() {
     let nivelActual = 1;
     let timerInterval = null;
     let tiempoActual = 0;
-    let tieneTimerLimite = false;           // true = countdown, false = countup
+    let tieneTimerLimite = false;
     let tiempoLimiteNivel = null;
     let gestorRotacion = null;
     let imagenActual = null;
@@ -125,9 +125,10 @@ async function inicializarJuego() {
             if (botonClickeado === 'siguiente') {
                 nivelActual++;
 
-                // Si pasamos del nivel 10, mostrar modal de juego completado
+                // Si completamos todos los niveles, mostrar modal de juego completado
                 if (nivelActual > getTotalNiveles()) {
                     modal.ocultar();
+                    audio.reproducir('juegoCompletado');
                     modal.mostrarJuegoCompletado(tiempoTotalJuego, movimientosTotales, contadorAyudas);
                     if (gestorRotacion) {
                         gestorRotacion.redibujarImagen();
@@ -214,6 +215,8 @@ async function inicializarJuego() {
         dificultadActual = nivel.dificultad;
 
         detenerTimer();
+        tiempoActual = 0;
+        hud.actualizarTiempo(0, false, null);
 
         try {
             // Cargar la imagen
@@ -242,7 +245,6 @@ async function inicializarJuego() {
             gestorRotacion.dibujarImagenDividida(nivel.divisiones, 400);
 
             // Actualizar posición del botón de ayuda
-            //hud.actualizarBotonAyuda(400);
             hud.establecerAyudaHabilitada(nivel.ayudita);
 
             // Aplicar filtro visual si corresponde
@@ -318,18 +320,21 @@ async function inicializarJuego() {
         }
     }
 
-    /**
-     * Maneja la lógica cuando se completa un nivel
-     */
     function nivelCompletado() {
         const tiempoFinal = tiempoActual;
 
         // Acumular tiempo al total del juego
         tiempoTotalJuego += tiempoFinal;
-        movimientosTotales += contadorMovimientos; (nivelActual > getTotalNiveles())
+        movimientosTotales += contadorMovimientos;
 
         estadoJuego = 'completado';
         detenerTimer();
+
+        // 👇 AGREGAR - Desactivar gestor antes de remover filtro
+        if (gestorRotacion) {
+            gestorRotacion.juegoActivo = false;
+        }
+
         gestorRotacion.removerFiltro(); // Mostrar imagen sin filtro
 
         audio.reproducir('nivelCompletado');
@@ -396,16 +401,6 @@ async function inicializarJuego() {
         audio.reproducir('ayudita');
         gestorRotacion.ayudita();
     }
-
-    // === Event Listener para Teclas ===
-    window.addEventListener('keydown', (e) => {
-        // Solo permitir acciones cuando está jugando
-        if (estadoJuego !== 'jugando') return;
-
-        if (e.key === 'r' || e.key === 'R') reiniciarNivel();
-        if (e.key === 'a' || e.key === 'A') usarAyudita();
-        if (e.key === 'm' || e.key === 'M') audio.toggleMute();
-    });
 }
 
 // === Observar cuando el canvas se vuelva visible ===
