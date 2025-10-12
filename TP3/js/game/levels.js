@@ -1,5 +1,5 @@
 export const LEVELS_CONFIG = {
-  // Dificultad por divisiones
+  // Dificultad por divisiones, solo números cuadrados perfectos 
   divisiones: {
     facil: [4],
     medio: [9],
@@ -39,8 +39,8 @@ export const LEVELS_CONFIG = {
 ]; */
 
 export const LEVELS = [
-  { nivel: 1, dificultad: 'facil', division: 4, filtro: 'facil', timer: 'sinTimer', ayudita: false }, 
-  { nivel: 2, dificultad: 'facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
+  { nivel: 1, dificultad: 'Facil', division: 4, filtro: 'medio', timer: 'extremo', ayudita: true }, 
+  { nivel: 2, dificultad: 'Facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
 ];
 
 export function cargarNivel(numeroNivel) {

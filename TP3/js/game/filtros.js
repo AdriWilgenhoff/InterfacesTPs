@@ -1,7 +1,3 @@
-// filtros.js - Funciones para aplicar filtros visuales a imágenes en canvas
-
-// ===== FUNCIONES AUXILIARES =====
-
 /**
  * Establece el color de un píxel específico en el ImageData
  * @param {ImageData} imageData - Datos de la imagen
@@ -41,7 +37,6 @@ function getPixel(imageData, x, y) {
 
 /**
  * Convierte la imagen a escala de grises
- * Calcula el promedio de RGB para cada píxel
  */
 export function aplicarFiltroEscalaGrises(ctx, canvas) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -197,13 +192,12 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
             aplicarFiltroNegativo(ctx, canvas);
             break;
         case 'brillo':
-            aplicarFiltroBrillo(ctx, canvas, 30); // 30% más de brillo
+            aplicarFiltroBrillo(ctx, canvas, 50);
             break;
         case 'pixelado':
-            aplicarFiltroPixelado(ctx, canvas, 10); // Bloques de 10x10 píxeles
+            aplicarFiltroPixelado(ctx, canvas, 10);
             break;
         case 'ninguno':
-            // No aplicar ningún filtro
             break;
         default:
             console.warn(`Filtro desconocido: ${nombreFiltro}`);
@@ -285,8 +279,38 @@ function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
     ctx.putImageData(imageData, 0, 0);
 }
 
-// --- Ejemplo de uso ---
-// const c1 = { r: 255, g: 0, b: 0 }; // Rojo
-// const c2 = { r: 255, g: 255, b: 0 }; // Amarillo
-// const c3 = { r: 0, g: 0, b: 255 }; // Azul
-// dibujarDegradado3Colores(ctx, c1, c2, c3);
+/**
+ * Aplica una sombra al contexto del canvas
+ * @param {CanvasRenderingContext2D} ctx - Contexto del canvas
+ * @param {Object} config - Configuración de la sombra
+ * @param {string} config.color - Color de la sombra (default: 'rgba(0,0,0,0.4)')
+ * @param {number} config.blur - Difuminado (default: 10)
+ * @param {number} config.offsetX - Desplazamiento X (default: 0)
+ * @param {number} config.offsetY - Desplazamiento Y (default: 4)
+ */
+export function aplicarSombra(ctx, { color = 'rgba(0, 0, 0, 0.4)', blur = 10, offsetX = 0, offsetY = 4 } = {}) {
+    ctx.shadowColor = color;
+    ctx.shadowBlur = blur;
+    ctx.shadowOffsetX = offsetX;
+    ctx.shadowOffsetY = offsetY;
+}
+
+/**
+ * Limpia/resetea la sombra del contexto
+ * @param {CanvasRenderingContext2D} ctx - Contexto del canvas
+ */
+export function limpiarSombra(ctx) {
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+}
+
+// Presets de sombras comunes
+export const SOMBRAS = {
+    suave: { color: 'rgba(0, 0, 0, 0.3)', blur: 10, offsetY: 2 },
+    media: { color: 'rgba(0, 0, 0, 0.4)', blur: 15, offsetY: 4 },
+    fuerte: { color: 'rgba(0, 0, 0, 0.6)', blur: 20, offsetY: 8 },
+    glow: { color: '#4CAF50', blur: 25, offsetX: 0, offsetY: 0 },
+    interna: { color: 'rgba(0, 0, 0, 0.4)', blur: 8, offsetY: -2 }
+};

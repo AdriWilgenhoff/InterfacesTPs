@@ -28,6 +28,7 @@ async function inicializarJuego() {
     let timerInterval = null;
     let tiempoActual = 0;
     let tieneTimerLimite = false;           // true = countdown, false = countup
+    let tiempoLimiteNivel = null;
     let gestorRotacion = null;
     let imagenActual = null;
     let rutaImagenActual = null;
@@ -35,10 +36,10 @@ async function inicializarJuego() {
     let juegoEnPausa = false;
     let estadoJuego = 'inicio';             // Estados: 'inicio', 'seleccionando', 'jugando', 'modal'
     let tiempoTotalJuego = 0;               // Acumulador de tiempo de todos los niveles
-    let contadorMovimientos = 0;  // 👈 NUEVO - Contador de clicks
-    let dificultadActual = '';     // 👈 NUEVO - Guardar dificultad del nivel actual
-    let contadorAyudas = 0;  // 👈 NUEVO
-    let movimientosTotales = 0;  // 👈 NUEVO - Acumulador
+    let contadorMovimientos = 0;  //  - Contador de clicks
+    let dificultadActual = '';     // Guardar dificultad del nivel actual
+    let contadorAyudas = 0;  // 
+    let movimientosTotales = 0;  //Acumulador
 
     // === Inicialización de Módulos ===
     const audio = new GestorAudio(SOUNDS);
@@ -100,7 +101,7 @@ async function inicializarJuego() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 gestorRotacion.redibujarImagen();
                 return;
-            } else if (botonHUD === 'ayuda') { 
+            } else if (botonHUD === 'ayuda') {
                 usarAyudita();
                 return;
             }
@@ -241,28 +242,31 @@ async function inicializarJuego() {
             gestorRotacion.dibujarImagenDividida(nivel.divisiones, 400);
 
             // Actualizar posición del botón de ayuda
-            hud.actualizarBotonAyuda(400);
+            //hud.actualizarBotonAyuda(400);
             hud.establecerAyudaHabilitada(nivel.ayudita);
 
             // Aplicar filtro visual si corresponde
             if (nivel.filtro !== 'ninguno') {
-                gestorRotacion.establecerFiltro(() => {
-                    aplicarFiltroPorNombre(nivel.filtro, ctx, canvas);
+                // 👇 Establecer el callback del filtro
+                gestorRotacion.establecerFiltro((ctxTemp, canvasTemp) => {
+                    aplicarFiltroPorNombre(nivel.filtro, ctxTemp, canvasTemp);
                 });
-                aplicarFiltroPorNombre(nivel.filtro, ctx, canvas);
+
+                // 👇 Aplicar el filtro INMEDIATAMENTE después de dibujar
+                gestorRotacion.redibujarImagen();  // Esto redibujará con el filtro aplicado
             }
 
             // Configurar timer según tipo de nivel
             if (nivel.tieneTimer) {
-                // Timer con límite (cuenta regresiva)
-                tiempoActual = nivel.tiempoLimite;
+                tiempoActual = 0;
                 tieneTimerLimite = true;
-                hud.actualizarTiempo(tiempoActual, true);
-                iniciarTimer();
+                tiempoLimiteNivel = nivel.tiempoLimite;
+                hud.actualizarTiempo(tiempoActual, true, tiempoLimiteNivel);
+                iniciarTimer(tiempoLimiteNivel);
             } else {
-                // Timer sin límite (cuenta hacia arriba)
                 tiempoActual = 0;
                 tieneTimerLimite = false;
+                tiempoLimiteNivel = null;
                 hud.actualizarTiempo(tiempoActual, false);
                 iniciarTimer();
             }
@@ -275,34 +279,33 @@ async function inicializarJuego() {
     /**
      * Inicia el timer del nivel (countdown o countup según configuración)
      */
-    function iniciarTimer() {
+    /**
+     * Inicia el timer del nivel
+     * @param {number} tiempoLimite - Límite de tiempo en segundos (opcional)
+     */
+    function iniciarTimer(tiempoLimite = null) {
         detenerTimer();
-
         timerInterval = setInterval(() => {
             // Solo actualizar si está jugando
             if (estadoJuego !== 'jugando') return;
 
-            if (tieneTimerLimite) {
-                // Countdown: restar tiempo
-                tiempoActual--;
+            // 👇 NUEVO - Siempre incrementa
+            tiempoActual++;
 
-                if (tiempoActual <= 0) {
-                    detenerTimer();
-                    nivelFallido();
-                    return;
-                }
-            } else {
-                // Countup: sumar tiempo
-                tiempoActual++;
+            // 👇 NUEVO - Si tiene límite y lo alcanza, pierde
+            if (tiempoLimite !== null && tiempoActual >= tiempoLimite) {
+                detenerTimer();
+                nivelFallido();
+                return;
             }
 
-            // Actualizar HUD y redibujar
-            hud.actualizarTiempo(tiempoActual, tieneTimerLimite);
+            // Actualizar HUD
+            hud.actualizarTiempo(tiempoActual, tieneTimerLimite, tiempoLimite);
             if (gestorRotacion) {
                 gestorRotacion.redibujarImagen();
             }
 
-        }, 1000); // Actualizar cada segundo
+        }, 1000);
     }
 
     /**
@@ -337,7 +340,6 @@ async function inicializarJuego() {
             modal.mostrarCompletado(
                 nivelActual,
                 tiempoFinal,
-                tieneTimerLimite,
                 dificultadActual,
                 contadorMovimientos
             );
@@ -386,19 +388,11 @@ async function inicializarJuego() {
             return;
         }
 
+        tiempoActual += PENALIZACION_AYUDITA;
+
         contadorAyudas++;
 
-        // Aplicar penalización de tiempo
-        if (tieneTimerLimite) {
-            // Countdown: restar tiempo
-            tiempoActual -= PENALIZACION_AYUDITA;
-            if (tiempoActual < 0) tiempoActual = 0;
-        } else {
-            // Countup: sumar tiempo
-            tiempoActual += PENALIZACION_AYUDITA;
-        }
-
-        hud.actualizarTiempo(tiempoActual, tieneTimerLimite);
+        hud.actualizarTiempo(tiempoActual, tieneTimerLimite, tiempoLimiteNivel);
         audio.reproducir('ayudita');
         gestorRotacion.ayudita();
     }

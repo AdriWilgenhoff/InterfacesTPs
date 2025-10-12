@@ -1,6 +1,7 @@
 // modal.js - Sistema de modales/popups para mostrar resultados del nivel
 
 import { getTotalNiveles } from "./levels.js";
+import { COLORES, FUENTES } from './constans.js';
 
 export class Modal {
     constructor(canvas, ctx) {
@@ -16,17 +17,15 @@ export class Modal {
  * Muestra modal de nivel completado
  * @param {number} nivel - Número del nivel completado
  * @param {number} tiempo - Tiempo final del nivel
- * @param {boolean} tieneTimerLimite - Si era countdown o countup
  * @param {string} dificultad - Dificultad del nivel
  * @param {number} movimientos - Cantidad de movimientos realizados
  */
-    mostrarCompletado(nivel, tiempo, tieneTimerLimite, dificultad, movimientos) {
+    mostrarCompletado(nivel, tiempo, dificultad, movimientos) {
         this.visible = true;
         this.tipo = 'completado';
         this.datos = {
             nivel,
             tiempo,
-            tieneTimerLimite,
             dificultad,
             movimientos
         };
@@ -35,15 +34,15 @@ export class Modal {
     /**
  * Muestra modal de juego completado (todos los niveles)
  * @param {number} tiempoTotal - Tiempo acumulado de todos los niveles
- * @param {number} movimientosTotales - Movimientos totales  // 👈 Agregar 's'
+ * @param {number} movimientosTotales - Movimientos totales
  * @param {number} ayudasUsadas - Cantidad de ayudas usadas
  */
-    mostrarJuegoCompletado(tiempoTotal, movimientosTotales, ayudasUsadas) {  // 👈 Agregar 's'
+    mostrarJuegoCompletado(tiempoTotal, movimientosTotales, ayudasUsadas) {
         this.visible = true;
         this.tipo = 'juegoCompletado';
         this.datos = {
             tiempoTotal,
-            movimientosTotales,  // 👈 Agregar 's'
+            movimientosTotales,
             ayudasUsadas
         };
     }
@@ -87,7 +86,7 @@ export class Modal {
         this.ctx.save();
 
         // Fondo oscuro semitransparente
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        this.ctx.fillStyle = COLORES.fondoTransparente;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Dimensiones y posición del modal
@@ -97,11 +96,11 @@ export class Modal {
         const modalY = (this.canvas.height - modalHeight) / 2;
 
         // Fondo blanco del modal
-        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillStyle = COLORES.fondoModal;
         this.ctx.fillRect(modalX, modalY, modalWidth, modalHeight);
 
         // Borde del modal
-        this.ctx.strokeStyle = '#333333';
+        this.ctx.strokeStyle = COLORES.bordePieza;
         this.ctx.lineWidth = 3;
         this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
 
@@ -118,47 +117,33 @@ export class Modal {
     }
 
     /**
- * Dibuja el contenido del modal de nivel completado
- */
+   * Dibuja el contenido del modal de nivel completado
+   */
     dibujarCompletado(x, y, width, height) {
         const centerX = x + width / 2;
-        let currentY = y + 30;
+        let currentY = y + 65;
 
         // Título con número de nivel
-        this.ctx.fillStyle = '#4CAF50';
-        this.ctx.font = 'bold 32px Inter';
+        this.ctx.fillStyle = COLORES.botonPrimario;
+        this.ctx.font = FUENTES.botonGrande;
         this.ctx.textAlign = 'center';
         this.ctx.fillText(`🎉 NIVEL ${this.datos.nivel} COMPLETADO 🎉`, centerX, currentY);
 
+        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.fillStyle = COLORES.textoPrimario;
+
         currentY += 55;
-
-        // Dificultad
-        this.ctx.fillStyle = '#333333';
-        this.ctx.font = 'bold 24px Inter';
-
-        // Capitalizar primera letra de la dificultad
-        const dificultad = this.datos.dificultad.charAt(0).toUpperCase() + this.datos.dificultad.slice(1);
-        this.ctx.fillText(`Dificultad: ${dificultad}`, centerX, currentY);
-
-        currentY += 45;
-
-        // Tiempo
-        this.ctx.font = '20px Arial';
-        this.ctx.fillStyle = '#555555';
-        if (this.datos.tieneTimerLimite) {
-            this.ctx.fillText(`⏱️ Tiempo restante: ${this.formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
-        } else {
-            this.ctx.fillText(`⏱️ Tiempo total: ${this.formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
-        }
+       // const dificultad = this.datos.dificultad;//.charAt(0).toUpperCase() + this.datos.dificultad.slice(1);
+        this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
 
         currentY += 35;
+        this.ctx.fillText(`⏱️ Tiempo empleado: ${this.formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
 
-        // Movimientos
+        currentY += 35;
         this.ctx.fillText(`🔄 Movimientos: ${this.datos.movimientos}`, centerX, currentY);
 
         currentY += 60;
-
-        // Dos botones lado a lado
+        
         const buttonWidth = 220;
         const buttonHeight = 55;
         const espaciado = 20;
@@ -190,60 +175,60 @@ export class Modal {
         const esUltimoNivel = this.datos.nivel === getTotalNiveles();
         const textoBotonSiguiente = esUltimoNivel ? 'VER ESTADÍSTICAS' : 'SIGUIENTE NIVEL';
 
-
         // Dibujar botón "Siguiente Nivel" (verde)
-        this.ctx.fillStyle = '#4CAF50';
+        this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.strokeStyle = '#2E7D32';
+        this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(button1X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 20px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
         this.ctx.fillText(textoBotonSiguiente, button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver al Inicio" (rojo)
-        this.ctx.fillStyle = '#f44336';
+        this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.strokeStyle = '#c62828';
+        this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(button2X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 20px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
         this.ctx.fillText('VOLVER AL INICIO', button2X + buttonWidth / 2, buttonY + 35);
     }
 
     /**
      * Dibuja el contenido del modal de juego completado
      */
-    /**
- * Dibuja el contenido del modal de juego completado
- */
+
     dibujarJuegoCompletado(x, y, width, height) {
         const centerX = x + width / 2;
-        let currentY = y + 40;
+        let currentY = y + 65;
 
         // Título
         this.ctx.fillStyle = '#FFD700';
-        this.ctx.font = 'bold 36px Inter';
+        this.ctx.font = FUENTES.tituloPequeño;
         this.ctx.textAlign = 'center';
         this.ctx.fillText('🏆 ¡FELICITACIONES! 🏆', centerX, currentY);
 
-        currentY += 60;
+        currentY += 30;
 
         // Mensaje
-        this.ctx.fillStyle = '#333333';
-        this.ctx.font = 'bold 24px Arial';
+        this.ctx.fillStyle = COLORES.textoSecundario;
+        this.ctx.font = FUENTES.textoMedio;
         this.ctx.fillText('¡Completaste Blocka!', centerX, currentY);
+        //this.ctx.fillText('¡Completaste todos los niveles!', centerX, currentY);
+
 
         currentY += 50;
 
         // Estadísticas totales
-        this.ctx.fillStyle = '#555555';
-        this.ctx.font = '20px Arial';
+        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.fillStyle = COLORES.textoPrimario;
+
         this.ctx.fillText(`⏱️ Tiempo total: ${this.formatearTiempo(this.datos.tiempoTotal)}`, centerX, currentY);
 
         currentY += 35;
@@ -252,7 +237,7 @@ export class Modal {
         currentY += 35;
         this.ctx.fillText(`💡 Ayudas usadas: ${this.datos.ayudasUsadas}`, centerX, currentY);
 
-        currentY += 60;
+        currentY += 40;
 
         // Botón "Volver al Inicio"
         const buttonWidth = 250;
@@ -269,15 +254,15 @@ export class Modal {
         }];
 
         // Dibujar botón
-        this.ctx.fillStyle = '#2196F3';
+        this.ctx.fillStyle = COLORES.botonSecundario;
         this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.strokeStyle = '#1565C0';
+        this.ctx.strokeStyle = COLORES.botonSecundarioBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 24px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
         this.ctx.fillText('VOLVER AL INICIO', centerX, buttonY + 38);
     }
 
@@ -286,26 +271,26 @@ export class Modal {
      */
     dibujarFallido(x, y, width, height) {
         const centerX = x + width / 2;
-        let currentY = y + 50;
+        let currentY = y + 75;
 
         // Título
-        this.ctx.fillStyle = '#f44336';
-        this.ctx.font = 'bold 40px Arial';
+        this.ctx.fillStyle = COLORES.botonPeligro;
+        this.ctx.font = FUENTES.tituloPequeño;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('❌ NIVEL FALLIDO', centerX, currentY);
+        this.ctx.fillText('NIVEL FALLIDO 👎', centerX, currentY);
 
         currentY += 80;
 
         // Mensaje
-        this.ctx.fillStyle = '#333333';
-        this.ctx.font = '24px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.textoMedio;
         this.ctx.fillText('¡Se acabó el tiempo!', centerX, currentY);
 
         currentY += 80;
 
         // Configuración de dos botones lado a lado
         const buttonWidth = 220;
-        const buttonHeight = 60;
+        const buttonHeight = 55;
         const espaciado = 20;
         const totalWidth = (buttonWidth * 2) + espaciado;
         const startX = centerX - totalWidth / 2;
@@ -333,28 +318,28 @@ export class Modal {
         ];
 
         // Dibujar botón "Reintentar"
-        this.ctx.fillStyle = '#ff9800';
+        this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.strokeStyle = '#f57c00';
+        this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(button1X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 22px Arial';
-        this.ctx.fillText('REINTENTAR', button1X + buttonWidth / 2, buttonY + 38);
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
+        this.ctx.fillText('REINTENTAR', button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver"
-        this.ctx.fillStyle = '#757575';
+        this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.strokeStyle = '#424242';
+        this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(button2X, buttonY, buttonWidth, buttonHeight);
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 22px Arial';
-        this.ctx.fillText('VOLVER', button2X + buttonWidth / 2, buttonY + 38);
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
+        this.ctx.fillText('VOLVER AL INICIO', button2X + buttonWidth / 2, buttonY + 35);
     }
 
     /**

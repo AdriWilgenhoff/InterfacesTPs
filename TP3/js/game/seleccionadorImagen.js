@@ -1,6 +1,9 @@
 // seleccionadorImagen.js - Animación de selección aleatoria de imagen antes de cada nivel
 // Muestra un grid con todas las imágenes y hace una animación de "ruleta" hasta seleccionar una
 
+import { COLORES, FUENTES } from './constans.js';
+import { SOMBRAS, aplicarSombra, limpiarSombra} from './filtros.js';
+
 export class SeleccionadorImagen {
     constructor(canvas, ctx) {
         this.canvas = canvas;
@@ -66,7 +69,7 @@ export class SeleccionadorImagen {
         // Configuración de la animación
         let velocidad = 100;                     // Velocidad inicial (ms entre cambios)
         const incrementoVelocidad = 50;          // Cuánto aumenta la velocidad cada iteración
-        const duracionTotal = 3000;              // Duración total de la animación (3 segundos)
+        const duracionTotal = 5000;              // Duración total de la animación (3 segundos)
         
         // Intervalo que cambia la imagen resaltada
         this.intervaloAnimacion = setInterval(() => {
@@ -115,21 +118,21 @@ export class SeleccionadorImagen {
         
         this.ctx.save();
         
-        // Fondo oscuro
-        this.ctx.fillStyle = '#1a1a1a';
+        // Fondo
+        this.ctx.fillStyle = COLORES.fondoPantalla;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         
         // Título
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 40px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.tituloPequeño; 
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('Seleccionando imagen...', centerX, 100);
+        this.ctx.fillText('Seleccionando imagen...', centerX, 70);
         
         // Configuración del grid de imágenes
-        const thumbSize = 150;
+        const thumbSize = 100;
         const cols = Math.min(4, this.imagenesObj.length);
         const rows = Math.ceil(this.imagenesObj.length / cols);
         const espaciado = 30;
@@ -151,11 +154,11 @@ export class SeleccionadorImagen {
             // Fondo de la miniatura
             if (esSeleccionado) {
                 // Imagen seleccionada - fondo verde con efecto de brillo
-                this.ctx.fillStyle = '#4CAF50';
+                this.ctx.fillStyle = COLORES.botonPrimario;
                 this.ctx.fillRect(x - 10, y - 10, thumbSize + 20, thumbSize + 20);
                 
-                this.ctx.shadowColor = '#4CAF50';
-                this.ctx.shadowBlur = 20;
+                aplicarSombra(this.ctx, SOMBRAS.glow);
+
             } else {
                 // Imagen no seleccionada - fondo semi-transparente
                 this.ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';

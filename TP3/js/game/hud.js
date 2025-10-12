@@ -1,6 +1,5 @@
-// hud.js - Interfaz de usuario (HUD) dibujada en el canvas
-// Muestra información del nivel, timer y botones de control
 
+import { COLORES, FUENTES } from './constans.js';
 export class HUD {
     constructor(canvas, ctx) {
         this.canvas = canvas;
@@ -9,9 +8,10 @@ export class HUD {
         this.nivel = 1;                  // Número de nivel actual
         this.dificultad = '';            // Dificultad del nivel (facil, medio, dificil, extremo)
         this.tieneTimerLimite = false;   // true = countdown, false = countup
+        this.tiempoLimite = null;
         this.botones = [];               // Array de botones de control
         this.botonAyuda = null;          // Botón de ayuda
-        this.ayudaHabilitada = true;     // Si está habilitado o no
+        this.ayudaHabilitada = false;     // Si está habilitado o no
         this.actualizarBotones();
     }
 
@@ -20,9 +20,10 @@ export class HUD {
      * @param {number} segundos - Tiempo en segundos
      * @param {boolean} esLimite - Si es timer con límite (countdown) o sin límite (countup)
      */
-    actualizarTiempo(segundos, esLimite = false) {
+    actualizarTiempo(segundos, esLimite = false, limite = null) {
         this.tiempoActual = segundos;
         this.tieneTimerLimite = esLimite;
+        this.tiempoLimite = limite;
     }
 
     /**
@@ -51,12 +52,11 @@ export class HUD {
      * Los botones se posicionan en la esquina superior derecha
      */
     actualizarBotones() {
-        const tamañoBoton = 50;
-        const espaciado = 10;
-        const margenDerecha = 20;
+        const tamañoBoton = 55;
+        const espaciado = 15;
+        const margenDerecha = 15;
         const margenSuperior = 20;
 
-        // Posición inicial (desde la derecha hacia la izquierda)
         let xPos = this.canvas.width - margenDerecha - tamañoBoton;
         const yPos = margenSuperior;
 
@@ -68,7 +68,8 @@ export class HUD {
                 width: tamañoBoton,
                 height: tamañoBoton,
                 emoji: '🔊',
-                color: '#2196F3'
+                color: COLORES.botonIcono,
+                colorBorde: COLORES.botonIconoBorde
             },
             {
                 id: 'home',
@@ -77,7 +78,8 @@ export class HUD {
                 width: tamañoBoton,
                 height: tamañoBoton,
                 emoji: '🏠',
-                color: '#757575'
+                color: COLORES.botonIcono,
+                colorBorde: COLORES.botonIconoBorde
             },
             {
                 id: 'reiniciar',
@@ -85,39 +87,11 @@ export class HUD {
                 y: yPos,
                 width: tamañoBoton,
                 height: tamañoBoton,
-                emoji: '🔄',
-                color: '#ff9800'
+                emoji: '🔁',
+                color: COLORES.botonIcono,
+                colorBorde: COLORES.botonIconoBorde
             }
         ];
-    }
-
-    /**
- * Actualiza la posición del botón de ayuda
- * Se posiciona debajo del centro de la imagen (contenedor de 400x400)
- * @param {number} tamañoContenedor - Tamaño del contenedor de la imagen
- */
-    /**
- * Actualiza la posición del botón de ayuda
- * Se posiciona a la mitad de la altura del canvas, alineado con el botón home
- */
-    actualizarBotonAyuda() {
-        const buttonWidth = 120;
-        const buttonHeight = 45;
-
-        // Obtener posición del botón home
-        const botonHome = this.botones.find(b => b.id === 'home');
-
-        if (botonHome) {
-            // Alinear horizontalmente con el botón home
-            // Centrado verticalmente en el canvas
-            this.botonAyuda = {
-                id: 'ayuda',
-                x: botonHome.x + (botonHome.width / 2) - (buttonWidth / 2), // Centrar respecto al home
-                y: (this.canvas.height / 2) - (buttonHeight / 2), // Centro vertical del canvas
-                width: buttonWidth,
-                height: buttonHeight
-            };
-        }
     }
 
     /**
@@ -141,12 +115,12 @@ export class HUD {
             this.ctx.fillRect(boton.x, boton.y, boton.width, boton.height);
 
             // Borde del botón
-            this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-            this.ctx.lineWidth = 2;
+            this.ctx.strokeStyle = boton.colorBorde;
+            this.ctx.lineWidth = 3;
             this.ctx.strokeRect(boton.x, boton.y, boton.width, boton.height);
 
             // Emoji del botón
-            this.ctx.font = '28px Arial';
+            this.ctx.font = FUENTES.textoGrande;
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
 
@@ -166,29 +140,32 @@ export class HUD {
     }
 
     /**
- * Dibuja el botón de ayuda
- */
+     * Dibuja el botón de ayuda
+     */
     dibujarBotonAyuda() {
-        if (!this.ayudaHabilitada || !this.botonAyuda) return;
+        if (!this.ayudaHabilitada) return;
 
         this.ctx.save();
 
-        const boton = this.botonAyuda;
-        this.ctx.fillStyle = '#9C27B0';
+        const buttonWidth = 130;
+        const buttonHeight = 45;
+        const x = this.canvas.width - this.canvas.width / 8 - buttonWidth / 2;
+        const y = this.canvas.height / 2 - buttonHeight / 2;
 
-        this.ctx.fillRect(boton.x, boton.y, boton.width, boton.height);
+        this.ctx.fillStyle = COLORES.botonAyuda;
+        this.ctx.fillRect(x, y, buttonWidth, buttonHeight);
 
         // Borde
-        this.ctx.strokeStyle = this.ayudaHabilitada ? '#6A1B9A' : '#616161';
+        this.ctx.strokeStyle = COLORES.botonAyudaBorde;
         this.ctx.lineWidth = 3;
-        this.ctx.strokeRect(boton.x, boton.y, boton.width, boton.height);
+        this.ctx.strokeRect(x, y, buttonWidth, buttonHeight);
 
         // Texto
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.font = 'bold 20px Arial';
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.font = FUENTES.botonPequeño;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
-        this.ctx.fillText('💡 AYUDA', boton.x + boton.width / 2, boton.y + boton.height / 2);
+        this.ctx.fillText('💡 AYUDA ', x + buttonWidth / 2, y + buttonHeight / 2);
 
         this.ctx.restore();
     }
@@ -209,13 +186,17 @@ export class HUD {
             }
         }
         // Verificar botón de ayuda
-        if (this.botonAyuda) {
-            const boton = this.botonAyuda;
-            if (x >= boton.x &&
-                x <= boton.x + boton.width &&
-                y >= boton.y &&
-                y <= boton.y + boton.height) {
-                return this.ayudaHabilitada ? 'ayuda' : null; // Solo retornar si está habilitado
+        if (this.ayudaHabilitada) {
+            const buttonWidth = 130;
+            const buttonHeight = 45;
+            const botonX = this.canvas.width - this.canvas.width / 8 - buttonWidth / 2;
+            const botonY = this.canvas.height / 2 - buttonHeight / 2;
+
+            if (x >= botonX &&
+                x <= botonX + buttonWidth &&
+                y >= botonY &&
+                y <= botonY + buttonHeight) {
+                return 'ayuda';
             }
         }
         return null;
@@ -227,8 +208,8 @@ export class HUD {
      */
     dibujar(audioMuteado = false) {
         const margen = 20;
-        const espacioLinea = 35;
-        let yPos = margen + 30;
+        const espacioEntreBoxes = 15;
+        let yPos = margen;
 
         this.ctx.save();
 
@@ -236,80 +217,88 @@ export class HUD {
         this.ctx.textAlign = 'left';
         this.ctx.textBaseline = 'top';
 
-        // === TIMER ===
-        // Fondo del timer
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.fillRect(margen - 10, margen, 200, 40);
+        // === BOX 1: TIEMPO ===
+        const altoBoxTiempo = 70;  // 👈 CAMBIAR - Siempre el mismo alto
 
-        // Texto del timer
-        this.ctx.font = 'bold 28px Arial';
+        // Fondo de la box de tiempo
+        this.ctx.fillStyle = COLORES.fondoModal;
+        this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
 
-        // Color según tipo de timer y tiempo restante
-        if (this.tieneTimerLimite) {
-            // Timer con límite (cuenta regresiva)
-            if (this.tiempoActual <= 10) {
-                this.ctx.fillStyle = '#ff4444'; // Rojo urgente (≤10 segundos)
-            } else if (this.tiempoActual <= 30) {
-                this.ctx.fillStyle = '#ffaa44'; // Naranja advertencia (≤30 segundos)
+        // Línea 1: Tiempo actual
+        this.ctx.font = FUENTES.textoNormal;
+
+        if (this.tieneTimerLimite && this.tiempoLimite !== null) {
+            const tiempoRestante = this.tiempoLimite - this.tiempoActual;
+
+            if (tiempoRestante <= 10) {
+                this.ctx.fillStyle = '#ff4444';
+            } else if (tiempoRestante <= 30) {
+                this.ctx.fillStyle = '#ffaa44';
             } else {
-                this.ctx.fillStyle = '#44ff44'; // Verde normal
+                this.ctx.fillStyle = '#44ff44';
             }
-            this.ctx.fillText(`⏱️ ${this.formatearTiempo(this.tiempoActual)}`, margen, margen + 5);
         } else {
-            // Timer sin límite (cuenta hacia arriba)
-            this.ctx.fillStyle = '#4499ff'; // Azul para countup
-            this.ctx.fillText(`⏱️ ${this.formatearTiempo(this.tiempoActual)}`, margen, margen + 5);
+            this.ctx.fillStyle = '#4499ff';
         }
 
-        yPos = margen + 50;
+        this.ctx.fillText(`⏱️ Tiempo: ${this.formatearTiempo(this.tiempoActual)}`, margen, yPos + 10); 
+        // Línea 2: Límite o "Sin tiempo límite"
+        this.ctx.font = FUENTES.textoPequeño;
+        this.ctx.fillStyle = COLORES.textoSecundario;
 
-        // === NIVEL ===
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.fillRect(margen - 10, yPos - 5, 200, 30);
+        if (this.tieneTimerLimite && this.tiempoLimite !== null) {
+            this.ctx.fillText(`Tiempo límite: ${this.formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
+        } else {
+            this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);  // 👈 Misma posición
+        }
 
-        this.ctx.font = 'bold 20px Arial';
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.fillText(`Nivel: ${this.nivel}`, margen, yPos);
+        yPos += altoBoxTiempo + espacioEntreBoxes;
 
-        yPos += espacioLinea;
+        // === BOX 2: NIVEL ===
+        this.ctx.fillStyle = COLORES.fondoModal;
+        this.ctx.fillRect(margen - 10, yPos, 200, 40);
 
-        // === DIFICULTAD ===
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.fillRect(margen - 10, yPos - 5, 200, 30);
+        this.ctx.font = FUENTES.textoNormal;
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.fillText(`📊 Nivel: ${this.nivel}`, margen, yPos + 12);
 
-        this.ctx.font = '18px Arial';
+        yPos += 40 + espacioEntreBoxes;
 
-        // Dibujar "Dificultad:" en blanco
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.fillText('Dificultad: ', margen, yPos);
+        // === BOX 3: DIFICULTAD ===
+        this.ctx.fillStyle = COLORES.fondoModal;
+        this.ctx.fillRect(margen - 10, yPos, 200, 40);
 
-        // Calcular ancho del texto "Dificultad: " para posicionar la segunda parte
-        const anchoDificultad = this.ctx.measureText('Dificultad: ').width;
+        this.ctx.font = FUENTES.textoNormal;
 
-        // Color según dificultad para el segundo texto
+        // "Dificultad:" en blanco
+        this.ctx.fillStyle = COLORES.textoPrimario;
+        this.ctx.fillText('🎯 Dificultad: ', margen, yPos + 12);
+
+        // Calcular ancho para posicionar el nombre de la dificultad
+        const anchoDificultad = this.ctx.measureText('🎯 Dificultad: ').width;
+
+        // Color según dificultad
         switch (this.dificultad.toLowerCase()) {
             case 'facil':
-                this.ctx.fillStyle = '#44ff44';  // Verde
+                this.ctx.fillStyle = '#44ff44';
                 break;
             case 'medio':
-                this.ctx.fillStyle = '#ffff44';  // Amarillo
+                this.ctx.fillStyle = '#ffff44';
                 break;
             case 'dificil':
-                this.ctx.fillStyle = '#ffaa44';  // Naranja
+                this.ctx.fillStyle = '#ffaa44';
                 break;
             case 'extremo':
-                this.ctx.fillStyle = '#ff4444';  // Rojo
+                this.ctx.fillStyle = '#ff4444';
                 break;
             default:
-                this.ctx.fillStyle = '#ffffff';  // Blanco por defecto
+                this.ctx.fillStyle = '#ffffff';
         }
 
-        // Dibujar el nombre de la dificultad en color
-        this.ctx.fillText(this.dificultad.toUpperCase(), margen + anchoDificultad, yPos);
+        this.ctx.fillText(this.dificultad.toUpperCase(), margen + anchoDificultad, yPos + 12);
 
-        // Dibujar botones de control en la esquina superior derecha
+        // Dibujar botones de control
         this.dibujarBotones(audioMuteado);
-        // Dibujar botón de ayuda
         this.dibujarBotonAyuda();
 
         this.ctx.restore();
