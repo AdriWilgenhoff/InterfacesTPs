@@ -27,6 +27,8 @@ export const COLORES = {
   textoSecundario: '#aaaaaa',
   textoOscuro: '#333333',
 
+  bordeBloqueado: '#88ff88',
+  
   bordePieza: '#333333',
   juegoTerminado: '#FFD700',
 
