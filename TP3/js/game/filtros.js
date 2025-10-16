@@ -229,13 +229,13 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
             aplicarFiltroNegativo(ctx, canvas);
             break;
         case 'brillo':
-            aplicarFiltroBrillo(ctx, canvas, 50);
+            aplicarFiltroBrillo(ctx, canvas, 70);
             break;
         case 'pixelado':
             aplicarFiltroPixelado(ctx, canvas, 10);
             break;
         case 'blur':
-            aplicarFiltroBlur(ctx, canvas, 1);
+            aplicarFiltroBlur(ctx, canvas, 2);
             break;
         case 'ninguno':
             break;

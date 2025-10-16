@@ -4,7 +4,7 @@
 import { IMAGES, SOUNDS } from './constans.js';
 import { GestorRotacion } from './rotacion.js';
 import { aplicarFiltroPorNombre } from './filtros.js';
-import { cargarNivel, formatearTiempo, getTotalNiveles } from './levels.js';
+import { cargarNivel, getTotalNiveles } from './levels.js';
 import { obtenerImagenAleatoria, cargarImagen } from './utils.js';
 import { GestorAudio } from './audio.js';
 import { HUD } from './hud.js';
@@ -20,10 +20,11 @@ async function inicializarJuego() {
     // === Configuración del Canvas ===
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    canvas.width = 900;
-    canvas.height = 475;
+/*     canvas.width = 900;
+    canvas.height = 475; */
 
     // === Variables de Estado del Juego ===
+    const PENALIZACION_AYUDITA = 30;        // Segundos de penalización al usar ayudita
     let nivelActual = 1;
     let timerInterval = null;
     let tiempoActual = 0;
@@ -32,8 +33,6 @@ async function inicializarJuego() {
     let gestorRotacion = null;
     let imagenActual = null;
     let rutaImagenActual = null;
-    const PENALIZACION_AYUDITA = 30;        // Segundos de penalización al usar ayudita
-    let juegoEnPausa = false;
     let estadoJuego = 'inicio';             // Estados: 'inicio', 'seleccionando', 'jugando', 'modal'
     let tiempoTotalJuego = 0;               // Acumulador de tiempo de todos los niveles
     let contadorMovimientos = 0;  //  - Contador de clicks
@@ -199,7 +198,6 @@ async function inicializarJuego() {
      * @param {string} rutaImagen - Ruta de la imagen a usar
      */
     async function iniciarNivel(numeroNivel, rutaImagen) {
-        juegoEnPausa = false;
         estadoJuego = 'jugando';
         contadorMovimientos = 0;
 
@@ -279,9 +277,6 @@ async function inicializarJuego() {
     }
 
     /**
-     * Inicia el timer del nivel (countdown o countup según configuración)
-     */
-    /**
      * Inicia el timer del nivel
      * @param {number} tiempoLimite - Límite de tiempo en segundos (opcional)
      */
@@ -291,10 +286,8 @@ async function inicializarJuego() {
             // Solo actualizar si está jugando
             if (estadoJuego !== 'jugando') return;
 
-            // 👇 NUEVO - Siempre incrementa
             tiempoActual++;
 
-            // 👇 NUEVO - Si tiene límite y lo alcanza, pierde
             if (tiempoLimite !== null && tiempoActual >= tiempoLimite) {
                 detenerTimer();
                 nivelFallido();
@@ -330,7 +323,7 @@ async function inicializarJuego() {
         estadoJuego = 'completado';
         detenerTimer();
 
-        // 👇 AGREGAR - Desactivar gestor antes de remover filtro
+        // Desactivar gestor antes de remover filtro
         if (gestorRotacion) {
             gestorRotacion.juegoActivo = false;
         }

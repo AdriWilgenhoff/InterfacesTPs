@@ -42,3 +42,10 @@ export function precargarImagenes(imagenes) {
         })
     );
 }
+
+// Función auxiliar para formatear el tiempo restante
+export function formatearTiempo(segundos) {
+  const minutos = Math.floor(segundos / 60);
+  const segs = segundos % 60;
+  return `${minutos}:${segs.toString().padStart(2, '0')}`;
+}

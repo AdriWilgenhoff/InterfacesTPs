@@ -2,20 +2,21 @@
 // Muestra un grid con todas las imágenes y hace una animación de "ruleta" hasta seleccionar una
 
 import { COLORES, FUENTES } from './constans.js';
-import { SOMBRAS, aplicarSombra, limpiarSombra} from './filtros.js';
+import { SOMBRAS, aplicarSombra } from './filtros.js';
+import { cargarImagen } from './utils.js';
 
 export class SeleccionadorImagen {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
-        this.visible = false;                    // Si la animación está visible
-        this.imagenes = [];                      // Array de rutas de imágenes
-        this.imagenesObj = [];                   // Array de objetos Image cargados
-        this.indiceSeleccionado = 0;             // Índice de la imagen actualmente resaltada
-        this.animando = false;                   // Si la animación está en progreso
-        this.tiempoAnimacion = 0;                // Tiempo transcurrido de la animación
-        this.intervaloAnimacion = null;          // Intervalo de la animación
-        this.onSeleccionCompleta = null;         // Callback a ejecutar al terminar
+        this.visible = false;
+        this.imagenes = [];
+        this.imagenesObj = [];
+        this.indiceSeleccionado = 0;
+        this.animando = false;
+        this.tiempoAnimacion = 0;
+        this.intervaloAnimacion = null;
+        this.onSeleccionCompleta = null;
     }
     
     /**
@@ -28,26 +29,12 @@ export class SeleccionadorImagen {
         
         for (const ruta of rutasImagenes) {
             try {
-                const img = await this.cargarImagen(ruta);
+                const img = await cargarImagen(ruta);
                 this.imagenesObj.push(img);
             } catch (error) {
-                console.warn(`No se pudo cargar imagen: ${ruta}`);
+                console.warn(`No se pudo cargar imagen: ${ruta}`, error);
             }
         }
-    }
-    
-    /**
-     * Carga una imagen individual
-     * @param {string} ruta - Ruta de la imagen
-     * @returns {Promise<Image>} - Promesa que resuelve con el objeto Image
-     */
-    cargarImagen(ruta) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = ruta;
-        });
     }
     
     /**
@@ -67,9 +54,9 @@ export class SeleccionadorImagen {
         const indiceFinal = this.imagenes.indexOf(imagenFinal);
         
         // Configuración de la animación
-        let velocidad = 100;                     // Velocidad inicial (ms entre cambios)
-        const incrementoVelocidad = 50;          // Cuánto aumenta la velocidad cada iteración
-        const duracionTotal = 5000;              // Duración total de la animación (3 segundos)
+        let velocidad = 100;
+        const incrementoVelocidad = 50;
+        const duracionTotal = 5000;
         
         // Intervalo que cambia la imagen resaltada
         this.intervaloAnimacion = setInterval(() => {
@@ -79,7 +66,6 @@ export class SeleccionadorImagen {
             this.indiceSeleccionado = (this.indiceSeleccionado + 1) % this.imagenesObj.length;
             
             if (this.tiempoAnimacion < duracionTotal) {
-                // Aumentar velocidad (desacelerar la animación)
                 velocidad += incrementoVelocidad;
             } else {
                 // Tiempo cumplido - seleccionar la imagen final
@@ -158,7 +144,6 @@ export class SeleccionadorImagen {
                 this.ctx.fillRect(x - 10, y - 10, thumbSize + 20, thumbSize + 20);
                 
                 aplicarSombra(this.ctx, SOMBRAS.glow);
-
             } else {
                 // Imagen no seleccionada - fondo semi-transparente
                 this.ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';

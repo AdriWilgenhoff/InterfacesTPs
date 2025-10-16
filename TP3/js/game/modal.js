@@ -2,6 +2,7 @@
 
 import { getTotalNiveles } from "./levels.js";
 import { COLORES, FUENTES } from './constans.js';
+import { formatearTiempo } from "./utils.js"; 
 
 export class Modal {
     constructor(canvas, ctx) {
@@ -64,17 +65,6 @@ export class Modal {
         this.visible = false;
         this.datos = {};
         this.botones = [];
-    }
-
-    /**
-     * Formatea segundos a formato MM:SS
-     * @param {number} segundos - Tiempo en segundos
-     * @returns {string} - Tiempo formateado
-     */
-    formatearTiempo(segundos) {
-        const mins = Math.floor(Math.abs(segundos) / 60);
-        const segs = Math.abs(segundos) % 60;
-        return `${mins}:${segs.toString().padStart(2, '0')}`;
     }
 
     /**
@@ -141,7 +131,7 @@ export class Modal {
         this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
 
         currentY += 35;
-        this.ctx.fillText(`⏱️ Tiempo empleado: ${this.formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
+        this.ctx.fillText(`⏱️ Tiempo empleado: ${formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
 
         currentY += 35;
         this.ctx.fillText(`🔄 Movimientos: ${this.datos.movimientos}`, centerX, currentY);
@@ -233,7 +223,7 @@ export class Modal {
         this.ctx.font = FUENTES.textoNormal;
         this.ctx.fillStyle = COLORES.textoPrimario;
 
-        this.ctx.fillText(`⏱️ Tiempo total: ${this.formatearTiempo(this.datos.tiempoTotal)}`, centerX, currentY);
+        this.ctx.fillText(`⏱️ Tiempo total: ${formatearTiempo(this.datos.tiempoTotal)}`, centerX, currentY);
 
         currentY += 35;
         this.ctx.fillText(`🔄 Movimientos totales: ${this.datos.movimientosTotales}`, centerX, currentY);

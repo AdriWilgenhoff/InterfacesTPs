@@ -1,5 +1,7 @@
 
 import { COLORES, FUENTES } from './constans.js';
+import { formatearTiempo } from './utils.js';
+
 export class HUD {
     constructor(canvas, ctx) {
         this.canvas = canvas;
@@ -34,17 +36,6 @@ export class HUD {
     actualizarNivel(nivel, dificultad) {
         this.nivel = nivel;
         this.dificultad = dificultad;
-    }
-
-    /**
-     * Formatea segundos a formato MM:SS
-     * @param {number} segundos - Tiempo en segundos
-     * @returns {string} - Tiempo formateado (ej: "2:05")
-     */
-    formatearTiempo(segundos) {
-        const mins = Math.floor(Math.abs(segundos) / 60);
-        const segs = Math.abs(segundos) % 60;
-        return `${mins}:${segs.toString().padStart(2, '0')}`;
     }
 
     /**
@@ -241,13 +232,13 @@ export class HUD {
             this.ctx.fillStyle = '#4499ff';
         }
 
-        this.ctx.fillText(`⏱️ Tiempo: ${this.formatearTiempo(this.tiempoActual)}`, margen, yPos + 10); 
+        this.ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(this.tiempoActual)}`, margen, yPos + 10); 
         // Línea 2: Límite o "Sin tiempo límite"
         this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoSecundario;
 
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
-            this.ctx.fillText(`Tiempo límite: ${this.formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
+            this.ctx.fillText(`Tiempo límite: ${formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
         } else {
             this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);
         }
