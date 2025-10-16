@@ -14,6 +14,7 @@ export class GestorRotacion {
         this.filtroCallback = null;
         this.completadoCallback = null;
         this.movimientoCallback = null;
+        this.piezasBloqueadas = [];
 
         this.gridConfig = {
             filas: 0,
@@ -72,10 +73,13 @@ export class GestorRotacion {
         this.gridConfig.xInicio = (this.canvas.width - tamañoContenedor) / 2;
         this.gridConfig.yInicio = (this.canvas.height - tamañoContenedor) / 2;
 
+
+        this.piezasBloqueadas = []
         // Inicializar rotaciones correctas
         this.rotacionesCorrectas = [];
         for (let i = 0; i < numCuadrados; i++) {
             this.rotacionesCorrectas.push(0);
+            this.piezasBloqueadas.push(false); // <-- Inicialmente ninguna pieza está bloqueada
         }
 
         // Inicializar rotaciones aleatorias
@@ -124,6 +128,15 @@ export class GestorRotacion {
 
                 this.ctx.strokeStyle = COLORES.bordePieza;
                 this.ctx.lineWidth = 2;
+
+                if (this.piezasBloqueadas[indice]) {
+                    this.ctx.strokeStyle = COLORES.bordeBloqueado;
+                    this.ctx.lineWidth = 3; 
+                } else {
+                    this.ctx.strokeStyle = COLORES.bordePieza;
+                    this.ctx.lineWidth = 2;
+                }
+
                 this.ctx.strokeRect(x, y, tamañoCuadrado, tamañoCuadrado);
 
                 indice++;
@@ -193,6 +206,12 @@ export class GestorRotacion {
         const indice = fila * this.gridConfig.columnas + col;
 
         if (indice >= 0 && indice < this.rotaciones.length) {
+
+            if (this.piezasBloqueadas[indice]) {
+                console.log(` Pieza ${indice} está bloqueada por ayudita. No se puede rotar.`);
+                return; 
+            }
+
             // Guardar rotación previa para el log
             const rotacionPrevia = this.rotaciones[indice];
             
@@ -250,6 +269,7 @@ export class GestorRotacion {
     establecerRotaciones(nuevasRotaciones) {
         if (nuevasRotaciones.length === this.rotaciones.length) {
             this.rotaciones = [...nuevasRotaciones];
+            this.piezasBloqueadas = this.piezasBloqueadas.map(() => false);
             this.redibujarImagen();
         }
     }
@@ -258,7 +278,7 @@ export class GestorRotacion {
         const cuadradosMalPosicionados = [];
 
         for (let i = 0; i < this.rotaciones.length; i++) {
-            if (this.rotaciones[i] !== this.rotacionesCorrectas[i]) {
+            if (this.rotaciones[i] !== this.rotacionesCorrectas[i] && !this.piezasBloqueadas[i]) {
                 cuadradosMalPosicionados.push(i);
             }
         }
@@ -274,6 +294,11 @@ export class GestorRotacion {
         console.log(`💡 Ayuda: Corrigiendo pieza ${cuadradoACorregir} de ${this.rotaciones[cuadradoACorregir]}° a ${this.rotacionesCorrectas[cuadradoACorregir]}°`);
 
         this.rotaciones[cuadradoACorregir] = this.rotacionesCorrectas[cuadradoACorregir];
+
+        // 👇 BLOQUEAR LA PIEZA CORREGIDA
+        this.piezasBloqueadas[cuadradoACorregir] = true; 
+        console.log(` Pieza ${cuadradoACorregir} ha sido bloqueada.`);
+        // 👆 FIN BLOQUEO
 
         this.redibujarImagen();
 

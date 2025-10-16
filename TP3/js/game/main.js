@@ -72,8 +72,10 @@ async function inicializarJuego() {
                 reiniciarNivel();
                 return;
             } else if (botonHUD === 'home') {
+
                 // Confirmar antes de salir (se pierde progreso)
-                if (confirm('¿Volver al menú principal? Se perderá el progreso del nivel.')) {
+                //  if (confirm('¿Volver al menú principal? Se perderá el progreso del nivel.')) {
+                
                     detenerTimer();
                     estadoJuego = 'inicio';
                     nivelActual = 1;
@@ -91,7 +93,7 @@ async function inicializarJuego() {
 
                     pantallaInicial.mostrar();
                     dibujarInicio();
-                }
+                
                 return;
             } else if (botonHUD === 'mute') {
                 audio.toggleMute();
