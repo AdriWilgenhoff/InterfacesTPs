@@ -2,6 +2,8 @@
 
 import { dibujarDegradado3Colores, SOMBRAS, aplicarSombra, limpiarSombra} from './filtros.js';
 import { COLORES, FUENTES } from './constans.js';
+import { BotonImagen } from './boton.js';
+
 
 export class PantallaInicial {
     constructor(canvas, ctx) {
@@ -9,6 +11,23 @@ export class PantallaInicial {
         this.ctx = ctx;
         this.visible = true;
         this.botonRect = null;
+
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        const buttonWidth = 300;
+        const buttonHeight = 60;
+        const buttonX = centerX - buttonWidth / 2;
+        const buttonY = centerY;
+
+        this.botonIniciar = new BotonImagen(
+            buttonX,
+            buttonY,
+            buttonWidth,
+            buttonHeight,
+            '../assets_game/images/image1.jpg',       // Imagen normal
+            '../assets_game/images/image2.png', // Imagen hover
+            'iniciar'
+        );
     }
 
     mostrar() {
@@ -76,13 +95,16 @@ export class PantallaInicial {
         this.ctx.font = FUENTES.textoMedio;
         this.ctx.fillText('Rota las piezas para completar la imagen', centerX, centerY - 80);
 
+        this.botonIniciar.dibujar(this.ctx);
+
+
         // Configuración del botón "INICIAR JUEGO"
         const buttonWidth = 300;
         const buttonHeight = 60;
         const buttonX = centerX - buttonWidth / 2;
         const buttonY = centerY;
 
-        this.botonRect = {
+        /*this.botonRect = {
             x: buttonX,
             y: buttonY,
             width: buttonWidth,
@@ -102,7 +124,7 @@ export class PantallaInicial {
         this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
         this.ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
-
+ */
         // Texto del botón
         this.ctx.fillStyle = COLORES.textoPrimario;
         this.ctx.font = FUENTES.botonGrande;
@@ -123,11 +145,7 @@ export class PantallaInicial {
     }
 
     clickEnBoton(x, y) {
-        if (!this.visible || !this.botonRect) return false;
-
-        return x >= this.botonRect.x &&
-            x <= this.botonRect.x + this.botonRect.width &&
-            y >= this.botonRect.y &&
-            y <= this.botonRect.y + this.botonRect.height;
+        if (!this.visible) return false;
+        return this.botonIniciar.estaClickeado(x, y);  // 👈 CAMBIO - Usar método del botón
     }
 }

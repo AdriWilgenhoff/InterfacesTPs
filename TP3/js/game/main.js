@@ -170,6 +170,24 @@ async function inicializarJuego() {
         }
     });
 
+    canvas.addEventListener('mousemove', (e) => {
+        // Solo procesar hover en pantalla inicial
+        if (estadoJuego !== 'inicio') return;
+
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Actualizar hover del botón
+        const cambioHover = pantallaInicial.botonIniciar.actualizarHover(x, y);
+
+        // Si cambió el estado hover, redibujar
+        if (cambioHover) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pantallaInicial.dibujar();
+        }
+    });
+
     /**
      * Inicia la animación de selección de imagen y luego el nivel
      * @param {number} numeroNivel - Número del nivel a iniciar
