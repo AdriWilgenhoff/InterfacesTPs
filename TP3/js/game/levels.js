@@ -39,7 +39,7 @@ export const LEVELS_CONFIG = {
 ];
  */
 export const LEVELS = [
-  { nivel: 1, dificultad: 'Extremo', division: 4, filtro: 'medio', timer: 'extremo', ayudita: true }, 
+  { nivel: 1, dificultad: 'Extremo', division: 4, filtro: 'medio', timer: 'extremo', ayudita:false }, 
   { nivel: 2, dificultad: 'Facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
 ]; 
 

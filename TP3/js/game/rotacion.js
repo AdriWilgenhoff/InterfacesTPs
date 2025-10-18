@@ -3,7 +3,7 @@
 import { COLORES } from './constans.js';
 
 export class GestorRotacion {
-    constructor(canvas, ctx, imagen, hud = null) {
+    constructor(canvas, ctx, imagen, hud = null, modal) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.imagen = imagen;
@@ -15,6 +15,7 @@ export class GestorRotacion {
         this.completadoCallback = null;
         this.movimientoCallback = null;
         this.piezasBloqueadas = [];
+        this.modal = modal;
 
         this.gridConfig = {
             filas: 0,
@@ -99,19 +100,22 @@ export class GestorRotacion {
         this.juegoActivo = true;
     }
 
-    redibujarImagen() {
+  redibujarImagen() {
+    
         this.ctx.fillStyle = COLORES.fondoPantalla;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
+ 
         const filas = this.gridConfig.filas;
         const columnas = this.gridConfig.columnas;
         const tamañoCuadrado = this.gridConfig.tamañoCuadrado;
         const xInicio = this.gridConfig.xInicio;
         const yInicio = this.gridConfig.yInicio;
-
+ 
         const anchoPortionImg = this.imagen.width / columnas;
         const altoPortionImg = this.imagen.height / filas;
-
+ 
+        const puzzleCompletado = this.verificarCompletado();
+ 
         let indice = 0;
         for (let fila = 0; fila < filas; fila++) {
             for (let col = 0; col < columnas; col++) {
@@ -120,57 +124,55 @@ export class GestorRotacion {
                 const sx = col * anchoPortionImg;
                 const sy = fila * altoPortionImg;
                 const rotacion = this.rotaciones[indice];
-
+ 
                 this.dibujarCuadradoRotado(
                     sx, sy, anchoPortionImg, altoPortionImg,
                     x, y, tamañoCuadrado, rotacion
                 );
-
+ 
                 this.ctx.strokeStyle = COLORES.bordePieza;
                 this.ctx.lineWidth = 2;
-
-                if (this.piezasBloqueadas[indice]) {
+ 
+                // Aplicar el borde de ayuda SOLO si el juego NO está completo y la pieza está bloqueada.
+                if (!puzzleCompletado && this.piezasBloqueadas[indice]) {
                     this.ctx.strokeStyle = COLORES.bordeBloqueado;
-                    this.ctx.lineWidth = 3; 
-                } else {
-                    this.ctx.strokeStyle = COLORES.bordePieza;
-                    this.ctx.lineWidth = 2;
+                    this.ctx.lineWidth = 3;
                 }
-
+               
                 this.ctx.strokeRect(x, y, tamañoCuadrado, tamañoCuadrado);
-
+ 
                 indice++;
             }
         }
-
+ 
         if (this.filtroCallback) {
             const anchoImagen = this.gridConfig.tamañoContenedor;
             const altoImagen = this.gridConfig.tamañoContenedor;
-            
+           
             const imageDataImagen = this.ctx.getImageData(xInicio, yInicio, anchoImagen, altoImagen);
-            
+           
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = anchoImagen;
             tempCanvas.height = altoImagen;
-            const tempCtx = tempCanvas.getContext('2d');
-            
+            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+           
             tempCtx.putImageData(imageDataImagen, 0, 0);
             this.filtroCallback(tempCtx, tempCanvas);
-            
+           
             const imageDataFiltrada = tempCtx.getImageData(0, 0, anchoImagen, altoImagen);
             this.ctx.putImageData(imageDataFiltrada, xInicio, yInicio);
         }
-
-        if (this.hud) {
-            const audioMuteado = window.audioGlobal ? window.audioGlobal.estaMuteado() : false;
+ 
+     if (this.hud) {
+            const audioMuteado = this.hud.audio ? this.hud.audio.estaMuteado() : false;
             this.hud.dibujar(audioMuteado);
-        }
-
-        if (window.modalGlobal && window.modalGlobal.visible) {
-            window.modalGlobal.dibujar();
+        } 
+ 
+ 
+        if (this.modal && this.modal.visible) {
+            this.modal.dibujar();
         }
     }
-
     dibujarCuadradoRotado(sx, sy, sWidth, sHeight, dx, dy, tamaño, rotacion) {
         this.ctx.save();
         this.ctx.translate(dx + tamaño / 2, dy + tamaño / 2);

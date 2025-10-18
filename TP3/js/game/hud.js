@@ -3,9 +3,10 @@ import { COLORES, FUENTES } from './constans.js';
 import { formatearTiempo } from './utils.js';
 
 export class HUD {
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, audio = null) {
         this.canvas = canvas;
         this.ctx = ctx;
+        this.audio = audio; 
         this.tiempoActual = 0;           // Tiempo actual en segundos
         this.nivel = 1;                  // Número de nivel actual
         this.dificultad = '';            // Dificultad del nivel (facil, medio, dificil, extremo)
@@ -97,6 +98,7 @@ export class HUD {
      * Dibuja los botones de control en el canvas
      * @param {boolean} audioMuteado - Estado del audio para mostrar el icono correcto
      */
+    
     dibujarBotones(audioMuteado = false) {
         this.ctx.save();
 
@@ -217,7 +219,6 @@ export class HUD {
 
         // Línea 1: Tiempo actual
         this.ctx.font = FUENTES.textoPequeño;
-
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
             const tiempoRestante = this.tiempoLimite - this.tiempoActual;
 

@@ -16,6 +16,7 @@ import { SeleccionadorImagen } from './seleccionadorImagen.js';
  * Función principal que inicializa todo el juego
  * Se ejecuta cuando el canvas se vuelve visible
  */
+
 async function inicializarJuego() {
     // === Configuración del Canvas ===
     const canvas = document.getElementById('game');
@@ -39,10 +40,13 @@ async function inicializarJuego() {
     let dificultadActual = '';     // Guardar dificultad del nivel actual
     let contadorAyudas = 0;  // 
     let movimientosTotales = 0;  //Acumulador
+    let ayuditaHabilitada = false;
+ 
+    
 
     // === Inicialización de Módulos ===
     const audio = new GestorAudio(SOUNDS);
-    window.audioGlobal = audio;             // Hacer audio accesible globalmente
+    /* window.audioGlobal = audio;  */            // Hacer audio accesible globalmente
     const hud = new HUD(canvas, ctx);
     const modal = new Modal(canvas, ctx);
     const pantallaInicial = new PantallaInicial(canvas, ctx);
@@ -50,11 +54,7 @@ async function inicializarJuego() {
 
     // Cargar imágenes en el seleccionador
     await seleccionador.cargarImagenes(IMAGES);
-
-    // Guardar referencias globales para acceso desde otros módulos
-    window.modalGlobal = modal;
-    window.seleccionadorGlobal = seleccionador;
-
+    
     // Mostrar pantalla inicial
     pantallaInicial.dibujar();
 
@@ -170,24 +170,6 @@ async function inicializarJuego() {
         }
     });
 
-    canvas.addEventListener('mousemove', (e) => {
-        // Solo procesar hover en pantalla inicial
-        if (estadoJuego !== 'inicio') return;
-
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Actualizar hover del botón
-        const cambioHover = pantallaInicial.botonIniciar.actualizarHover(x, y);
-
-        // Si cambió el estado hover, redibujar
-        if (cambioHover) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            pantallaInicial.dibujar();
-        }
-    });
-
     /**
      * Inicia la animación de selección de imagen y luego el nivel
      * @param {number} numeroNivel - Número del nivel a iniciar
@@ -229,7 +211,7 @@ async function inicializarJuego() {
         }
 
         // Guardar si el nivel permite usar ayudita
-        window.ayuditaHabilitada = nivel.ayudita;
+        ayuditaHabilitada = nivel.ayudita; 
         dificultadActual = nivel.dificultad;
 
         detenerTimer();
@@ -244,7 +226,7 @@ async function inicializarJuego() {
             hud.actualizarNivel(nivel.nivel, nivel.dificultad);
 
             // Crear gestor de rotación con la imagen
-            gestorRotacion = new GestorRotacion(canvas, ctx, imagenActual, hud);
+            gestorRotacion = new GestorRotacion(canvas, ctx, imagenActual, hud, modal);
 
             // Configurar callback para reproducir sonido al rotar
             gestorRotacion.establecerCallbackMovimiento(() => {
@@ -395,7 +377,7 @@ async function inicializarJuego() {
         if (!gestorRotacion || estadoJuego !== 'jugando') return;
 
         // Verificar si la ayudita está habilitada para este nivel
-        if (!window.ayuditaHabilitada) {
+        if (!ayuditaHabilitada) {
             audio.reproducir('nivelFallido');
             return;
         }

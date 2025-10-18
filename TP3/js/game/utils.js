@@ -24,24 +24,6 @@ export function cargarImagen(ruta) {
     });
 }
 
-/**
- * Precarga todas las imágenes del array
- * NOTA: Esta función actualmente NO se usa en el juego, pero está disponible para uso futuro
- * @param {Array<string>} imagenes - Array de rutas de imágenes a precargar
- * @returns {Promise<Array<Image>>} - Promesa que resuelve con array de imágenes cargadas
- */
-export function precargarImagenes(imagenes) {
-    return Promise.all(
-        imagenes.map(ruta => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = ruta;
-            });
-        })
-    );
-}
 
 // Función auxiliar para formatear el tiempo restante
 export function formatearTiempo(segundos) {
@@ -49,3 +31,5 @@ export function formatearTiempo(segundos) {
   const segs = segundos % 60;
   return `${minutos}:${segs.toString().padStart(2, '0')}`;
 }
+
+//hacer un metodo que dibuje la imagen 
