@@ -31,5 +31,3 @@ export function formatearTiempo(segundos) {
   const segs = segundos % 60;
   return `${minutos}:${segs.toString().padStart(2, '0')}`;
 }
-
-//hacer un metodo que dibuje la imagen 

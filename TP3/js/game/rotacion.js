@@ -3,20 +3,28 @@
 import { COLORES } from './constans.js';
 
 export class GestorRotacion {
-    constructor(canvas, ctx, imagen, hud = null, modal) {
+    constructor(canvas, ctx, imagen, hud = null) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.imagen = imagen;
         this.hud = hud;
+        this.modal = null;
+        
+        // Estado del juego
         this.rotaciones = [];
-        this.rotacionesCorrectas = [];
+        this.piezasBloqueadas = [];
         this.juegoActivo = true;
+        
+        // Callbacks
         this.filtroCallback = null;
         this.completadoCallback = null;
         this.movimientoCallback = null;
-        this.piezasBloqueadas = [];
-        this.modal = modal;
+        
+        // Canvas temporal para filtros (se crea UNA VEZ)
+        this.tempCanvas = null;
+        this.tempCtx = null;
 
+        // Configuración del grid
         this.gridConfig = {
             filas: 0,
             columnas: 0,
@@ -27,9 +35,14 @@ export class GestorRotacion {
             tamañoContenedor: 0
         };
 
+        // Flag para logs de debug
+        this.DEBUG = true;
+
         this.inicializarEventos();
     }
 
+    // === Métodos de configuración ===
+    
     establecerCallbackCompletado(callback) {
         this.completadoCallback = callback;
     }
@@ -38,6 +51,21 @@ export class GestorRotacion {
         this.movimientoCallback = callback;
     }
 
+    establecerModal(modal) {
+        this.modal = modal;
+    }
+
+    establecerFiltro(filtroCallback) {
+        this.filtroCallback = filtroCallback;
+    }
+
+    removerFiltro() {
+        this.filtroCallback = null;
+        this.redibujarImagen();
+    }
+
+    // === Event listeners ===
+    
     inicializarEventos() {
         this.canvas.addEventListener('click', (e) => {
             this.rotarCuadrado(e, -90);
@@ -51,71 +79,68 @@ export class GestorRotacion {
         });
     }
 
-    establecerFiltro(filtroCallback) {
-        this.filtroCallback = filtroCallback;
-    }
-
-    removerFiltro() {
-        this.filtroCallback = null;
-        this.redibujarImagen();
-    }
-
+    // === Métodos principales ===
+    
     dibujarImagenDividida(numCuadrados, tamañoContenedor = 400) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Calcular grid
         const filas = Math.sqrt(numCuadrados);
         const columnas = Math.sqrt(numCuadrados);
 
-        this.gridConfig.filas = filas;
-        this.gridConfig.columnas = columnas;
-        this.gridConfig.numCuadrados = numCuadrados;
-        this.gridConfig.tamañoContenedor = tamañoContenedor;
-        this.gridConfig.tamañoCuadrado = tamañoContenedor / filas;
-        this.gridConfig.xInicio = (this.canvas.width - tamañoContenedor) / 2;
-        this.gridConfig.yInicio = (this.canvas.height - tamañoContenedor) / 2;
+        this.gridConfig = {
+            filas,
+            columnas,
+            numCuadrados,
+            tamañoContenedor,
+            tamañoCuadrado: tamañoContenedor / filas,
+            xInicio: (this.canvas.width - tamañoContenedor) / 2,
+            yInicio: (this.canvas.height - tamañoContenedor) / 2
+        };
 
-
-        this.piezasBloqueadas = []
-        // Inicializar rotaciones correctas
-        this.rotacionesCorrectas = [];
-        for (let i = 0; i < numCuadrados; i++) {
-            this.rotacionesCorrectas.push(0);
-            this.piezasBloqueadas.push(false); // <-- Inicialmente ninguna pieza está bloqueada
+        // Crear canvas temporal UNA VEZ con el tamaño correcto
+        if (!this.tempCanvas) {
+            this.tempCanvas = document.createElement('canvas');
+            this.tempCtx = this.tempCanvas.getContext('2d', { willReadFrequently: true });
         }
+        this.tempCanvas.width = tamañoContenedor;
+        this.tempCanvas.height = tamañoContenedor;
 
-        // Inicializar rotaciones aleatorias
+        // Inicializar arrays
         this.rotaciones = [];
+        this.piezasBloqueadas = [];
+        
         for (let i = 0; i < numCuadrados; i++) {
+            // Rotación aleatoria inicial
             const rotacionesPosibles = [0, 90, 180, 270];
             const rotacionAleatoria = rotacionesPosibles[Math.floor(Math.random() * rotacionesPosibles.length)];
             this.rotaciones.push(rotacionAleatoria);
+            
+            // Ninguna pieza bloqueada al inicio
+            this.piezasBloqueadas.push(false);
         }
 
-        // 👇 AGREGAR - Log inicial del estado
-        console.log('🎮 Nivel iniciado con', numCuadrados, 'piezas');
-        console.log('📋 Estado inicial:', this.rotaciones);
-        console.log('✅ Solución correcta:', this.rotacionesCorrectas);
+        // Debug logs
+        if (this.DEBUG) {
+            console.log('🎮 Nivel iniciado con', numCuadrados, 'piezas');
+            console.log('📋 Estado inicial:', this.rotaciones);
+        }
 
         this.redibujarImagen();
         this.juegoActivo = true;
     }
 
-  redibujarImagen() {
-    
+    redibujarImagen() {
+        // 1. Limpiar canvas
         this.ctx.fillStyle = COLORES.fondoPantalla;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
- 
-        const filas = this.gridConfig.filas;
-        const columnas = this.gridConfig.columnas;
-        const tamañoCuadrado = this.gridConfig.tamañoCuadrado;
-        const xInicio = this.gridConfig.xInicio;
-        const yInicio = this.gridConfig.yInicio;
- 
+
+        const { filas, columnas, tamañoCuadrado, xInicio, yInicio } = this.gridConfig;
         const anchoPortionImg = this.imagen.width / columnas;
         const altoPortionImg = this.imagen.height / filas;
- 
         const puzzleCompletado = this.verificarCompletado();
- 
+
+        // 2. Dibujar piezas
         let indice = 0;
         for (let fila = 0; fila < filas; fila++) {
             for (let col = 0; col < columnas; col++) {
@@ -123,77 +148,72 @@ export class GestorRotacion {
                 const y = yInicio + (fila * tamañoCuadrado);
                 const sx = col * anchoPortionImg;
                 const sy = fila * altoPortionImg;
-                const rotacion = this.rotaciones[indice];
- 
+
+                // Dibujar pieza rotada
                 this.dibujarCuadradoRotado(
                     sx, sy, anchoPortionImg, altoPortionImg,
-                    x, y, tamañoCuadrado, rotacion
+                    x, y, tamañoCuadrado, this.rotaciones[indice]
                 );
- 
-                this.ctx.strokeStyle = COLORES.bordePieza;
-                this.ctx.lineWidth = 2;
- 
-                // Aplicar el borde de ayuda SOLO si el juego NO está completo y la pieza está bloqueada.
+
+                // Dibujar borde (especial si está bloqueada)
                 if (!puzzleCompletado && this.piezasBloqueadas[indice]) {
                     this.ctx.strokeStyle = COLORES.bordeBloqueado;
                     this.ctx.lineWidth = 3;
+                } else {
+                    this.ctx.strokeStyle = COLORES.bordePieza;
+                    this.ctx.lineWidth = 2;
                 }
-               
                 this.ctx.strokeRect(x, y, tamañoCuadrado, tamañoCuadrado);
- 
+
                 indice++;
             }
         }
- 
-        if (this.filtroCallback) {
-            const anchoImagen = this.gridConfig.tamañoContenedor;
-            const altoImagen = this.gridConfig.tamañoContenedor;
-           
-            const imageDataImagen = this.ctx.getImageData(xInicio, yInicio, anchoImagen, altoImagen);
-           
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = anchoImagen;
-            tempCanvas.height = altoImagen;
-            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-           
-            tempCtx.putImageData(imageDataImagen, 0, 0);
-            this.filtroCallback(tempCtx, tempCanvas);
-           
-            const imageDataFiltrada = tempCtx.getImageData(0, 0, anchoImagen, altoImagen);
-            this.ctx.putImageData(imageDataFiltrada, xInicio, yInicio);
+
+        // 3. Aplicar filtro si existe
+        if (this.filtroCallback && this.tempCanvas && this.tempCtx) {
+            const { tamañoContenedor: ancho } = this.gridConfig;
+            
+            // Obtener imagen del área del puzzle
+            const imageData = this.ctx.getImageData(xInicio, yInicio, ancho, ancho);
+            
+            // Aplicar filtro en canvas temporal
+            this.tempCtx.putImageData(imageData, 0, 0);
+            this.filtroCallback(this.tempCtx, this.tempCanvas);
+            
+            // Devolver imagen filtrada
+            const imagenFiltrada = this.tempCtx.getImageData(0, 0, ancho, ancho);
+            this.ctx.putImageData(imagenFiltrada, xInicio, yInicio);
         }
- 
-     if (this.hud) {
+
+        // 4. Dibujar HUD y modal
+        if (this.hud) {
             const audioMuteado = this.hud.audio ? this.hud.audio.estaMuteado() : false;
             this.hud.dibujar(audioMuteado);
-        } 
- 
- 
+        }
+
         if (this.modal && this.modal.visible) {
             this.modal.dibujar();
         }
     }
+
     dibujarCuadradoRotado(sx, sy, sWidth, sHeight, dx, dy, tamaño, rotacion) {
         this.ctx.save();
         this.ctx.translate(dx + tamaño / 2, dy + tamaño / 2);
         this.ctx.rotate((rotacion * Math.PI) / 180);
-        this.ctx.drawImage(
-            this.imagen,
-            sx, sy, sWidth, sHeight,
-            -tamaño / 2, -tamaño / 2, tamaño, tamaño
-        );
+        this.ctx.drawImage(this.imagen, sx, sy, sWidth, sHeight, -tamaño / 2, -tamaño / 2, tamaño, tamaño);
         this.ctx.restore();
     }
 
+    // === Lógica de rotación ===
+    
     rotarCuadrado(event, grados) {
-        if (!this.juegoActivo) {
-            return;
-        }
+        if (!this.juegoActivo) return;
 
         const rect = this.canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
+        // Verificar si el click está dentro del área del puzzle
         const clickX = x - this.gridConfig.xInicio;
         const clickY = y - this.gridConfig.yInicio;
 
@@ -203,119 +223,104 @@ export class GestorRotacion {
             return;
         }
 
+        // Calcular índice de la pieza
         const col = Math.floor(clickX / this.gridConfig.tamañoCuadrado);
         const fila = Math.floor(clickY / this.gridConfig.tamañoCuadrado);
         const indice = fila * this.gridConfig.columnas + col;
 
-        if (indice >= 0 && indice < this.rotaciones.length) {
+        if (indice < 0 || indice >= this.rotaciones.length) return;
 
-            if (this.piezasBloqueadas[indice]) {
-                console.log(` Pieza ${indice} está bloqueada por ayudita. No se puede rotar.`);
-                return; 
+        // Verificar si está bloqueada
+        if (this.piezasBloqueadas[indice]) {
+            if (this.DEBUG) {
+                console.log(`🔒 Pieza ${indice} bloqueada (no se puede rotar)`);
             }
+            return;
+        }
 
-            // Guardar rotación previa para el log
-            const rotacionPrevia = this.rotaciones[indice];
-            
-            // Rotar el cuadrado
-            this.rotaciones[indice] += grados;
+        // Rotar la pieza
+        const rotacionPrevia = this.rotaciones[indice];
+        this.rotaciones[indice] = ((this.rotaciones[indice] + grados) % 360 + 360) % 360;
 
-            // Normalizar mejor para evitar bugs
-            this.rotaciones[indice] = ((this.rotaciones[indice] % 360) + 360) % 360;
-
-            // Log detallado de la rotación
-            const esCorrecta = this.rotaciones[indice] === this.rotacionesCorrectas[indice];
+        // Debug log
+        if (this.DEBUG) {
+            const esCorrecta = this.rotaciones[indice] === 0;
             console.log(`🔄 Pieza ${indice}: ${rotacionPrevia}° → ${this.rotaciones[indice]}° ${esCorrecta ? '✅' : '❌'}`);
+        }
 
-            if (this.movimientoCallback) {
-                this.movimientoCallback();
-            }
+        // Callback de movimiento
+        if (this.movimientoCallback) {
+            this.movimientoCallback();
+        }
 
-            this.redibujarImagen();
+        this.redibujarImagen();
 
-            // Log antes de verificar completado
-            if (this.verificarCompletado()) {
+        // Verificar si se completó el puzzle
+        if (this.verificarCompletado()) {
+            if (this.DEBUG) {
                 console.log('🎉 ¡PUZZLE COMPLETADO!');
                 console.log('Estado final:', this.rotaciones);
-                console.log('Esperado:', this.rotacionesCorrectas);
-                
-                if (this.completadoCallback) {
-                    this.juegoActivo = false;
-                    this.completadoCallback();
-                }
-            } else {
-                // 👇 AGREGAR - Log de piezas mal posicionadas
-                const malPosicionados = this.obtenerCantidadMalPosicionados();
-                console.log(`📊 Quedan ${malPosicionados} piezas incorrectas`);
             }
+            
+            if (this.completadoCallback) {
+                this.juegoActivo = false;
+                this.completadoCallback();
+            }
+        } else if (this.DEBUG) {
+            const malPosicionados = this.obtenerCantidadMalPosicionados();
+            console.log(`📊 Quedan ${malPosicionados} piezas incorrectas`);
         }
     }
 
+    // === Métodos de verificación ===
+    
     verificarCompletado() {
-        // 👇 AGREGAR - Verificación más explícita con log si algo falla
-        const completado = this.rotaciones.every((rotacion, index) => {
-            const esCorrecta = rotacion === this.rotacionesCorrectas[index];
-            if (!esCorrecta) {
-                // Solo log en modo debug (comentar en producción)
-                // console.log(`Pieza ${index}: tiene ${rotacion}°, necesita ${this.rotacionesCorrectas[index]}°`);
-            }
-            return esCorrecta;
-        });
-        return completado;
+        // Comparar directamente con 0
+        return this.rotaciones.every(rotacion => rotacion === 0);
     }
 
-    obtenerRotaciones() {
-        return [...this.rotaciones];
+    obtenerCantidadMalPosicionados() {
+        // Contar piezas que no son 0
+        return this.rotaciones.filter(rotacion => rotacion !== 0).length;
     }
 
-    establecerRotaciones(nuevasRotaciones) {
-        if (nuevasRotaciones.length === this.rotaciones.length) {
-            this.rotaciones = [...nuevasRotaciones];
-            this.piezasBloqueadas = this.piezasBloqueadas.map(() => false);
-            this.redibujarImagen();
-        }
-    }
-
+    // === Ayuda ===
+    
     ayudita() {
-        const cuadradosMalPosicionados = [];
-
-        for (let i = 0; i < this.rotaciones.length; i++) {
-            if (this.rotaciones[i] !== this.rotacionesCorrectas[i] && !this.piezasBloqueadas[i]) {
-                cuadradosMalPosicionados.push(i);
-            }
-        }
+        // Encontrar piezas mal posicionadas y no bloqueadas
+        const cuadradosMalPosicionados = this.rotaciones
+            .map((rotacion, index) => (rotacion !== 0 && !this.piezasBloqueadas[index]) ? index : -1)
+            .filter(index => index !== -1);
 
         if (cuadradosMalPosicionados.length === 0) {
             return false;
         }
 
+        // Seleccionar una al azar
         const indiceAleatorio = Math.floor(Math.random() * cuadradosMalPosicionados.length);
         const cuadradoACorregir = cuadradosMalPosicionados[indiceAleatorio];
 
-        // Log de ayuda
-        console.log(`💡 Ayuda: Corrigiendo pieza ${cuadradoACorregir} de ${this.rotaciones[cuadradoACorregir]}° a ${this.rotacionesCorrectas[cuadradoACorregir]}°`);
+        // Debug log
+        if (this.DEBUG) {
+            console.log(`💡 Ayuda: Corrigiendo pieza ${cuadradoACorregir} de ${this.rotaciones[cuadradoACorregir]}° a 0°`);
+            console.log(`🔒 Pieza ${cuadradoACorregir} bloqueada`);
+        }
 
-        this.rotaciones[cuadradoACorregir] = this.rotacionesCorrectas[cuadradoACorregir];
-
-        // 👇 BLOQUEAR LA PIEZA CORREGIDA
-        this.piezasBloqueadas[cuadradoACorregir] = true; 
-        console.log(` Pieza ${cuadradoACorregir} ha sido bloqueada.`);
-        // 👆 FIN BLOQUEO
+        // Corregir y bloquear
+        this.rotaciones[cuadradoACorregir] = 0;
+        this.piezasBloqueadas[cuadradoACorregir] = true;
 
         this.redibujarImagen();
 
+        // Verificar si con esto se completó
         if (this.verificarCompletado() && this.completadoCallback) {
-            console.log('🎉 ¡Completado con ayuda!');
+            if (this.DEBUG) {
+                console.log('🎉 ¡Completado con ayuda!');
+            }
             this.juegoActivo = false;
             this.completadoCallback();
         }
 
         return true;
-    }
-
-    obtenerCantidadMalPosicionados() {
-        return this.rotaciones.filter((rotacion, index) =>
-            rotacion !== this.rotacionesCorrectas[index]
-        ).length;
     }
 }

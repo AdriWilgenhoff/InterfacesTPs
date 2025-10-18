@@ -24,7 +24,7 @@ export class PantallaInicial {
             buttonY,
             buttonWidth,
             buttonHeight,
-            '../assets_game/images/image1.jpg',       // Imagen normal
+            '../assets_game/images/image3.png',  // Imagen normal
             '../assets_game/images/image2.png', // Imagen hover
             'iniciar'
         );
@@ -146,6 +146,6 @@ export class PantallaInicial {
 
     clickEnBoton(x, y) {
         if (!this.visible) return false;
-        return this.botonIniciar.estaClickeado(x, y);  // 👈 CAMBIO - Usar método del botón
+        return this.botonIniciar.estaClickeado(x, y);
     }
 }
