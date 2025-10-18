@@ -3,6 +3,7 @@
 import { getTotalNiveles } from "./levels.js";
 import { COLORES, FUENTES } from './constans.js';
 import { formatearTiempo } from "./utils.js"; 
+import { SOMBRAS, aplicarSombra, limpiarSombra} from './filtros.js';
 
 export class Modal {
     constructor(canvas, ctx) {
@@ -170,8 +171,10 @@ export class Modal {
         const textoBotonSiguiente = esUltimoNivel ? 'VER ESTADÍSTICAS' : 'SIGUIENTE NIVEL';
 
         // Dibujar botón "Siguiente Nivel" (verde)
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
@@ -182,8 +185,10 @@ export class Modal {
         this.ctx.fillText(textoBotonSiguiente, button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver al Inicio" (rojo)
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;
@@ -248,8 +253,10 @@ export class Modal {
         }];
 
         // Dibujar botón
+         aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonSecundario;
         this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonSecundarioBorde;
         this.ctx.lineWidth = 4;
@@ -312,8 +319,10 @@ export class Modal {
         ];
 
         // Dibujar botón "Reintentar"
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
@@ -324,8 +333,10 @@ export class Modal {
         this.ctx.fillText('REINTENTAR', button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver"
+                aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
+                limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;

@@ -347,5 +347,6 @@ export const SOMBRAS = {
     media: { color: 'rgba(0, 0, 0, 0.4)', blur: 15, offsetY: 4 },
     fuerte: { color: 'rgba(0, 0, 0, 0.6)', blur: 20, offsetY: 8 },
     glow: { color: '#4CAF50', blur: 25, offsetX: 0, offsetY: 0 },
-    interna: { color: 'rgba(0, 0, 0, 0.4)', blur: 8, offsetY: -2 }
+    interna: { color: 'rgba(0, 0, 0, 0.4)', blur: 8, offsetY: -2 },
+    boton: { color: 'rgba(255, 255, 255, 0.8)', blur: 8, offsetX: 3, offsetY: 3 }
 };
