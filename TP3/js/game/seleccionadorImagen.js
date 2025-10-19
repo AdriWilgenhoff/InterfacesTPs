@@ -1,7 +1,7 @@
 // seleccionadorImagen.js - Animación de selección aleatoria de imagen antes de cada nivel
 
-import { COLORES, FUENTES } from './constans.js';
-import { SOMBRAS, aplicarSombra } from './filtros.js';
+import { COLORES, FUENTES, SOMBRAS } from './constans.js';
+import { aplicarSombra } from './filtros.js';
 import { cargarImagen } from './utils.js';
 
 export class SeleccionadorImagen {
@@ -125,11 +125,11 @@ export class SeleccionadorImagen {
         this.ctx.textAlign = 'center';
         this.ctx.fillText('Seleccionando imagen...', this.canvas.width / 2, 70);
         
-        // Grid fijo y simple
+        // Grid
         const THUMB_SIZE = 100;
         const ESPACIADO = 30;
-        const COLS = 4;  // Grid de 4 columnas fijas
-        
+        const COLS = 4; 
+
         const rows = Math.ceil(this.imagenesObj.length / COLS);
         const gridWidth = (THUMB_SIZE * COLS) + (ESPACIADO * (COLS - 1));
         const gridHeight = (THUMB_SIZE * rows) + (ESPACIADO * (rows - 1));

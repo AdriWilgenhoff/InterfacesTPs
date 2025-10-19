@@ -16,7 +16,6 @@ async function inicializarJuego() {
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-    // Objeto con variables de estado del juego
     const estado = {
         actual: 'inicio',           // 'inicio', 'seleccionando', 'jugando', 'modal', 'completado'
         nivelActual: 1,

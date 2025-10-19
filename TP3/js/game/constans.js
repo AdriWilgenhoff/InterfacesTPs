@@ -27,7 +27,7 @@ export const COLORES = {
   textoSecundario: '#aaaaaa',
   textoOscuro: '#333333',
 
-  bordeBloqueado: '#88ff88',
+  bordeBloqueado: '#9C27B0',
   
   bordePieza: '#333333',
   juegoTerminado: '#FFD700',
@@ -63,13 +63,6 @@ export const COLORES = {
 
   fondoPantalla: '#12141c',
   fondoModal: '#2c3e50',
-
-  // Degradados (para pantalla inicial)
-  degradado: {
-    color1: { r: 10, g: 15, b: 35 },
-    color2: { r: 25, g: 42, b: 86 },
-    color3: { r: 44, g: 62, b: 80 }
-  }
 };
 
 // === Tipografía ===
@@ -87,3 +80,12 @@ export const FUENTES = {
   hud: 'bold 20px Roboto',
   hudGrande: 'bold 28px Roboto'
 };
+
+// Sombras
+export const SOMBRAS = {
+    glow: { color: '#4CAF50', blur: 8, offsetX: 0, offsetY: 0 },
+    boton: { color: 'rgba(255, 255, 255, 0.8)', blur: 8, offsetX: 3, offsetY: 3 },
+    botonAyuda: { color: 'rgba(255, 255, 255, 0.8)', blur: 8, offsetX: 2, offsetY: 2 },
+    botonIcono: { color: 'rgba(102, 102, 102, 0.8)', blur: 10, offsetX: 0.5, offsetY: 0.5 }
+};
+

@@ -31,3 +31,27 @@ export function formatearTiempo(segundos) {
   const segs = segundos % 60;
   return `${minutos}:${segs.toString().padStart(2, '0')}`;
 }
+
+
+/**
+ * Dibuja un rectángulo con esquinas redondeadas en un contexto de canvas.
+ * @param {CanvasRenderingContext2D} ctx - El contexto de dibujo del canvas.
+ * @param {number} x - La coordenada X de la esquina superior izquierda.
+ * @param {number} y - La coordenada Y de la esquina superior izquierda.
+ * @param {number} width - El ancho del rectángulo.
+ * @param {number} height - La altura del rectángulo.
+ * @param {number} radius - El radio de las esquinas redondeadas.
+ */
+export function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.arcTo(x + width, y, x + width, y + radius, radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+    ctx.lineTo(x + radius, y + height);
+    ctx.arcTo(x, y + height, x, y + height - radius, radius);
+    ctx.lineTo(x, y + radius);
+    ctx.arcTo(x, y, x + radius, y, radius);
+    ctx.closePath();
+}
