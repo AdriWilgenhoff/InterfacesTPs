@@ -1,9 +1,13 @@
 
-import { COLORES, FUENTES } from './constans.js';
+import { COLORES, FUENTES, SOMBRAS } from './constans.js';
+import { formatearTiempo, drawRoundedRect } from './utils.js';
+import { aplicarSombra, limpiarSombra } from './filtros.js';
+
 export class HUD {
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, audio = null) {
         this.canvas = canvas;
         this.ctx = ctx;
+        this.audio = audio;
         this.tiempoActual = 0;           // Tiempo actual en segundos
         this.nivel = 1;                  // Número de nivel actual
         this.dificultad = '';            // Dificultad del nivel (facil, medio, dificil, extremo)
@@ -34,17 +38,6 @@ export class HUD {
     actualizarNivel(nivel, dificultad) {
         this.nivel = nivel;
         this.dificultad = dificultad;
-    }
-
-    /**
-     * Formatea segundos a formato MM:SS
-     * @param {number} segundos - Tiempo en segundos
-     * @returns {string} - Tiempo formateado (ej: "2:05")
-     */
-    formatearTiempo(segundos) {
-        const mins = Math.floor(Math.abs(segundos) / 60);
-        const segs = Math.abs(segundos) % 60;
-        return `${mins}:${segs.toString().padStart(2, '0')}`;
     }
 
     /**
@@ -106,18 +99,20 @@ export class HUD {
      * Dibuja los botones de control en el canvas
      * @param {boolean} audioMuteado - Estado del audio para mostrar el icono correcto
      */
+
     dibujarBotones(audioMuteado = false) {
         this.ctx.save();
 
         for (const boton of this.botones) {
-            // Fondo del botón
-            this.ctx.fillStyle = boton.color;
-            this.ctx.fillRect(boton.x, boton.y, boton.width, boton.height);
 
-            // Borde del botón
-            this.ctx.strokeStyle = boton.colorBorde;
-            this.ctx.lineWidth = 3;
-            this.ctx.strokeRect(boton.x, boton.y, boton.width, boton.height);
+            aplicarSombra(this.ctx, SOMBRAS.botonIcono);
+            drawRoundedRect(this.ctx, boton.x, boton.y, boton.width, boton.height, 5);
+            this.ctx.fillStyle = COLORES.fondoModal;
+            this.ctx.fill();
+            this.ctx.strokeStyle = COLORES.botonIconoBorde;
+            this.ctx.lineWidth = 5;
+            this.ctx.stroke();
+            limpiarSombra(this.ctx);
 
             // Emoji del botón
             this.ctx.font = FUENTES.textoGrande;
@@ -152,8 +147,11 @@ export class HUD {
         const x = this.canvas.width - this.canvas.width / 8 - buttonWidth / 2;
         const y = this.canvas.height / 2 - buttonHeight / 2;
 
+
+        aplicarSombra(this.ctx, SOMBRAS.botonAyuda);
         this.ctx.fillStyle = COLORES.botonAyuda;
         this.ctx.fillRect(x, y, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         // Borde
         this.ctx.strokeStyle = COLORES.botonAyudaBorde;
@@ -218,15 +216,13 @@ export class HUD {
         this.ctx.textBaseline = 'top';
 
         // === BOX 1: TIEMPO ===
-        const altoBoxTiempo = 70;  // 👈 CAMBIAR - Siempre el mismo alto
-
-        // Fondo de la box de tiempo
+        const altoBoxTiempo = 70;
+        drawRoundedRect(this.ctx, margen - 10, yPos, 200, altoBoxTiempo, 10);
         this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
+        this.ctx.fill();
 
         // Línea 1: Tiempo actual
         this.ctx.font = FUENTES.textoPequeño;
-
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
             const tiempoRestante = this.tiempoLimite - this.tiempoActual;
 
@@ -241,13 +237,14 @@ export class HUD {
             this.ctx.fillStyle = '#4499ff';
         }
 
-        this.ctx.fillText(`⏱️ Tiempo: ${this.formatearTiempo(this.tiempoActual)}`, margen, yPos + 10); 
+        this.ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(this.tiempoActual)}`, margen, yPos + 10);
+        
         // Línea 2: Límite o "Sin tiempo límite"
         this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoSecundario;
 
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
-            this.ctx.fillText(`Tiempo límite: ${this.formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
+            this.ctx.fillText(`Tiempo límite: ${formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
         } else {
             this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);
         }
@@ -255,8 +252,9 @@ export class HUD {
         yPos += altoBoxTiempo + espacioEntreBoxes;
 
         // === BOX 2: NIVEL ===
+        drawRoundedRect(this.ctx, margen - 10, yPos, 200, 40, 10);
         this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, 40);
+        this.ctx.fill();
 
         this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoPrimario;
@@ -265,9 +263,9 @@ export class HUD {
         yPos += 40 + espacioEntreBoxes;
 
         // === BOX 3: DIFICULTAD ===
+        drawRoundedRect(this.ctx, margen - 10, yPos, 200, 40, 10);
         this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, 40);
-
+        this.ctx.fill();
         this.ctx.font = FUENTES.textoPequeño;
 
         // "Dificultad:" en blanco
@@ -297,7 +295,6 @@ export class HUD {
 
         this.ctx.fillText(this.dificultad, margen + anchoDificultad, yPos + 12);
 
-        // Dibujar botones de control
         this.dibujarBotones(audioMuteado);
         this.dibujarBotonAyuda();
 

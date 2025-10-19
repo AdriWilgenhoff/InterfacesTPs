@@ -172,46 +172,6 @@ export function aplicarFiltroBrillo(ctx, canvas, porcentaje) {
 }
 
 /**
- * Crea efecto pixelado agrupando píxeles en bloques
- * @param {number} tamanioBloque - Tamaño de cada bloque de píxeles (default: 10)
- */
-export function aplicarFiltroPixelado(ctx, canvas, tamanioBloque = 10) {
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    // Recorrer la imagen en bloques
-    for (let y = 0; y < imageData.height; y += tamanioBloque) {
-        for (let x = 0; x < imageData.width; x += tamanioBloque) {
-            let rSum = 0, gSum = 0, bSum = 0, count = 0;
-
-            // Calcular promedio de color del bloque
-            for (let by = 0; by < tamanioBloque && y + by < imageData.height; by++) {
-                for (let bx = 0; bx < tamanioBloque && x + bx < imageData.width; bx++) {
-                    const pixel = getPixel(imageData, x + bx, y + by);
-                    rSum += pixel.r;
-                    gSum += pixel.g;
-                    bSum += pixel.b;
-                    count++;
-                }
-            }
-
-            const rAvg = rSum / count;
-            const gAvg = gSum / count;
-            const bAvg = bSum / count;
-
-            // Aplicar el promedio a todos los píxeles del bloque
-            for (let by = 0; by < tamanioBloque && y + by < imageData.height; by++) {
-                for (let bx = 0; bx < tamanioBloque && x + bx < imageData.width; bx++) {
-                    const pixel = getPixel(imageData, x + bx, y + by);
-                    setPixel(imageData, x + bx, y + by, rAvg, gAvg, bAvg, pixel.a);
-                }
-            }
-        }
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-}
-
-/**
  * Aplica un filtro por su nombre (helper function)
  * @param {string} nombreFiltro - Nombre del filtro a aplicar
  * @param {CanvasRenderingContext2D} ctx - Contexto del canvas
@@ -229,13 +189,10 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
             aplicarFiltroNegativo(ctx, canvas);
             break;
         case 'brillo':
-            aplicarFiltroBrillo(ctx, canvas, 50);
-            break;
-        case 'pixelado':
-            aplicarFiltroPixelado(ctx, canvas, 10);
+            aplicarFiltroBrillo(ctx, canvas, 70);
             break;
         case 'blur':
-            aplicarFiltroBlur(ctx, canvas, 1);
+            aplicarFiltroBlur(ctx, canvas, 2);
             break;
         case 'ninguno':
             break;
@@ -245,7 +202,14 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
 }
 
 
-/* DEGRADE */
+/* DEGRADE NATIVO*/
+export function crearDegradadoModal(ctx, colorInicio, colorFin, x, y, width, height) {
+    const gradient = ctx.createLinearGradient(x, y, x, y + height); // Degradado vertical
+    gradient.addColorStop(0, `rgb(${colorInicio.r}, ${colorInicio.g}, ${colorInicio.b})`);
+    gradient.addColorStop(1, `rgb(${colorFin.r}, ${colorFin.g}, ${colorFin.b})`);
+    return gradient;
+}
+
 
 /**
  * Dibuja un degradado vertical de 2 colores usando setPixel.
@@ -253,7 +217,7 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
  * @param {{r,g,b}} colorInicio - Objeto con el color de inicio.
  * @param {{r,g,b}} colorFin - Objeto con el color final.
  */
-function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
+export function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
     const canvas = ctx.canvas;
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
@@ -269,45 +233,6 @@ function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
         // 3. Aplicar el color calculado a toda la fila
         for (let x = 0; x < canvas.width; x++) {
             setPixel(imageData, x, y, r, g, b, 255); // 255 para alfa opaco
-        }
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-}
-
-/**
- * Dibuja un degradado vertical de 3 colores usando setPixel.
- * @param {CanvasRenderingContext2D} ctx
- * @param {{r,g,b}} color1 - Color de inicio.
- * @param {{r,g,b}} color2 - Color del medio.
- * @param {{r,g,b}} color3 - Color final.
- */
-export function dibujarDegradado3Colores(ctx, color1, color2, color3) {
-    const canvas = ctx.canvas;
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const mitad = canvas.height / 2;
-
-    for (let y = 0; y < canvas.height; y++) {
-        let r, g, b;
-
-        if (y < mitad) {
-            // --- PRIMERA MITAD: de color1 a color2 ---
-            // El factor debe ir de 0 a 1 dentro de esta mitad
-            const factor = y / mitad;
-            r = color1.r + (color2.r - color1.r) * factor;
-            g = color1.g + (color2.g - color1.g) * factor;
-            b = color1.b + (color2.b - color1.b) * factor;
-        } else {
-            // --- SEGUNDA MITAD: de color2 a color3 ---
-            // El factor también debe ir de 0 a 1 dentro de esta segunda mitad
-            const factor = (y - mitad) / mitad;
-            r = color2.r + (color3.r - color2.r) * factor;
-            g = color2.g + (color3.g - color2.g) * factor;
-            b = color2.b + (color3.b - color2.b) * factor;
-        }
-
-        for (let x = 0; x < canvas.width; x++) {
-            setPixel(imageData, x, y, r, g, b, 255);
         }
     }
 
@@ -340,12 +265,3 @@ export function limpiarSombra(ctx) {
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
 }
-
-// Presets de sombras comunes
-export const SOMBRAS = {
-    suave: { color: 'rgba(0, 0, 0, 0.3)', blur: 10, offsetY: 2 },
-    media: { color: 'rgba(0, 0, 0, 0.4)', blur: 15, offsetY: 4 },
-    fuerte: { color: 'rgba(0, 0, 0, 0.6)', blur: 20, offsetY: 8 },
-    glow: { color: '#4CAF50', blur: 25, offsetX: 0, offsetY: 0 },
-    interna: { color: 'rgba(0, 0, 0, 0.4)', blur: 8, offsetY: -2 }
-};

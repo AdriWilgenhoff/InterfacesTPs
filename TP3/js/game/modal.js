@@ -1,7 +1,9 @@
 // modal.js - Sistema de modales/popups para mostrar resultados del nivel
 
 import { getTotalNiveles } from "./levels.js";
-import { COLORES, FUENTES } from './constans.js';
+import { COLORES, FUENTES, SOMBRAS } from './constans.js';
+import { formatearTiempo, drawRoundedRect } from "./utils.js";
+import { aplicarSombra, limpiarSombra, dibujarDegradado2Colores, crearDegradadoModal } from './filtros.js';
 
 export class Modal {
     constructor(canvas, ctx) {
@@ -67,17 +69,6 @@ export class Modal {
     }
 
     /**
-     * Formatea segundos a formato MM:SS
-     * @param {number} segundos - Tiempo en segundos
-     * @returns {string} - Tiempo formateado
-     */
-    formatearTiempo(segundos) {
-        const mins = Math.floor(Math.abs(segundos) / 60);
-        const segs = Math.abs(segundos) % 60;
-        return `${mins}:${segs.toString().padStart(2, '0')}`;
-    }
-
-    /**
      * Dibuja el modal en el canvas
      */
     dibujar() {
@@ -94,27 +85,41 @@ export class Modal {
         const modalHeight = 350;
         const modalX = (this.canvas.width - modalWidth) / 2;
         const modalY = (this.canvas.height - modalHeight) / 2;
+        const borderRadius = 20; // Radio de las esquinas, puedes ajustarlo
 
-        // Fondo blanco del modal
-        this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(modalX, modalY, modalWidth, modalHeight);
+        // --- DIBUJAR EL FONDO DEL MODAL CON DEGRADADO Y BORDES REDONDEADOS ---
+        this.ctx.beginPath(); // Inicia un nuevo camino para la forma redondeada
+        drawRoundedRect(this.ctx, modalX, modalY, modalWidth, modalHeight, borderRadius); // Dibuja la forma
 
-        // Borde del modal
-         this.ctx.lineWidth = 3;
+        // Aplica el degradado como estilo de relleno
+        const color3 = { r: 18, g: 20, b: 28 };
+        const color1 = { r: 55, g: 62, b: 75 };
+        this.ctx.fillStyle = crearDegradadoModal(this.ctx, color3, color1, modalX, modalY, modalWidth, modalHeight);
 
-        // Dibujar contenido según el tipo de modal
-        if (this.tipo === 'completado') {
+        this.ctx.fill(); // Rellena la forma redondeada con el degradado
+
+        // --- DIBUJAR EL BORDE DEL MODAL (TAMBIÉN REDONDEADO) ---
+        //this.ctx.lineWidth = 0; // Ancho del borde
+
+        // Determinar el color del borde según el tipo de modal
+        /*if (this.tipo === 'completado') {
             this.ctx.strokeStyle = COLORES.botonPrimario;
-            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
-            this.dibujarCompletado(modalX, modalY, modalWidth, modalHeight);
         } else if (this.tipo === 'fallido') {
             this.ctx.strokeStyle = COLORES.botonPeligro;
-            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
-            this.dibujarFallido(modalX, modalY, modalWidth, modalHeight);
         } else if (this.tipo === 'juegoCompletado') {
             this.ctx.strokeStyle = COLORES.juegoTerminado;
-            this.ctx.strokeRect(modalX, modalY, modalWidth, modalHeight);
-            this.dibujarJuegoCompletado(modalX, modalY, modalWidth, modalHeight);
+        }*/
+
+        //this.ctx.stroke(); // Aplica el borde al mismo camino redondeado
+
+        // --- DIBUJAR CONTENIDO ESPECÍFICO DEL MODAL ---
+        // Pasa el borderRadius a las funciones de dibujo de contenido para que los botones lo respeten.
+        if (this.tipo === 'completado') {
+            this.dibujarCompletado(modalX, modalY, modalWidth, modalHeight, borderRadius);
+        } else if (this.tipo === 'fallido') {
+            this.dibujarFallido(modalX, modalY, modalWidth, modalHeight, borderRadius);
+        } else if (this.tipo === 'juegoCompletado') {
+            this.dibujarJuegoCompletado(modalX, modalY, modalWidth, modalHeight, borderRadius);
         }
 
         this.ctx.restore();
@@ -125,28 +130,43 @@ export class Modal {
    */
     dibujarCompletado(x, y, width, height) {
         const centerX = x + width / 2;
-        let currentY = y + 65;
+        let currentY = y + 55;
 
         // Título con número de nivel
         this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.font = FUENTES.botonGrande;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(`🎉 NIVEL ${this.datos.nivel} COMPLETADO 🎉`, centerX, currentY);
+        this.ctx.fillText(`NIVEL ${this.datos.nivel} COMPLETADO`, centerX, currentY);
+
+        currentY += 25;
+        // Ancho y posición de línea.
+        const linePadding = 50;
+        const lineLength = width - (linePadding * 2);
+        const lineStartX = centerX - (lineLength / 2); 
+        const lineEndX = centerX + (lineLength / 2);   
+
+        // Dibujar línea
+        this.ctx.beginPath();
+        this.ctx.moveTo(lineStartX, currentY);
+        this.ctx.lineTo(lineEndX, currentY);
+        this.ctx.strokeStyle = COLORES.textoPrimario;
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+
 
         this.ctx.font = FUENTES.textoNormal;
         this.ctx.fillStyle = COLORES.textoPrimario;
 
         currentY += 55;
-        // const dificultad = this.datos.dificultad;//.charAt(0).toUpperCase() + this.datos.dificultad.slice(1);
-        this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
+         this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
 
         currentY += 35;
-        this.ctx.fillText(`⏱️ Tiempo empleado: ${this.formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
+        this.ctx.fillText(`⏱️ Tiempo empleado: ${formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
 
         currentY += 35;
         this.ctx.fillText(`🔄 Movimientos: ${this.datos.movimientos}`, centerX, currentY);
 
-        currentY += 60;
+        currentY += 55;
 
         const buttonWidth = 220;
         const buttonHeight = 55;
@@ -180,8 +200,10 @@ export class Modal {
         const textoBotonSiguiente = esUltimoNivel ? 'VER ESTADÍSTICAS' : 'SIGUIENTE NIVEL';
 
         // Dibujar botón "Siguiente Nivel" (verde)
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
@@ -192,8 +214,10 @@ export class Modal {
         this.ctx.fillText(textoBotonSiguiente, button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver al Inicio" (rojo)
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;
@@ -216,7 +240,7 @@ export class Modal {
         this.ctx.fillStyle = COLORES.juegoTerminado;
         this.ctx.font = FUENTES.tituloPequeño;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('🏆 ¡FELICITACIONES! 🏆', centerX, currentY);
+        this.ctx.fillText('¡FELICITACIONES!', centerX, currentY);
 
         currentY += 30;
 
@@ -233,7 +257,7 @@ export class Modal {
         this.ctx.font = FUENTES.textoNormal;
         this.ctx.fillStyle = COLORES.textoPrimario;
 
-        this.ctx.fillText(`⏱️ Tiempo total: ${this.formatearTiempo(this.datos.tiempoTotal)}`, centerX, currentY);
+        this.ctx.fillText(`⏱️ Tiempo total: ${formatearTiempo(this.datos.tiempoTotal)}`, centerX, currentY);
 
         currentY += 35;
         this.ctx.fillText(`🔄 Movimientos totales: ${this.datos.movimientosTotales}`, centerX, currentY);
@@ -258,8 +282,10 @@ export class Modal {
         }];
 
         // Dibujar botón
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonSecundario;
         this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonSecundarioBorde;
         this.ctx.lineWidth = 4;
@@ -322,8 +348,10 @@ export class Modal {
         ];
 
         // Dibujar botón "Reintentar"
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPrimario;
         this.ctx.fillRect(button1X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
         this.ctx.lineWidth = 4;
@@ -334,8 +362,10 @@ export class Modal {
         this.ctx.fillText('REINTENTAR', button1X + buttonWidth / 2, buttonY + 35);
 
         // Dibujar botón "Volver"
+        aplicarSombra(this.ctx, SOMBRAS.boton);
         this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.fillRect(button2X, buttonY, buttonWidth, buttonHeight);
+        limpiarSombra(this.ctx);
 
         this.ctx.strokeStyle = COLORES.botonPeligroBorde;
         this.ctx.lineWidth = 4;

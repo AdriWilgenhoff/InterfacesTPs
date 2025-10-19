@@ -9,10 +9,10 @@ export const LEVELS_CONFIG = {
 
   // Dificultad por filtros
   filtros: {
-    facil: ['ninguno'],
+    facil: ['blur'],
     medio: ['escalaGrises', 'sepia'],
-    dificil: ['brillo', 'pixelado'],
-    extremo: ['negativo','pixelado']
+    dificil: ['brillo'],
+    extremo: ['negativo']
   },
 
   // Configuración de timers (en segundos)
@@ -25,7 +25,7 @@ export const LEVELS_CONFIG = {
   }
 };
 
-export const LEVELS = [
+/* export const LEVELS = [
   { nivel: 1, dificultad: 'Fácil', division: 4, filtro: 'facil', timer: 'sinTimer', ayudita: false }, 
   { nivel: 2, dificultad: 'Fácil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: false }, 
   { nivel: 3, dificultad: 'Medio', division: 9, filtro: 'medio', timer: 'sinTimer', ayudita: false },
@@ -37,11 +37,11 @@ export const LEVELS = [
   { nivel: 9, dificultad: 'Extremo', division: 25, filtro: 'dificil', timer: 'rapido', ayudita: true },
   { nivel: 10, dificultad: 'Extremo', division: 25, filtro: 'extremo', timer: 'extremo', ayudita: true }
 ];
-
-/* export const LEVELS = [
-  { nivel: 1, dificultad: 'Extremo', division: 4, filtro: 'medio', timer: 'extremo', ayudita: true }, 
+ */
+export const LEVELS = [
+  { nivel: 1, dificultad: 'Extremo', division: 4, filtro: 'medio', timer: 'extremo', ayudita:false }, 
   { nivel: 2, dificultad: 'Facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
-]; */
+]; 
 
 export function cargarNivel(numeroNivel) {
   const config = LEVELS[numeroNivel - 1];
@@ -65,13 +65,6 @@ export function cargarNivel(numeroNivel) {
     tieneTimer: tiempoLimite !== null,
     ayudita: config.ayudita
   };
-}
-
-// Función auxiliar para formatear el tiempo restante
-export function formatearTiempo(segundos) {
-  const minutos = Math.floor(segundos / 60);
-  const segs = segundos % 60;
-  return `${minutos}:${segs.toString().padStart(2, '0')}`;
 }
 
 // Obtener el total de niveles disponibles
