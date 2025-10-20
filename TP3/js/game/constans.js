@@ -1,3 +1,5 @@
+
+
 // Imágenes
 export const IMAGES = [
   '../assets_game/images/image1.jpg',
@@ -33,7 +35,7 @@ export const COLORES = {
   juegoTerminado: '#FFD700',
 
   // Colores de botones
-  botonPrimario: '#4CAF50',
+  botonPrimario: '#3EBD41',
   botonPrimarioBorde: '#2E7D32',
   botonSecundario: '#2196F3',
   botonSecundarioBorde: '#1565C0',
@@ -41,12 +43,22 @@ export const COLORES = {
   botonPeligroBorde: '#c62828',
   botonAyuda: '#9C27B0',
   botonAyudaBorde: '#6A1B9A',
-  botonIcono: '#2c3e50',
-  botonIconoBorde: '#34495e',
+  botonIcono: '#404447da',
+  botonIconoBorde: '#0d0e0fff',
+
+  modal1: '#575669',
+  modal2:  '#3b3a4a',
+  fondoEspacial: '#010b24e0',//fondo OK
+  fondoTimer: '#a1a2ab',
+  fondoClaro:'#5D6c8c',
+  textoClaro:'#f2E0dc',
+  tituloModalCompletado:'#fdedeaff',
+  selectImage: '#19f0ffff' ,
+  toBeSelectedImage:'#2b73bbff',
 
 
   // Colores de dificultad
-  dificultadFacil: '#44ff44',
+  dificultadFacil: '#3EBD41',
   dificultadMedio: '#ffff44',
   dificultadDificil: '#ffaa44',
   dificultadExtremo: '#ff4444',
@@ -59,26 +71,28 @@ export const COLORES = {
 
   // Colores de fondo
   fondoOscuro: '#1a1a1a',
-  fondoTransparente: 'rgba(0, 0, 0, 0.9)',
+  fondoTransparente: 'rgba(0, 0, 0, 0.4)',
 
   fondoPantalla: '#12141c',
-  fondoModal: '#2c3e50',
+  fondoModal: '#04111fff'
+
+ 
 };
 
 // === Tipografía ===
 export const FUENTES = {
-  tituloGrande: 'bold 80px Roboto',
-  tituloPequeño: 'bold 40px Roboto',
-  subtitulo: 'bold 32px Roboto',
-  botonGrande: 'bold 32px Roboto',
-  botonMedio: 'bold 24px Roboto',
-  botonPequeño: 'bold 20px Roboto',
-  textoGrande: 'bold 28px Roboto',
-  textoMedio: 'bold 24px Roboto',
-  textoNormal: '20px Roboto',
-  textoPequeño: '18px Roboto',
-  hud: 'bold 20px Roboto',
-  hudGrande: 'bold 28px Roboto'
+  tituloGrande: 'bold 80px Orbitron',
+  tituloPequeño: 'bold 40px Orbitron',
+  subtitulo: 'bold 32px Orbitron',
+  botonGrande: 'bold 26px Orbitron',
+  botonMedio: 'bold 20px Orbitron',
+  botonPequeño: 'bold 16px Orbitron',
+  textoGrande: 'bold 28px inter',
+  textoMedio: 'bold 24px inter',
+  textoNormal: '20px inter',
+  textoPequeño: '16px inter',
+  hud: 'bold 18px inter',
+  hudGrande: 'bold 28px inter'
 };
 
 // Sombras

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/navBar.css">
     <link rel="stylesheet" href="../css/game.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/blocka.css">
 
 </head>
 
@@ -357,7 +358,11 @@
                             class="button-game style-comprar pulse-comprar" role="button" target="_blank">COMPRAR</a>
 
                         <!-- Canvas (oculto al inicio) -->
-                        <canvas id="game" width="900" height="475"></canvas>
+                         <div class="gameLauncher">
+                            <canvas id="backgroundGame" width="900" height="475"></canvas>
+                            <canvas id="game" width="900" height="475"></canvas>
+                         </div>                        
+
                     </div>
 
                     <div class="game-board">

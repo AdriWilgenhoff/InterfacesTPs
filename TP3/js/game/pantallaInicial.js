@@ -1,95 +1,129 @@
-// pantallaInicial.js - Pantalla de inicio/menú principal del juego
+import { dibujarDegradado2Colores, aplicarSombra, limpiarSombra } from './filtros.js';
+import { COLORES, FUENTES, SOMBRAS } from './constans.js';
+import { BotonImagen } from './boton.js';
 
-import { dibujarDegradado2Colores, aplicarSombra, limpiarSombra} from './filtros.js';
-import { COLORES, FUENTES, SOMBRAS} from './constans.js';
 export class PantallaInicial {
+
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.visible = true;
-        this.botonRect = null;
+
+        // Canvas opcional de fondo
+        this.backgroundCanvas = document.querySelector('#backgroundGame');
+
+        // Coordenadas del botón
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        const buttonWidth = 350;
+        const buttonHeight = 90;
+        const buttonX = centerX - (buttonWidth ) / 2;
+        const buttonY = centerY - buttonHeight / 2 ;
+
+        // Crear el botón con imágenes
+        this.botonIniciar = new BotonImagen(
+            buttonX,
+            buttonY,
+            buttonWidth,
+            buttonHeight,
+            '../assets_game/images/boton2def.png',  // Imagen normal
+            '../assets_game/images/image2.png',  // Imagen hover
+            'iniciar'
+        );
     }
 
     mostrar() {
         this.visible = true;
+        this.botonIniciar.setVisible(true);
     }
 
     ocultar() {
         this.visible = false;
+        this.botonIniciar.setVisible(false);
     }
 
     dibujar() {
         if (!this.visible) return;
 
-        this.ctx.save();
-        const color1 = { r: 55, g: 62, b: 75 };   // Gris azulado claro 
-        const color2 = { r: 18, g: 20, b: 28 };   // Gris azulado oscuro
+        const ctx = this.ctx;
+        const { width, height } = this.canvas;
+        const centerX = width / 2;
+        const centerY = height / 2;
 
-        dibujarDegradado2Colores(this.ctx, color1, color2);
+        ctx.save();
+        ctx.clearRect(0, 0, width, height);
 
-        const centerX = this.canvas.width / 2;
-        const centerY = this.canvas.height / 2;
+        // Fondo degradado opcional
+        /* const color1 = { r: 55, g: 62, b: 75 };
+        const color2 = { r: 18, g: 20, b: 28 };
+        dibujarDegradado2Colores(ctx, color1, color2); */
 
-        // Título del juego
-        this.ctx.fillStyle = COLORES.textoPrimario;
-        this.ctx.font = FUENTES.tituloGrande;
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('BLOCKA', centerX, centerY - 130);
+        // Título
+        ctx.fillStyle = COLORES.textoPrimario;
+        ctx.font = FUENTES.tituloGrande;
+        ctx.textAlign = 'center';
+        ctx.fillText('BLOCKA', centerX, centerY - 130);
 
-        // Subtítulo descriptivo
-        this.ctx.fillStyle = COLORES.textoSecundario;
-        this.ctx.font = FUENTES.textoMedio;
-        this.ctx.fillText('Rota las piezas para completar la imagen', centerX, centerY - 80);
+        // Subtítulo
+        ctx.fillStyle = COLORES.textoSecundario;
+        ctx.font = FUENTES.textoMedio;
+        ctx.fillText('Rota las piezas para completar la imagen', centerX, centerY - 80);
 
-        // Configuración del botón "INICIAR JUEGO"
-        const buttonWidth = 300;
-        const buttonHeight = 60;
-        const buttonX = centerX - buttonWidth / 2;
-        const buttonY = centerY;
-
-        this.botonRect = {
-            x: buttonX,
-            y: buttonY,
-            width: buttonWidth,
-            height: buttonHeight
-        };
-
-        // Fondo del botón
-        aplicarSombra(this.ctx, SOMBRAS.boton);
-        this.ctx.fillStyle = COLORES.botonPrimario;
-        this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
-        limpiarSombra(this.ctx);
+        // Fondo y sombra del botón
+        aplicarSombra(ctx, SOMBRAS.boton);
+        ctx.fillStyle = '#00000000';
+        ctx.fillRect(
+            this.botonIniciar.x,
+            this.botonIniciar.y,
+            this.botonIniciar.width,
+            this.botonIniciar.height
+        );
+        limpiarSombra(ctx);
 
         // Borde del botón
-        this.ctx.strokeStyle = COLORES.botonPrimarioBorde;
-        this.ctx.lineWidth = 4;
-        this.ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
- 
+     /*    ctx.strokeStyle = COLORES.botonPrimarioBorde;
+        ctx.lineWidth = 4;
+        ctx.strokeRect(
+            this.botonIniciar.x,
+            this.botonIniciar.y,
+            this.botonIniciar.width,
+            this.botonIniciar.height
+        ); */
+
+        // Imagen del botón (hover o normal)
+        this.botonIniciar.dibujar(ctx);
+
         // Texto del botón
-        this.ctx.fillStyle = COLORES.textoPrimario;
-        this.ctx.font = FUENTES.botonGrande;
-        this.ctx.fillText('INICIAR JUEGO', centerX, buttonY + 40);
+        ctx.fillStyle = COLORES.textoPrimario;
+        ctx.font = FUENTES.botonGrande;
+        ctx.fillText('INICIAR JUEGO', centerX, this.botonIniciar.y + 55 );
 
-        // Instrucciones de controles
-        this.ctx.fillStyle = COLORES.textoSecundario;
-        this.ctx.font = FUENTES.textoPequeño;
-        this.ctx.fillText('Clic izquierdo: rota izquierda ↺  |  Clic derecho: rota derecha ↻', centerX, centerY + 150);
+        // Instrucciones
+        ctx.fillStyle = COLORES.textoSecundario;
+        ctx.font = FUENTES.textoPequeño;
+        ctx.fillText(
+            'Clic izquierdo: rota izquierda ↺  |  Clic derecho: rota derecha ↻',
+            centerX,
+            centerY + 150
+        );
 
-        // Explicacion ayuda
-        this.ctx.fillStyle = COLORES.textoSecundario;
-        this.ctx.font = FUENTES.textoPequeño;
-        this.ctx.fillText('Si en un nivel difícil no sabes cómo seguir, usá ayudas para ubicar una pieza. Esto te costará tiempo.', centerX, centerY + 190);
+        // Ayuda
+        ctx.fillText(
+            'Si en un nivel difícil no sabes cómo seguir, usá ayudas para ubicar una pieza. Esto te costará tiempo.',
+            centerX,
+            centerY + 190
+        );
 
+        ctx.restore();
+    }
 
-        this.ctx.restore();
+    actualizarHover(mouseX, mouseY) {
+        if (!this.visible) return;
+        this.botonIniciar.actualizarHover(mouseX, mouseY);
     }
 
     clickEnBoton(x, y) {
-         if (!this.visible || !this.botonRect) return false;
-
-        return x >= this.botonRect.x &&
-            x <= this.botonRect.x + this.botonRect.width &&
-            y >= this.botonRect.y &&
-            y <= this.botonRect.y + this.botonRect.height;
+        if (!this.visible) return false;
+        return this.botonIniciar.estaClickeado(x, y);
     }
 }

@@ -45,6 +45,7 @@ export class SeleccionadorImagen {
     /**
      * Inicia la animación de selección tipo "ruleta"
      */
+
     iniciarSeleccion(imagenFinal, callback) {
         this.visible = true;
         
@@ -116,8 +117,8 @@ export class SeleccionadorImagen {
         this.ctx.save();
         
         // Fondo
-        this.ctx.fillStyle = COLORES.fondoPantalla;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      /*   this.ctx.fillStyle = COLORES.fondoPantalla;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); */
         
         // Título
         this.ctx.fillStyle = COLORES.textoPrimario;
@@ -157,16 +158,16 @@ export class SeleccionadorImagen {
     dibujarMiniatura(img, x, y, tamaño, esSeleccionado) {
         // Fondo
         if (esSeleccionado) {
-            this.ctx.fillStyle = COLORES.botonPrimario;
+            this.ctx.fillStyle = COLORES.selectImage;
             this.ctx.fillRect(x - 10, y - 10, tamaño + 20, tamaño + 20);
             aplicarSombra(this.ctx, SOMBRAS.glow);
         } else {
-            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            this.ctx.fillStyle = 'rgba(160, 201, 169, 0.1)';
             this.ctx.fillRect(x - 5, y - 5, tamaño + 10, tamaño + 10);
         }
         
         // Borde
-        this.ctx.strokeStyle = esSeleccionado ? '#ffffff' : '#666666';
+        this.ctx.strokeStyle = esSeleccionado ? '#ffffffff' : COLORES.toBeSelectedImage;
         this.ctx.lineWidth = esSeleccionado ? 5 : 2;
         this.ctx.strokeRect(x - 5, y - 5, tamaño + 10, tamaño + 10);
         

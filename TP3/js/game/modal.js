@@ -1,9 +1,10 @@
 // modal.js - Sistema de modales/popups para mostrar resultados del nivel
 
 import { getTotalNiveles } from "./levels.js";
-import { COLORES, FUENTES, SOMBRAS } from './constans.js';
-import { formatearTiempo, drawRoundedRect } from "./utils.js";
-import { aplicarSombra, limpiarSombra, dibujarDegradado2Colores, crearDegradadoModal } from './filtros.js';
+import { COLORES, FUENTES, IMAGES, SOMBRAS } from './constans.js';
+import { formatearTiempo, degrade, cargarImagen } from "./utils.js";
+import { aplicarSombra, limpiarSombra } from './filtros.js';
+
 
 export class Modal {
     constructor(canvas, ctx) {
@@ -13,6 +14,25 @@ export class Modal {
         this.tipo = 'completado';    // Tipos: 'completado', 'fallido', 'juegoCompletado'
         this.datos = {};             // Datos específicos del modal (tiempo, nivel, etc.)
         this.botones = [];           // Array de botones clickeables
+        this.imagenFondo = null;     // Imagen de fondo del modal
+        this.imagenCargada = false;  // Flag para saber si la imagen está lista
+        this.urlImg = '../assets_game/images/modal5.png';
+        // Pre-cargar la imagen de fondo del modal
+        this.cargarImagenFondo();
+    }
+    
+    /**
+     * Carga la imagen de fondo del modal de forma asíncrona
+     */
+    async cargarImagenFondo() {
+        try {
+            this.imagenFondo = await cargarImagen(this.urlImg);
+            this.imagenCargada = true;
+            console.log('✅ Imagen de fondo del modal cargada correctamente');
+        } catch (error) {
+            console.warn('⚠️ No se pudo cargar la imagen de fondo del modal, usando degradado:', error);
+            this.imagenCargada = false;
+        }
     }
 
     /**
@@ -81,22 +101,20 @@ export class Modal {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Dimensiones y posición del modal
-        const modalWidth = 500;
-        const modalHeight = 350;
-        const modalX = (this.canvas.width - modalWidth) / 2;
-        const modalY = (this.canvas.height - modalHeight) / 2;
+        const modalWidth = 600;
+        const modalHeight = 340;
+        const modalX = (this.canvas.width - modalWidth ) / 2;
+        const modalY = (this.canvas.height -  modalHeight) / 2;
         const borderRadius = 20; // Radio de las esquinas, puedes ajustarlo
 
-        // --- DIBUJAR EL FONDO DEL MODAL CON DEGRADADO Y BORDES REDONDEADOS ---
-        this.ctx.beginPath(); // Inicia un nuevo camino para la forma redondeada
-        drawRoundedRect(this.ctx, modalX, modalY, modalWidth, modalHeight, borderRadius); // Dibuja la forma
-
-        // Aplica el degradado como estilo de relleno
-        const color3 = { r: 18, g: 20, b: 28 };
-        const color1 = { r: 55, g: 62, b: 75 };
-        this.ctx.fillStyle = crearDegradadoModal(this.ctx, color3, color1, modalX, modalY, modalWidth, modalHeight);
-
-        this.ctx.fill(); // Rellena la forma redondeada con el degradado
+        // --- DIBUJAR EL FONDO DEL MODAL ---
+        // Si la imagen está cargada, usarla como fondo
+        if (this.imagenCargada && this.imagenFondo) {
+            this.ctx.drawImage(this.imagenFondo, modalX - modalX * 0.35 , modalY - modalY * 0.6, modalWidth + modalWidth*0.2, modalHeight+modalHeight*0.25);
+        } else {
+            // Si no hay imagen, usar degradado como fallback
+            degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1');
+        }
 
         // --- DIBUJAR EL BORDE DEL MODAL (TAMBIÉN REDONDEADO) ---
         //this.ctx.lineWidth = 0; // Ancho del borde
@@ -133,7 +151,7 @@ export class Modal {
         let currentY = y + 55;
 
         // Título con número de nivel
-        this.ctx.fillStyle = COLORES.botonPrimario;
+        this.ctx.fillStyle = COLORES.tituloModalCompletado;
         this.ctx.font = FUENTES.botonGrande;
         this.ctx.textAlign = 'center';
         this.ctx.fillText(`NIVEL ${this.datos.nivel} COMPLETADO`, centerX, currentY);
@@ -142,8 +160,8 @@ export class Modal {
         // Ancho y posición de línea.
         const linePadding = 50;
         const lineLength = width - (linePadding * 2);
-        const lineStartX = centerX - (lineLength / 2); 
-        const lineEndX = centerX + (lineLength / 2);   
+        const lineStartX = centerX - (lineLength / 2);
+        const lineEndX = centerX + (lineLength / 2);
 
         // Dibujar línea
         this.ctx.beginPath();
@@ -158,13 +176,13 @@ export class Modal {
         this.ctx.fillStyle = COLORES.textoPrimario;
 
         currentY += 55;
-         this.ctx.fillText(`🎯 Dificultad: ${this.datos.dificultad}`, centerX, currentY);
+        this.ctx.fillText(` Dificultad: ${this.datos.dificultad}`, centerX, currentY);
 
         currentY += 35;
-        this.ctx.fillText(`⏱️ Tiempo empleado: ${formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
+        this.ctx.fillText(`⏱ Tiempo empleado: ${formatearTiempo(this.datos.tiempo)}`, centerX, currentY);
 
         currentY += 35;
-        this.ctx.fillText(`🔄 Movimientos: ${this.datos.movimientos}`, centerX, currentY);
+        this.ctx.fillText(` Movimientos: ${this.datos.movimientos}`, centerX, currentY);
 
         currentY += 55;
 

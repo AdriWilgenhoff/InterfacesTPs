@@ -131,9 +131,11 @@ export class GestorRotacion {
     }
 
     redibujarImagen() {
+
         // 1. Limpiar canvas
-        this.ctx.fillStyle = COLORES.fondoPantalla;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        /* this.ctx.fillStyle = COLORES.fondoPantalla;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); */
 
         const { filas, columnas, tamañoCuadrado, xInicio, yInicio } = this.gridConfig;
         const anchoPortionImg = this.imagen.width / columnas;

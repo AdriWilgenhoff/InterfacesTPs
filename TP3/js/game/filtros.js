@@ -203,12 +203,12 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
 
 
 /* DEGRADE NATIVO*/
-export function crearDegradadoModal(ctx, colorInicio, colorFin, x, y, width, height) {
+ export function crearDegradadoModal(ctx, colorInicio, colorFin, x, y, width, height) {
     const gradient = ctx.createLinearGradient(x, y, x, y + height); // Degradado vertical
     gradient.addColorStop(0, `rgb(${colorInicio.r}, ${colorInicio.g}, ${colorInicio.b})`);
     gradient.addColorStop(1, `rgb(${colorFin.r}, ${colorFin.g}, ${colorFin.b})`);
     return gradient;
-}
+} 
 
 
 /**
@@ -217,13 +217,14 @@ export function crearDegradadoModal(ctx, colorInicio, colorFin, x, y, width, hei
  * @param {{r,g,b}} colorInicio - Objeto con el color de inicio.
  * @param {{r,g,b}} colorFin - Objeto con el color final.
  */
+
 export function dibujarDegradado2Colores(ctx, colorInicio, colorFin) {
     const canvas = ctx.canvas;
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     for (let y = 0; y < canvas.height; y++) {
         // 1. Calcular el factor de progreso (0.0 en la cima, 1.0 en la base)
-        const factor = y / (canvas.height - 1);
+        const factor = t = x / (imageData.width - 1) + y / (imageData.height -1) / 2;
 
         // 2. Interpolar cada canal de color usando el factor
         const r = colorInicio.r + (colorFin.r - colorInicio.r) * factor;

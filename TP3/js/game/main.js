@@ -11,10 +11,18 @@ import { HUD } from './hud.js';
 import { Modal } from './modal.js';
 import { PantallaInicial } from './pantallaInicial.js';
 import { SeleccionadorImagen } from './seleccionadorImagen.js';
+import { Background } from './background.js'
 
 async function inicializarJuego() {
+
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    const backgroundGame = document.querySelector('#backgroundGame');
+
+    const bg = new Background(backgroundGame); 
+
+    bg.start(60); 
 
     const estado = {
         actual: 'inicio',           // 'inicio', 'seleccionando', 'jugando', 'modal', 'completado'
@@ -44,7 +52,16 @@ async function inicializarJuego() {
     const seleccionador = new SeleccionadorImagen(canvas, ctx);
 
     await seleccionador.cargarImagenes(IMAGES);
-    pantallaInicial.dibujar();
+    
+    // Loop de dibujo inicial para la pantalla de inicio
+    const dibujarPantallaInicial = () => {
+        if (estado.actual === 'inicio') {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pantallaInicial.dibujar();
+            requestAnimationFrame(dibujarPantallaInicial);
+        }
+    };
+    dibujarPantallaInicial();
 
     // Resetea estado y vuelve al inicio
     function volverAlInicio() {
