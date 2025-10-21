@@ -9,7 +9,8 @@ export const IMAGES = [
   '../assets_game/images/image5.png',
   '../assets_game/images/image6.png',
   '../assets_game/images/image7.png',
-  '../assets_game/images/image8.png'
+  /* '../assets_game/images/image8.png', */
+  '../assets_game/images/unnamed.jpg'
 ];
 
 // Sonidos
