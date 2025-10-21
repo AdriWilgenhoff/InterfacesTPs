@@ -1,6 +1,6 @@
 
 import { COLORES, FUENTES } from './constans.js';
-import { formatearTiempo } from './utils.js';
+import { formatearTiempo, cargarImagen } from './utils.js';
 
 export class HUD {
     constructor(canvas, ctx, audio = null) {
@@ -16,7 +16,32 @@ export class HUD {
         this.botonAyuda = null;          // Botón de ayuda
         this.ayudaHabilitada = false;     // Si está habilitado o no
         this.actualizarBotones();
+        
+        this.urlImg1 = '../assets_game/images/hud7.png';
+        this.urlImg2 = '../assets_game/images/hud5.png';
+        this.urlImg3 = '../assets_game/images/hud6.png'; 
+
+        this.imagenHud1 = null;
+        this.imagenHud2 = null;
+        this.imagenHud3 = null;
+
+        this.imagenesCargadas = false; 
+
+
+        this.cargarImagenes(); 
     }
+     async cargarImagenes() {
+            try {
+                this.imagenHud1 = await cargarImagen(this.urlImg1);
+                this.imagenHud2 = await cargarImagen(this.urlImg2);
+                this.imagenHud3 = await cargarImagen(this.urlImg3);
+                this.imagenesCargadas = true;
+                console.log('✅ Imagen del hud cargadas correctamente');
+            } catch (error) {
+                console.warn('⚠️ no se cargaron las img del modal ', error);
+                this.imagenesCargadas = false;
+            }
+        }
 
     /**
      * Actualiza el tiempo mostrado en el HUD
@@ -199,7 +224,7 @@ export class HUD {
      * Dibuja todo el HUD en el canvas
      * @param {boolean} audioMuteado - Estado del audio para actualizar el botón de mute
      */
-    dibujar(audioMuteado = false) {
+    async dibujar(audioMuteado = false) {
         const margen = 20;
         const espacioEntreBoxes = 15;
         let yPos = margen;
@@ -211,11 +236,18 @@ export class HUD {
         this.ctx.textBaseline = 'top';
 
         // === BOX 1: TIEMPO ===
-        const altoBoxTiempo = 70;  // 👈 CAMBIAR - Siempre el mismo alto
+        const altoBoxTiempo = 80;  // 👈 CAMBIAR - Siempre el mismo alto
 
         // Fondo de la box de tiempo
-        this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
+        if (this.imagenesCargadas && this.imagenHud1) {
+                    this.ctx.drawImage(this.imagenHud1, margen - 10  , yPos -5, 200 , altoBoxTiempo);
+                } else {
+                    // Si no hay imagen, usar degradado como fallback
+                    /* degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1'); */
+                    this.ctx.fillStyle = COLORES.fondoModal;
+                    this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
+                }
+        
 
         // Línea 1: Tiempo actual
         this.ctx.font = FUENTES.textoPequeño;
@@ -233,38 +265,56 @@ export class HUD {
             this.ctx.fillStyle = '#4499ff';
         }
 
-        this.ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(this.tiempoActual)}`, margen, yPos + 10); 
+        this.ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(this.tiempoActual)}`, margen+5, yPos + 10); 
         // Línea 2: Límite o "Sin tiempo límite"
         this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoSecundario;
 
         if (this.tieneTimerLimite && this.tiempoLimite !== null) {
-            this.ctx.fillText(`Tiempo límite: ${formatearTiempo(this.tiempoLimite)}`, margen, yPos + 42);
+            this.ctx.fillText(`Tiempo límite: ${formatearTiempo(this.tiempoLimite)}`, margen+5, yPos + 42);
         } else {
-            this.ctx.fillText('Sin tiempo límite', margen, yPos + 42);
+            this.ctx.fillText('Sin tiempo límite', margen+5, yPos + 42);
         }
 
         yPos += altoBoxTiempo + espacioEntreBoxes;
 
         // === BOX 2: NIVEL ===
-        this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, 40);
+        if (this.imagenesCargadas && this.imagenHud2) {
+                    this.ctx.drawImage(this.imagenHud3, margen - 10  , yPos -3, 200 , 45);
+                } else {
+                    // Si no hay imagen, usar degradado como fallback
+                    /* degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1'); */
+                   this.ctx.fillStyle = COLORES.fondoModal;
+                    this.ctx.fillRect(margen - 10, yPos, 200, 40);
+                }
+        
+
+        
 
         this.ctx.font = FUENTES.textoPequeño;
         this.ctx.fillStyle = COLORES.textoPrimario;
-        this.ctx.fillText(`📊 Nivel: ${this.nivel}`, margen, yPos + 12);
+        this.ctx.fillText(`📊 Nivel: ${this.nivel}`, margen+5, yPos + 12);
 
         yPos += 40 + espacioEntreBoxes;
 
         // === BOX 3: DIFICULTAD ===
-        this.ctx.fillStyle = COLORES.fondoModal;
-        this.ctx.fillRect(margen - 10, yPos, 200, 40);
+           if (this.imagenesCargadas && this.imagenHud3) {
+                    this.ctx.drawImage(this.imagenHud3, margen -10  , yPos -3, 200 , 45);
+                } else {
+                    // Si no hay imagen, usar degradado como fallback
+                    /* degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1'); */
+                   this.ctx.fillStyle = COLORES.fondoModal;
+                    this.ctx.fillRect(margen - 10, yPos, 200, 40);
+                }
+        
+       /*  this.ctx.fillStyle = COLORES.fondoModal;
+        this.ctx.fillRect(margen - 10, yPos, 200, 40); */
 
         this.ctx.font = FUENTES.textoPequeño;
 
         // "Dificultad:" en blanco
         this.ctx.fillStyle = COLORES.textoPrimario;
-        this.ctx.fillText('🎯 Dificultad: ', margen, yPos + 12);
+        this.ctx.fillText('🎯 Dificultad: ', margen+5, yPos + 12);
 
         // Calcular ancho para posicionar el nombre de la dificultad
         const anchoDificultad = this.ctx.measureText('🎯 Dificultad: ').width;

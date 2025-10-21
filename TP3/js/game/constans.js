@@ -2,15 +2,14 @@
 
 // Imágenes
 export const IMAGES = [
-  '../assets_game/images/image1.jpg',
+  '../assets_game/images/image1.png',
   '../assets_game/images/image2.png',
   '../assets_game/images/image3.png',
   '../assets_game/images/image4.png',
   '../assets_game/images/image5.png',
   '../assets_game/images/image6.png',
   '../assets_game/images/image7.png',
-  /* '../assets_game/images/image8.png', */
-  '../assets_game/images/unnamed.jpg'
+  '../assets_game/images/image8.png'
 ];
 
 // Sonidos
@@ -26,7 +25,7 @@ export const SOUNDS = {
 // === Colores del juego ===
 export const COLORES = {
   // Colores de texto
-  textoPrimario: '#e4e4e4',
+  textoPrimario: '#dadadacc',
   textoSecundario: '#aaaaaa',
   textoOscuro: '#333333',
 

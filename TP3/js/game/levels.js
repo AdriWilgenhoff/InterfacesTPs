@@ -12,7 +12,7 @@ export const LEVELS_CONFIG = {
     facil: ['blur'],
     medio: ['escalaGrises', 'sepia'],
     dificil: ['brillo'],
-    extremo: ['negativo']
+    extremo: ['negativo', 'escalaAzul']
   },
 
   // Configuración de timers (en segundos)
@@ -39,8 +39,8 @@ export const LEVELS_CONFIG = {
 ];
  */
 export const LEVELS = [
-  { nivel: 1, dificultad: 'Extremo', division: 4, filtro: 'medio', timer: 'extremo', ayudita:false }, 
-  { nivel: 2, dificultad: 'Facil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: true }
+  { nivel: 1, dificultad: 'medio', division: 4, filtro: 'extremo', timer: 'extremo', ayudita:false }, 
+  { nivel: 2, dificultad: 'extremo', division: 4, filtro: 'extremo', timer: 'sinTimer', ayudita: true }
 ]; 
 
 export function cargarNivel(numeroNivel) {

@@ -33,7 +33,6 @@ function getPixel(imageData, x, y) {
     };
 }
 
-// ===== FILTROS =====
 
 /**
  * Convierte la imagen a escala de grises
@@ -170,7 +169,23 @@ export function aplicarFiltroBrillo(ctx, canvas, porcentaje) {
 
     ctx.putImageData(imageData, 0, 0);
 }
+export function aplicarFiltroEscalaAzul(ctx, canvas) {
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+    for (let y = 0; y < imageData.height; y++) {
+        for (let x = 0; x < imageData.width; x++) {
+            const pixel = getPixel(imageData, x, y);
+
+            // Calculamos la luminancia como en escala de grises
+            const azul = pixel.r * 0.299 + pixel.g * 0.587 + pixel.b * 0.114;
+
+            // Aplicamos solo al canal azul
+            setPixel(imageData, x, y, 0, 0, azul, pixel.a);
+        }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+}
 /**
  * Aplica un filtro por su nombre (helper function)
  * @param {string} nombreFiltro - Nombre del filtro a aplicar
@@ -181,6 +196,9 @@ export function aplicarFiltroPorNombre(nombreFiltro, ctx, canvas) {
     switch (nombreFiltro) {
         case 'escalaGrises':
             aplicarFiltroEscalaGrises(ctx, canvas);
+            break;
+            case 'escalaAzul':
+            aplicarFiltroEscalaAzul(ctx, canvas);
             break;
         case 'sepia':
             aplicarFiltroSepia(ctx, canvas);
