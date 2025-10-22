@@ -22,7 +22,7 @@ async function inicializarJuego() {
 
     const bg = new Background(backgroundGame); 
 
-    bg.start(60); 
+    bg.start(60);  
 
     const estado = {
         actual: 'inicio',           // 'inicio', 'seleccionando', 'jugando', 'modal', 'completado'

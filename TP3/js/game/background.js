@@ -13,7 +13,7 @@ export class Background {
 
   // Crear partículas
   createParticles() {
-    const num = 400;
+    const num = 250;
     this.particles = [];
 
     for (let i = 0; i < num; i++) {

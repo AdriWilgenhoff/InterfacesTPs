@@ -24,8 +24,8 @@ export const LEVELS_CONFIG = {
     extremo: 60 
   }
 };
-
-/* export const LEVELS = [
+/* 
+export const LEVELS = [
   { nivel: 1, dificultad: 'Fácil', division: 4, filtro: 'facil', timer: 'sinTimer', ayudita: false }, 
   { nivel: 2, dificultad: 'Fácil', division: 4, filtro: 'medio', timer: 'sinTimer', ayudita: false }, 
   { nivel: 3, dificultad: 'Medio', division: 9, filtro: 'medio', timer: 'sinTimer', ayudita: false },
@@ -36,11 +36,11 @@ export const LEVELS_CONFIG = {
   { nivel: 8, dificultad: 'Difícil', division: 16, filtro: 'dificil', timer: 'rapido', ayudita: true },
   { nivel: 9, dificultad: 'Extremo', division: 25, filtro: 'dificil', timer: 'rapido', ayudita: true },
   { nivel: 10, dificultad: 'Extremo', division: 25, filtro: 'extremo', timer: 'extremo', ayudita: true }
-];
- */
+]; */
+
 export const LEVELS = [
-  { nivel: 1, dificultad: 'medio', division: 4, filtro: 'extremo', timer: 'extremo', ayudita:false }, 
-  { nivel: 2, dificultad: 'extremo', division: 4, filtro: 'extremo', timer: 'sinTimer', ayudita: true }
+  { nivel: 1, dificultad: 'medio', division: 4, filtro: 'extremo', timer: 'extremo', ayudita:true }, 
+  /* { nivel: 2, dificultad: 'extremo', division: 4, filtro: 'extremo', timer: 'sinTimer', ayudita: true } */
 ]; 
 
 export function cargarNivel(numeroNivel) {

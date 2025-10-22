@@ -14,11 +14,11 @@ export const IMAGES = [
 
 // Sonidos
 export const SOUNDS = {
-  movimiento: '../assets_game/sounds/move.mp3',
-  nivelCompletado: '../assets_game/sounds/level-complete.mp3',
-  nivelFallido: '../assets_game/sounds/level-failed.mp3',
-  juegoCompletado: '../assets_game/sounds/game-complete.mp3',
-  ayudita: '../assets_game/sounds/help.mp3'
+  movimiento: '../assets_game/sounds/move4.mp3',
+  nivelCompletado: '../assets_game/sounds/level-complete2.mp3',
+  nivelFallido: '../assets_game/sounds/level-fail3.mp3',
+  juegoCompletado: '../assets_game/sounds/game-complete2.mp3',
+  ayudita: '../assets_game/sounds/move2.mp3'
 };
 
 
@@ -28,11 +28,11 @@ export const COLORES = {
   textoPrimario: '#dadadacc',
   textoSecundario: '#aaaaaa',
   textoOscuro: '#333333',
-
+  textoSuccess: '#2196F3',
   bordeBloqueado: '#9C27B0',
   
   bordePieza: '#333333',
-  juegoTerminado: '#FFD700',
+  juegoTerminado: '#8d05ccff',
 
   // Colores de botones
   botonPrimario: '#3EBD41',
@@ -84,11 +84,11 @@ export const FUENTES = {
   tituloGrande: 'bold 80px Orbitron',
   tituloPequeño: 'bold 40px Orbitron',
   subtitulo: 'bold 32px Orbitron',
-  botonGrande: 'bold 26px Orbitron',
+  botonGrande: 'bold 24px Orbitron',
   botonMedio: 'bold 20px Orbitron',
   botonPequeño: 'bold 16px Orbitron',
   textoGrande: 'bold 28px inter',
-  textoMedio: 'bold 24px inter',
+  textoMedio: 'bold 24px Inter',
   textoNormal: '20px inter',
   textoPequeño: '16px inter',
   hud: 'bold 18px inter',
