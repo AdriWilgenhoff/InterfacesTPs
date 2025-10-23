@@ -174,6 +174,6 @@ export async function drawImageScaled(ctx, imageSRC, x , y , width, height) {
     return { x, y, width, height };
 
   } catch (error) {
-    console.error("❌ Error al cargar la imagen:", error);
+    console.error("Error al cargar la imagen:", error);
   }
 }

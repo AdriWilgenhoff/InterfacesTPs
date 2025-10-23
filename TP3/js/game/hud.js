@@ -135,10 +135,9 @@ export class HUD {
 
     dibujarBotones(audioMuteado = false) {
         this.ctx.save();
-
+        this.ctx.fillStyle = COLORES.textoClaro;
         for (const boton of this.botones) {
 
-            
         if (this.imagenesCargadas && this.imagenBotonCuadrado) {
             this.ctx.drawImage(this.imagenBotonCuadrado,boton.x, boton.y, boton.width, boton.height);
         } else {
@@ -150,8 +149,7 @@ export class HUD {
             this.ctx.lineWidth = 3;
             this.ctx.strokeRect(boton.x, boton.y, boton.width, boton.height); 
         }
-           
-
+     
             // Emoji del botón
             this.ctx.font = FUENTES.textoGrande;
             this.ctx.textAlign = 'center';
@@ -260,13 +258,12 @@ export class HUD {
         this.ctx.textBaseline = 'top';
 
         // === BOX 1: TIEMPO ===
-        const altoBoxTiempo = 80;  // 👈 CAMBIAR - Siempre el mismo alto
+        const altoBoxTiempo = 80;
 
         // Fondo de la box de tiempo
         if (this.imagenesCargadas && this.imagenHud1) {
             this.ctx.drawImage(this.imagenHud1, margen - 10, yPos - 5, 200, altoBoxTiempo);
         } else {
-            // Si no hay imagen, usar degradado como fallback
             /* degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1'); */
             this.ctx.fillStyle = COLORES.fondoModal;
             this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
@@ -341,17 +338,17 @@ export class HUD {
         this.ctx.fillText('🎯 Dificultad: ', margen + 5, yPos + 12);
 
         // Calcular ancho para posicionar el nombre de la dificultad
-        const anchoDificultad = this.ctx.measureText('🎯 Dificultad: ').width;
+        const anchoDificultad = this.ctx.measureText('🎯 Dificultad:  ').width;
 
         // Color según dificultad
         switch (this.dificultad.toLowerCase()) {
-            case 'facil':
+            case 'fácil':
                 this.ctx.fillStyle = '#44ff44';
                 break;
             case 'medio':
                 this.ctx.fillStyle = '#ffff44';
                 break;
-            case 'dificil':
+            case 'difícil':
                 this.ctx.fillStyle = '#ffaa44';
                 break;
             case 'extremo':

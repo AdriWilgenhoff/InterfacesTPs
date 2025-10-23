@@ -39,8 +39,8 @@ export const LEVELS = [
 ]; */
 
 export const LEVELS = [
-  { nivel: 1, dificultad: 'medio', division: 4, filtro: 'extremo', timer: 'extremo', ayudita:true }, 
-  /* { nivel: 2, dificultad: 'extremo', division: 4, filtro: 'extremo', timer: 'sinTimer', ayudita: true } */
+  { nivel: 1, dificultad: 'Medio', division: 4, filtro: 'extremo', timer: 'extremo', ayudita:true }, 
+  { nivel: 2, dificultad: 'Difícil', division: 4, filtro: 'extremo', timer: 'sinTimer', ayudita: true }
 ]; 
 
 export function cargarNivel(numeroNivel) {

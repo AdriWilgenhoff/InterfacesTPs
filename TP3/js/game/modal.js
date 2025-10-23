@@ -34,9 +34,9 @@ export class Modal {
             this.imagenBotones = await cargarImagen(this.urlImgBotones);
             /* this.imagenBotonFinal = await cargarImagen(this.urlImgBotonFinal); */
             this.imagenCargada = true;
-            console.log('✅ Imagen de fondo del modal cargada correctamente');
+            console.log('Imagen de fondo del modal cargada correctamente');
         } catch (error) {
-            console.warn('⚠️ No se pudo cargar la imagen de fondo del modal, usando degradado:', error);
+            console.warn('No se pudo cargar la imagen de fondo del modal, usando degradado:', error);
             this.imagenCargada = false;
         }
     }
@@ -160,7 +160,7 @@ export class Modal {
         this.ctx.fillStyle = COLORES.tituloModalCompletado;
         this.ctx.font = FUENTES.botonGrande;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(`NIVEL ${this.datos.nivel} COMPLETADO`, centerX, currentY);
+        this.ctx.fillText("NIVEL  " + this.datos.nivel + "  COMPLETADO", centerX, currentY);
 
         currentY += 25;
         // Ancho y posición de línea.
@@ -263,7 +263,7 @@ export class Modal {
 
         this.ctx.fillStyle = COLORES.botonPeligro;
         this.ctx.font = FUENTES.botonPequeño;
-        this.ctx.fillText('RESTART', button2X  + buttonWidth / 2, buttonY + 35);
+        this.ctx.fillText('INICIO', button2X  + buttonWidth / 2, buttonY + 35);
     }
 
     /**
@@ -418,7 +418,7 @@ export class Modal {
 
     this.ctx.fillStyle = COLORES.botonPeligro;
     this.ctx.font = FUENTES.botonPequeño;
-    this.ctx.fillText('RESTART', button2X + buttonWidth / 2, buttonY + 35);
+    this.ctx.fillText('INICIO', button2X + buttonWidth / 2, buttonY + 35);
 }
     /**
      * Detecta si se hizo click en algún botón del modal
