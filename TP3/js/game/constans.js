@@ -1,5 +1,3 @@
-
-
 // Imágenes
 export const IMAGES = [
   '../assets_game/images/image1.png',
@@ -53,14 +51,13 @@ export const COLORES = {
   //colores Nuevos 
   modal1: '#575669',
   modal2:  '#3b3a4a',
-  fondoEspacial: '#010b24e0',//fondo OK
+  fondoEspacial: '#010b24e0',
   fondoTimer: '#a1a2ab',
   fondoClaro:'#5D6c8c',
   textoClaro:'#f2E0dc',
   tituloModalCompletado:'#fdedeaff',
   selectImage: '#19f0ffff' ,
   toBeSelectedImage:'#2b73bbff',
-
 
   // Colores de dificultad
   dificultadFacil: '#3EBD41',
@@ -80,7 +77,6 @@ export const COLORES = {
 
   fondoPantalla: '#12141c',
   fondoModal: '#04111fff'
-
  
 };
 

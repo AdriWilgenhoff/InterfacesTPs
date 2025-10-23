@@ -8,7 +8,7 @@ export class Background {
     this.particles = [];
     this.createParticles();
 
-    this.intervalId = null; // para controlar la animación
+    this.intervalId = null;
   }
 
   // Crear partículas
@@ -28,7 +28,6 @@ export class Background {
     }
   }
 
-  // Dibujar todas las partículas
   draw() {
     const ctx = this.ctx;
 
@@ -56,9 +55,9 @@ export class Background {
 
   // Inicia la animación usando setInterval
   start(fps = 60) {
-    if (this.intervalId) return; // ya está corriendo
+    if (this.intervalId) return; 
 
-    const intervalo = 1000 / fps; // tiempo entre frames
+    const intervalo = 1000 / fps;
     this.intervalId = setInterval(() => {
       this.draw();
     }, intervalo);

@@ -10,11 +10,9 @@ export class SeleccionadorImagen {
         this.ctx = ctx;
         this.visible = false;
         
-        // Imágenes
-        this.imagenes = [];           // Array de rutas
-        this.imagenesObj = [];        // Array de objetos Image
+        this.imagenes = [];           
+        this.imagenesObj = [];      
         
-        // Animación
         this.animacion = {
             indiceActual: 0,
             indiceFinal: 0,
@@ -45,11 +43,9 @@ export class SeleccionadorImagen {
     /**
      * Inicia la animación de selección tipo "ruleta"
      */
-
     iniciarSeleccion(imagenFinal, callback) {
         this.visible = true;
         
-        // Configurar animación
         this.animacion = {
             indiceActual: 0,
             indiceFinal: this.imagenes.indexOf(imagenFinal),
@@ -59,7 +55,6 @@ export class SeleccionadorImagen {
             callback: callback
         };
         
-        // Iniciar intervalo
         this.animacion.intervalo = setInterval(() => {
             this.actualizarAnimacion();
         }, this.animacion.velocidad);
@@ -74,14 +69,11 @@ export class SeleccionadorImagen {
         
         this.animacion.tiempoTranscurrido += this.animacion.velocidad;
         
-        // Avanzar al siguiente índice (circular)
         this.animacion.indiceActual = (this.animacion.indiceActual + 1) % this.imagenesObj.length;
         
         if (this.animacion.tiempoTranscurrido < DURACION_TOTAL) {
-            // Desacelerar (aumentar velocidad = más lento)
             this.animacion.velocidad += INCREMENTO_VELOCIDAD;
         } else {
-            // Tiempo cumplido - detener en la imagen final
             this.animacion.indiceActual = this.animacion.indiceFinal;
             this.detenerAnimacion();
         }
@@ -115,18 +107,12 @@ export class SeleccionadorImagen {
         if (!this.visible) return;
         
         this.ctx.save();
-        
-        // Fondo
-      /*   this.ctx.fillStyle = COLORES.fondoPantalla;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); */
-        
-        // Título
+
         this.ctx.fillStyle = COLORES.textoPrimario;
         this.ctx.font = FUENTES.tituloPequeño;
         this.ctx.textAlign = 'center';
         this.ctx.fillText('Seleccionando imagen...', this.canvas.width / 2, 70);
         
-        // Grid
         const THUMB_SIZE = 100;
         const ESPACIADO = 30;
         const COLS = 6; 
@@ -156,7 +142,6 @@ export class SeleccionadorImagen {
      * Dibuja una miniatura individual
      */
     dibujarMiniatura(img, x, y, tamaño, esSeleccionado) {
-        // Fondo
         if (esSeleccionado) {
             this.ctx.fillStyle = COLORES.selectImage;
             this.ctx.fillRect(x - 10, y - 10, tamaño + 20, tamaño + 20);
@@ -166,17 +151,14 @@ export class SeleccionadorImagen {
             this.ctx.fillRect(x - 5, y - 5, tamaño + 10, tamaño + 10);
         }
         
-        // Borde
         this.ctx.strokeStyle = esSeleccionado ? '#ffffffff' : COLORES.toBeSelectedImage;
         this.ctx.lineWidth = esSeleccionado ? 5 : 2;
         this.ctx.strokeRect(x - 5, y - 5, tamaño + 10, tamaño + 10);
         
         this.ctx.shadowBlur = 0;
         
-        // Oscurecer no seleccionadas
         this.ctx.globalAlpha = esSeleccionado ? 1.0 : 0.4;
         
-        // Dibujar imagen cubriendo todo el cuadrado
         this.ctx.drawImage(img, x, y, tamaño, tamaño);
         
         this.ctx.globalAlpha = 1.0;

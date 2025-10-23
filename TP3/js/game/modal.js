@@ -102,7 +102,7 @@ export class Modal {
         this.ctx.fillStyle = COLORES.tituloModalCompletado;
         this.ctx.font = FUENTES.botonGrande;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(`NIVEL ${this.datos.nivel} COMPLETADO`, centerX, currentY);
+        this.ctx.fillText(`NIVEL  ${this.datos.nivel}  COMPLETADO`, centerX, currentY);
 
         currentY += 25;
         const linePadding = 50;

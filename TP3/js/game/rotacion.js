@@ -36,9 +36,7 @@ export class GestorRotacion {
         };
 
         // Flag para logs de debug
-        this.DEBUG = true;
-
-        this.inicializarEventos();
+        this.DEBUG = false;
     }
 
     // === Métodos de configuración ===
@@ -62,21 +60,6 @@ export class GestorRotacion {
     removerFiltro() {
         this.filtroCallback = null;
         this.redibujarImagen();
-    }
-
-    // === Event listeners ===
-    
-    inicializarEventos() {
-        this.canvas.addEventListener('click', (e) => {
-            this.rotarCuadrado(e, -90);
-            e.stopPropagation();
-        });
-
-        this.canvas.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            this.rotarCuadrado(e, 90);
-            e.stopPropagation();
-        });
     }
 
     // === Métodos principales ===
@@ -133,10 +116,6 @@ export class GestorRotacion {
     redibujarImagen() {
 
         // 1. Limpiar canvas
-        
-        /* this.ctx.fillStyle = COLORES.fondoPantalla;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); */
-
         const { filas, columnas, tamañoCuadrado, xInicio, yInicio } = this.gridConfig;
         const anchoPortionImg = this.imagen.width / columnas;
         const altoPortionImg = this.imagen.height / filas;
@@ -302,7 +281,6 @@ export class GestorRotacion {
         const indiceAleatorio = Math.floor(Math.random() * cuadradosMalPosicionados.length);
         const cuadradoACorregir = cuadradosMalPosicionados[indiceAleatorio];
 
-        // Debug log
         if (this.DEBUG) {
             console.log(`💡 Ayuda: Corrigiendo pieza ${cuadradoACorregir} de ${this.rotaciones[cuadradoACorregir]}° a 0°`);
             console.log(`🔒 Pieza ${cuadradoACorregir} bloqueada`);
