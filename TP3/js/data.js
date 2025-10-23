@@ -119,8 +119,8 @@ function filterByHeroCard(games) {
     category: "adventure"
   }
 
-  gamesFiltered = [...gamesFiltered, juegoNuestroPeg]
-  gamesFiltered = [...gamesFiltered, juegoNuestroBlocka]
+  gamesFiltered = [juegoNuestroBlocka, ...gamesFiltered]
+  gamesFiltered = [juegoNuestroPeg,...gamesFiltered]
 
   return gamesFiltered;
 }
