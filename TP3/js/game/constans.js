@@ -9,13 +9,18 @@ export const IMAGES = [
   '../assets_game/images/image5.png',
   '../assets_game/images/image6.png',
   '../assets_game/images/image7.png',
-  '../assets_game/images/image8.png'
+  '../assets_game/images/image8.png',
+  '../assets_game/images/image9.png',
+  '../assets_game/images/image10.png',
+  '../assets_game/images/image11.png',
+  '../assets_game/images/image12.png',
+
 ];
 
 // Sonidos
 export const SOUNDS = {
-  movimiento: '../assets_game/sounds/move4.mp3',
-  nivelCompletado: '../assets_game/sounds/level-complete2.mp3',
+  movimiento: '../assets_game/sounds/move7.mp3',
+  nivelCompletado: '../assets_game/sounds/level-complete4.mp3',
   nivelFallido: '../assets_game/sounds/level-fail3.mp3',
   juegoCompletado: '../assets_game/sounds/game-complete2.mp3',
   ayudita: '../assets_game/sounds/move2.mp3'
@@ -45,7 +50,7 @@ export const COLORES = {
   botonAyudaBorde: '#6A1B9A',
   botonIcono: '#404447da',
   botonIconoBorde: '#0d0e0fff',
-
+  //colores Nuevos 
   modal1: '#575669',
   modal2:  '#3b3a4a',
   fondoEspacial: '#010b24e0',//fondo OK

@@ -25,7 +25,7 @@ export class HUD {
        
 
         this.imagenHud1 = null;
-        this.imagenHud2 = null;
+        
         this.imagenHud3 = null;
         this.imagenAyudita = null;
         this.imagenBotonCuadrado = null;
@@ -39,7 +39,7 @@ export class HUD {
     async cargarImagenes() {
         try {
             this.imagenHud1 = await cargarImagen(this.urlImg1);
-            this.imagenHud2 = await cargarImagen(this.urlImg2);
+            
             this.imagenHud3 = await cargarImagen(this.urlImg3);
             this.imagenAyudita = await cargarImagen(this.urlImg4);
             
@@ -135,9 +135,10 @@ export class HUD {
 
     dibujarBotones(audioMuteado = false) {
         this.ctx.save();
-        this.ctx.fillStyle = COLORES.textoClaro;
+
         for (const boton of this.botones) {
 
+            
         if (this.imagenesCargadas && this.imagenBotonCuadrado) {
             this.ctx.drawImage(this.imagenBotonCuadrado,boton.x, boton.y, boton.width, boton.height);
         } else {
@@ -149,7 +150,8 @@ export class HUD {
             this.ctx.lineWidth = 3;
             this.ctx.strokeRect(boton.x, boton.y, boton.width, boton.height); 
         }
-     
+           
+
             // Emoji del botón
             this.ctx.font = FUENTES.textoGrande;
             this.ctx.textAlign = 'center';
@@ -258,12 +260,13 @@ export class HUD {
         this.ctx.textBaseline = 'top';
 
         // === BOX 1: TIEMPO ===
-        const altoBoxTiempo = 80;
+        const altoBoxTiempo = 80;  // 👈 CAMBIAR - Siempre el mismo alto
 
         // Fondo de la box de tiempo
         if (this.imagenesCargadas && this.imagenHud1) {
             this.ctx.drawImage(this.imagenHud1, margen - 10, yPos - 5, 200, altoBoxTiempo);
         } else {
+            // Si no hay imagen, usar degradado como fallback
             /* degrade(this.ctx, COLORES.modal1, COLORES.modal2, modalX, modalY, modalWidth, modalHeight, 'diagonal1'); */
             this.ctx.fillStyle = COLORES.fondoModal;
             this.ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
@@ -300,7 +303,7 @@ export class HUD {
         yPos += altoBoxTiempo + espacioEntreBoxes;
 
         // === BOX 2: NIVEL ===
-        if (this.imagenesCargadas && this.imagenHud2) {
+        if (this.imagenesCargadas && this.imagenHud3) {
             this.ctx.drawImage(this.imagenHud3, margen - 10, yPos - 3, 200, 45);
         } else {
             // Si no hay imagen, usar degradado como fallback
@@ -338,17 +341,17 @@ export class HUD {
         this.ctx.fillText('🎯 Dificultad: ', margen + 5, yPos + 12);
 
         // Calcular ancho para posicionar el nombre de la dificultad
-        const anchoDificultad = this.ctx.measureText('🎯 Dificultad:  ').width;
+        const anchoDificultad = this.ctx.measureText('🎯 Dificultad: ').width;
 
         // Color según dificultad
         switch (this.dificultad.toLowerCase()) {
-            case 'fácil':
+            case 'facil':
                 this.ctx.fillStyle = '#44ff44';
                 break;
             case 'medio':
                 this.ctx.fillStyle = '#ffff44';
                 break;
-            case 'difícil':
+            case 'dificil':
                 this.ctx.fillStyle = '#ffaa44';
                 break;
             case 'extremo':

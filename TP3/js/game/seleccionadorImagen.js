@@ -129,7 +129,7 @@ export class SeleccionadorImagen {
         // Grid
         const THUMB_SIZE = 100;
         const ESPACIADO = 30;
-        const COLS = 4; 
+        const COLS = 6; 
 
         const rows = Math.ceil(this.imagenesObj.length / COLS);
         const gridWidth = (THUMB_SIZE * COLS) + (ESPACIADO * (COLS - 1));

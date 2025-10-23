@@ -38,7 +38,7 @@ export class GestorRotacion {
         // Flag para logs de debug
         this.DEBUG = true;
 
-        //this.inicializarEventos();
+        this.inicializarEventos();
     }
 
     // === Métodos de configuración ===
@@ -66,7 +66,7 @@ export class GestorRotacion {
 
     // === Event listeners ===
     
-    /*inicializarEventos() {
+    inicializarEventos() {
         this.canvas.addEventListener('click', (e) => {
             this.rotarCuadrado(e, -90);
             e.stopPropagation();
@@ -77,7 +77,7 @@ export class GestorRotacion {
             this.rotarCuadrado(e, 90);
             e.stopPropagation();
         });
-    }*/
+    }
 
     // === Métodos principales ===
     
