@@ -1,0 +1,40 @@
+.gameLauncher {
+  position: relative;
+  width: 900px;
+  height: 475px;
+  display: none; /* oculto hasta que se inicie */
+  border-radius: 15px 15px 0 0;
+  overflow: hidden;
+}
+
+.gameLauncher canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#backgroundGame {
+  z-index: 1;
+  display: block; /* Siempre visible cuando el contenedor está activo */
+}
+
+#game {
+  z-index: 2;
+  background: transparent !important; /* Canvas del juego transparente */
+  display: none; /* Oculto inicialmente */
+}
+
+/* Cuando se inicia el juego */
+#game.active {
+  display: block;
+}
+
+.game-media.playing .gameLauncher {
+  display: block; /* Mostrar contenedor cuando el juego está activo */
+}
+
+.hidden {
+  display: none;
+}
