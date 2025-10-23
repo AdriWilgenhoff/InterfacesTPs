@@ -11,13 +11,21 @@ import { HUD } from './hud.js';
 import { Modal } from './modal.js';
 import { PantallaInicial } from './pantallaInicial.js';
 import { SeleccionadorImagen } from './seleccionadorImagen.js';
+import { Background } from './background.js'
 
 async function inicializarJuego() {
+
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
+    const backgroundGame = document.querySelector('#backgroundGame');
+
+    const bg = new Background(backgroundGame);
+
+    bg.start(60);
+
     const estado = {
-        actual: 'inicio',           // 'inicio', 'seleccionando', 'jugando', 'modal', 'completado'
+        actual: 'inicio',
         nivelActual: 1,
         tiempoActual: 0,
         tiempoTotalJuego: 0,
@@ -44,12 +52,36 @@ async function inicializarJuego() {
     const seleccionador = new SeleccionadorImagen(canvas, ctx);
 
     await seleccionador.cargarImagenes(IMAGES);
-    pantallaInicial.dibujar();
+
+    canvas.addEventListener('click', (e) => {
+        if (estado.actual === 'jugando' && gestorRotacion) {
+            gestorRotacion.rotarCuadrado(e, -90);
+            e.stopPropagation();
+        }
+    });
+
+    canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        if (estado.actual === 'jugando' && gestorRotacion) {
+            gestorRotacion.rotarCuadrado(e, 90);
+            e.stopPropagation();
+        }
+    });
+
+    // Loop de dibujo inicial para la pantalla de inicio
+    const dibujarPantallaInicial = () => {
+        if (estado.actual === 'inicio') {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pantallaInicial.dibujar();
+            requestAnimationFrame(dibujarPantallaInicial);
+        }
+    };
+    dibujarPantallaInicial();
 
     // Resetea estado y vuelve al inicio
     function volverAlInicio() {
         detenerTimer();
-        
+
         // Resetear estado
         estado.actual = 'inicio';
         estado.nivelActual = 1;
@@ -62,7 +94,7 @@ async function inicializarJuego() {
         // Mostrar pantalla inicial
         modal.ocultar();
         pantallaInicial.mostrar();
-        
+
         // Loop de dibujo
         const dibujarInicio = () => {
             if (estado.actual === 'inicio') {
@@ -99,33 +131,31 @@ async function inicializarJuego() {
         switch (botonId) {
             case 'siguiente':
                 estado.nivelActual++;
-                
+
                 if (estado.nivelActual > getTotalNiveles()) {
-                    // Todos los niveles completados
                     modal.ocultar();
                     audio.reproducir('juegoCompletado');
                     modal.mostrarJuegoCompletado(
-                        estado.tiempoTotalJuego, 
-                        estado.movimientosTotales, 
+                        estado.tiempoTotalJuego,
+                        estado.movimientosTotales,
                         estado.contadorAyudas
                     );
                     if (gestorRotacion) {
                         gestorRotacion.redibujarImagen();
                     }
                 } else {
-                    // Continuar al siguiente nivel
                     modal.ocultar();
                     estado.actual = 'seleccionando';
                     iniciarSeleccionYNivel(estado.nivelActual);
                 }
                 break;
-                
+
             case 'reintentar':
                 modal.ocultar();
                 estado.actual = 'seleccionando';
                 iniciarSeleccionYNivel(estado.nivelActual);
                 break;
-                
+
             case 'home':
                 volverAlInicio();
                 break;
@@ -217,6 +247,11 @@ async function inicializarJuego() {
             });
 
             gestorRotacion.establecerCallbackCompletado(() => {
+                // Verificar si se pasó del tiempo límite
+                if (estado.tieneTimerLimite && estado.tiempoActual >= estado.tiempoLimiteNivel) {
+                    nivelFallido();
+                    return;
+                }
                 nivelCompletado();
             });
 
@@ -248,6 +283,9 @@ async function inicializarJuego() {
             console.error('Error al cargar la imagen:', error);
         }
     }
+
+
+
 
     function iniciarTimer(tiempoLimite = null) {
         detenerTimer();
@@ -282,7 +320,7 @@ async function inicializarJuego() {
         estado.tiempoTotalJuego += tiempoFinal;
         estado.movimientosTotales += estado.contadorMovimientos;
         estado.actual = 'completado';
-        
+
         detenerTimer();
 
         if (gestorRotacion) {
@@ -317,6 +355,7 @@ async function inicializarJuego() {
     function reiniciarNivel() {
         if (estado.actual !== 'jugando') return;
         estado.actual = 'seleccionando';
+
         iniciarSeleccionYNivel(estado.nivelActual);
     }
 
