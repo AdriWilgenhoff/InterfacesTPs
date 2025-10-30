@@ -188,7 +188,13 @@ export class TableroView {
         // Buscar en orden inverso para obtener la ficha más arriba
         for (let i = this.fichasView.length - 1; i >= 0; i--) {
             if (this.fichasView[i].contienePoint(x, y)) {
-                return this.fichasView[i];
+                const ficha = this.fichasView[i];
+
+                // Mover la ficha al final del array para que se dibuje encima
+                this.fichasView.splice(i, 1);
+                this.fichasView.push(ficha);
+
+                return ficha;
             }
         }
         return null;
