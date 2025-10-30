@@ -9,8 +9,6 @@ export class HudView {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
 
-        this.tiempoInicio = 0;
-        this.tiempoTranscurrido = 0;
         this.movimientos = 0;
         this.fichasRestantes = 0;
 
@@ -30,18 +28,6 @@ export class HudView {
         };
     }
 
-    iniciarTemporizador() {
-        this.tiempoInicio = Date.now();
-        this.tiempoTranscurrido = 0;
-    }
-
-    detenerTemporizador() {
-        if (this.tiempoInicio > 0) {
-            this.tiempoTranscurrido = Math.floor((Date.now() - this.tiempoInicio) / 1000);
-            this.tiempoInicio = 0;
-        }
-    }
-
     actualizarMovimientos(cantidad) {
         this.movimientos = cantidad;
     }
@@ -50,13 +36,7 @@ export class HudView {
         this.fichasRestantes = cantidad;
     }
 
-    renderizar() {
-        // Calcular tiempo actual
-        let tiempoActual = this.tiempoTranscurrido;
-        if (this.tiempoInicio > 0) {
-            tiempoActual = Math.floor((Date.now() - this.tiempoInicio) / 1000);
-        }
-
+    renderizar(tiempoActual, tiempoLimite) {
         // Botón Home
         this.ctx.save();
         dibujarRectanguloRedondeado(
@@ -113,11 +93,19 @@ export class HudView {
         const infoX = this.canvas.width - 200;
         const infoY = 30;
 
-        this.ctx.fillStyle = '#ECF0F1';
         this.ctx.font = 'bold 16px Arial';
         this.ctx.textAlign = 'left';
 
+        // Color del tiempo (rojo si quedan menos de 30 seg en modo descendente)
+        if (tiempoLimite !== null && tiempoActual <= 30 && tiempoActual > 0) {
+            this.ctx.fillStyle = '#E74C3C';
+        } else {
+            this.ctx.fillStyle = '#ECF0F1';
+        }
+
         this.ctx.fillText('Tiempo: ' + formatearTiempo(tiempoActual), infoX, infoY);
+
+        this.ctx.fillStyle = '#ECF0F1';
         this.ctx.fillText('Movimientos: ' + this.movimientos, infoX, infoY + 25);
         this.ctx.fillText('Fichas: ' + this.fichasRestantes, infoX, infoY + 50);
 
@@ -135,15 +123,7 @@ export class HudView {
     }
 
     reiniciar() {
-        this.iniciarTemporizador();
         this.movimientos = 0;
         this.fichasRestantes = 0;
-    }
-
-    getTiempoTranscurrido() {
-        if (this.tiempoInicio > 0) {
-            return Math.floor((Date.now() - this.tiempoInicio) / 1000);
-        }
-        return this.tiempoTranscurrido;
     }
 }

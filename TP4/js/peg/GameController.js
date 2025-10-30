@@ -33,6 +33,11 @@ export class GameController {
         this.eventListeners = [];
         this.imagenFicha = null;
 
+        // Timer
+        this.tiempoActual = 0;
+        this.tiempoLimite = null; // null = ascendente, número = descendente
+        this.timerInterval = null;
+
         this.inicializar();
     }
 
@@ -43,7 +48,7 @@ export class GameController {
             this.imagenFicha = imagen;
             this.vistaTablero.crearFichas(this.modelo, imagen);
             this.configurarEventos();
-            this.vistaHud.iniciarTemporizador();
+            this.iniciarTimer();
             this.renderizar();
         }.bind(this)).catch(function(error) {
             console.error('Error al cargar imagen de ficha:', error);
@@ -216,6 +221,56 @@ export class GameController {
         }
     }
 
+    iniciarTimer(limite = null) {
+        // Detener timer anterior si existe
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+
+        // HARDCODED: cambiar aquí para probar
+        // null = ascendente sin límite
+        // 300 = descendente desde 5 minutos
+        this.tiempoLimite = 20;
+        this.tiempoActual = this.tiempoLimite !== null ? this.tiempoLimite : 0;
+
+        this.timerInterval = setInterval(function() {
+            if (this.tiempoLimite === null) {
+                // Modo ascendente
+                this.tiempoActual++;
+            } else {
+                // Modo descendente
+                this.tiempoActual--;
+
+                // Verificar si se agotó el tiempo
+                if (this.tiempoActual <= 0) {
+                    this.tiempoActual = 0;
+                    this.tiempoAgotado();
+                }
+            }
+        }.bind(this), 1000);
+    }
+
+    tiempoAgotado() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        this.juegoActivo = false;
+
+        const stats = this.modelo.obtenerEstadisticas();
+        this.vistaModal.mostrarDerrota(
+            0,
+            stats.movimientos,
+            stats.fichasRestantes
+        );
+        this.renderizar();
+    }
+
+    detenerTimer() {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+    }
+
     volverAlMenu() {
         // Cambiar estado usando AppState
         this.appState.cambiarAMenu();
@@ -227,6 +282,10 @@ export class GameController {
 
         // Recrear fichas visuales
         this.vistaTablero.crearFichas(this.modelo, this.imagenFicha);
+
+        // Reiniciar timer
+        this.detenerTimer();
+        this.iniciarTimer();
 
         // Reiniciar HUD
         this.vistaHud.reiniciar();
@@ -244,28 +303,26 @@ export class GameController {
 
     verificarEstadoJuego() {
         if (this.modelo.verificarVictoria()) {
-            this.vistaHud.detenerTemporizador();
+            this.detenerTimer();
             this.juegoActivo = false;
 
             const stats = this.modelo.obtenerEstadisticas();
-            const tiempo = this.vistaHud.getTiempoTranscurrido();
 
             this.vistaModal.mostrarVictoria(
-                tiempo,
+                this.tiempoActual,
                 stats.movimientos,
                 stats.fichasRestantes
             );
 
             this.renderizar();
         } else if (this.modelo.verificarDerrota()) {
-            this.vistaHud.detenerTemporizador();
+            this.detenerTimer();
             this.juegoActivo = false;
 
             const stats = this.modelo.obtenerEstadisticas();
-            const tiempo = this.vistaHud.getTiempoTranscurrido();
 
             this.vistaModal.mostrarDerrota(
-                tiempo,
+                this.tiempoActual,
                 stats.movimientos,
                 stats.fichasRestantes
             );
@@ -283,8 +340,8 @@ export class GameController {
         // Renderizar tablero y fichas
         this.vistaTablero.actualizar(this.modelo);
 
-        // Renderizar HUD
-        this.vistaHud.renderizar();
+        // Renderizar HUD pasando el tiempo actual
+        this.vistaHud.renderizar(this.tiempoActual, this.tiempoLimite);
 
         // Renderizar modal si está visible
         if (this.vistaModal.estaVisible()) {
@@ -309,8 +366,8 @@ export class GameController {
         }
         this.eventListeners = [];
 
-        // Detener temporizador
-        this.vistaHud.detenerTemporizador();
+        // Detener timer
+        this.detenerTimer();
 
         // Limpiar canvas
         const ctx = this.canvas.getContext('2d');
