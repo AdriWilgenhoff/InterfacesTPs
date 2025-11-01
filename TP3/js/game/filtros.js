@@ -127,6 +127,7 @@ export function aplicarFiltroBrillo(ctx, canvas, porcentaje) {
 
     ctx.putImageData(imageData, 0, 0);
 }
+
 export function aplicarFiltroEscalaAzul(ctx, canvas) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 

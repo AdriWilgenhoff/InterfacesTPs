@@ -22,16 +22,16 @@ export class MenuView {
         // URLs de imágenes
         this.urlImgFondoMenu = '../assets_game/peg/menu/background.png';
         this.urlImgBotonComenzar = '../assets_game/peg/menu/boton_comenzar.png';
-        this.urlImgBoardClasico = '../assets_game/peg/boards/square49.png';
-        this.urlImgBoardEuropeo = '../assets_game/peg/boards/european.png';
-        this.urlImgBoardCuadrado = '../assets_game/peg/boards/european.png';
-        this.urlImgBoardDiamante = '../assets_game/peg/boards/european.png';
-        this.urlImgBoardTestWin = '../assets_game/peg/boards/european.png';
-        this.urlImgBoardTestFail = '../assets_game/peg/boards/european.png';
-        this.urlImgFicha1 = '../assets_game/peg/bugs/ficha3.png';
-        this.urlImgFicha2 = '../assets_game/peg/bugs/ficha3.png';
-        this.urlImgFicha3 = '../assets_game/peg/bugs/ficha3.png';
-        this.urlImgFicha4 = '../assets_game/peg/bugs/ficha3.png';
+        this.urlImgBoardClasico = '../assets_game/peg/menu/board_clasico.png';
+        this.urlImgBoardEuropeo = '../assets_game/peg/menu/board_europeo.png';
+        this.urlImgBoardCuadrado = '../assets_game/peg/menu/board_cuadrado.png';
+        this.urlImgBoardDiamante = '../assets_game/peg/menu/board_diamante.png';
+        this.urlImgBoardTestWin = '../assets_game/peg/menu/board_test_win.png';
+        this.urlImgBoardTestFail = '../assets_game/peg/menu/board_test_fail.png';
+        this.urlImgFicha1 = '../assets_game/peg/menu/ficha1.png';
+        this.urlImgFicha2 = '../assets_game/peg/menu/ficha2.png';
+        this.urlImgFicha3 = '../assets_game/peg/menu/ficha3.png';
+        this.urlImgFicha4 = '../assets_game/peg/menu/ficha4.png';
 
         // Imágenes cargadas
         this.imgFondoMenu = null;
@@ -42,17 +42,12 @@ export class MenuView {
         this.imgBoardDiamante = null;
         this.imgBoardTestWin = null;
         this.imgBoardTestFail = null;
-        this.imgFicha1 = null;
-        this.imgFicha2 = null;
-        this.imgFicha3 = null;
-        this.imgFicha4 = null;
 
         // Flag de carga
         this.imagenesListas = false;
 
-        // Inicializar (no se puede await en constructor)
-        this.precargarImagenes();
         this.inicializar();
+        this.precargarImagenes();
     }
 
     async precargarImagenes() {
@@ -87,19 +82,6 @@ export class MenuView {
 
             this.imagenesListas = true;
             console.log('✓ Imágenes del menú cargadas correctamente');
-            
-            // Actualizar las referencias de imágenes en los selectores de TABLERO
-            for (let i = 0; i < this.selectoresTablero.length; i++) {
-                const tipo = this.selectoresTablero[i].tipo;
-                this.selectoresTablero[i].img = this.elegirTableroMiniatura(tipo);
-            }
-
-            // Actualizar las referencias de imágenes en los selectores de FICHA
-            for (let i = 0; i < this.selectoresFicha.length; i++) {
-                const indice = this.selectoresFicha[i].indice;
-                this.selectoresFicha[i].img = this.elegirFichaMiniatura(indice);
-            }
-
         } catch (error) {
             console.error('Error al precargar imágenes del menú:', error);
             this.imagenesListas = true;
@@ -133,7 +115,14 @@ export class MenuView {
                 y: tablerosY,
                 ancho: anchoSelector,
                 alto: altoSelector,
-                img: null // Se asignará cuando las imágenes se carguen
+                urlImg:
+                    tipo === 'CLASICO' ? this.urlImgBoardClasico :
+                    tipo === 'EUROPEO' ? this.urlImgBoardEuropeo :
+                    tipo === 'CUADRADO' ? this.urlImgBoardCuadrado :
+                    tipo === 'DIAMANTE' ? this.urlImgBoardDiamante :
+                    tipo === 'TEST_WIN' ? this.urlImgBoardTestWin :
+                    tipo === 'TEST_FAIL' ? this.urlImgBoardTestFail :
+                    null
             });
         }
 
@@ -156,8 +145,7 @@ export class MenuView {
                 x: inicioFichaX + i * (tamFicha + gapFichaX),
                 y: fichaY,
                 ancho: tamFicha,
-                alto: tamFicha,
-                img: null // Se asignará cuando las imágenes se carguen
+                alto: tamFicha
             });
         }
 
@@ -205,12 +193,7 @@ export class MenuView {
             this.ctx.lineWidth = 3;
             this.ctx.stroke();
 
-            // Dibujar imagen si está disponible
-            if (this.imagenesListas && selector.img) {
-                this.ctx.drawImage(selector.img, selector.x, selector.y, 60, 60);
-            } else {
-                dibujarTextoCentrado(this.ctx, selector.tipo, selector.x + selector.ancho / 2, selector.y + selector.alto / 2, '12px Arial', '#ECF0F1');
-            }
+            // (en el futuro se puede dibujar la miniatura con this.ctx.drawImage)
             this.ctx.restore();
         }
 
@@ -229,20 +212,14 @@ export class MenuView {
             this.ctx.lineWidth = 3;
             this.ctx.strokeRect(selector.x, selector.y, selector.ancho, selector.alto);
 
-            // Dibujar imagen si está disponible
-            if (this.imagenesListas && selector.img) {
-                this.ctx.drawImage(selector.img, selector.x, selector.y, selector.ancho, selector.alto);
-            } else {
-                // Fallback: mostrar número
-                dibujarTextoCentrado(
-                    this.ctx,
-                    (i + 1).toString(),
-                    selector.x + selector.ancho / 2,
-                    selector.y + selector.alto / 2,
-                    'bold 24px Arial',
-                    '#ECF0F1'
-                );
-            }
+            dibujarTextoCentrado(
+                this.ctx,
+                (i + 1).toString(),
+                selector.x + selector.ancho / 2,
+                selector.y + selector.alto / 2,
+                'bold 24px Arial',
+                '#ECF0F1'
+            );
             this.ctx.restore();
         }
 
@@ -309,39 +286,5 @@ export class MenuView {
 
     estanImagenesListas() {
         return this.imagenesListas;
-    }
-
-    elegirTableroMiniatura(tipo) {
-        switch (tipo) {
-            case 'Clasico': 
-                return this.imgBoardClasico;
-            case 'Europeo':  
-                return this.imgBoardEuropeo;
-            case 'Cuadrado': 
-                return this.imgBoardCuadrado;
-            case 'Diamante': 
-                return this.imgBoardDiamante;
-            case 'TestWin': 
-                return this.imgBoardTestWin;
-            case 'TestFail': 
-                return this.imgBoardTestFail;
-            default:
-                return null;
-        }
-    }
-
-    elegirFichaMiniatura(indice) {
-        switch (indice) {
-            case 0:
-                return this.imgFicha1;
-            case 1:
-                return this.imgFicha2;
-            case 2:
-                return this.imgFicha3;
-            case 3:
-                return this.imgFicha4;
-            default:
-                return null;
-        }
     }
 }

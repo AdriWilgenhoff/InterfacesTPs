@@ -8,12 +8,14 @@ import { HudView } from './HudView.js';
 import { ModalView } from './ModalView.js';
 import { BUG_IMAGES } from './constants.js';
 import { cargarImagen } from './utils.js';
+/* import {Background} from './background.js'; */
 
 export class GameController {
     constructor(canvas, config, appState) {
         this.canvas = canvas;
         this.config = config;
         this.appState = appState;
+        /* this.background = new Background(canvas); */
 
         // Modelo
         this.modelo = new TableroModel(config.tipoTablero);
@@ -230,7 +232,7 @@ export class GameController {
         // HARDCODED: cambiar aquí para probar
         // null = ascendente sin límite
         // 300 = descendente desde 5 minutos
-        this.tiempoLimite = 20;
+        this.tiempoLimite = null;
         this.tiempoActual = this.tiempoLimite !== null ? this.tiempoLimite : 0;
 
         this.timerInterval = setInterval(function() {
@@ -334,8 +336,10 @@ export class GameController {
     renderizar() {
         // Limpiar canvas
         const ctx = this.canvas.getContext('2d');
-        ctx.fillStyle = '#2C3E50';
+        //fondo background tablero 
+        ctx.fillStyle = '#000000'; 
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
 
         // Renderizar tablero y fichas
         this.vistaTablero.actualizar(this.modelo);

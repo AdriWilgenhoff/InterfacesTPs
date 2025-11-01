@@ -2,7 +2,7 @@
 // MODALVIEW.JS - Vista de Modales
 // ============================================
 
-import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, formatearTiempo } from './utils.js';
+import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, formatearTiempo, cargarImagenes } from './utils.js';
 
 export class ModalView {
     constructor(canvas) {
@@ -18,6 +18,41 @@ export class ModalView {
         // Botones
         this.botonMenu = null;
         this.botonReintentar = null;
+
+        // URLs de imágenes
+        this.urlImgFondoModal = '../assets_game/peg/modal/fondo_modal.png';
+        this.urlImgBotonMenu = '../assets_game/peg/modal/boton_menu.png';
+        this.urlImgBotonReintentar = '../assets_game/peg/modal/boton_reintentar.png';
+
+        // Imágenes cargadas
+        this.imgFondoModal = null;
+        this.imgBotonMenu = null;
+        this.imgBotonReintentar = null;
+
+        // Flag de carga
+        this.imagenesListas = false;
+
+        this.precargarImagenes();
+    }
+
+    async precargarImagenes() {
+        try {
+            const imagenes = await cargarImagenes([
+                this.urlImgFondoModal,
+                this.urlImgBotonMenu,
+                this.urlImgBotonReintentar
+            ]);
+
+            this.imgFondoModal = imagenes[0];
+            this.imgBotonMenu = imagenes[1];
+            this.imgBotonReintentar = imagenes[2];
+
+            this.imagenesListas = true;
+            console.log('✓ Imágenes del modal cargadas correctamente');
+        } catch (error) {
+            console.error('Error al precargar imágenes del modal:', error);
+            this.imagenesListas = true;
+        }
     }
 
     mostrarVictoria(tiempo, movimientos, fichasRestantes) {
@@ -86,27 +121,33 @@ export class ModalView {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Modal
+        // Modal - usar imagen si está disponible
         const modalAncho = 400;
         const modalAlto = 300;
         const modalX = centroX - modalAncho / 2;
         const modalY = centroY - modalAlto / 2;
 
-        this.ctx.save();
-        dibujarRectanguloRedondeado(
-            this.ctx,
-            modalX,
-            modalY,
-            modalAncho,
-            modalAlto,
-            15
-        );
-        this.ctx.fillStyle = '#ECF0F1';
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#34495E';
-        this.ctx.lineWidth = 4;
-        this.ctx.stroke();
-        this.ctx.restore();
+        if (this.imagenesListas && this.imgFondoModal) {
+            // Dibujar imagen de fondo del modal
+            this.ctx.drawImage(this.imgFondoModal, modalX, modalY, modalAncho, modalAlto);
+        } else {
+            // Fallback: dibujar rectángulo con estilo
+            this.ctx.save();
+            dibujarRectanguloRedondeado(
+                this.ctx,
+                modalX,
+                modalY,
+                modalAncho,
+                modalAlto,
+                15
+            );
+            this.ctx.fillStyle = '#ECF0F1';
+            this.ctx.fill();
+            this.ctx.strokeStyle = '#34495E';
+            this.ctx.lineWidth = 4;
+            this.ctx.stroke();
+            this.ctx.restore();
+        }
 
         // Título
         const esVictoria = this.tipoModal === 'victoria';
@@ -134,58 +175,80 @@ export class ModalView {
 
         // Botones
         // Botón Menú
-        this.ctx.save();
-        dibujarRectanguloRedondeado(
-            this.ctx,
-            this.botonMenu.x,
-            this.botonMenu.y,
-            this.botonMenu.ancho,
-            this.botonMenu.alto,
-            8
-        );
-        this.ctx.fillStyle = '#3498DB';
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#2980B9';
-        this.ctx.lineWidth = 3;
-        this.ctx.stroke();
+        if (this.imagenesListas && this.imgBotonMenu) {
+            this.ctx.drawImage(
+                this.imgBotonMenu,
+                this.botonMenu.x,
+                this.botonMenu.y,
+                this.botonMenu.ancho,
+                this.botonMenu.alto
+            );
+        } else {
+            // Fallback: botón dibujado
+            this.ctx.save();
+            dibujarRectanguloRedondeado(
+                this.ctx,
+                this.botonMenu.x,
+                this.botonMenu.y,
+                this.botonMenu.ancho,
+                this.botonMenu.alto,
+                8
+            );
+            this.ctx.fillStyle = '#3498DB';
+            this.ctx.fill();
+            this.ctx.strokeStyle = '#2980B9';
+            this.ctx.lineWidth = 3;
+            this.ctx.stroke();
 
-        dibujarTextoCentrado(
-            this.ctx,
-            'MENU',
-            this.botonMenu.x + this.botonMenu.ancho / 2,
-            this.botonMenu.y + this.botonMenu.alto / 2,
-            'bold 18px Arial',
-            '#FFFFFF'
-        );
-        this.ctx.restore();
+            dibujarTextoCentrado(
+                this.ctx,
+                'MENU',
+                this.botonMenu.x + this.botonMenu.ancho / 2,
+                this.botonMenu.y + this.botonMenu.alto / 2,
+                'bold 18px Arial',
+                '#FFFFFF'
+            );
+            this.ctx.restore();
+        }
 
         
         if (this.tipoModal === 'derrota') {
-        // Botón Reintentar
-        this.ctx.save();
-        dibujarRectanguloRedondeado(
-            this.ctx,
-            this.botonReintentar.x,
-            this.botonReintentar.y,
-            this.botonReintentar.ancho,
-            this.botonReintentar.alto,
-            8
-        );
-        this.ctx.fillStyle = '#27AE60';
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#229954';
-        this.ctx.lineWidth = 3;
-        this.ctx.stroke();
+            // Botón Reintentar
+            if (this.imagenesListas && this.imgBotonReintentar) {
+                this.ctx.drawImage(
+                    this.imgBotonReintentar,
+                    this.botonReintentar.x,
+                    this.botonReintentar.y,
+                    this.botonReintentar.ancho,
+                    this.botonReintentar.alto
+                );
+            } else {
+                // Fallback: botón dibujado
+                this.ctx.save();
+                dibujarRectanguloRedondeado(
+                    this.ctx,
+                    this.botonReintentar.x,
+                    this.botonReintentar.y,
+                    this.botonReintentar.ancho,
+                    this.botonReintentar.alto,
+                    8
+                );
+                this.ctx.fillStyle = '#27AE60';
+                this.ctx.fill();
+                this.ctx.strokeStyle = '#229954';
+                this.ctx.lineWidth = 3;
+                this.ctx.stroke();
 
-        dibujarTextoCentrado(
-            this.ctx,
-            'REINTENTAR',
-            this.botonReintentar.x + this.botonReintentar.ancho / 2,
-            this.botonReintentar.y + this.botonReintentar.alto / 2,
-            'bold 18px Arial',
-            '#FFFFFF'
-        );
-        this.ctx.restore();
+                dibujarTextoCentrado(
+                    this.ctx,
+                    'REINTENTAR',
+                    this.botonReintentar.x + this.botonReintentar.ancho / 2,
+                    this.botonReintentar.y + this.botonReintentar.alto / 2,
+                    'bold 18px Arial',
+                    '#FFFFFF'
+                );
+                this.ctx.restore();
+            }
         }
 
         this.ctx.textAlign = 'start';
@@ -207,5 +270,9 @@ export class ModalView {
 
     estaVisible() {
         return this.visible;
+    }
+
+    estanImagenesListas() {
+        return this.imagenesListas;
     }
 }
