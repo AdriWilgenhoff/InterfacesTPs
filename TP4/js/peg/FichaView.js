@@ -1,9 +1,6 @@
 // ============================================
 // FICHAVIEW.JS - Vista de una Ficha
 // ============================================
-// Clase que representa y renderiza una ficha individual
-// Maneja el drag and drop y animaciones
-
 
 import { puntoEnCirculo } from './utils.js';
 

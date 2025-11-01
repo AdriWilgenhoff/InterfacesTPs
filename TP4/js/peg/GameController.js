@@ -6,8 +6,9 @@ import { TableroModel } from './TableroModel.js';
 import { TableroView } from './TableroView.js';
 import { HudView } from './HudView.js';
 import { ModalView } from './ModalView.js';
-import { BUG_IMAGES } from './constants.js';
+import { BUG_IMAGES, SOUNDS, } from './constants.js';
 import { cargarImagen } from './utils.js';
+import { GestorAudio } from './audio.js';
 /* import {Background} from './background.js'; */
 
 export class GameController {
@@ -37,8 +38,10 @@ export class GameController {
 
         // Timer
         this.tiempoActual = 0;
-        this.tiempoLimite = null; // null = ascendente, número = descendente
+        this.tiempoLimite = null;
         this.timerInterval = null;
+
+        this.audio = new GestorAudio(SOUNDS, 0.6);
 
         this.inicializar();
     }
@@ -46,13 +49,13 @@ export class GameController {
     inicializar() {
         // Cargar imagen de ficha seleccionada
         const rutaFicha = BUG_IMAGES[this.config.indiceFicha];
-        cargarImagen(rutaFicha).then(function(imagen) {
+        cargarImagen(rutaFicha).then(function (imagen) {
             this.imagenFicha = imagen;
             this.vistaTablero.crearFichas(this.modelo, imagen);
             this.configurarEventos();
             this.iniciarTimer();
             this.renderizar();
-        }.bind(this)).catch(function(error) {
+        }.bind(this)).catch(function (error) {
             console.error('Error al cargar imagen de ficha:', error);
         });
     }
@@ -172,6 +175,8 @@ export class GameController {
                 }
 
                 movimientoValido = true;
+                this.audio.reproducir('move');
+
 
                 // Actualizar HUD
                 const stats = this.modelo.obtenerEstadisticas();
@@ -185,6 +190,7 @@ export class GameController {
 
         // Si el movimiento no fue válido, retornar la ficha
         if (!movimientoValido) {
+            this.audio.reproducir('error');
             this.fichaArrastrada.retornarPosicionInicial();
         }
 
@@ -220,24 +226,52 @@ export class GameController {
             this.volverAlMenu();
         } else if (botonHud === 'reiniciar') {
             this.reiniciarPartida();
+        } else if (botonHud === 'mute') {
+            this.toggleMute();
         }
     }
 
-    iniciarTimer(limite = null) {
+    toggleMute() {
+        this.audio.toggleMute();
+        this.renderizar();
+    }
+
+    iniciarTimer() {
         // Detener timer anterior si existe
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
         }
 
-        // HARDCODED: cambiar aquí para probar
-        // null = ascendente sin límite
-        // 300 = descendente desde 5 minutos
-        this.tiempoLimite = null;
+        // Obtener el tiempo límite de la configuración (para mostrar en el HUD)
+        this.tiempoLimite = this.config.tiempoLimiteSegundos || null;
+
+        // ===============================================
+        // MODO ASCENDENTE (ACTUAL)
+        // ===============================================
+        // Siempre inicia en 0 y cuenta hacia arriba
+        this.tiempoActual = 0;
+
+        this.timerInterval = setInterval(function () {
+            this.tiempoActual++;
+            
+            // Verificar si se alcanzó el límite (solo si hay límite configurado)
+            if (this.tiempoLimite !== null && this.tiempoActual >= this.tiempoLimite) {
+                this.tiempoAgotado();
+            }
+        }.bind(this), 1000);
+
+        // ===============================================
+        // MODO DESCENDENTE (COMENTADO - PARA ACTIVAR EN EL FUTURO)
+        // ===============================================
+        // Descomentar las siguientes líneas para usar modo descendente:
+        
+        /*
+        // Inicia con el tiempo límite y cuenta hacia abajo
         this.tiempoActual = this.tiempoLimite !== null ? this.tiempoLimite : 0;
 
-        this.timerInterval = setInterval(function() {
+        this.timerInterval = setInterval(function () {
             if (this.tiempoLimite === null) {
-                // Modo ascendente
+                // Si no hay límite, modo ascendente
                 this.tiempoActual++;
             } else {
                 // Modo descendente
@@ -250,6 +284,7 @@ export class GameController {
                 }
             }
         }.bind(this), 1000);
+        */
     }
 
     tiempoAgotado() {
@@ -259,7 +294,7 @@ export class GameController {
 
         const stats = this.modelo.obtenerEstadisticas();
         this.vistaModal.mostrarDerrota(
-            0,
+            this.tiempoActual,
             stats.movimientos,
             stats.fichasRestantes
         );
@@ -285,7 +320,7 @@ export class GameController {
         // Recrear fichas visuales
         this.vistaTablero.crearFichas(this.modelo, this.imagenFicha);
 
-        // Reiniciar timer
+        // Reiniciar timer con la configuración original
         this.detenerTimer();
         this.iniciarTimer();
 
@@ -307,7 +342,7 @@ export class GameController {
         if (this.modelo.verificarVictoria()) {
             this.detenerTimer();
             this.juegoActivo = false;
-
+            this.audio.reproducir('win');
             const stats = this.modelo.obtenerEstadisticas();
 
             this.vistaModal.mostrarVictoria(
@@ -320,7 +355,7 @@ export class GameController {
         } else if (this.modelo.verificarDerrota()) {
             this.detenerTimer();
             this.juegoActivo = false;
-
+            this.audio.reproducir('lose');
             const stats = this.modelo.obtenerEstadisticas();
 
             this.vistaModal.mostrarDerrota(
@@ -337,15 +372,15 @@ export class GameController {
         // Limpiar canvas
         const ctx = this.canvas.getContext('2d');
         //fondo background tablero 
-        ctx.fillStyle = '#000000'; 
+        ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
+
 
         // Renderizar tablero y fichas
         this.vistaTablero.actualizar(this.modelo);
 
-        // Renderizar HUD pasando el tiempo actual
-        this.vistaHud.renderizar(this.tiempoActual, this.tiempoLimite);
+        // Renderizar HUD pasando el tiempo actual y estado de audio
+        this.vistaHud.renderizar(this.tiempoActual, this.tiempoLimite, this.audio.estaMuteado());
 
         // Renderizar modal si está visible
         if (this.vistaModal.estaVisible()) {

@@ -1,4 +1,4 @@
-// === PRESETS (globales) ===
+// Rutas de imágenes de fichas de insectos
 export const BUG_IMAGES = [
   '../assets_game/peg/bugs/ficha1.jpg',
   '../assets_game/peg/bugs/ficha2.png',
@@ -25,7 +25,7 @@ export const BOARDS = {
     [ 1, 1, 1, 1, 1, 1, 1],
     [-1, 1, 1, 1, 1, 1,-1],
   ],
-  Cuadrado: [
+  /*Cuadrado: [
     [1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1],
@@ -33,7 +33,7 @@ export const BOARDS = {
     [1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1],
-  ],
+  ],*/
   Diamante: [
     [-1,-1,-1,1,-1,-1,-1],
     [-1,-1,1,1,1,-1,-1],
@@ -62,3 +62,34 @@ export const BOARDS = {
     [-1,-1, 0, 0, 0,-1,-1],
   ],
 };
+
+export const BOARD_THUMB_URLS = {
+  Clasico:   '../assets_game/peg/boards/square49.png',
+  Europeo:   '../assets_game/peg/boards/european.png',
+  //Cuadrado:  '../assets_game/peg/boards/square49.png',
+  Diamante:  '../assets_game/peg/boards/diamond25.png',
+  TestWin:   '../assets_game/peg/boards/european.png',
+  TestFail:  '../assets_game/peg/boards/european.png',
+};
+
+export const SOUNDS = {
+  move:  '../assets_game/peg/sounds/movimiento_success.mp3',
+  win:   '../assets_game/peg/sounds/movimiento_success.mp3',
+  lose:  '../assets_game/peg/sounds/movimiento_error.mp3',
+  error: '../assets_game/peg/sounds/movimiento_error.mp3',
+};
+
+// Imágenes del menú
+export const MENU_ASSETS = {
+  background: '../assets_game/peg/menu/background.png',
+  startBtn:   '../assets_game/peg/menu/boton_comenzar.png',
+};
+
+// Presets de tiempo
+export const TIME_PRESETS = [
+  { key: 'none', label: 'Sin timer', seconds: null },
+  { key: '1m',   label: '1 min',     seconds: 1 * 60 },
+  { key: '5m',   label: '5 min',     seconds: 5 * 60 },
+  { key: '10m',  label: '10 min',    seconds: 10 * 60 },
+  { key: '15m',  label: '15 min',    seconds: 15 * 60 },
+];

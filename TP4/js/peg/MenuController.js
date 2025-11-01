@@ -1,5 +1,5 @@
 // ============================================
-// MENUCONTROLLER.JS - Controlador del Menú
+// MENUCONTROLLER.JS - Controlador del Menï¿½
 // ============================================
 
 import { MenuView } from './MenuView.js';
@@ -20,7 +20,6 @@ export class MenuController {
     }
 
     configurarEventos() {
-        // Event listener para clicks
         const clickHandler = this.manejarClick.bind(this);
         this.canvas.addEventListener('click', clickHandler);
         this.eventListeners.push({ tipo: 'click', handler: clickHandler });
@@ -45,7 +44,14 @@ export class MenuController {
             return;
         }
 
-        // Detectar click en botón comenzar
+        // Tiempo
+        const preset = this.menuView.detectarClickTiempo(x, y);
+        if (preset !== null) {
+            this.renderizar();
+            return;
+        }
+
+        // Detectar click en botÃ³n comenzar
         if (this.menuView.detectarClickComenzar(x, y)) {
             this.comenzarJuego();
             return;
@@ -64,9 +70,6 @@ export class MenuController {
 
     comenzarJuego() {
         const config = this.menuView.obtenerConfiguracion();
-
-        // Cambiar estado a juego usando AppState
-        // El main.js detectará el cambio y creará el GameController
         this.appState.cambiarAJuego(config);
     }
 
@@ -75,19 +78,15 @@ export class MenuController {
     }
 
     actualizar() {
-        // El menú no necesita actualización continua
         this.renderizar();
     }
 
     destruir() {
-        // Remover event listeners
         for (let i = 0; i < this.eventListeners.length; i++) {
             const listener = this.eventListeners[i];
             this.canvas.removeEventListener(listener.tipo, listener.handler);
         }
         this.eventListeners = [];
-
-        // Limpiar canvas
         const ctx = this.canvas.getContext('2d');
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
