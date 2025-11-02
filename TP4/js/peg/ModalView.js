@@ -21,8 +21,8 @@ export class ModalView {
 
         // URLs de imágenes
         this.urlImgFondoModal = '../assets_game/peg/modal/fondo_modal.png';
-        this.urlImgBotonMenu = '../assets_game/peg/modal/boton_menu.png';
-        this.urlImgBotonReintentar = '../assets_game/peg/modal/boton_reintentar.png';
+        this.urlImgBotonMenu = '../assets_game/peg/modal/hud8.png';
+        this.urlImgBotonReintentar = '../assets_game/peg/modal/hud8.png';
 
         // Imágenes cargadas
         this.imgFondoModal = null;
@@ -83,36 +83,33 @@ export class ModalView {
 
         this.botonMenu = {
             x: centroX - 180,
-            y: centroY + 80,
+            y: centroY + 55,
             ancho: 150,
             alto: 50
         };
 
         this.botonReintentar = {
             x: centroX + 30,
-            y: centroY + 80,
+            y: centroY + 55,
             ancho: 150,
             alto: 50
         };
     }
 
-     inicializarBotonesWin() {
+    inicializarBotonesWin() {
         const centroX = this.canvas.width / 2;
         const centroY = this.canvas.height / 2;
 
         this.botonMenu = {
-            x: centroX - 180,
-            y: centroY + 80,
+            x: centroX - 75,
+            y: centroY + 55,
             ancho: 150,
             alto: 50
         };
     }
 
-
     renderizar() {
-        if (!this.visible) {
-            return;
-        }
+        if (!this.visible) return;
 
         const centroX = this.canvas.width / 2;
         const centroY = this.canvas.height / 2;
@@ -121,26 +118,17 @@ export class ModalView {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Modal - usar imagen si está disponible
-        const modalAncho = 400;
-        const modalAlto = 300;
+        // Modal - fondo
+        const modalAncho = 560;
+        const modalAlto = 390;
         const modalX = centroX - modalAncho / 2;
         const modalY = centroY - modalAlto / 2;
 
         if (this.imagenesListas && this.imgFondoModal) {
-            // Dibujar imagen de fondo del modal
             this.ctx.drawImage(this.imgFondoModal, modalX, modalY, modalAncho, modalAlto);
         } else {
-            // Fallback: dibujar rectángulo con estilo
             this.ctx.save();
-            dibujarRectanguloRedondeado(
-                this.ctx,
-                modalX,
-                modalY,
-                modalAncho,
-                modalAlto,
-                15
-            );
+            dibujarRectanguloRedondeado(this.ctx, modalX, modalY, modalAncho, modalAlto, 15);
             this.ctx.fillStyle = '#ECF0F1';
             this.ctx.fill();
             this.ctx.strokeStyle = '#34495E';
@@ -151,17 +139,10 @@ export class ModalView {
 
         // Título
         const esVictoria = this.tipoModal === 'victoria';
-        const titulo = esVictoria ? 'VICTORIA!' : 'DERROTA';
+        const titulo = esVictoria ? '¡VICTORIA!' : 'DERROTA';
         const colorTitulo = esVictoria ? '#27AE60' : '#E74C3C';
 
-        dibujarTextoCentrado(
-            this.ctx,
-            titulo,
-            centroX,
-            centroY - 80,
-            'bold 36px Arial',
-            colorTitulo
-        );
+        dibujarTextoCentrado(this.ctx, titulo, centroX, centroY - 80, 'bold 36px Arial', colorTitulo);
 
         // Estadísticas
         const inicioEstadisticas = centroY - 30;
@@ -173,98 +154,65 @@ export class ModalView {
         this.ctx.fillText('Movimientos: ' + this.movimientos, centroX, inicioEstadisticas + 30);
         this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 60);
 
-        // Botones
-        // Botón Menú
+        // === Botones ===
+
+        // MENÚ
         if (this.imagenesListas && this.imgBotonMenu) {
-            this.ctx.drawImage(
-                this.imgBotonMenu,
-                this.botonMenu.x,
-                this.botonMenu.y,
-                this.botonMenu.ancho,
-                this.botonMenu.alto
-            );
+            this.ctx.drawImage(this.imgBotonMenu, this.botonMenu.x, this.botonMenu.y, this.botonMenu.ancho, this.botonMenu.alto);
         } else {
-            // Fallback: botón dibujado
             this.ctx.save();
-            dibujarRectanguloRedondeado(
-                this.ctx,
-                this.botonMenu.x,
-                this.botonMenu.y,
-                this.botonMenu.ancho,
-                this.botonMenu.alto,
-                8
-            );
+            dibujarRectanguloRedondeado(this.ctx, this.botonMenu.x, this.botonMenu.y, this.botonMenu.ancho, this.botonMenu.alto, 8);
             this.ctx.fillStyle = '#3498DB';
             this.ctx.fill();
             this.ctx.strokeStyle = '#2980B9';
             this.ctx.lineWidth = 3;
             this.ctx.stroke();
-
-            dibujarTextoCentrado(
-                this.ctx,
-                'MENU',
-                this.botonMenu.x + this.botonMenu.ancho / 2,
-                this.botonMenu.y + this.botonMenu.alto / 2,
-                'bold 18px Arial',
-                '#FFFFFF'
-            );
             this.ctx.restore();
         }
 
-        
+        // Texto del botón Menú (siempre visible)
+        dibujarTextoCentrado(
+            this.ctx,
+            'MENÚ',
+            this.botonMenu.x + this.botonMenu.ancho / 2,
+            this.botonMenu.y + this.botonMenu.alto / 2 + 5,
+            'bold 18px Arial',
+            '#FFFFFF'
+        );
+
+        // REINTENTAR (solo derrota)
         if (this.tipoModal === 'derrota') {
-            // Botón Reintentar
             if (this.imagenesListas && this.imgBotonReintentar) {
-                this.ctx.drawImage(
-                    this.imgBotonReintentar,
-                    this.botonReintentar.x,
-                    this.botonReintentar.y,
-                    this.botonReintentar.ancho,
-                    this.botonReintentar.alto
-                );
+                this.ctx.drawImage(this.imgBotonReintentar, this.botonReintentar.x, this.botonReintentar.y, this.botonReintentar.ancho, this.botonReintentar.alto);
             } else {
-                // Fallback: botón dibujado
                 this.ctx.save();
-                dibujarRectanguloRedondeado(
-                    this.ctx,
-                    this.botonReintentar.x,
-                    this.botonReintentar.y,
-                    this.botonReintentar.ancho,
-                    this.botonReintentar.alto,
-                    8
-                );
+                dibujarRectanguloRedondeado(this.ctx, this.botonReintentar.x, this.botonReintentar.y, this.botonReintentar.ancho, this.botonReintentar.alto, 8);
                 this.ctx.fillStyle = '#27AE60';
                 this.ctx.fill();
                 this.ctx.strokeStyle = '#229954';
                 this.ctx.lineWidth = 3;
                 this.ctx.stroke();
-
-                dibujarTextoCentrado(
-                    this.ctx,
-                    'REINTENTAR',
-                    this.botonReintentar.x + this.botonReintentar.ancho / 2,
-                    this.botonReintentar.y + this.botonReintentar.alto / 2,
-                    'bold 18px Arial',
-                    '#FFFFFF'
-                );
                 this.ctx.restore();
             }
+
+            // Texto del botón Reintentar (siempre visible)
+            dibujarTextoCentrado(
+                this.ctx,
+                'REINTENTAR',
+                this.botonReintentar.x + this.botonReintentar.ancho / 2,
+                this.botonReintentar.y + this.botonReintentar.alto / 2 + 5,
+                'bold 18px Arial',
+                '#FFFFFF'
+            );
         }
 
         this.ctx.textAlign = 'start';
     }
 
     detectarClickBoton(x, y) {
-        if (!this.visible) {
-            return null;
-        }
-
-        if (puntoEnRectangulo(x, y, this.botonMenu)) {
-            return 'menu';
-        }
-        if (puntoEnRectangulo(x, y, this.botonReintentar)) {
-            return 'reintentar';
-        }
+        if (!this.visible) return null;
+        if (this.botonMenu && puntoEnRectangulo(x, y, this.botonMenu)) return 'menu';
+        if (this.botonReintentar && puntoEnRectangulo(x, y, this.botonReintentar)) return 'reintentar';
         return null;
     }
 

@@ -1,7 +1,7 @@
 // ============================================
 // APPSTATE.JS - Estado Centralizado
 // ============================================
-// Clase que mantiene el estado global de la aplicación
+// Clase que mantiene el estado global de la aplicaciï¿½n
 // Evita callbacks entre controladores usando estado compartido
 
 export class AppState {
@@ -13,7 +13,7 @@ export class AppState {
     }
 
     /**
-     * Inicializa el estado de la aplicación
+     * Inicializa el estado de la aplicaciï¿½n
      */
     inicializar() {
         this.estadoActual = 'menu';
@@ -22,7 +22,7 @@ export class AppState {
     }
 
     /**
-     * Obtiene el estado actual de la aplicación
+     * Obtiene el estado actual de la aplicaciï¿½n
      * @returns {string} 'menu' o 'jugando'
      */
     getEstadoActual() {
@@ -30,8 +30,8 @@ export class AppState {
     }
 
     /**
-     * Obtiene la configuración del juego
-     * @returns {Object|null} Configuración actual del juego
+     * Obtiene la configuraciï¿½n del juego
+     * @returns {Object|null} Configuraciï¿½n actual del juego
      */
     getConfiguracion() {
         return this.configuracionJuego;
@@ -39,14 +39,14 @@ export class AppState {
 
     /**
      * Obtiene el canvas
-     * @returns {HTMLCanvasElement} Canvas de la aplicación
+     * @returns {HTMLCanvasElement} Canvas de la aplicaciï¿½n
      */
     getCanvas() {
         return this.canvas;
     }
 
     /**
-     * Cambia al estado de menú
+     * Cambia al estado de menï¿½
      * Llamado por GameController cuando se presiona Home o Modal
      */
     cambiarAMenu() {
@@ -56,7 +56,7 @@ export class AppState {
     }
 
     /**
-     * Cambia al estado de juego con la configuración dada
+     * Cambia al estado de juego con la configuraciï¿½n dada
      * Llamado por MenuController cuando se presiona Comenzar
      * @param {Object} config - {tipoTablero, indiceFicha}
      */
@@ -75,7 +75,7 @@ export class AppState {
     }
 
     /**
-     * Limpia el controlador actual llamando a su método destruir()
+     * Limpia el controlador actual llamando a su mï¿½todo destruir()
      */
     limpiarControladorActual() {
         if (this.controladorActual && this.controladorActual.destruir) {
@@ -86,7 +86,7 @@ export class AppState {
 
     /**
      * Actualiza el estado (llamado por el loop principal)
-     * Delega la actualización al controlador actual
+     * Delega la actualizaciï¿½n al controlador actual
      */
     actualizarEstado() {
         if (this.controladorActual && this.controladorActual.actualizar) {

@@ -92,8 +92,8 @@
     object-position: center;
     filter: blur(2.5px) brightness(.75);
     margin-bottom: 0;
+    z-index: 2;
 }
-
 
 
 .button-game {
@@ -186,25 +186,48 @@
     justify-content: center;
 }
 
-/* Canvas del juego (oculto por defecto) */
-/* Canvas del juego (oculto por defecto) */
-#game {
+/* Contenedor de los canvas del juego (oculto por defecto) */
+.gameLauncher {
     display: none;
-    /* Oculto al inicio */
+    position: relative;
+    width: 100%;
+    height: 475px;
+}
+
+/* Mostrar contenedor cuando esté activo */
+.gameLauncher.active {
+    display: block;
+}
+
+/* Canvas del juego (ocultos por defecto) */
+#game,
+#backgroundGamePeg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 475px;
     border-radius: 15px 15px 0 0;
-    cursor: pointer;
-    background-color: #1a1a1a;
 }
 
-/* Cuando el juego está activo */
-#game.active {
-    display: block;
-    position: relative;
-    top: auto;
-    left: auto;
+#backgroundGamePeg {
+    z-index: 0;
+    background-color: #02040A; /* Fondo oscuro del circuito */
+    pointer-events: none; /* ✅ NO capturar eventos del mouse */
+}
+
+#game {
     z-index: 1;
+    cursor: pointer;
+    background-color: transparent; /* Transparente para ver el fondo */
+    pointer-events: auto; /* Asegurar que reciba eventos del mouse */
+}
+
+/* Cuando el contenedor está activo, mostrar los canvas */
+.gameLauncher.active #game,
+.gameLauncher.active #backgroundGamePeg {
+    display: block;
 }
 
 /* Cuando el juego está activo, el contenedor ya no necesita position relative */

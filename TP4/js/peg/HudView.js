@@ -39,9 +39,9 @@ export class HudView {
     };
 
     // URLs de imágenes
-    this.urlImg1 = '../assets_game/peg/hud/hud7.png';
-    this.urlImg3 = '../assets_game/peg/hud/hud6.png';
-    this.urlImg5 = '../assets_game/peg/hud/cuadrado6.png';
+    this.urlImg1 = '../assets_game/peg/hud/hud8.png';
+    this.urlImg3 = '../assets_game/peg/hud/hud8.png';
+    this.urlImg5 = '../assets_game/peg/hud/cuadrado7.png';
 
     this.imagenHud1 = null;
     this.imagenHud3 = null;
@@ -107,7 +107,7 @@ export class HudView {
     ctx.textBaseline = 'top';
 
     // ==== BOX: TIEMPO ====
-    const altoBoxTiempo = 80;
+    const altoBoxTiempo = 110;
 
     if (this.imagenesCargadas && this.imagenHud1) {
       ctx.drawImage(this.imagenHud1, margen - 10, yPos - 5, 200, altoBoxTiempo);
@@ -127,17 +127,17 @@ export class HudView {
         ctx.fillStyle = '#44ff44';
       }
     } else {
-      ctx.fillStyle = '#4499ff';
+      ctx.fillStyle = '#000000ff';
     }
 
-    ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(tiempoActual)}`, margen + 5, yPos + 10);
+    ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(tiempoActual)}`, margen + 15, yPos + 25);
 
     ctx.font = '16px inter';
-    ctx.fillStyle = '#aaaaaa';
+    ctx.fillStyle = '#000000ff';
     if (tiempoLimite !== null) {
-      ctx.fillText(`Tiempo límite: ${formatearTiempo(tiempoLimite)}`, margen + 5, yPos + 42);
+      ctx.fillText(`Tiempo límite: ${formatearTiempo(tiempoLimite)}`, margen + 20, yPos + 52);
     } else {
-      ctx.fillText('Sin tiempo límite', margen + 5, yPos + 42);
+      ctx.fillText('Sin tiempo límite', margen + 20, yPos + 52);
     }
 
     yPos += altoBoxTiempo + espacioEntreBoxes;
@@ -163,11 +163,11 @@ export class HudView {
     }
 
     ctx.font = '16px inter';
-    ctx.fillStyle = '#dadadacc';
-    ctx.fillText('🪙 Fichas: ', margen + 5, yPos + 12);
+    ctx.fillStyle = '#000000cc';
+    ctx.fillText('🪙 Fichas: ', margen + 15, yPos + 12);
 
     const anchoTexto = ctx.measureText('🪙 Fichas:  ').width;
-    ctx.fillText(String(this.fichasRestantes), margen + anchoTexto, yPos + 12);
+    ctx.fillText(String(this.fichasRestantes), margen + anchoTexto+15, yPos + 12);
 
     // ==== BOTONES HUD ====
     const emojiMute = audioMuteado ? '🔇' : '🔊';
@@ -178,9 +178,25 @@ export class HudView {
   }
 
   detectarClickBoton(x, y) {
-    if (puntoEnRectangulo(x, y, this.botonHome))      return 'home';
-    if (puntoEnRectangulo(x, y, this.botonReiniciar)) return 'reiniciar';
-    if (puntoEnRectangulo(x, y, this.botonMute))      return 'mute';
+    console.log('Detectando click en HUD:', x, y);
+    console.log('Botón Home:', this.botonHome);
+    console.log('Botón Reiniciar:', this.botonReiniciar);
+    console.log('Botón Mute:', this.botonMute);
+    
+    if (puntoEnRectangulo(x, y, this.botonHome)) {
+      console.log('✓ Click en Home');
+      return 'home';
+    }
+    if (puntoEnRectangulo(x, y, this.botonReiniciar)) {
+      console.log('✓ Click en Reiniciar');
+      return 'reiniciar';
+    }
+    if (puntoEnRectangulo(x, y, this.botonMute)) {
+      console.log('✓ Click en Mute');
+      return 'mute';
+    }
+    
+    console.log('✗ No se detectó click en ningún botón');
     return null;
   }
 

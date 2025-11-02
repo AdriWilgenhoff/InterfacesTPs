@@ -1,6 +1,6 @@
 // Rutas de imágenes de fichas de insectos
 export const BUG_IMAGES = [
-  '../assets_game/peg/bugs/ficha1.jpg',
+  '../assets_game/peg/bugs/ficha1.png',
   '../assets_game/peg/bugs/ficha2.png',
   '../assets_game/peg/bugs/ficha3.png',
   '../assets_game/peg/bugs/ficha4.png',
@@ -64,12 +64,12 @@ export const BOARDS = {
 };
 
 export const BOARD_THUMB_URLS = {
-  Clasico:   '../assets_game/peg/boards/square49.png',
+  Clasico:   '../assets_game/peg/boards/classic.png',
   Europeo:   '../assets_game/peg/boards/european.png',
-  //Cuadrado:  '../assets_game/peg/boards/square49.png',
-  Diamante:  '../assets_game/peg/boards/diamond25.png',
-  TestWin:   '../assets_game/peg/boards/european.png',
-  TestFail:  '../assets_game/peg/boards/european.png',
+  Cuadrado:  '../assets_game/peg/boards/square49.png',
+  Diamante:  '../assets_game/peg/boards/diamond.png',
+  TestWin:   '../assets_game/peg/boards/testwin.png',
+  TestFail:  '../assets_game/peg/boards/testfail.png',
 };
 
 export const SOUNDS = {
@@ -81,8 +81,9 @@ export const SOUNDS = {
 
 // Imágenes del menú
 export const MENU_ASSETS = {
-  background: '../assets_game/peg/menu/background.png',
+  /* background: '../assets_game/peg/menu/background2.png', */
   startBtn:   '../assets_game/peg/menu/boton_comenzar.png',
+  fuente:'',
 };
 
 // Presets de tiempo

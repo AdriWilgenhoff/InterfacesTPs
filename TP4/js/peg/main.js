@@ -140,22 +140,32 @@ function inicializarJuego() {
 
 /**
  * Event listener para cuando el DOM esté listo
+ * Observa el contenedor .gameLauncher para detectar cuando se activa
  */
-window.addEventListener('DOMContentLoaded', function() {
-    const botonIniciar = document.getElementById('btn_jugar');
-    const canvas = document.getElementById('game');
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Cargado - Esperando activación del juego');
+    
+    const gameLauncher = document.querySelector('.gameLauncher'); // Contenedor de los canvas
+    let juegoInicializado = false;
 
-    if (!botonIniciar || !canvas) {
-        console.error('No se encontraron los elementos necesarios');
+    if (!gameLauncher) {
+        console.error('No se encontró el elemento .gameLauncher');
         return;
     }
 
-    botonIniciar.addEventListener('click', function() {
-        // Ocultar botón, mostrar canvas
-        botonIniciar.style.display = 'none';
-        canvas.style.display = 'block';
-
-        // Inicializar juego
-        inicializarJuego();
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                if (gameLauncher.classList.contains('active') && !juegoInicializado) {
+                    console.log('Canvas activado, inicializando juego...');
+                    juegoInicializado = true;
+                    inicializarJuego();
+                    observer.disconnect();
+                }
+            }
+        });
     });
+
+    observer.observe(gameLauncher, { attributes: true });
+    console.log('Observer configurado correctamente');
 });

@@ -68,19 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- Botón comprar/jugar ---
-  let yaComprado = true;
+  let yaComprado = false; // CAMBIADO A FALSE - inicia como "no comprado"
   let juegoIniciado = false;
   const btnJugar = document.getElementById('btn_jugar');
   const gameImage = document.getElementById('game-image');
-  const canvas = document.getElementById('game');
+  const gameLauncher = document.querySelector('.gameLauncher'); // Contenedor de los canvas
   const gameMedia = document.querySelector('.game-media');
 
   if (btnJugar) {
     btnJugar.addEventListener('click', function (event) {
+      console.log('Click en botón, yaComprado:', yaComprado);
       const boton = this;
 
       if (!yaComprado) {
         // Primer click - COMPRAR
+        event.preventDefault(); // Prevenir navegación
+        
+        console.log('Estado: COMPRAR -> Cambiando a JUGAR');
         setTimeout(() => {
           boton.textContent = 'JUGAR';
           boton.classList.remove('style-comprar', 'pulse-comprar');
@@ -88,10 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
           boton.removeAttribute('href');
           boton.removeAttribute('target');
           yaComprado = true;
+          console.log('Botón cambiado a JUGAR');
         }, 100);
       } else {
         // Segundo click - JUGAR
         event.preventDefault();
+        console.log('Estado: JUGAR -> Iniciando juego');
 
         if (!juegoIniciado) {
           // Ocultar imagen y botón
@@ -101,10 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
           // Cambiar contenedor a position static
           gameMedia.classList.add('playing');
 
-          // Mostrar canvas
-          canvas.classList.add('active');
+          // Mostrar contenedor de canvas
+          if (gameLauncher) {
+            gameLauncher.classList.add('active');
+            console.log('Canvas activados');
+          } else {
+            console.error('No se encontró el elemento .gameLauncher');
+          }
 
           juegoIniciado = true;
+          console.log('Juego iniciado');
         }
       }
     });

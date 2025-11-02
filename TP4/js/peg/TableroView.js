@@ -15,8 +15,8 @@ export class TableroView {
         this.numColumnas = numColumnas;
 
         // Dimensiones del tablero y celdas
-        this.tamanioCelda = 60.8;
-        this.tamanioFicha = 50;
+        this.tamanioCelda = 65;
+        this.tamanioFicha = 43;
         this.anchoTablero = this.numColumnas * this.tamanioCelda;
         this.altoTablero = this.numFilas * this.tamanioCelda;
 
@@ -28,9 +28,9 @@ export class TableroView {
         this.fichasView = [];
 
         // Imágenes de celdas
-        this.urlImgCeldaInactiva = '../assets_game/peg/cells/inactive.png';
-        this.urlImgCeldaVacia = '../assets_game/peg/cells/empty.png';
-        this.urlImgCeldaConFicha = '../assets_game/peg/cells/active.png';
+        this.urlImgCeldaInactiva = '../assets_game/peg/cells/inactive2.png';
+        this.urlImgCeldaVacia = '../assets_game/peg/cells/active2.png';
+        this.urlImgCeldaConFicha = '../assets_game/peg/cells/active2.png';
 
         this.imgCeldaInactiva = null;
         this.imgCeldaVacia = null;
@@ -66,6 +66,34 @@ export class TableroView {
             // Incluso con error, marcamos como listas para no bloquear el render
             this.imagenesListas = true;
         }
+    }
+
+    /**
+     * Retorna una promesa que se resuelve cuando las imágenes están listas
+     * @returns {Promise<void>}
+     */
+    esperarImagenes() {
+        return new Promise((resolve) => {
+            // Si ya están listas, resolver inmediatamente
+            if (this.imagenesListas) {
+                resolve();
+                return;
+            }
+
+            // Si no, esperar a que se carguen (máximo 5 segundos)
+            const checkInterval = setInterval(() => {
+                if (this.imagenesListas) {
+                    clearInterval(checkInterval);
+                    resolve();
+                }
+            }, 100);
+
+            // Timeout de seguridad
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                resolve();
+            }, 5000);
+        });
     }
 
     calcularDimensiones() {
@@ -258,6 +286,15 @@ export class TableroView {
     estanImagenesListas() {
         return this.imagenesListas;
     }
+
+    getAreaTablero() {
+    return {
+        x: this.offsetX,
+        y: this.offsetY,
+        ancho: this.anchoTablero,
+        alto: this.altoTablero
+    };
+}
 }
 
 
