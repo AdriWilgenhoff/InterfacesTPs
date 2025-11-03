@@ -32,6 +32,8 @@ export class ModalView {
         // Flag de carga
         this.imagenesListas = false;
 
+        this.motivoDerrota = 'sin_movimientos';
+
         this.precargarImagenes();
     }
 
@@ -64,12 +66,13 @@ export class ModalView {
         this.inicializarBotonesWin();
     }
 
-    mostrarDerrota(tiempo, movimientos, fichasRestantes) {
+    mostrarDerrota(tiempo, movimientos, fichasRestantes, motivo = 'sin_movimientos') {
         this.visible = true;
         this.tipoModal = 'derrota';
         this.tiempo = tiempo;
         this.movimientos = movimientos;
         this.fichasRestantes = fichasRestantes;
+        this.motivoDerrota = motivo;
         this.inicializarBotonesFail();
     }
 
@@ -145,14 +148,24 @@ export class ModalView {
         dibujarTextoCentrado(this.ctx, titulo, centroX, centroY - 80, 'bold 36px Arial', colorTitulo);
 
         // Estadísticas
-        const inicioEstadisticas = centroY - 30;
+        const inicioEstadisticas = centroY - 25;
         this.ctx.fillStyle = '#2C3E50';
         this.ctx.font = 'bold 18px Arial';
         this.ctx.textAlign = 'center';
 
-        this.ctx.fillText('Tiempo: ' + formatearTiempo(this.tiempo), centroX, inicioEstadisticas);
-        this.ctx.fillText('Movimientos: ' + this.movimientos, centroX, inicioEstadisticas + 30);
-        this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 60);
+
+        if (this.tipoModal === 'derrota') {
+            if (this.motivoDerrota === 'tiempo') {
+                this.ctx.fillText('¡Se acabó el tiempo!', centroX, inicioEstadisticas);
+            } else {
+                this.ctx.fillText('¡No quedan movimientos posibles!', centroX, inicioEstadisticas);
+            }
+        } else {
+                this.ctx.fillText('Tiempo: ' + formatearTiempo(this.tiempo), centroX, inicioEstadisticas);
+            }
+
+        //this.ctx.fillText('Movimientos: ' + this.movimientos, centroX, inicioEstadisticas + 30);
+        this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 45);
 
         // === Botones ===
 

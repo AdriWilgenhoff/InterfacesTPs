@@ -247,7 +247,7 @@ export class BackgroundPeg {
 
 
 // ============================================
-// BACKGROUNDMATRIX.JS - Fondo estilo Matrix
+// BACKGROUNDPEG.JS - Fondo estilo Matrix
 // ============================================
 
 export class BackgroundPeg {
@@ -257,70 +257,66 @@ export class BackgroundPeg {
     this.height = height;
     this.cleanArea = cleanArea;
 
-    this.chars = "01";
     this.fontSize = 16;
     this.columns = Math.floor(width / this.fontSize);
 
-    // Cada columna tiene una "y" inicial aleatoria
-    this.drops = Array.from({ length: this.columns }, () => Math.random() * height);
+    this.drops = [];
+    for (let i = 0; i < this.columns; i++) {
+      // Algunas empiezan arriba de la pantalla
+      this.drops[i] = Math.random() * -100;
+    }
 
     this.animando = false;
-    this.tiempoPrevio = 0;
   }
 
-  dibujar(delta = 16) {
+  dibujar() {
     const ctx = this.ctx;
 
-    // Fondo semi-transparente para efecto de "rastro"
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, this.width, this.height);
 
-    ctx.fillStyle = "#00FF66";
+    ctx.fillStyle = "#0F0";
     ctx.font = `${this.fontSize}px monospace`;
+    ctx.textBaseline = 'top';
 
     for (let i = 0; i < this.columns; i++) {
-      const char = this.chars.charAt(Math.floor(Math.random() * this.chars.length));
+      const char = Math.random() > 0.5 ? '0' : '1';
+
       const x = i * this.fontSize;
       const y = this.drops[i] * this.fontSize;
 
-      // Evitar dibujar dentro del área limpia
-      if (
-        !this.cleanArea ||
-        x < this.cleanArea.x ||
-        x > this.cleanArea.x + this.cleanArea.ancho ||
-        y < this.cleanArea.y ||
-        y > this.cleanArea.y + this.cleanArea.alto
-      ) {
+      const dentroAreaLimpia = this.cleanArea &&
+        x >= this.cleanArea.x &&
+        x <= this.cleanArea.x + this.cleanArea.ancho &&
+        y >= this.cleanArea.y &&
+        y <= this.cleanArea.y + this.cleanArea.alto;
+
+      if (!dentroAreaLimpia) {
         ctx.fillText(char, x, y);
       }
 
-      // Reiniciar columna cuando sale de pantalla
+      this.drops[i]++;
+
       if (y > this.height && Math.random() > 0.975) {
         this.drops[i] = 0;
-      } else {
-        this.drops[i] += 0.5;
       }
     }
   }
 
-  iniciar() {
-    if (this.animando) return;
-    this.animando = true;
-    this.tiempoPrevio = performance.now();
-
-    const loop = (tiempoActual) => {
-      if (!this.animando) return;
-      const delta = tiempoActual - this.tiempoPrevio;
-      this.tiempoPrevio = tiempoActual;
-
-      this.dibujar(delta);
-      requestAnimationFrame(loop);
-    };
-
-    requestAnimationFrame(loop);
+  iniciar(fps = 24) {
+    if (this.intervalId) return;
+    const intervalo = 1000 / fps;
+    this.intervalId = setInterval(() => {
+      this.dibujar();
+    }, intervalo);
   }
 
   detener() {
     this.animando = false;
+  }
+
+  limpiar() {
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillRect(0, 0, this.width, this.height);
   }
 }

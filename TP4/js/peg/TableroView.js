@@ -1,4 +1,3 @@
-
 // ============================================
 // TABLEROVIEW.JS - Vista del Tablero
 // ============================================
@@ -42,6 +41,9 @@ export class TableroView {
         // Movimientos posibles a mostrar
         this.movimientosPosibles = [];
 
+        this.time = 0;
+        this.intervalAnimacion = null;
+
         this.calcularDimensiones();
         this.precargarImagenes();
     }
@@ -57,7 +59,7 @@ export class TableroView {
             this.imgCeldaInactiva = imagenes[0];
             this.imgCeldaVacia = imagenes[1];
             this.imgCeldaConFicha = imagenes[2];
-            
+
             // Marcar las imágenes como listas
             this.imagenesListas = true;
             console.log('✓ Imágenes del tablero cargadas correctamente');
@@ -152,7 +154,7 @@ export class TableroView {
 
     dibujarCelda(x, y, vacia) {
         this.ctx.save();
-        
+
         // Si las imágenes están listas, usarlas
         if (this.imagenesListas) {
             if (vacia && this.imgCeldaVacia) {
@@ -167,7 +169,7 @@ export class TableroView {
             // Mientras cargan las imágenes, usar fallback
             this.dibujarCeldaFallback(x, y, vacia);
         }
-        
+
         this.ctx.restore();
     }
 
@@ -203,21 +205,59 @@ export class TableroView {
 
     mostrarMovimientosPosibles(movimientos) {
         this.movimientosPosibles = movimientos;
+
+        // Iniciar animación solo si hay movimientos
+        if (movimientos.length > 0 && !this.intervalAnimacion) {
+            this.intervalAnimacion = setInterval(() => {
+                this.time++;
+            }, 1000 / 60);
+        }
+
+        // Dibujar con el efecto GLOW del demo
         for (const mov of movimientos) {
             const coords = this.obtenerCoordenadasPixeles(mov.fila, mov.col);
-            this.ctx.save();
             const centroX = this.offsetX + coords.x + this.tamanioFicha / 2;
             const centroY = this.offsetY + coords.y + this.tamanioFicha / 2;
-            const radio = this.tamanioFicha / 2;
+
+            this.ctx.save();
+
+            // Efecto GLOW original del demo
+            const opacity = 0.3 + Math.sin(this.time * 0.08) * 0.2;
+            const glowSize = 35 + Math.sin(this.time * 0.08) * 10;
+
+            // Glow exterior
+            const gradient = this.ctx.createRadialGradient(
+                centroX, centroY, 0,
+                centroX, centroY, glowSize
+            );
+            gradient.addColorStop(0, `rgba(80, 201, 100, ${opacity})`);
+            gradient.addColorStop(1, 'rgba(80, 201, 100, 0)');
 
             this.ctx.beginPath();
-            this.ctx.arc(centroX, centroY, radio, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'rgba(80, 201, 100, 0.3)';
+            this.ctx.arc(centroX, centroY, glowSize, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient;
             this.ctx.fill();
-            this.ctx.strokeStyle = '#354a77ff';
-            this.ctx.lineWidth = 3;
+
+            // Círculo central
+            this.ctx.beginPath();
+            this.ctx.arc(centroX, centroY, 20, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(80, 201, 100, ${opacity + 0.3})`;
+            this.ctx.fill();
+            this.ctx.strokeStyle = '#50C964';
+            this.ctx.lineWidth = 2;
             this.ctx.stroke();
+
             this.ctx.restore();
+        }
+    }
+
+    limpiarMovimientosPosibles() {
+        this.movimientosPosibles = [];
+
+        // Detener animación
+        if (this.intervalAnimacion) {
+            clearInterval(this.intervalAnimacion);
+            this.intervalAnimacion = null;
         }
     }
 
@@ -271,10 +311,6 @@ export class TableroView {
         this.renderizarFichas();
     }
 
-    limpiarMovimientosPosibles() {
-        this.movimientosPosibles = [];
-    }
-
     getFichas() {
         return this.fichasView;
     }
@@ -288,13 +324,11 @@ export class TableroView {
     }
 
     getAreaTablero() {
-    return {
-        x: this.offsetX,
-        y: this.offsetY,
-        ancho: this.anchoTablero,
-        alto: this.altoTablero
-    };
+        return {
+            x: this.offsetX,
+            y: this.offsetY,
+            ancho: this.anchoTablero,
+            alto: this.altoTablero
+        };
+    }
 }
-}
-
-

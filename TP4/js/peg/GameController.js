@@ -14,10 +14,11 @@ import { BackgroundPeg } from './BackgroundPeg.js';
 export class GameController {
     constructor(canvas, config, appState) {
         console.log('========== DEBUG GameController.constructor() ==========');
-    console.log('1. Config recibida:', config);
-    console.log('2. config.tiempoLimiteSegundos:', config.tiempoLimiteSegundos);
-    console.log('3. Tipo:', typeof config.tiempoLimiteSegundos);
-    console.log('=======================================================');
+        console.log('1. Config recibida:', config);
+        console.log('2. config.tiempoLimiteSegundos:', config.tiempoLimiteSegundos);
+        console.log('3. Tipo:', typeof config.tiempoLimiteSegundos);
+        console.log('=======================================================');
+
         this.canvas = canvas;
         this.config = config;
         this.appState = appState;
@@ -43,6 +44,7 @@ export class GameController {
         this.juegoActivo = true;
         this.eventListeners = [];
         this.imagenFicha = null;
+        this.animationFrameId = null; // Para animación de hints
 
         // Timer
         this.tiempoActual = 0;
@@ -50,6 +52,9 @@ export class GameController {
         this.timerInterval = null;
 
         this.audio = new GestorAudio(SOUNDS, 0.6);
+
+        // Animaciones de fichas eliminadas
+        this.animacionesEliminacion = [];
 
         // Obtener área del tablero desde la vista
         const areaTablero = this.vistaTablero.getAreaTablero();
@@ -71,6 +76,11 @@ export class GameController {
             .then(([imagen]) => {
                 this.imagenFicha = imagen;
                 this.vistaTablero.crearFichas(this.modelo, imagen);
+
+                const stats = this.modelo.obtenerEstadisticas();
+                this.vistaHud.actualizarMovimientos(stats.movimientos);
+                this.vistaHud.actualizarFichasRestantes(stats.fichasRestantes);
+
                 this.configurarEventos();
                 this.iniciarTimer();
                 this.renderizar();
@@ -79,6 +89,7 @@ export class GameController {
             .catch((error) => {
                 console.error('Error al cargar recursos del juego:', error);
             });
+
     }
 
     configurarEventos() {
@@ -110,6 +121,9 @@ export class GameController {
             const pos = ficha.getPosicionTablero();
             const movimientos = this.modelo.obtenerMovimientosPosibles(pos.fila, pos.col);
             this.vistaTablero.movimientosPosibles = movimientos;
+
+            this.iniciarLoopAnimacion();
+
             this.renderizar();
         }
     }
@@ -158,10 +172,22 @@ export class GameController {
                     posDestino.col
                 );
 
+                // Eliminar ficha saltada con animación
                 const filaSaltada = (posOrigen.fila + posDestino.fila) / 2;
                 const colSaltada = (posOrigen.col + posDestino.col) / 2;
                 const fichaSaltada = this.vistaTablero.obtenerFichaEnCelda(filaSaltada, colSaltada);
-                if (fichaSaltada) this.vistaTablero.eliminarFicha(fichaSaltada);
+
+                if (fichaSaltada) {
+                    this.vistaTablero.eliminarFicha(fichaSaltada);
+
+                    // Agregar animación de eliminación
+                    const coords = this.vistaTablero.obtenerCoordenadasPixeles(filaSaltada, colSaltada);
+                    this.animacionesEliminacion.push({
+                        x: this.vistaTablero.offsetX + coords.x + this.vistaTablero.tamanioFicha / 2,
+                        y: this.vistaTablero.offsetY + coords.y + this.vistaTablero.tamanioFicha / 2,
+                        progress: 0
+                    });
+                }
 
                 movimientoValido = true;
                 this.audio.reproducir('move');
@@ -182,6 +208,7 @@ export class GameController {
         this.fichaArrastrada.finalizarArrastre();
         this.fichaArrastrada = null;
         this.vistaTablero.limpiarMovimientosPosibles();
+
         this.renderizar();
     }
 
@@ -209,34 +236,32 @@ export class GameController {
     }
 
     iniciarTimer() {
-        // Detener timer anterior si existe
-       console.log('========== DEBUG iniciarTimer() ==========');
-    console.log('1. this.config:', this.config);
-    console.log('2. this.config.tiempoLimiteSegundos:', this.config.tiempoLimiteSegundos);
-    
-    if (this.timerInterval) {
-        clearInterval(this.timerInterval);
-    }
+        console.log('========== DEBUG iniciarTimer() ==========');
+        console.log('1. this.config:', this.config);
+        console.log('2. this.config.tiempoLimiteSegundos:', this.config.tiempoLimiteSegundos);
 
-    this.tiempoLimite = this.config.tiempoLimiteSegundos || null;
-    
-    console.log('3. this.tiempoLimite asignado:', this.tiempoLimite);
-    console.log('4. ¿Es null?:', this.tiempoLimite === null);
-    console.log('==========================================');
-
-    this.tiempoActual = 0;
-
-    this.timerInterval = setInterval(function () {
-        this.tiempoActual++;
-        
-        if (this.tiempoLimite !== null && this.tiempoActual >= this.tiempoLimite) {
-            console.log('⏰ TIEMPO AGOTADO! Actual:', this.tiempoActual, 'Límite:', this.tiempoLimite);
-            this.tiempoAgotado();
-        } else {
-            this.renderizar();
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
         }
-    }.bind(this), 1000);
 
+        this.tiempoLimite = this.config.tiempoLimiteSegundos || null;
+
+        console.log('3. this.tiempoLimite asignado:', this.tiempoLimite);
+        console.log('4. ¿Es null?:', this.tiempoLimite === null);
+        console.log('==========================================');
+
+        this.tiempoActual = 0;
+
+        this.timerInterval = setInterval(function () {
+            this.tiempoActual++;
+
+            if (this.tiempoLimite !== null && this.tiempoActual >= this.tiempoLimite) {
+                console.log('⏰ TIEMPO AGOTADO! Actual:', this.tiempoActual, 'Límite:', this.tiempoLimite);
+                this.tiempoAgotado();
+            } else {
+                this.renderizar();
+            }
+        }.bind(this), 1000);
     }
 
     tiempoAgotado() {
@@ -245,7 +270,8 @@ export class GameController {
         this.juegoActivo = false;
 
         const stats = this.modelo.obtenerEstadisticas();
-        this.vistaModal.mostrarDerrota(this.tiempoActual, stats.movimientos, stats.fichasRestantes);
+        this.audio.reproducir('lose');
+        this.vistaModal.mostrarDerrota(this.tiempoActual, stats.movimientos, stats.fichasRestantes, 'tiempo'); // 👈
         this.renderizar();
     }
 
@@ -270,6 +296,7 @@ export class GameController {
         this.vistaHud.actualizarFichasRestantes(stats.fichasRestantes);
         this.vistaModal.ocultar();
         this.juegoActivo = true;
+        this.animacionesEliminacion = [];
         this.renderizar();
     }
 
@@ -298,14 +325,72 @@ export class GameController {
         this.renderizar();
     }
 
-    renderizar() {
+    iniciarLoopAnimacion() {
+        if (this.animationFrameId) return;
+
+        const loop = () => {
+            this.renderizar();
+            this.animationFrameId = requestAnimationFrame(loop);
+        };
+        this.animationFrameId = requestAnimationFrame(loop);
+    }
+
+    detenerLoopAnimacion() {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+    }
+
+    animarFichasEliminadas() {
         const ctx = this.canvas.getContext('2d');
 
-        // Limpiar solo el canvas principal (NO el de fondo)
+        for (let i = this.animacionesEliminacion.length - 1; i >= 0; i--) {
+            const anim = this.animacionesEliminacion[i];
+
+            const scale = 1 - anim.progress;
+            const rotation = anim.progress * Math.PI * 6;
+
+            if (scale > 0) {
+                ctx.save();
+                ctx.translate(anim.x, anim.y);
+                ctx.rotate(rotation);
+                ctx.scale(scale, scale);
+                ctx.globalAlpha = 1 - anim.progress;
+
+                ctx.beginPath();
+                ctx.arc(0, 0, this.vistaTablero.tamanioFicha / 2, 0, Math.PI * 2);
+                ctx.clip();
+
+                ctx.drawImage(
+                    this.imagenFicha,
+                    -this.vistaTablero.tamanioFicha / 2,
+                    -this.vistaTablero.tamanioFicha / 2,
+                    this.vistaTablero.tamanioFicha,
+                    this.vistaTablero.tamanioFicha
+                );
+
+                ctx.restore();
+            }
+
+            anim.progress += 0.03;
+
+            // Eliminar si terminó
+            if (anim.progress >= 1) {
+                this.animacionesEliminacion.splice(i, 1);
+            }
+        }
+    }
+
+    renderizar() {
+        const ctx = this.canvas.getContext('2d');
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Renderizar tablero y fichas
         this.vistaTablero.actualizar(this.modelo);
+
+        // Renderizar animaciones de fichas eliminadas
+        this.animarFichasEliminadas();
 
         // Renderizar HUD
         this.vistaHud.renderizar(this.tiempoActual, this.tiempoLimite, this.audio.estaMuteado());
@@ -320,6 +405,7 @@ export class GameController {
         }
         this.eventListeners = [];
         this.detenerTimer();
+        this.detenerLoopAnimacion();
 
         const ctx = this.ctx;
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
