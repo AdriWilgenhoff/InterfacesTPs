@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- Botón comprar/jugar ---
-  let yaComprado = true;
+  let yaComprado = false;
   let juegoIniciado = false;
   const btnJugar = document.getElementById('btn_jugar');
   const gameImage = document.getElementById('game-image');

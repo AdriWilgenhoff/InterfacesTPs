@@ -44,6 +44,7 @@ export class SeleccionadorImagen {
      * Inicia la animación de selección tipo "ruleta"
      */
     iniciarSeleccion(imagenFinal, callback) {
+
         this.visible = true;
         
         this.animacion = {
@@ -72,7 +73,7 @@ export class SeleccionadorImagen {
         this.animacion.indiceActual = (this.animacion.indiceActual + 1) % this.imagenesObj.length;
         
         if (this.animacion.tiempoTranscurrido < DURACION_TOTAL) {
-            this.animacion.velocidad += INCREMENTO_VELOCIDAD;
+          /*   this.animacion.velocidad += INCREMENTO_VELOCIDAD; */
         } else {
             this.animacion.indiceActual = this.animacion.indiceFinal;
             this.detenerAnimacion();

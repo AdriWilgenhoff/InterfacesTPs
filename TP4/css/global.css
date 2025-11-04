@@ -1,0 +1,122 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box
+}
+
+:root {
+  /* primario */
+  --color-primary: #9013FE;
+  --color-primaryLight1: #A642FE;
+  --color-primaryLight2: #B766FE;
+  --color-primaryLight3: #EC18FF;
+  --color-primaryShadow1: #7D13D8;
+  --color-primaryShadow2: #52168C;
+  --color-primaryShadow3: #2D1E53;
+
+  /* secundario */
+  --color-secondary: #008FEC;
+  --color-SecondaryLight1: #33A5F0;
+  --color-secondaryLight2: #59B6F3;
+  --color-secondaryLight3: #80C7F6;
+  --color-secondaryShadow1: #077BC8;
+  --color-secondaryShadow2: #14528A;
+  --color-secondaryShadow3: #12334c;
+
+  /* acento */
+  --color-accent: #F3AD38;
+  --color-accentLight1: #F5BD60;
+  --color-accentLight2: #F7CA7E;
+  --color-accentLight3: #F9D69C;
+  --color-accentShadow1: #A66F15;
+  --color-accentShadow2: #846630;
+  --color-accentShadow3: #403A31;
+
+  /* backgrounds */
+  --color-bodyDark: #100F14;
+  --color-bodyLight: #201F14;
+  --color-navDark: #121116;
+  --color-navLight: #18171C;
+  --color-box: #201F24;
+  --color-hover: #403F44;
+  --color-fullDark: #000000;
+
+  /* colores de estado */
+  --color-ok: #3EBD41;
+  --color-warning: #fc4d64;
+
+  /* color de fuentes */
+  --color-text: #E4E4E4;
+  --color-textDark: #777786;
+  --color-textLight: #ffffff;
+
+
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primaryLight1);
+
+  --color-link-secondary: var(--color-secondary);
+  --color-link-hover-secondary: var(--color-SecondaryLight1);
+
+  /* tipografia */
+
+  --font-base: 'Inter', sans-serif;
+  --font-logo: 'Orbitron', sans-serif;
+  --font-size-base: 14px;
+  --font-size-small: 12px;
+  --font-size-xsmall: 10px;
+  --font-size-title-h1: 48px;
+  --font-size-title-h2: 24px;
+  --font-size-title-h3: 20px;
+  --font-size-title-h4: 16px;
+  --font-size-title-h5: 14px;
+  --font-size-labels: 11px;
+  --font-size-table: 15px;
+
+  --space-cards: 15px;
+  --space-titles-carrousel: 10px;
+  --space-global: 20px 80px 20px 80px;
+  --padding-global: 0px 5.56%;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-bodyDark);
+  color: var(--color-text);
+}
+
+.search-results {
+  padding: 80px 90px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+}
+
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+}
+
+@media (min-width: 1440px) {
+
+  .main-content {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 1280px;
+    align-items: center;
+    gap: 15px;
+  }
+}

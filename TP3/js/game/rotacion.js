@@ -111,7 +111,8 @@ export class GestorRotacion {
 
         this.redibujarImagen();
         this.juegoActivo = true;
-    }
+    } 
+  
 
     redibujarImagen() {
 
