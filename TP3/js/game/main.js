@@ -73,9 +73,10 @@ async function inicializarJuego() {
         if (estado.actual === 'inicio') {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             pantallaInicial.dibujar();
-            requestAnimationFrame(dibujarPantallaInicial);
+           /*  requestAnimationFrame(dibujarPantallaInicial); */
         }
     };
+    
     dibujarPantallaInicial();
 
     // Resetea estado y vuelve al inicio
@@ -283,9 +284,6 @@ async function inicializarJuego() {
             console.error('Error al cargar la imagen:', error);
         }
     }
-
-
-
 
     function iniciarTimer(tiempoLimite = null) {
         detenerTimer();

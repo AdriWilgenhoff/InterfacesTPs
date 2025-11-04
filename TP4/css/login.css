@@ -1,0 +1,303 @@
+/* ========================================
+   LOGIN.CSS - ESTILOS ESPECÍFICOS DE LOGIN
+   ======================================== */
+
+/* ========================================
+   1. FONDO Y BODY
+   ======================================== */
+
+body.login-body {
+    background: var(--color-bodyDark);
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ========================================
+   2. ESTRUCTURA DE LAYOUT
+   ======================================== */
+
+body.login-body .main-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+body.login-body .content-column {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    gap: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+body.login-body .form-with-background {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    margin: 0;
+    background: none;
+}
+
+body.login-body .form-with-background::before {
+    content: none;
+    display: none;
+}
+
+/* ========================================
+   3. PERSONAJES DE FONDO - 3 IMÁGENES
+   ======================================== */
+
+body.login-body .character-left,
+body.login-body .character-center-left,
+body.login-body .character-right {
+    position: absolute;
+    height: 700px;
+    width: auto;
+    object-fit: contain;
+    bottom: 0;
+    filter: drop-shadow(0 0 60px var(--color-navLight));
+    z-index: 0;
+    opacity: 0.7;
+}
+
+/* Geralt - Izquierda */
+body.login-body .character-left {
+    left: 0;
+    transform: translateX(15%) translateY(5%) scale(0.9);
+}
+
+body.login-body .character-right {
+    right: 0;
+    transform: translateX(10%) translateY(5%) scale(0.9);
+}
+
+/* ========================================
+   4. LOGIN CONTAINER Y FORM
+   ======================================== */
+
+body.login-body .login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    background: none;
+}
+
+body.login-body .login-form {
+    background-color: var(--color-navLight);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
+    position: relative;
+    z-index: 2;
+    padding: 25px 35px;
+}
+
+body.login-body .login-form h2 {
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+/* ========================================
+   5. INPUTS - ALTURA Y ESTILOS CONSISTENTES
+   ======================================== */
+
+body.login-body .input-group input,
+body.login-body .login-form input[type="text"],
+body.login-body .login-form input[type="email"],
+body.login-body .login-form input[type="password"] {
+    height: 36px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    background-color: var(--color-box);
+    
+    border-radius: 6px;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+body.login-body .input-group input:focus,
+body.login-body .login-form input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(144, 19, 254, 0.1);
+}
+
+body.login-body .login-button {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 6px;
+    color: var(--color-textLight);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+body.login-body .login-button:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(144, 19, 254, 0.3);
+}
+
+body.login-body .input-group label {
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+body.login-body .input-group {
+    margin-bottom: 18px;
+}
+
+/* ========================================
+   6. ESPACIADO COMPACTO DEL FORMULARIO
+   ======================================== */
+
+body.login-body .divider {
+    margin: 20px 0 8px 0;
+}
+
+body.login-body .social-login {
+    margin-bottom: 20px;
+}
+
+body.login-body .signup-link {
+    margin-top: 0;
+}
+
+body.login-body .forgot-password {
+    margin-bottom: 18px;
+}
+
+/* ========================================
+   7. ESTILOS ESPECÍFICOS DEL FOOTER
+   ======================================== */
+
+/* Asegurar que los inputs del footer tengan fondo blanco como en register */
+body.login-body .site-footer .newsletter-form input[type="email"] {
+    background-color: var(--color-text);
+    height: 43px;
+    padding: 10px;
+    color: #111;
+    border: none;
+    border-radius: 5px 0 0 5px;
+}
+
+body.login-body .site-footer .btn-subiscribir {
+    height: 43px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--color-accent);
+    color: var(--color-text);
+    border: none;
+    border-radius: 0 5px 5px 0;
+}
+
+/* ========================================
+   8. RESPONSIVE - CONSOLIDADO
+   ======================================== */
+
+@media (max-width: 1200px) {
+    body.login-body .character-left,
+    body.login-body .character-center-left,
+    body.login-body .character-right {
+        height: 70vh;
+        opacity: 0.8;
+    }
+    
+    body.login-body .character-left {
+        transform: translateX(-15%);
+    }
+    
+    body.login-body .character-center-left {
+        left: 15%;
+        transform: translateX(0%);
+    }
+    
+    body.login-body .character-right {
+        transform: translateX(15%);
+    }
+}
+
+@media (max-width: 992px) {
+    body.login-body .character-left,
+    body.login-body .character-center-left,
+    body.login-body .character-right {
+        height: 60vh;
+        opacity: 0.5;
+    }
+    
+    body.login-body .character-left {
+        transform: translateX(-25%);
+    }
+    
+    body.login-body .character-center-left {
+        left: 12%;
+        opacity: 0.4;
+    }
+    
+    body.login-body .character-right {
+        transform: translateX(25%);
+    }
+}
+
+@media (max-width: 768px) {
+    body.login-body .form-with-background {
+        min-height: 70vh;
+    }
+    
+    body.login-body .character-left,
+    body.login-body .character-center-left,
+    body.login-body .character-right {
+        height: 50vh;
+        opacity: 0.3;
+        filter: blur(2px) drop-shadow(0 0 40px rgba(144, 19, 254, 0.2));
+    }
+    
+    body.login-body .character-left {
+        transform: translateX(-35%);
+    }
+    
+    body.login-body .character-center-left {
+        display: none;
+    }
+    
+    body.login-body .character-right {
+        transform: translateX(35%);
+    }
+    
+    body.login-body .login-container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.login-body .form-with-background {
+        min-height: 60vh;
+    }
+    
+    body.login-body .character-left,
+    body.login-body .character-right {
+        display: none;
+    }
+}
