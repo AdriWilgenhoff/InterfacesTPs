@@ -15,7 +15,7 @@ import { Background } from './background.js'
 
 async function inicializarJuego() {
 
-    const canvas = document.getElementById('game');
+    const canvas = document.getElementById('gameBlocka');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
     const backgroundGame = document.querySelector('#backgroundGame');
@@ -382,13 +382,18 @@ async function inicializarJuego() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('game');
+    const gameLauncher = document.querySelector('.gameLauncher'); // ✅ Cambio aquí
     let juegoInicializado = false;
+
+    if (!gameLauncher) { // ✅ Validación
+        console.error('No se encontró el elemento .gameLauncher');
+        return;
+    }
 
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.attributeName === 'class') {
-                if (canvas.classList.contains('active') && !juegoInicializado) {
+                if (gameLauncher.classList.contains('active') && !juegoInicializado) { // ✅ Cambio aquí
                     juegoInicializado = true;
                     inicializarJuego();
                     observer.disconnect();
@@ -397,5 +402,5 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    observer.observe(canvas, { attributes: true });
+    observer.observe(gameLauncher, { attributes: true }); // ✅ Cambio aquí
 });

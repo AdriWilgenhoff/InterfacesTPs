@@ -148,7 +148,7 @@ export class HudView {
     ctx.fillStyle = '#f2E0dc';
     ctx.fillText('🐞 Fichas: ', margen + 15, yPos + 12);
 
-    const anchoTexto = ctx.measureText('🪙 Fichas:  ').width;
+    const anchoTexto = ctx.measureText('🐞 Fichas:  ').width;
     ctx.fillText(String(this.fichasRestantes), margen + anchoTexto+15, yPos + 12);
 
     // ==== BOTONES HUD ====

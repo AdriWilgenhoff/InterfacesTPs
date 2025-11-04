@@ -13,11 +13,6 @@ import { BackgroundPeg } from './BackgroundPeg.js';
 
 export class GameController {
     constructor(canvas, config, appState) {
-        console.log('========== DEBUG GameController.constructor() ==========');
-        console.log('1. Config recibida:', config);
-        console.log('2. config.tiempoLimiteSegundos:', config.tiempoLimiteSegundos);
-        console.log('3. Tipo:', typeof config.tiempoLimiteSegundos);
-        console.log('=======================================================');
 
         this.canvas = canvas;
         this.config = config;
@@ -44,8 +39,7 @@ export class GameController {
         this.juegoActivo = true;
         this.eventListeners = [];
         this.imagenFicha = null;
-        this.animationFrameId = null; // Para animación de hints
-
+        this.animationFrameId = null;
         // Timer
         this.tiempoActual = 0;
         this.tiempoLimite = null;
@@ -84,7 +78,6 @@ export class GameController {
                 this.configurarEventos();
                 this.iniciarTimer();
                 this.renderizar();
-                console.log('✓ Juego inicializado con todas las imágenes cargadas');
             })
             .catch((error) => {
                 console.error('Error al cargar recursos del juego:', error);
@@ -236,19 +229,11 @@ export class GameController {
     }
 
     iniciarTimer() {
-        console.log('========== DEBUG iniciarTimer() ==========');
-        console.log('1. this.config:', this.config);
-        console.log('2. this.config.tiempoLimiteSegundos:', this.config.tiempoLimiteSegundos);
-
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
         }
 
         this.tiempoLimite = this.config.tiempoLimiteSegundos || null;
-
-        console.log('3. this.tiempoLimite asignado:', this.tiempoLimite);
-        console.log('4. ¿Es null?:', this.tiempoLimite === null);
-        console.log('==========================================');
 
         this.tiempoActual = 0;
 
@@ -256,7 +241,6 @@ export class GameController {
             this.tiempoActual++;
 
             if (this.tiempoLimite !== null && this.tiempoActual >= this.tiempoLimite) {
-                console.log('⏰ TIEMPO AGOTADO! Actual:', this.tiempoActual, 'Límite:', this.tiempoLimite);
                 this.tiempoAgotado();
             } else {
                 this.renderizar();
@@ -271,7 +255,7 @@ export class GameController {
 
         const stats = this.modelo.obtenerEstadisticas();
         this.audio.reproducir('lose');
-        this.vistaModal.mostrarDerrota(this.tiempoActual, stats.movimientos, stats.fichasRestantes, 'tiempo'); // 👈
+        this.vistaModal.mostrarDerrota(this.tiempoActual, stats.movimientos, stats.fichasRestantes, 'tiempo');
         this.renderizar();
     }
 

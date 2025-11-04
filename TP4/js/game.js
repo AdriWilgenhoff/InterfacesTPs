@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!yaComprado) {
         // Primer click - COMPRAR
-        event.preventDefault(); // Prevenir navegación
+        //event.preventDefault(); // Prevenir navegación
         
         console.log('Estado: COMPRAR -> Cambiando a JUGAR');
         setTimeout(() => {

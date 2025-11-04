@@ -1,7 +1,3 @@
-// ============================================
-// TABLEROVIEW.JS - Vista del Tablero
-// ============================================
-
 import { FichaView } from './FichaView.js';
 import { cargarImagenes } from './utils.js';
 
@@ -65,24 +61,20 @@ export class TableroView {
             console.log('✓ Imágenes del tablero cargadas correctamente');
         } catch (error) {
             console.error('Error al precargar imágenes del tablero:', error);
-            // Incluso con error, marcamos como listas para no bloquear el render
             this.imagenesListas = true;
         }
     }
 
     /**
      * Retorna una promesa que se resuelve cuando las imágenes están listas
-     * @returns {Promise<void>}
      */
     esperarImagenes() {
         return new Promise((resolve) => {
-            // Si ya están listas, resolver inmediatamente
             if (this.imagenesListas) {
                 resolve();
                 return;
             }
 
-            // Si no, esperar a que se carguen (máximo 5 segundos)
             const checkInterval = setInterval(() => {
                 if (this.imagenesListas) {
                     clearInterval(checkInterval);
@@ -90,7 +82,6 @@ export class TableroView {
                 }
             }, 100);
 
-            // Timeout de seguridad
             setTimeout(() => {
                 clearInterval(checkInterval);
                 resolve();
@@ -134,11 +125,9 @@ export class TableroView {
                 const y = this.offsetY + i * this.tamanioCelda;
 
                 if (valor === -1) {
-                    // Celda inactiva: intentar dibujar imagen si está lista
                     if (this.imagenesListas && this.imgCeldaInactiva) {
                         this.ctx.drawImage(this.imgCeldaInactiva, x, y, this.tamanioCelda, this.tamanioCelda);
                     } else {
-                        // Fallback: dibujar color mientras cargan las imágenes
                         this.ctx.fillStyle = '#121414ff';
                         this.ctx.fillRect(x, y, this.tamanioCelda, this.tamanioCelda);
                     }
@@ -155,18 +144,15 @@ export class TableroView {
     dibujarCelda(x, y, vacia) {
         this.ctx.save();
 
-        // Si las imágenes están listas, usarlas
         if (this.imagenesListas) {
             if (vacia && this.imgCeldaVacia) {
                 this.ctx.drawImage(this.imgCeldaVacia, x, y, this.tamanioCelda, this.tamanioCelda);
             } else if (!vacia && this.imgCeldaConFicha) {
                 this.ctx.drawImage(this.imgCeldaConFicha, x, y, this.tamanioCelda, this.tamanioCelda);
             } else {
-                // Fallback si la imagen no existe
                 this.dibujarCeldaFallback(x, y, vacia);
             }
         } else {
-            // Mientras cargan las imágenes, usar fallback
             this.dibujarCeldaFallback(x, y, vacia);
         }
 
@@ -174,16 +160,13 @@ export class TableroView {
     }
 
     dibujarCeldaFallback(x, y, vacia) {
-        // Dibujar fondo de la celda
         this.ctx.fillStyle = vacia ? '#3f4352ff' : '#28282eff';
         this.ctx.fillRect(x, y, this.tamanioCelda, this.tamanioCelda);
 
-        // Dibujar borde de la celda
         this.ctx.strokeStyle = '#1b7513ff';
         this.ctx.lineWidth = 2;
         this.ctx.strokeRect(x, y, this.tamanioCelda, this.tamanioCelda);
 
-        // Dibujar círculo para indicar posición jugable
         const centroX = x + this.tamanioCelda / 2;
         const centroY = y + this.tamanioCelda / 2;
         const radio = this.tamanioFicha / 2 - 5;
@@ -206,14 +189,12 @@ export class TableroView {
     mostrarMovimientosPosibles(movimientos) {
         this.movimientosPosibles = movimientos;
 
-        // Iniciar animación solo si hay movimientos
         if (movimientos.length > 0 && !this.intervalAnimacion) {
             this.intervalAnimacion = setInterval(() => {
                 this.time++;
             }, 1000 / 60);
         }
 
-        // Dibujar con el efecto GLOW del demo
         for (const mov of movimientos) {
             const coords = this.obtenerCoordenadasPixeles(mov.fila, mov.col);
             const centroX = this.offsetX + coords.x + this.tamanioFicha / 2;
@@ -221,11 +202,9 @@ export class TableroView {
 
             this.ctx.save();
 
-            // Efecto GLOW original del demo
             const opacity = 0.3 + Math.sin(this.time * 0.08) * 0.2;
             const glowSize = 35 + Math.sin(this.time * 0.08) * 10;
 
-            // Glow exterior
             const gradient = this.ctx.createRadialGradient(
                 centroX, centroY, 0,
                 centroX, centroY, glowSize
@@ -238,7 +217,6 @@ export class TableroView {
             this.ctx.fillStyle = gradient;
             this.ctx.fill();
 
-            // Círculo central
             this.ctx.beginPath();
             this.ctx.arc(centroX, centroY, 20, 0, Math.PI * 2);
             this.ctx.fillStyle = `rgba(0, 128, 128, ${opacity + 0.3})`;
@@ -254,7 +232,6 @@ export class TableroView {
     limpiarMovimientosPosibles() {
         this.movimientosPosibles = [];
 
-        // Detener animación
         if (this.intervalAnimacion) {
             clearInterval(this.intervalAnimacion);
             this.intervalAnimacion = null;
@@ -317,7 +294,6 @@ export class TableroView {
 
     /**
      * Verifica si las imágenes del tablero están cargadas
-     * @returns {boolean}
      */
     estanImagenesListas() {
         return this.imagenesListas;
