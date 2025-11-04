@@ -2,6 +2,7 @@ import { FichaView } from './FichaView.js';
 import { cargarImagenes } from './utils.js';
 
 export class TableroView {
+    // Crea la vista del tablero inicializando las dimensiones, imágenes y arrays de fichas
     constructor(canvas, numFilas, numColumnas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -44,6 +45,7 @@ export class TableroView {
         this.precargarImagenes();
     }
 
+    // Precarga las imágenes de las celdas del tablero de forma asíncrona
     async precargarImagenes() {
         try {
             const imagenes = await cargarImagenes([
@@ -56,11 +58,8 @@ export class TableroView {
             this.imgCeldaVacia = imagenes[1];
             this.imgCeldaConFicha = imagenes[2];
 
-            // Marcar las imágenes como listas
             this.imagenesListas = true;
-            console.log('✓ Imágenes del tablero cargadas correctamente');
         } catch (error) {
-            console.error('Error al precargar imágenes del tablero:', error);
             this.imagenesListas = true;
         }
     }
@@ -89,11 +88,13 @@ export class TableroView {
         });
     }
 
+    // Calcula las dimensiones y offsets del tablero para centrarlo en el canvas
     calcularDimensiones() {
         this.offsetX = (this.canvas.width - this.anchoTablero) / 2;
         this.offsetY = (this.canvas.height - this.altoTablero) / 2;
     }
 
+    // Crea las vistas de las fichas basándose en el estado del modelo del tablero
     crearFichas(modelo, imagenFicha) {
         this.fichasView = [];
         const tablero = modelo.getTablero();
@@ -115,6 +116,7 @@ export class TableroView {
         }
     }
 
+    // Renderiza el tablero dibujando las celdas y los movimientos posibles
     renderizarTablero(modelo) {
         const tablero = modelo.getTablero();
 
@@ -141,6 +143,7 @@ export class TableroView {
         this.mostrarMovimientosPosibles(this.movimientosPosibles);
     }
 
+    // Dibuja una celda individual del tablero usando imágenes o fallback
     dibujarCelda(x, y, vacia) {
         this.ctx.save();
 
@@ -159,6 +162,7 @@ export class TableroView {
         this.ctx.restore();
     }
 
+    // Dibuja una celda con colores planos cuando las imágenes no están disponibles
     dibujarCeldaFallback(x, y, vacia) {
         this.ctx.fillStyle = vacia ? '#3f4352ff' : '#28282eff';
         this.ctx.fillRect(x, y, this.tamanioCelda, this.tamanioCelda);
@@ -180,12 +184,14 @@ export class TableroView {
         this.ctx.stroke();
     }
 
+    // Renderiza todas las fichas del tablero
     renderizarFichas() {
         for (const ficha of this.fichasView) {
             ficha.dibujar(this.ctx);
         }
     }
 
+    // Muestra los movimientos posibles con un efecto de brillo animado
     mostrarMovimientosPosibles(movimientos) {
         this.movimientosPosibles = movimientos;
 
@@ -229,6 +235,7 @@ export class TableroView {
         }
     }
 
+    // Limpia los movimientos posibles y detiene la animación
     limpiarMovimientosPosibles() {
         this.movimientosPosibles = [];
 
@@ -238,6 +245,7 @@ export class TableroView {
         }
     }
 
+    // Obtiene la ficha en una posición de píxeles específica moviendo al frente la ficha encontrada
     obtenerFichaEnPosicion(x, y) {
         for (let i = this.fichasView.length - 1; i >= 0; i--) {
             if (this.fichasView[i].contienePoint(x, y)) {
@@ -250,6 +258,7 @@ export class TableroView {
         return null;
     }
 
+    // Convierte coordenadas de píxeles a posición en el tablero (fila, columna)
     obtenerPosicionTablero(x, y) {
         const relX = x - this.offsetX;
         const relY = y - this.offsetY;
@@ -264,17 +273,20 @@ export class TableroView {
         return { fila, col };
     }
 
+    // Convierte posición en el tablero a coordenadas de píxeles relativas al tablero
     obtenerCoordenadasPixeles(fila, col) {
         const x = col * this.tamanioCelda + (this.tamanioCelda - this.tamanioFicha) / 2;
         const y = fila * this.tamanioCelda + (this.tamanioCelda - this.tamanioFicha) / 2;
         return { x, y };
     }
 
+    // Elimina una ficha del array de fichas
     eliminarFicha(ficha) {
         const i = this.fichasView.indexOf(ficha);
         if (i !== -1) this.fichasView.splice(i, 1);
     }
 
+    // Obtiene la ficha ubicada en una celda específica del tablero
     obtenerFichaEnCelda(fila, col) {
         return this.fichasView.find(f => {
             const pos = f.getPosicionTablero();
@@ -282,12 +294,14 @@ export class TableroView {
         }) || null;
     }
 
+    // Actualiza la vista renderizando el tablero y las fichas
     actualizar(modelo) {
         this.ctx.clearRect(this.offsetX, this.offsetY, this.anchoTablero, this.altoTablero);
         this.renderizarTablero(modelo);
         this.renderizarFichas();
     }
 
+    // Obtiene el array de todas las fichas en la vista
     getFichas() {
         return this.fichasView;
     }
@@ -299,6 +313,7 @@ export class TableroView {
         return this.imagenesListas;
     }
 
+    // Obtiene el área rectangular del tablero para uso en otras vistas
     getAreaTablero() {
         return {
             x: this.offsetX,

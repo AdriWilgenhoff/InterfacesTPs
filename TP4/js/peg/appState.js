@@ -1,4 +1,5 @@
 export class AppState {
+    // Crea el estado global de la aplicación inicializando el canvas y el estado inicial
     constructor(canvas) {
         this.canvas = canvas;
         this.estadoActual = 'menu'; 

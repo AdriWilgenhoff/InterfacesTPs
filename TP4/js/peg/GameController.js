@@ -12,6 +12,7 @@ import { GestorAudio } from './audio.js';
 import { BackgroundPeg } from './BackgroundPeg.js';
 
 export class GameController {
+    // Crea el controlador del juego inicializando el modelo, las vistas, el estado y los recursos necesarios
     constructor(canvas, config, appState) {
 
         this.canvas = canvas;
@@ -60,6 +61,7 @@ export class GameController {
         this.inicializar();
     }
 
+    // Carga las imágenes de las fichas y configura los eventos y el temporizador del juego
     inicializar() {
         const rutaFicha = BUG_IMAGES[this.config.indiceFicha];
 
@@ -80,11 +82,11 @@ export class GameController {
                 this.renderizar();
             })
             .catch((error) => {
-                console.error('Error al cargar recursos del juego:', error);
             });
 
     }
 
+    // Configura los event listeners del canvas para manejar las interacciones del usuario
     configurarEventos() {
         const eventos = [
             ['mousedown', this.manejarMouseDown],
@@ -100,6 +102,7 @@ export class GameController {
         }
     }
 
+    // Maneja el evento de mouse down para iniciar el arrastre de una ficha y mostrar movimientos posibles
     manejarMouseDown(event) {
         if (!this.juegoActivo || this.vistaModal.estaVisible()) return;
 
@@ -121,6 +124,7 @@ export class GameController {
         }
     }
 
+    // Maneja el evento de mouse move para actualizar la posición de la ficha mientras se arrastra
     manejarMouseMove(event) {
         if (!this.fichaArrastrada) return;
         const rect = this.canvas.getBoundingClientRect();
@@ -130,6 +134,7 @@ export class GameController {
         this.renderizar();
     }
 
+    // Maneja el evento de mouse up para finalizar el arrastre, validar el movimiento y actualizar el tablero
     manejarMouseUp(event) {
         if (!this.fichaArrastrada || !this.juegoActivo) return;
 
@@ -205,6 +210,7 @@ export class GameController {
         this.renderizar();
     }
 
+    // Maneja los clicks en el HUD y en los botones del modal detectando la posición y ejecutando la acción correspondiente
     manejarClickHud(event) {
         const rect = this.canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -223,11 +229,13 @@ export class GameController {
         else if (botonHud === 'mute') this.toggleMute();
     }
 
+    // Alterna el estado de silencio del audio del juego
     toggleMute() {
         this.audio.toggleMute();
         this.renderizar();
     }
 
+    // Inicia el temporizador del juego que cuenta el tiempo transcurrido y verifica si se alcanzó el límite
     iniciarTimer() {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
@@ -248,6 +256,7 @@ export class GameController {
         }.bind(this), 1000);
     }
 
+    // Maneja el evento cuando el tiempo se agota mostrando el modal de derrota
     tiempoAgotado() {
         clearInterval(this.timerInterval);
         this.timerInterval = null;
@@ -259,6 +268,7 @@ export class GameController {
         this.renderizar();
     }
 
+    // Detiene el temporizador del juego limpiando el interval
     detenerTimer() {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
@@ -266,10 +276,12 @@ export class GameController {
         }
     }
 
+    // Cambia el estado de la aplicación para volver al menú principal
     volverAlMenu() {
         this.appState.cambiarAMenu();
     }
 
+    // Reinicia la partida al estado inicial restaurando el tablero, el temporizador y las estadísticas
     reiniciarPartida() {
         this.modelo.reiniciar();
         this.vistaTablero.crearFichas(this.modelo, this.imagenFicha);
@@ -284,6 +296,7 @@ export class GameController {
         this.renderizar();
     }
 
+    // Verifica si el juego ha terminado por victoria o derrota mostrando el modal correspondiente
     verificarEstadoJuego() {
         if (this.modelo.verificarVictoria()) {
             this.detenerTimer();
@@ -309,6 +322,7 @@ export class GameController {
         this.renderizar();
     }
 
+    // Inicia el loop de animación continua usando requestAnimationFrame para renderizar las animaciones
     iniciarLoopAnimacion() {
         if (this.animationFrameId) return;
 
@@ -319,6 +333,7 @@ export class GameController {
         this.animationFrameId = requestAnimationFrame(loop);
     }
 
+    // Detiene el loop de animación cancelando el requestAnimationFrame activo
     detenerLoopAnimacion() {
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
@@ -326,6 +341,7 @@ export class GameController {
         }
     }
 
+    // Anima las fichas eliminadas con efectos de rotación, escala y transparencia hasta que desaparecen
     animarFichasEliminadas() {
         const ctx = this.canvas.getContext('2d');
 
@@ -359,13 +375,13 @@ export class GameController {
 
             anim.progress += 0.03;
 
-            // Eliminar si terminó
             if (anim.progress >= 1) {
                 this.animacionesEliminacion.splice(i, 1);
             }
         }
     }
 
+    // Renderiza todos los elementos del juego incluyendo tablero, fichas, HUD, animaciones y modal
     renderizar() {
         const ctx = this.canvas.getContext('2d');
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -383,6 +399,7 @@ export class GameController {
         if (this.vistaModal.estaVisible()) this.vistaModal.renderizar();
     }
 
+    // Limpia el controlador eliminando event listeners, deteniendo temporizadores y limpiando el canvas
     destruir() {
         for (const listener of this.eventListeners) {
             this.canvas.removeEventListener(listener.tipo, listener.handler);

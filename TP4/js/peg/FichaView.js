@@ -1,5 +1,6 @@
 import { puntoEnCirculo } from './utils.js';
 export class FichaView {
+    // Crea la vista de una ficha inicializando su posición, imagen y estado
     constructor(fila, col, imagen, tamanio, offsetX, offsetY) {
         this.fila = fila;
         this.col = col;

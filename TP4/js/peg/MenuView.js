@@ -2,6 +2,7 @@ import { BOARDS, BUG_IMAGES, TIME_PRESETS, BOARD_THUMB_URLS, MENU_IMAGES } from 
 import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, cargarImagenes } from './utils.js';
 
 export class MenuView {
+    // Crea la vista del menú inicializando selectores, imágenes y configuración visual
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -29,6 +30,7 @@ export class MenuView {
         this.inicializar();
     }
 
+    // Precarga todas las imágenes del menú incluyendo fondos, tableros, fichas e iconos de tiempo
     precargarImagenes() {
         const urls = [
             MENU_IMAGES.background,
@@ -73,6 +75,7 @@ export class MenuView {
         }.bind(this));
     }
 
+    // Actualiza las referencias de imágenes en los selectores una vez que han sido cargadas
     actualizarImagenesSelectores() {
         for (let i = 0; i < this.selectoresTablero.length; i++) {
             this.selectoresTablero[i].img = this.images.boards[i];
@@ -87,6 +90,7 @@ export class MenuView {
         }
     }
 
+    // Inicializa los selectores del menú calculando sus posiciones y dimensiones
     inicializar() {
         const W = this.canvas.width;
         const H = this.canvas.height;
@@ -201,6 +205,7 @@ export class MenuView {
         };
     }
 
+    // Dibuja una imagen centrada dentro de un área rectangular manteniendo su aspect ratio
     dibujarImagenCentrada(ctx, img, x, y, ancho, alto, padding) {
         const innerW = ancho - padding * 2;
         const innerH = alto - padding * 2;
@@ -223,6 +228,7 @@ export class MenuView {
         ctx.drawImage(img, drawX, drawY, drawW, drawH);
     }
 
+    // Renderiza el menú completo con todos sus selectores y botones
     renderizar() {
         const ctx = this.ctx;
         const W = this.canvas.width;
@@ -355,6 +361,7 @@ export class MenuView {
         ctx.restore();
     }
 
+    // Detecta si se hizo click en algún selector de tablero y retorna el tipo seleccionado
     detectarClickTablero(x, y) {
         for (let i = 0; i < this.selectoresTablero.length; i++) {
             const s = this.selectoresTablero[i];
@@ -366,6 +373,7 @@ export class MenuView {
         return null;
     }
 
+    // Detecta si se hizo click en algún selector de ficha y retorna el índice seleccionado
     detectarClickFicha(x, y) {
         for (let i = 0; i < this.selectoresFicha.length; i++) {
             const s = this.selectoresFicha[i];
@@ -377,6 +385,7 @@ export class MenuView {
         return null;
     }
 
+    // Detecta si se hizo click en algún selector de tiempo y retorna el preset seleccionado
     detectarClickTiempo(x, y) {
         for (let i = 0; i < this.selectoresTiempo.length; i++) {
             const s = this.selectoresTiempo[i];
@@ -388,10 +397,12 @@ export class MenuView {
         return null;
     }
 
+    // Detecta si se hizo click en el botón comenzar
     detectarClickComenzar(x, y) {
         return puntoEnRectangulo(x, y, this.botonComenzar);
     }
 
+    // Obtiene la configuración seleccionada por el usuario en el menú
     obtenerConfiguracion() {
         const presetTiempo = TIME_PRESETS[this.tiempoSeleccionadoIndex];
         return {
@@ -401,6 +412,7 @@ export class MenuView {
         };
     }
 
+    // Verifica si todas las imágenes del menú han sido cargadas
     estanImagenesListas() {
         return this.imagenesListas;
     }

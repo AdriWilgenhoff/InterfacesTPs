@@ -1,4 +1,5 @@
 export class BackgroundPeg {
+  // Crea el fondo animado estilo matrix con efecto de código cayendo
   constructor(ctx, width, height, cleanArea) {
     this.ctx = ctx;
     this.width = width;
@@ -16,6 +17,7 @@ export class BackgroundPeg {
     this.animando = false;
   }
 
+  // Dibuja el efecto de código cayendo evitando el área limpia del tablero
   dibujar() {
     const ctx = this.ctx;
 
@@ -50,6 +52,7 @@ export class BackgroundPeg {
     }
   }
 
+  // Inicia la animación del fondo con el framerate especificado
   iniciar(fps = 24) {
     if (this.intervalId) return;
     const intervalo = 1000 / fps;
@@ -58,10 +61,12 @@ export class BackgroundPeg {
     }, intervalo);
   }
 
+  // Detiene la animación del fondo
   detener() {
     this.animando = false;
   }
 
+  // Limpia el canvas del fondo con color negro
   limpiar() {
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(0, 0, this.width, this.height);

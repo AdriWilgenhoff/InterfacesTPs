@@ -2,13 +2,13 @@ import { AppState } from './appState.js';
 import { MenuController } from './MenuController.js';
 import { GameController } from './GameController.js';
 
-// Variable global para la aplicación
 let app = null;
 
 /**
  * Clase principal de la aplicación
  */
 class MainApp {
+    // Crea una nueva instancia de MainApp e inicializa las propiedades principales del sistema
     constructor(canvas) {
         this.canvas = canvas;
         this.appState = new AppState(canvas);
@@ -34,8 +34,6 @@ class MainApp {
         const estadoActual = this.appState.getEstadoActual();
 
         if (estadoActual !== this.estadoAnterior) {
-            console.log('Cambio de estado:', this.estadoAnterior, '->', estadoActual);
-
             if (estadoActual === 'menu') {
                 this.crearMenuController();
             } else if (estadoActual === 'jugando') {
@@ -96,24 +94,17 @@ class MainApp {
     }
 }
 
-/**
- * Función de inicialización del juego
- */
+// Función de inicialización del juego que crea la instancia principal de la aplicación y la configura
 function inicializarJuego() {
-    console.log('Inicializando juego Peg Solitaire...');
-
     const canvas = document.getElementById('game');
 
     if (!canvas) {
-        console.error('No se encontró el elemento canvas con id "game"');
         return;
     }
 
     app = new MainApp(canvas);
 
     app.inicializar();
-
-    console.log('Juego inicializado correctamente');
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -122,10 +113,8 @@ window.addEventListener('DOMContentLoaded', () => {
     let juegoInicializado = false;
 
     if (!gameLauncher) {
-        console.error('No se encontró el elemento .gameLauncher');
         return;
     }
-
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.attributeName === 'class') {

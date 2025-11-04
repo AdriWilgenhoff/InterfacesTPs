@@ -2,6 +2,7 @@ import { BOARDS } from './constants.js';
 import { copiarMatriz } from './utils.js';
 
 export class TableroModel {
+    // Crea el modelo del tablero inicializando el tipo de tablero y las estadísticas del juego
     constructor(tipoTablero) {
         this.tipoTablero = tipoTablero;
         this.tablero = null;
@@ -20,7 +21,6 @@ export class TableroModel {
         const tableroBase = BOARDS[tipoTablero];
 
         if (!tableroBase) {
-            console.error('Tipo de tablero no válido:', tipoTablero);
             return;
         }
 

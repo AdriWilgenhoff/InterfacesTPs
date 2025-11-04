@@ -1,6 +1,7 @@
 import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, formatearTiempo, cargarImagenes } from './utils.js';
 
 export class ModalView {
+    // Crea la vista del modal inicializando botones, imágenes y configuración visual
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -29,6 +30,7 @@ export class ModalView {
         this.precargarImagenes();
     }
 
+    // Precarga las imágenes del modal de forma asíncrona
     async precargarImagenes() {
         try {
             const imagenes = await cargarImagenes([
@@ -42,13 +44,12 @@ export class ModalView {
             this.imgBotonReintentar = imagenes[2];
 
             this.imagenesListas = true;
-            console.log('✓ Imágenes del modal cargadas correctamente');
         } catch (error) {
-            console.error('Error al precargar imágenes del modal:', error);
             this.imagenesListas = true;
         }
     }
 
+    // Muestra el modal de victoria con las estadísticas finales del juego
     mostrarVictoria(tiempo, movimientos, fichasRestantes) {
         this.visible = true;
         this.tipoModal = 'victoria';
@@ -58,6 +59,7 @@ export class ModalView {
         this.inicializarBotonesWin();
     }
 
+    // Muestra el modal de derrota con las estadísticas finales y el motivo de la derrota
     mostrarDerrota(tiempo, movimientos, fichasRestantes, motivo = 'sin_movimientos') {
         this.visible = true;
         this.tipoModal = 'derrota';
@@ -68,10 +70,12 @@ export class ModalView {
         this.inicializarBotonesFail();
     }
 
+    // Oculta el modal cambiando su estado de visibilidad
     ocultar() {
         this.visible = false;
     }
 
+    // Inicializa las posiciones de los botones para el modal de derrota
     inicializarBotonesFail() {
         const centroX = this.canvas.width / 2;
         const centroY = this.canvas.height / 2;
@@ -91,6 +95,7 @@ export class ModalView {
         };
     }
 
+    // Inicializa la posición del botón para el modal de victoria
     inicializarBotonesWin() {
         const centroX = this.canvas.width / 2;
         const centroY = this.canvas.height / 2;
@@ -103,6 +108,7 @@ export class ModalView {
         };
     }
 
+    // Renderiza el modal mostrando el título, estadísticas y botones según el tipo de modal
     renderizar() {
         if (!this.visible) return;
 
@@ -204,6 +210,7 @@ export class ModalView {
         this.ctx.textAlign = 'start';
     }
 
+    // Detecta si se hizo click en algún botón del modal y retorna su identificador
     detectarClickBoton(x, y) {
         if (!this.visible) return null;
         if (this.botonMenu && puntoEnRectangulo(x, y, this.botonMenu)) return 'menu';
@@ -211,10 +218,12 @@ export class ModalView {
         return null;
     }
 
+    // Retorna si el modal está visible
     estaVisible() {
         return this.visible;
     }
 
+    // Verifica si las imágenes del modal están cargadas
     estanImagenesListas() {
         return this.imagenesListas;
     }

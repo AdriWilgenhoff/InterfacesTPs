@@ -1,6 +1,7 @@
 import { puntoEnRectangulo, formatearTiempo, cargarImagen } from './utils.js';
 
 export class HudView {
+  // Crea la vista del HUD inicializando botones, estadísticas y recursos visuales
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
@@ -47,6 +48,7 @@ export class HudView {
     this.cargarImagenes();
   }
 
+  // Carga las imágenes del HUD de forma asíncrona
   async cargarImagenes() {
     try {
       this.imagenHud1 = await cargarImagen(this.urlImg1);
@@ -54,19 +56,21 @@ export class HudView {
       this.imagenBotonCuadrado = await cargarImagen(this.urlImg5);
       this.imagenesCargadas = true;
     } catch (error) {
-      console.warn('No se cargaron las imágenes del HUD', error);
       this.imagenesCargadas = false;
     }
   }
 
+  // Actualiza el contador de movimientos realizados
   actualizarMovimientos(cantidad) {
     this.movimientos = cantidad;
   }
 
+  // Actualiza el contador de fichas restantes en el tablero
   actualizarFichasRestantes(cantidad) {
     this.fichasRestantes = cantidad;
   }
 
+  // Dibuja un botón del HUD con imagen de fondo y emoji
   dibujarBotonHud(x, y, size, emoji) {
     const ctx = this.ctx;
     ctx.save();
@@ -90,6 +94,7 @@ export class HudView {
     ctx.restore();
   }
 
+  // Renderiza el HUD mostrando tiempo, fichas restantes y botones de control
   renderizar(tiempoActual, tiempoLimite, audioMuteado = false) {
     const ctx = this.ctx;
     const margen = 20;
@@ -159,6 +164,7 @@ export class HudView {
     ctx.restore();
   }
 
+  // Detecta si se hizo click en algún botón del HUD y retorna el identificador del botón
   detectarClickBoton(x, y) {
        
     if (puntoEnRectangulo(x, y, this.botonHome)) {
@@ -174,6 +180,7 @@ export class HudView {
     return null;
   }
 
+  // Reinicia las estadísticas del HUD a sus valores iniciales
   reiniciar() {
     this.movimientos = 0;
     this.fichasRestantes = 0;
