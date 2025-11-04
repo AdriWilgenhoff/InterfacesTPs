@@ -21,7 +21,7 @@ export class ModalView {
 
         // URLs de imágenes
         this.urlImgFondoModal = '../assets_game/peg/modal/fondo_modal.png';
-        this.urlImgBotonMenu = '../assets_game/peg/modal/hud8.png';
+        this.urlImgBotonMenu = '../assets_game/peg/modal/hud8 (3) (1).png';
         this.urlImgBotonReintentar = '../assets_game/peg/modal/hud8.png';
 
         // Imágenes cargadas
@@ -86,15 +86,15 @@ export class ModalView {
 
         this.botonMenu = {
             x: centroX - 180,
-            y: centroY + 55,
-            ancho: 150,
+            y: centroY + 60,
+            ancho: 180,
             alto: 50
         };
 
         this.botonReintentar = {
             x: centroX + 30,
-            y: centroY + 55,
-            ancho: 150,
+            y: centroY + 60,
+            ancho: 180,
             alto: 50
         };
     }
@@ -122,9 +122,9 @@ export class ModalView {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Modal - fondo
-        const modalAncho = 560;
+        const modalAncho = 650;
         const modalAlto = 390;
-        const modalX = centroX - modalAncho / 2;
+        const modalX = (centroX - modalAncho / 2) + 5;
         const modalY = centroY - modalAlto / 2;
 
         if (this.imagenesListas && this.imgFondoModal) {
@@ -143,29 +143,29 @@ export class ModalView {
         // Título
         const esVictoria = this.tipoModal === 'victoria';
         const titulo = esVictoria ? '¡VICTORIA!' : 'DERROTA';
-        const colorTitulo = esVictoria ? '#27AE60' : '#E74C3C';
+        const colorTitulo = esVictoria ? '#2a794bff' : '#b62313ff';
 
-        dibujarTextoCentrado(this.ctx, titulo, centroX, centroY - 80, 'bold 36px Arial', colorTitulo);
+        dibujarTextoCentrado(this.ctx, titulo, centroX, centroY - 80, 'bold 36px Orbitron', colorTitulo);
 
         // Estadísticas
         const inicioEstadisticas = centroY - 25;
-        this.ctx.fillStyle = '#2C3E50';
-        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillStyle = '#9ca7b3ff';
+        this.ctx.font = 'bold 18px Inter';
         this.ctx.textAlign = 'center';
 
 
         if (this.tipoModal === 'derrota') {
             if (this.motivoDerrota === 'tiempo') {
-                this.ctx.fillText('¡Se acabó el tiempo!', centroX, inicioEstadisticas);
+                this.ctx.fillText('¡Se acabó el tiempo!', centroX, inicioEstadisticas+10);
             } else {
-                this.ctx.fillText('¡No quedan movimientos posibles!', centroX, inicioEstadisticas);
+                this.ctx.fillText('¡No quedan movimientos posibles!', centroX, inicioEstadisticas+10);
             }
         } else {
-                this.ctx.fillText('Tiempo: ' + formatearTiempo(this.tiempo), centroX, inicioEstadisticas);
+                this.ctx.fillText('Tiempo: ' + formatearTiempo(this.tiempo), centroX, inicioEstadisticas+10);
             }
 
         //this.ctx.fillText('Movimientos: ' + this.movimientos, centroX, inicioEstadisticas + 30);
-        this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 45);
+        this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 40);
 
         // === Botones ===
 
@@ -188,8 +188,8 @@ export class ModalView {
             this.ctx,
             'MENÚ',
             this.botonMenu.x + this.botonMenu.ancho / 2,
-            this.botonMenu.y + this.botonMenu.alto / 2 + 5,
-            'bold 18px Arial',
+            this.botonMenu.y + this.botonMenu.alto / 2 ,
+            'bold 18px Orbitron',
             '#FFFFFF'
         );
 
@@ -213,8 +213,8 @@ export class ModalView {
                 this.ctx,
                 'REINTENTAR',
                 this.botonReintentar.x + this.botonReintentar.ancho / 2,
-                this.botonReintentar.y + this.botonReintentar.alto / 2 + 5,
-                'bold 18px Arial',
+                this.botonReintentar.y + this.botonReintentar.alto / 2 ,
+                'bold 18px Orbitron',
                 '#FFFFFF'
             );
         }

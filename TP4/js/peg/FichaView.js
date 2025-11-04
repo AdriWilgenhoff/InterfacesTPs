@@ -153,7 +153,7 @@ export class FichaView {
         // Si está siendo arrastrada, dibujar con elevación
         if (this.arrastrando) {
             // Sombra para efecto de elevación
-            ctx.shadowColor = 'rgba(43, 255, 0, 1)';
+            ctx.shadowColor = 'rgba(255, 255, 255, 1)';
             ctx.shadowBlur = 8;
             ctx.shadowOffsetX = 1;
             ctx.shadowOffsetY = 1;
@@ -166,6 +166,7 @@ export class FichaView {
         }
 
         // Dibujar la imagen de la ficha (circular)
+       
         ctx.beginPath();
         ctx.arc(
             posX + this.tamanio / 2,

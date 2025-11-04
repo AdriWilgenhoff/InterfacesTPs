@@ -275,7 +275,7 @@ export class BackgroundPeg {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, this.width, this.height);
 
-    ctx.fillStyle = "#0F0";
+    ctx.fillStyle = "rgba(67, 122, 104, 1)";
     ctx.font = `${this.fontSize}px monospace`;
     ctx.textBaseline = 'top';
 

@@ -15,7 +15,7 @@ export class TableroView {
 
         // Dimensiones del tablero y celdas
         this.tamanioCelda = 65;
-        this.tamanioFicha = 43;
+        this.tamanioFicha = 55;
         this.anchoTablero = this.numColumnas * this.tamanioCelda;
         this.altoTablero = this.numFilas * this.tamanioCelda;
 
@@ -27,9 +27,9 @@ export class TableroView {
         this.fichasView = [];
 
         // Imágenes de celdas
-        this.urlImgCeldaInactiva = '../assets_game/peg/cells/inactive2.png';
-        this.urlImgCeldaVacia = '../assets_game/peg/cells/active2.png';
-        this.urlImgCeldaConFicha = '../assets_game/peg/cells/active2.png';
+        this.urlImgCeldaInactiva = '../assets_game/peg/cells/inactive2.4.png';
+        this.urlImgCeldaVacia = '../assets_game/peg/cells/active2.4.png';
+        this.urlImgCeldaConFicha = '../assets_game/peg/cells/active2.4.png';
 
         this.imgCeldaInactiva = null;
         this.imgCeldaVacia = null;
@@ -230,7 +230,7 @@ export class TableroView {
                 centroX, centroY, 0,
                 centroX, centroY, glowSize
             );
-            gradient.addColorStop(0, `rgba(80, 201, 100, ${opacity})`);
+            gradient.addColorStop(0, `rgba(0, 128, 128, ${opacity})`);
             gradient.addColorStop(1, 'rgba(80, 201, 100, 0)');
 
             this.ctx.beginPath();
@@ -241,9 +241,9 @@ export class TableroView {
             // Círculo central
             this.ctx.beginPath();
             this.ctx.arc(centroX, centroY, 20, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(80, 201, 100, ${opacity + 0.3})`;
+            this.ctx.fillStyle = `rgba(0, 128, 128, ${opacity + 0.3})`;
             this.ctx.fill();
-            this.ctx.strokeStyle = '#50C964';
+            this.ctx.strokeStyle = '#20b4aaff';
             this.ctx.lineWidth = 2;
             this.ctx.stroke();
 

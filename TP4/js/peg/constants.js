@@ -1,9 +1,10 @@
 // Rutas de imágenes de fichas de insectos
 export const BUG_IMAGES = [
-  '../assets_game/peg/bugs/ficha1.png',
-  '../assets_game/peg/bugs/ficha2.png',
-  '../assets_game/peg/bugs/ficha3.png',
-  '../assets_game/peg/bugs/ficha4.png',
+  '../assets_game/peg/bugs/52.3.png',
+  '../assets_game/peg/bugs/50.3.png',
+  '../assets_game/peg/bugs/51.3.png',
+  
+  '../assets_game/peg/bugs/53.2.png',
 ];
 
 export const BOARDS = {
@@ -66,7 +67,7 @@ export const BOARDS = {
 export const BOARD_THUMB_URLS = {
   Clasico:   '../assets_game/peg/boards/classic.png',
   Europeo:   '../assets_game/peg/boards/european.png',
-  Cuadrado:  '../assets_game/peg/boards/square.png',
+  Cuadrado:  '../assets_game/peg/boards/cuadrado.png',
   Diamante:  '../assets_game/peg/boards/diamond.png',
   TestWin:   '../assets_game/peg/boards/testwin.png',
   TestFail:  '../assets_game/peg/boards/testfail.png',

@@ -39,9 +39,9 @@ export class HudView {
     };
 
     // URLs de imágenes
-    this.urlImg1 = '../assets_game/peg/hud/hud8.png';
-    this.urlImg3 = '../assets_game/peg/hud/hud8.png';
-    this.urlImg5 = '../assets_game/peg/hud/cuadrado7.png';
+    this.urlImg1 = '../assets_game/peg/hud/hud8 (3) (1).png';
+    this.urlImg3 = '../assets_game/peg/hud/hud8 (3).png';
+    this.urlImg5 = '../assets_game/peg/hud/hud8 (3).png';
 
     this.imagenHud1 = null;
     this.imagenHud3 = null;
@@ -112,7 +112,7 @@ export class HudView {
     if (this.imagenesCargadas && this.imagenHud1) {
       ctx.drawImage(this.imagenHud1, margen - 10, yPos - 5, 200, altoBoxTiempo);
     } else {
-      ctx.fillStyle = '#04111fff';
+      ctx.fillStyle = '#f2E0dc';
       ctx.fillRect(margen - 10, yPos, 200, altoBoxTiempo);
     }
 
@@ -127,17 +127,17 @@ export class HudView {
         ctx.fillStyle = '#44ff44';
       }
     } else {
-      ctx.fillStyle = '#000000ff';
+      ctx.fillStyle = '#f2E0dc';
     }
 
-    ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(tiempoActual)}`, margen + 15, yPos + 25);
+    ctx.fillText(`⏱️ Tiempo: ${formatearTiempo(tiempoActual)}`, margen + 15, yPos + 30);
 
     ctx.font = '16px inter';
-    ctx.fillStyle = '#000000ff';
+    ctx.fillStyle = '#f2E0dc';
     if (tiempoLimite !== null) {
-      ctx.fillText(`Tiempo límite: ${formatearTiempo(tiempoLimite)}`, margen + 20, yPos + 52);
+      ctx.fillText(`Tiempo límite: ${formatearTiempo(tiempoLimite)}`, margen + 10, yPos + 62);
     } else {
-      ctx.fillText('Sin tiempo límite', margen + 20, yPos + 52);
+      ctx.fillText('Sin tiempo límite', margen + 20, yPos + 62);
     }
 
     yPos += altoBoxTiempo + espacioEntreBoxes;
@@ -158,13 +158,13 @@ export class HudView {
     if (this.imagenesCargadas && this.imagenHud3) {
       ctx.drawImage(this.imagenHud3, margen - 10, yPos - 3, 200, 45);
     } else {
-      ctx.fillStyle = '#04111fff';
+      ctx.fillStyle = 'f2E0dc';
       ctx.fillRect(margen - 10, yPos, 200, 40);
     }
 
     ctx.font = '16px inter';
-    ctx.fillStyle = '#000000cc';
-    ctx.fillText('🪙 Fichas: ', margen + 15, yPos + 12);
+    ctx.fillStyle = '#f2E0dc';
+    ctx.fillText('🐞 Fichas: ', margen + 15, yPos + 12);
 
     const anchoTexto = ctx.measureText('🪙 Fichas:  ').width;
     ctx.fillText(String(this.fichasRestantes), margen + anchoTexto+15, yPos + 12);
