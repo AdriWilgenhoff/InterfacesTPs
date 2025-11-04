@@ -1,9 +1,4 @@
-// ============================================
-// FICHAVIEW.JS - Vista de una Ficha
-// ============================================
-
 import { puntoEnCirculo } from './utils.js';
-
 export class FichaView {
     constructor(fila, col, imagen, tamanio, offsetX, offsetY) {
         this.fila = fila;
@@ -35,8 +30,6 @@ export class FichaView {
 
     /**
      * Establece la posición de la ficha en píxeles
-     * @param {number} x - Coordenada x
-     * @param {number} y - Coordenada y
      */
     setPosicion(x, y) {
         this.x = x;
@@ -47,8 +40,6 @@ export class FichaView {
 
     /**
      * Actualiza la posición del tablero (offset)
-     * @param {number} offsetX - Offset X del tablero
-     * @param {number} offsetY - Offset Y del tablero
      */
     setOffset(offsetX, offsetY) {
         this.offsetX = offsetX;
@@ -57,26 +48,19 @@ export class FichaView {
 
     /**
      * Inicia el arrastre de la ficha
-     * @param {number} mouseX - Coordenada x del mouse
-     * @param {number} mouseY - Coordenada y del mouse
-     */
+       */
     iniciarArrastre(mouseX, mouseY) {
         this.arrastrando = true;
         this.seleccionada = true;
-
-        // Calcular offset del mouse respecto al centro de la ficha
         this.mouseOffsetX = mouseX - (this.x + this.offsetX);
         this.mouseOffsetY = mouseY - (this.y + this.offsetY);
     }
 
     /**
      * Actualiza la posición durante el arrastre
-     * @param {number} mouseX - Coordenada x del mouse
-     * @param {number} mouseY - Coordenada y del mouse
      */
     actualizarArrastre(mouseX, mouseY) {
         if (this.arrastrando) {
-            // Actualizar posición considerando el offset del mouse
             this.x = mouseX - this.offsetX - this.mouseOffsetX;
             this.y = mouseY - this.offsetY - this.mouseOffsetY;
         }
@@ -103,10 +87,6 @@ export class FichaView {
 
     /**
      * Mueve la ficha a una nueva posición con animación
-     * @param {number} x - Nueva coordenada x en píxeles
-     * @param {number} y - Nueva coordenada y en píxeles
-     * @param {number} fila - Nueva fila en el tablero
-     * @param {number} col - Nueva columna en el tablero
      */
     moverAPosicion(x, y, fila, col) {
         this.x = x;
@@ -123,9 +103,6 @@ export class FichaView {
 
     /**
      * Verifica si un punto está dentro de la ficha
-     * @param {number} x - Coordenada x del punto
-     * @param {number} y - Coordenada y del punto
-     * @returns {boolean} true si el punto está dentro
      */
     contienePoint(x, y) {
         // Calcular posición absoluta de la ficha
@@ -141,7 +118,6 @@ export class FichaView {
 
     /**
      * Dibuja la ficha en el canvas
-     * @param {CanvasRenderingContext2D} ctx - Contexto del canvas
      */
     dibujar(ctx) {
         ctx.save();
@@ -150,23 +126,18 @@ export class FichaView {
         const posX = this.x + this.offsetX;
         const posY = this.y + this.offsetY;
 
-        // Si está siendo arrastrada, dibujar con elevación
         if (this.arrastrando) {
-            // Sombra para efecto de elevación
             ctx.shadowColor = 'rgba(255, 255, 255, 1)';
             ctx.shadowBlur = 8;
             ctx.shadowOffsetX = 1;
             ctx.shadowOffsetY = 1;
         } else if (this.seleccionada) {
-            // Resaltar ficha seleccionada
             ctx.shadowColor = 'rgba(255, 0, 0, 0.8)';
             ctx.shadowBlur = 15;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
         }
 
-        // Dibujar la imagen de la ficha (circular)
-       
         ctx.beginPath();
         ctx.arc(
             posX + this.tamanio / 2,
@@ -178,7 +149,7 @@ export class FichaView {
         ctx.closePath();
         ctx.clip();
 
-        // Dibujar imagen
+
         ctx.drawImage(
             this.imagen,
             posX,
@@ -189,7 +160,6 @@ export class FichaView {
 
         ctx.restore();
 
-        // Si está seleccionada pero no arrastrada, dibujar borde dorado
         if (this.seleccionada && !this.arrastrando) {
             ctx.save();
             ctx.strokeStyle = '#ff0000ff';
@@ -209,7 +179,6 @@ export class FichaView {
 
     /**
      * Obtiene la posición en el tablero (fila, columna)
-     * @returns {Object} {fila, col}
      */
     getPosicionTablero() {
         return {
@@ -220,7 +189,6 @@ export class FichaView {
 
     /**
      * Obtiene la posición original en el tablero
-     * @returns {Object} {fila, col}
      */
     getPosicionOriginal() {
         return {
@@ -231,7 +199,6 @@ export class FichaView {
 
     /**
      * Verifica si la ficha está siendo arrastrada
-     * @returns {boolean}
      */
     estaArrastrando() {
         return this.arrastrando;
@@ -239,7 +206,6 @@ export class FichaView {
 
     /**
      * Marca la ficha como seleccionada
-     * @param {boolean} seleccionada - true para seleccionar
      */
     setSeleccionada(seleccionada) {
         this.seleccionada = seleccionada;

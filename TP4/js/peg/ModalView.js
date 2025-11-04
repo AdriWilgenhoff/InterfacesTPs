@@ -1,7 +1,3 @@
-// ============================================
-// MODALVIEW.JS - Vista de Modales
-// ============================================
-
 import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, formatearTiempo, cargarImagenes } from './utils.js';
 
 export class ModalView {
@@ -15,21 +11,17 @@ export class ModalView {
         this.movimientos = 0;
         this.fichasRestantes = 0;
 
-        // Botones
         this.botonMenu = null;
         this.botonReintentar = null;
 
-        // URLs de imágenes
         this.urlImgFondoModal = '../assets_game/peg/modal/fondo_modal.png';
         this.urlImgBotonMenu = '../assets_game/peg/modal/hud8 (3) (1).png';
         this.urlImgBotonReintentar = '../assets_game/peg/modal/hud8.png';
 
-        // Imágenes cargadas
         this.imgFondoModal = null;
         this.imgBotonMenu = null;
         this.imgBotonReintentar = null;
 
-        // Flag de carga
         this.imagenesListas = false;
 
         this.motivoDerrota = 'sin_movimientos';
@@ -117,11 +109,9 @@ export class ModalView {
         const centroX = this.canvas.width / 2;
         const centroY = this.canvas.height / 2;
 
-        // Overlay oscuro
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Modal - fondo
         const modalAncho = 650;
         const modalAlto = 390;
         const modalX = (centroX - modalAncho / 2) + 5;
@@ -140,14 +130,12 @@ export class ModalView {
             this.ctx.restore();
         }
 
-        // Título
         const esVictoria = this.tipoModal === 'victoria';
         const titulo = esVictoria ? '¡VICTORIA!' : 'DERROTA';
         const colorTitulo = esVictoria ? '#2a794bff' : '#b62313ff';
 
         dibujarTextoCentrado(this.ctx, titulo, centroX, centroY - 80, 'bold 36px Orbitron', colorTitulo);
 
-        // Estadísticas
         const inicioEstadisticas = centroY - 25;
         this.ctx.fillStyle = '#9ca7b3ff';
         this.ctx.font = 'bold 18px Inter';
@@ -164,12 +152,9 @@ export class ModalView {
                 this.ctx.fillText('Tiempo: ' + formatearTiempo(this.tiempo), centroX, inicioEstadisticas+10);
             }
 
-        //this.ctx.fillText('Movimientos: ' + this.movimientos, centroX, inicioEstadisticas + 30);
         this.ctx.fillText('Fichas restantes: ' + this.fichasRestantes, centroX, inicioEstadisticas + 40);
 
-        // === Botones ===
 
-        // MENÚ
         if (this.imagenesListas && this.imgBotonMenu) {
             this.ctx.drawImage(this.imgBotonMenu, this.botonMenu.x, this.botonMenu.y, this.botonMenu.ancho, this.botonMenu.alto);
         } else {
@@ -183,7 +168,6 @@ export class ModalView {
             this.ctx.restore();
         }
 
-        // Texto del botón Menú (siempre visible)
         dibujarTextoCentrado(
             this.ctx,
             'MENÚ',
@@ -193,7 +177,6 @@ export class ModalView {
             '#FFFFFF'
         );
 
-        // REINTENTAR (solo derrota)
         if (this.tipoModal === 'derrota') {
             if (this.imagenesListas && this.imgBotonReintentar) {
                 this.ctx.drawImage(this.imgBotonReintentar, this.botonReintentar.x, this.botonReintentar.y, this.botonReintentar.ancho, this.botonReintentar.alto);
@@ -208,7 +191,6 @@ export class ModalView {
                 this.ctx.restore();
             }
 
-            // Texto del botón Reintentar (siempre visible)
             dibujarTextoCentrado(
                 this.ctx,
                 'REINTENTAR',

@@ -1,9 +1,7 @@
-// Rutas de imágenes de fichas de insectos
 export const BUG_IMAGES = [
   '../assets_game/peg/bugs/52.3.png',
   '../assets_game/peg/bugs/50.3.png',
   '../assets_game/peg/bugs/51.3.png',
-  
   '../assets_game/peg/bugs/53.2.png',
 ];
 
@@ -80,18 +78,24 @@ export const SOUNDS = {
   error: '../assets_game/peg/sounds/movimiento_error.mp3',
 };
 
-// Imágenes del menú
-export const MENU_ASSETS = {
-  /* background: '../assets_game/peg/menu/background2.png', */
-  startBtn:   '../assets_game/peg/menu/boton_comenzar.png',
-  fuente:'',
+export const MENU_IMAGES = {
+  background: '../assets_game/peg/menu/background133.png',
+  buttonFrame: '../assets_game/peg/menu/hud8 (3) (1).png',
+  timerIcons: [
+    '../assets_game/peg/menu/prueba.png',
+    '../assets_game/peg/menu/timer01.png',
+    '../assets_game/peg/menu/timer5.png',
+    '../assets_game/peg/menu/timer10.png',
+    '../assets_game/peg/menu/timer15.png',
+    '../assets_game/peg/menu/timer20.png'
+  ]
 };
 
-// Presets de tiempo
 export const TIME_PRESETS = [
   { key: 'none', label: 'Sin timer', seconds: null },
-  { key: '1m',   label: '1 min',     seconds: 0.1 * 60 },
-  { key: '5m',   label: '5 min',     seconds: 5 * 60 },
-  { key: '10m',  label: '10 min',    seconds: 10 * 60 },
-  { key: '15m',  label: '15 min',    seconds: 15 * 60 },
+  { key: '1m',   label: '1 min',     seconds: 60 },
+  { key: '5m',   label: '5 min',     seconds: 300 },
+  { key: '10m',  label: '10 min',    seconds: 600 },
+  { key: '15m',  label: '15 min',    seconds: 900 },
+  { key: '20m',  label: '20 min',    seconds: 1200 },
 ];

@@ -1,8 +1,4 @@
-// ============================================
-// HUDVIEW.JS - Vista del HUD (Head-Up Display)
-// ============================================
-
-import { dibujarTextoCentrado, dibujarRectanguloRedondeado, puntoEnRectangulo, formatearTiempo, cargarImagen } from './utils.js';
+import { puntoEnRectangulo, formatearTiempo, cargarImagen } from './utils.js';
 
 export class HudView {
   constructor(canvas) {
@@ -38,7 +34,6 @@ export class HudView {
       alto: BTN
     };
 
-    // URLs de imágenes
     this.urlImg1 = '../assets_game/peg/hud/hud8 (3) (1).png';
     this.urlImg3 = '../assets_game/peg/hud/hud8 (3).png';
     this.urlImg5 = '../assets_game/peg/hud/hud8 (3).png';
@@ -49,7 +44,6 @@ export class HudView {
 
     this.imagenesCargadas = false;
 
-    // Cargar imágenes
     this.cargarImagenes();
   }
 
@@ -142,18 +136,6 @@ export class HudView {
 
     yPos += altoBoxTiempo + espacioEntreBoxes;
 
-    // ==== BOX 2: MOVIMIENTOS ====
-    /*if (this.imagenesCargadas && this.imagenHud3) {
-      ctx.drawImage(this.imagenHud3, margen - 10, yPos - 3, 200, 45);
-    } else {
-      ctx.fillStyle = '#04111fff';
-      ctx.fillRect(margen - 10, yPos, 200, 40);
-    }
-    ctx.font = '16px inter';
-    ctx.fillStyle = '#dadadacc';
-    ctx.fillText(`🔄 Movimientos: ${this.movimientos}`, margen + 5, yPos + 12);
-    yPos += 40 + espacioEntreBoxes;*/
-
     // ==== BOX: FICHAS RESTANTES ====
     if (this.imagenesCargadas && this.imagenHud3) {
       ctx.drawImage(this.imagenHud3, margen - 10, yPos - 3, 200, 45);
@@ -178,25 +160,17 @@ export class HudView {
   }
 
   detectarClickBoton(x, y) {
-    console.log('Detectando click en HUD:', x, y);
-    console.log('Botón Home:', this.botonHome);
-    console.log('Botón Reiniciar:', this.botonReiniciar);
-    console.log('Botón Mute:', this.botonMute);
-    
+       
     if (puntoEnRectangulo(x, y, this.botonHome)) {
-      console.log('✓ Click en Home');
       return 'home';
     }
     if (puntoEnRectangulo(x, y, this.botonReiniciar)) {
-      console.log('✓ Click en Reiniciar');
       return 'reiniciar';
     }
     if (puntoEnRectangulo(x, y, this.botonMute)) {
-      console.log('✓ Click en Mute');
       return 'mute';
     }
     
-    console.log('✗ No se detectó click en ningún botón');
     return null;
   }
 
