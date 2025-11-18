@@ -1,0 +1,117 @@
+/* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+   FLAPPY-SCREENS.CSS - Pantallas y botones del juego
+   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+/* Pantallas del juego */
+#initScreenFlappy,
+#playingScreenFlappy,
+#gameOverFlappy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Pantalla de Game Over */
+.gameOverScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Estilos de botones del juego */
+
+#startButton{ /* width: 150px;
+    height: 50px; */
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;}
+#startButton:hover{  transform: scale(1.1); }
+
+#nextButton {
+   /*  width: 150px;
+    height: 50px; */
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+}
+
+#reStartButton{
+   /*  
+    width: 150px;
+    height: 50px; */
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: var(--color-warning);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+}
+
+
+
+
+#reStartButton:hover{transform: scale(1.1);}
+
+#nextButton:hover {    
+    transform: scale(1.1);   
+}
+
+#startButton:active,
+#reStartButton:active,
+#nextButton:active {
+    transform: scale(0.95);
+}
+
+/* Bot�n Next - posici�n absoluta para testing */
+#nextButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: var(--color-accent);
+}
+
+#nextButton:hover {
+    background: var(--color-accentLight1);
+    box-shadow: 0 6px 12px rgba(255, 87, 51, 0.5);
+}

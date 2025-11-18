@@ -1,4 +1,5 @@
 export class BackgroundPeg {
+  
   // Crea el fondo animado estilo matrix con efecto de código cayendo
   constructor(ctx, width, height, cleanArea) {
     this.ctx = ctx;

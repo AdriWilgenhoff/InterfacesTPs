@@ -1,0 +1,39 @@
+/* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+   FLAPPY-PIPES.CSS - Tuber�as/Obst�culos del juego
+   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+/* Contenedor de tuber�as */
+#pipes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 40;
+    pointer-events: none;
+}
+
+/* Contenedor individual de cada par de tuber�as */
+.pipe-pair {
+    position: absolute;
+    width: 64px;
+    height: 100%;
+    z-index: 40;
+}
+
+/* Tuber�a superior */
+.pipe-top {
+    position: absolute;
+    top: 0;
+    width: 64px;
+    background: url('../../assets/img/flappy/sprites/toppipe.png') center bottom no-repeat;
+    background-size: 64px 100%;
+}
+
+/* Tuber�a inferior */
+.pipe-bottom {
+    position: absolute;
+    width: 64px;
+    background: url('../../assets/img/flappy/sprites/bottompipe.png') center top no-repeat;
+    background-size: 64px 100%;
+}

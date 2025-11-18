@@ -1,0 +1,192 @@
+/* ========================================
+   CONTENEDOR PRINCIPAL DEL JUEGO
+   ======================================== */
+
+/* Contenedor de los canvas del juego (oculto por defecto) */
+.gameLauncher {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 475px;
+  border-radius: 15px 15px 0 0;
+  overflow: hidden;
+}
+
+/* Mostrar contenedor cuando esté activo */
+.gameLauncher.active {
+  display: block;
+}
+
+/* ========================================
+   FONDO ANIMADO (backgroundFlappy)
+   ======================================== */
+
+#backgroundFlappy {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 475px;
+  border-radius: 15px 15px 0 0;
+  z-index: -60;
+  overflow: hidden;
+}
+
+/* Mostrar fondo cuando el juego está activo */
+.gameLauncher.active #backgroundFlappy {
+  display: block;
+}
+
+/* ========================================
+   CANVAS DEL JUEGO (gameFlappy)
+   ======================================== */
+
+#gameFlappy {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px 15px 0 0;
+  z-index: 80;
+  background-color: transparent;
+  cursor: pointer;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Mostrar canvas cuando el juego está activo */
+.gameLauncher.active #gameFlappy {
+  display: block;
+}
+
+/* ========================================
+   OCULTAR ELEMENTOS INICIALES
+   ======================================== */
+
+/* Ocultar imagen cuando el juego está activo */
+.game-image.hidden {
+  display: none;
+}
+
+/* Ocultar botón cuando el juego está activo */
+.button-game.hidden {
+  display: none;
+}
+
+/* Cuando el juego está activo */
+.game-media.playing {
+  position: relative;
+}
+
+/* ========================================
+   ANIMACIÓN DE SCROLL PARALLAX
+   ======================================== */
+
+@keyframes scroll {
+  0% {
+    background-position-x: 0px;
+  }
+  100% {
+    background-position-x: -1920px;
+  }
+}
+
+/* ========================================
+   CAPAS DEL FONDO ANIMADO
+   ======================================== */
+
+.layer {
+  min-height: 500px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: repeat-x;
+  background-size: cover;
+  pointer-events: none;
+}
+
+/* Capa 10 - Más lenta */
+.layer-10 {
+  background-image: url("https://i.ibb.co/5sCHJZ7/10.png");
+  animation: scroll 40s infinite linear;
+  z-index: 1;
+}
+
+/* Capa 9 */
+.layer-9 {
+  background-image: url("https://i.ibb.co/bzFmksL/09.png");
+  animation: scroll 35s infinite linear;
+  z-index: 2;
+}
+
+/* Capa 8 */
+.layer-8 {
+  background-image: url("https://i.ibb.co/JRKpSzr/08.png");
+  animation: scroll 30s infinite linear;
+  z-index: 3;
+}
+
+/* Capa 7 */
+.layer-7 {
+  background-image: url("https://i.ibb.co/42hLhX0/07.png");
+  animation: scroll 20s infinite linear;
+  z-index: 4;
+}
+
+/* Capa 6 */
+.layer-6 {
+  background-image: url("https://i.ibb.co/6Bjg1yt/06.png");
+  animation: scroll 10s infinite linear;
+  z-index: 5;
+}
+
+/* Capa 5 */
+.layer-5 {
+  background-image: url("https://i.ibb.co/4jwk7vQ/05.png");
+  animation: scroll 9s infinite linear;
+  z-index: 6;
+}
+
+/* Capa 4 */
+.layer-4 {
+  background-image: url("https://i.ibb.co/6gJhWZb/04.png");
+  animation: scroll 8s infinite linear;
+  z-index: 7;
+}
+
+/* Capa 3 */
+.layer-3 {
+  background-image: url("https://i.ibb.co/2j1yq16/03.png");
+  animation: scroll 7s infinite linear;
+  z-index: 8;
+}
+
+/* Capa 2 */
+.layer-2 {
+  background-image: url("https://i.ibb.co/0Kg6mnL/02.png");
+  animation: scroll 6s infinite linear;
+  z-index: 9;
+}
+
+/* Capa 1 - Más rápida (primer plano) */
+.layer-1 {
+  background-image: url("https://i.ibb.co/Qc5CJvf/01.png");
+  animation: scroll 5s infinite linear;
+  z-index: 10;
+}
+
+
+/* Estado por defecto: background quieto */
+.layer {
+  background-repeat: repeat-x;
+  animation-play-state: paused;
+}
+
+/* Cuando el juego está en play: */
+.bg-active .layer {
+  animation-play-state: running;
+}

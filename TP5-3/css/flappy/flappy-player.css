@@ -1,0 +1,17 @@
+
+#dragon, #dragonPlayer{
+    width: 60px;
+    height: 45px;
+    background: url('../../assets/img/flappy/sprites/bird-sprite.png') left center;
+    background-size: auto 100%;
+    animation: fly 0.4s steps(3) infinite;
+    position: absolute;
+    top: 0;
+    left: 100px;
+}
+
+@keyframes fly {
+    0%{ background-position: 0px;}
+    100%{ background-position: -180px; }
+}
+
