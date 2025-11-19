@@ -25,15 +25,20 @@
 .pipe-top {
     position: absolute;
     top: 0;
-    width: 64px;
-    background: url('../../assets/img/flappy/sprites/toppipe.png') center bottom no-repeat;
-    background-size: 64px 100%;
+    width: 74px;
+    background: url('../../assets/img/flappy/sprites/pipes52.png') center bottom no-repeat;
+    background-size: 74px 100%;
+    background-color: rgba(0, 0, 0, 0.096);
+   
+   
 }
 
 /* Tuber�a inferior */
 .pipe-bottom {
     position: absolute;
-    width: 64px;
-    background: url('../../assets/img/flappy/sprites/bottompipe.png') center top no-repeat;
-    background-size: 64px 100%;
+    width: 74px;
+    background: url('../../assets/img/flappy/sprites/pipes53.png') center top no-repeat;
+    background-size: 74px 100%;
+    background-color: rgba(0, 0, 0, 0.048);
+    /* filter: brightness(1.5); */
 }

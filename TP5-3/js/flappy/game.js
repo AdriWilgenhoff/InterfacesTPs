@@ -1,4 +1,9 @@
 
+window.addEventListener('keydown', function (e) {
+  if (e.code === 'Space' || e.key === ' ') {
+    e.preventDefault(); 
+  }
+});
 
 let state = 'start';
 
@@ -70,11 +75,6 @@ buttonRestart.addEventListener('click', () => { changeState('start') });
 // Inicializar el estado al cargar la página
 changeState('start');
 
-/* variables del juego y */
-
-
-
-
 
 // Elementos DOM
 const dragonElement = document.querySelector('#dragonPlayer');
@@ -94,7 +94,7 @@ const BOARD_HEIGHT = 475;
 // Física del dragón
 let dragonY = BOARD_HEIGHT / 2;
 let dragonVelocityY = 0;
-const GRAVITY = 0.3;
+const GRAVITY = 0.25;
 const JUMP_FORCE = -7;
 const DRAGON_WIDTH = 60;
 const DRAGON_HEIGHT = 45;
@@ -371,7 +371,49 @@ function updateCollectibles() {
    DETECCIÓN DE COLISIONES
    ═══════════════════════════════════════════════════════════════ */
 
+/**
+ * Verifica colisión entre una elipse (dragón) y un rectángulo (tubería)
+ * @param {number} ellipseCenterX - Centro X de la elipse
+ * @param {number} ellipseCenterY - Centro Y de la elipse
+ * @param {number} radiusX - Radio horizontal de la elipse
+ * @param {number} radiusY - Radio vertical de la elipse
+ * @param {object} rect - Rectángulo {x, y, width, height}
+ * @returns {boolean} - True si hay colisión
+ */
+function isEllipseCollidingRect(ellipseCenterX, ellipseCenterY, radiusX, radiusY, rect) {
+    // Encontrar el punto más cercano del rectángulo al centro de la elipse
+    const closestX = Math.max(rect.x, Math.min(ellipseCenterX, rect.x + rect.width));
+    const closestY = Math.max(rect.y, Math.min(ellipseCenterY, rect.y + rect.height));
+
+    // Calcular distancia normalizada a la elipse
+    const dx = closestX - ellipseCenterX;
+    const dy = closestY - ellipseCenterY;
+
+    // Fórmula de la elipse: (x/a)² + (y/b)² <= 1
+    const normalizedDistance = (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY);
+
+    return normalizedDistance <= 1;
+}
+
+/**
+ * Verifica colisión rectangular básica (para coins y powerups)
+ */
+function isColliding(box1, box2) {
+    return box1.x < box2.x + box2.width &&
+           box1.x + box1.width > box2.x &&
+           box1.y < box2.y + box2.height &&
+           box1.y + box1.height > box2.y;
+}
+
 function checkCollisions() {
+    // Configuración de la hitbox elíptica del dragón
+    // Reducimos el área de colisión un 30% para hacer el juego más permisivo
+    const dragonCenterX = DRAGON_X + DRAGON_WIDTH / 2;
+    const dragonCenterY = dragonY + DRAGON_HEIGHT / 2;
+    const dragonRadiusX = (DRAGON_WIDTH / 2) * 0.7;  // 30% más pequeño horizontalmente
+    const dragonRadiusY = (DRAGON_HEIGHT / 2) * 0.7; // 30% más pequeño verticalmente
+
+    // Hitbox rectangular para coins/powerups (más permisiva)
     const dragonBox = {
         x: DRAGON_X,
         y: dragonY,
@@ -379,15 +421,41 @@ function checkCollisions() {
         height: DRAGON_HEIGHT
     };
 
-    // Colisión con tuberías
+    // Colisión con tuberías (usando hitbox elíptica)
     pipes.forEach(pipe => {
-        if (dragonBox.x + dragonBox.width > pipe.x &&
-            dragonBox.x < pipe.x + PIPE_WIDTH) {
+        // Verificar primero si está en rango horizontal (optimización)
+        if (dragonCenterX + dragonRadiusX > pipe.x &&
+            dragonCenterX - dragonRadiusX < pipe.x + PIPE_WIDTH) {
 
-            // Verificar si está fuera del gap
-            if (dragonBox.y < pipe.topHeight ||
-                dragonBox.y + dragonBox.height > pipe.topHeight + pipe.gap) {
+            // Crear rectángulos para tubería superior e inferior
+            const topPipeRect = {
+                x: pipe.x,
+                y: 0,
+                width: PIPE_WIDTH,
+                height: pipe.topHeight
+            };
 
+            const bottomPipeRect = {
+                x: pipe.x,
+                y: pipe.topHeight + pipe.gap,
+                width: PIPE_WIDTH,
+                height: BOARD_HEIGHT - (pipe.topHeight + pipe.gap)
+            };
+
+            // Verificar colisión elíptica con ambas tuberías
+            const hitTopPipe = isEllipseCollidingRect(
+                dragonCenterX, dragonCenterY,
+                dragonRadiusX, dragonRadiusY,
+                topPipeRect
+            );
+
+            const hitBottomPipe = isEllipseCollidingRect(
+                dragonCenterX, dragonCenterY,
+                dragonRadiusX, dragonRadiusY,
+                bottomPipeRect
+            );
+
+            if (hitTopPipe || hitBottomPipe) {
                 // Si tiene escudo, consumirlo en lugar de perder
                 if (activePowerups.shield) {
                     activePowerups.shield = false;
@@ -399,7 +467,7 @@ function checkCollisions() {
         }
     });
 
-    // Colisión con coins
+    // Colisión con coins (rectangular, más permisiva)
     coins.forEach((coin, index) => {
         if (!coin.collected && isColliding(dragonBox, {
             x: coin.x, y: coin.y, width: COIN_SIZE, height: COIN_SIZE
@@ -414,7 +482,7 @@ function checkCollisions() {
         }
     });
 
-    // Colisión con powerups
+    // Colisión con powerups (rectangular, más permisiva)
     powerups.forEach((powerup, index) => {
         if (!powerup.collected && isColliding(dragonBox, {
             x: powerup.x, y: powerup.y, width: POWERUP_SIZE, height: POWERUP_SIZE
@@ -426,13 +494,6 @@ function checkCollisions() {
             activatePowerup(powerup.type);
         }
     });
-}
-
-function isColliding(box1, box2) {
-    return box1.x < box2.x + box2.width &&
-           box1.x + box1.width > box2.x &&
-           box1.y < box2.y + box2.height &&
-           box1.y + box1.height > box2.y;
 }
 
 /* ═══════════════════════════════════════════════════════════════

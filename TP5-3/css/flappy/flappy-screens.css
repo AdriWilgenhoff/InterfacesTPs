@@ -48,8 +48,7 @@
 #startButton:hover{  transform: scale(1.1); }
 
 #nextButton {
-   /*  width: 150px;
-    height: 50px; */
+    
     padding: 15px 40px;
     font-size: 24px;
     font-weight: bold;
@@ -64,7 +63,14 @@
     letter-spacing: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     z-index: 200;
-}
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #000;
+   
+} 
 
 #reStartButton{
    /*  
@@ -86,9 +92,6 @@
     z-index: 200;
 }
 
-
-
-
 #reStartButton:hover{transform: scale(1.1);}
 
 #nextButton:hover {    
@@ -101,15 +104,6 @@
     transform: scale(0.95);
 }
 
-/* Bot�n Next - posici�n absoluta para testing */
-#nextButton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background: var(--color-accent);
-}
 
 #nextButton:hover {
     background: var(--color-accentLight1);

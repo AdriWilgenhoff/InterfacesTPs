@@ -2,16 +2,17 @@
 #dragon, #dragonPlayer{
     width: 60px;
     height: 45px;
-    background: url('../../assets/img/flappy/sprites/bird-sprite.png') left center;
+    background: url('../../assets/img/flappy/sprites/batSprite1.png') left center;
     background-size: auto 100%;
-    animation: fly 0.4s steps(3) infinite;
+    animation: fly 0.4s steps(4) infinite;
     position: absolute;
-    top: 0;
+    /* top: 0; */
     left: 100px;
+    background-color: rgba(0, 0, 0, 0.055);
 }
 
 @keyframes fly {
     0%{ background-position: 0px;}
-    100%{ background-position: -180px; }
+    100%{ background-position: -740px; }
 }
 
