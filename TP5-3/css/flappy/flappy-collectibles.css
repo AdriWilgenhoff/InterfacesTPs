@@ -16,86 +16,56 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    background: url('../../assets/img/flappy/sprites/batSprite1.png') left center;
-    background-size: auto 100%;
-    animation: coin-spin 0.6s steps(6) infinite;
+    background: url('../../assets/img/flappy/sprites/blood2.png') left center;
+    background-size: 200px auto;  /* Escala el sprite completo: 5 frames × 40px = 200px */
+    background-repeat: no-repeat;
+    overflow: hidden;
+    animation: coin-spin 1s steps(5) infinite;
 }
 
 @keyframes coin-spin {
     0% { background-position-x: 0px; }
-    100% { background-position-x: -240px; }  /* Asumiendo 6 frames de 40px */
+    100% { background-position-x: -200px; }  /* 5 frames de 40px cada uno (escalados) */
 }
 
 
+/* POWER-UPS - Solo "Slow Motion" (Ralentizar) */
 .powerup {
     position: absolute;
-    width: 45px;
-    height: 45px;
-    background: url('../../assets/img/flappy/sprites/powerup-sprite.png') left center;
-    background-size: auto 100%;
-    animation: powerup-glow 0.5s steps(4) infinite;
-}
-
-@keyframes powerup-glow {
-    0% { background-position-x: 0px; }
-    100% { background-position-x: -180px; }  /* Asumiendo 4 frames de 45px */
-}
-
-/* Tipos de power-ups (diferentes filas en el sprite original) */
-.powerup.shield {
-    background-position-y: 0px;
-}
-
-.powerup.slow {
-    background-position-y: -45px;
-}
-
-.powerup.boost {
-    background-position-y: -90px;
-}
-
-/*
-   NOTA: Para usar sprites separados en el futuro, descomentar el código siguiente
-   y crear los archivos: powerup-shield-sprite.png, powerup-slow-sprite.png, powerup-boost-sprite.png
-*/
-
-
-.powerup {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    background-size: auto 100%;
+    width: 35px;
+    height: 35px;
+    background-size: 175px auto;  /* Escala el sprite completo: 5 frames × 35px = 175px */
     background-repeat: no-repeat;
     background-position: left center;
-}
-
-.powerup.shield {
-    background-image: url('../../assets/img/flappy/sprites/shield.png');
-    animation: shield-glow 0.5s steps(4) infinite;
-}
-
-@keyframes shield-glow {
-    0% { background-position-x: 0px; }
-    100% { background-position-x: -180px; }
+    overflow: hidden;
 }
 
 .powerup.slow {
-    background-image: url('../../assets/img/flappy/sprites/slow.png');
-    animation: slow-glow 0.5s steps(4) infinite;
+    background-image: url('../../assets/img/flappy/sprites/clock2.jpg');
+    animation: slow-glow 0.6s steps(5) infinite;
 }
 
 @keyframes slow-glow {
     0% { background-position-x: 0px; }
-    100% { background-position-x: -180px; }
+    100% { background-position-x: -175px; }  /* 5 frames de 35px cada uno (escalados) */
 }
 
-.powerup.boost {
-    background-image: url('../../assets/img/flappy/sprites/boost.png');
-    animation: boost-glow 0.5s steps(4) infinite;
+
+/* EXPLOSIÓN - Animación al morir */
+.explosion {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: url('../../assets/img/flappy/sprites/exploding.png') left center;
+    background-size: 560px auto;  /* Escala el sprite completo: 7 frames × 80px = 560px */
+    background-repeat: no-repeat;
+    overflow: hidden;
+    animation: explode 0.6s steps(7) forwards;  /* forwards = se queda en el último frame */
+    z-index: 100;
+    pointer-events: none;
 }
 
-@keyframes boost-glow {
+@keyframes explode {
     0% { background-position-x: 0px; }
-    100% { background-position-x: -180px; }
+    100% { background-position-x: -560px; }  /* 7 frames de 80px cada uno (escalados) */
 }
-

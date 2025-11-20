@@ -366,17 +366,46 @@
                                 <!-- pantalla de inicio -->
                                 <div id="initScreenFlappy" class="game-scene">
 
-                                    <div id="dragon"></div>
+                                    <div class="init-screen-content">
+                                        <!-- Título del juego -->
+                                        <h1 class="game-title">
+                                             FLAPPY DRAGON 
+                                        </h1>
 
+                                        <!-- Objetivo -->
+                                        <div class="game-objective">
+                                            <span class="objective-icon">🎯</span>
+                                            Alcanza <strong>250 puntos</strong> para ganar
+                                        </div>
 
-                                    <h2 class=""
-                                        style="align-items: right; color: white; padding: 20px; text-shadow: 0px 5px 15px rgba(0,0,0,0.8) ;">
-                                        Click para mantenerte en el aire!
-                                    </h2>
+                                        <!-- Dragón animado -->
+                                        <div id="dragon" class="dragon-float"></div>
 
+                                        <!-- Instrucciones -->
+                                        <div class="game-instructions-init ">
+                                            <div class="instruction-item">
+                                                <span class="instruction-icon">🖱️</span>
+                                                Click o Espacio para volar
+                                            </div>
+                                            <div class="instruction-item">
+                                                <span class="instruction-icon">⚠️</span>
+                                                Evita las tuberías
+                                            </div>
+                                            <div class="instruction-item">
+                                                <span class="instruction-icon">💰</span>
+                                                Monedas: +10 puntos
+                                            </div>
+                                            <div class="instruction-item">
+                                                <span class="instruction-icon">⏱️</span>
+                                                Power-up: Cámara lenta
+                                            </div>
+                                        </div>
 
-                                    <div id="startButton" class="game-scene"> Start > </div>
-
+                                        <!-- Botón Start -->
+                                        <button id="startButton" class="start-button-improved">
+                                            <span class="button-icon">▶</span> JUGAR
+                                        </button>
+                                    </div>
 
                                 </div>
 
@@ -399,9 +428,6 @@
                                     <!-- HUD - Interfaz de usuario -->
                                     <div id="game-hud">
                                         <div id="current-score">0</div>
-                                        <div id="high-score-container">
-                                            High Score: <span id="high-score">0</span>
-                                        </div>
                                         <div id="powerup-indicators"></div>
                                     </div>
                                 </div>
@@ -412,7 +438,6 @@
                                         <div id="game-over-stats">
                                             <h2>GAME OVER</h2>
                                             <div id="final-score">Score: <span>0</span></div>
-                                            <div id="final-high-score">High Score: <span>0</span></div>
                                         </div>
                                         <div id="reStartButton"> ReStart </div>
                                     </div>

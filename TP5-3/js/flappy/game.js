@@ -82,9 +82,7 @@ const pipesContainer = document.querySelector('#pipes-container');
 const coinsContainer = document.querySelector('#coins-container');
 const powerupsContainer = document.querySelector('#powerups-container');
 const currentScoreEl = document.querySelector('#current-score');
-const highScoreEl = document.querySelector('#high-score');
 const finalScoreEl = document.querySelector('#final-score span');
-const finalHighScoreEl = document.querySelector('#final-high-score span');
 const powerupIndicatorsEl = document.querySelector('#powerup-indicators');
 
 // Dimensiones del tablero
@@ -118,13 +116,12 @@ const POWERUP_SPAWN_CHANCE = 0.15; // 15% de probabilidad
 
 // Puntuación
 let score = 0;
-let highScore = localStorage.getItem('flappyHighScore') || 0;
+const VICTORY_SCORE = 250;  // Puntaje para ganar
+let isVictory = false;      // Bandera: ¿ganó o murió?
 
-// Power-ups activos
+// Power-ups activos (solo slow motion)
 let activePowerups = {
-    shield: false,
-    slow: false,
-    boost: false
+    slow: false
 };
 
 // Control del juego
@@ -143,10 +140,11 @@ function startGame() {
     coins = [];
     powerups = [];
     score = 0;
+    isVictory = false;  // Resetear bandera de victoria
     pipeSpeed = 3;
     PIPE_GAP = 180;
     lastPipeSpawn = 0;
-    activePowerups = { shield: false, slow: false, boost: false };
+    activePowerups = { slow: false };
 
     // Limpiar contenedores
     pipesContainer.innerHTML = '';
@@ -156,7 +154,6 @@ function startGame() {
 
     // Actualizar UI
     updateScoreDisplay();
-    highScoreEl.textContent = highScore;
 
     // Iniciar game loop
     lastTime = performance.now();
@@ -170,15 +167,8 @@ function resetGame() {
         gameLoopId = null;
     }
 
-    // Guardar high score
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('flappyHighScore', highScore);
-    }
-
     // Actualizar stats de game over
     finalScoreEl.textContent = score;
-    finalHighScoreEl.textContent = highScore;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -279,8 +269,7 @@ function updatePipes(deltaTime) {
         // Verificar si pasó el dragón (para score)
         if (!pipe.passed && pipe.x + PIPE_WIDTH < DRAGON_X) {
             pipe.passed = true;
-            const points = activePowerups.boost ? 2 : 1;
-            score += points;
+            score += 1;
             updateScoreDisplay();
         }
 
@@ -297,17 +286,17 @@ function updatePipes(deltaTime) {
    ═══════════════════════════════════════════════════════════════ */
 
 function spawnCollectibles(x, centerY) {
-    // Spawn coin
-    if (Math.random() < COIN_SPAWN_CHANCE) {
+    // Generar un solo coleccionable (mutuamente excluyentes)
+    const random = Math.random();
+
+    if (random < POWERUP_SPAWN_CHANCE) {
+        // Solo power-up (15% probabilidad)
+        spawnPowerup(x + 30, centerY - POWERUP_SIZE / 2, 'slow');
+    } else if (random < POWERUP_SPAWN_CHANCE + COIN_SPAWN_CHANCE) {
+        // Solo coin (60% probabilidad)
         spawnCoin(x, centerY - COIN_SIZE / 2);
     }
-
-    // Spawn powerup
-    if (Math.random() < POWERUP_SPAWN_CHANCE) {
-        const types = ['shield', 'slow', 'boost'];
-        const type = types[Math.floor(Math.random() * types.length)];
-        spawnPowerup(x + 30, centerY - POWERUP_SIZE / 2, type);
-    }
+    // 25% de probabilidad de no generar nada
 }
 
 function spawnCoin(x, y) {
@@ -456,13 +445,7 @@ function checkCollisions() {
             );
 
             if (hitTopPipe || hitBottomPipe) {
-                // Si tiene escudo, consumirlo en lugar de perder
-                if (activePowerups.shield) {
-                    activePowerups.shield = false;
-                    updatePowerupIndicators();
-                } else {
-                    triggerGameOver();
-                }
+                triggerGameOver();
             }
         }
     });
@@ -476,8 +459,7 @@ function checkCollisions() {
             coin.element.remove();
             coins.splice(index, 1);
 
-            const points = activePowerups.boost ? 20 : 10;
-            score += points;
+            score += 10;
             updateScoreDisplay();
         }
     });
@@ -514,24 +496,10 @@ function activatePowerup(type) {
 function updatePowerupIndicators() {
     powerupIndicatorsEl.innerHTML = '';
 
-    if (activePowerups.shield) {
-        const indicator = document.createElement('div');
-        indicator.className = 'powerup-indicator';
-        indicator.textContent = '🛡️ Shield Active';
-        powerupIndicatorsEl.appendChild(indicator);
-    }
-
     if (activePowerups.slow) {
         const indicator = document.createElement('div');
         indicator.className = 'powerup-indicator';
         indicator.textContent = '⏱️ Slow Motion';
-        powerupIndicatorsEl.appendChild(indicator);
-    }
-
-    if (activePowerups.boost) {
-        const indicator = document.createElement('div');
-        indicator.className = 'powerup-indicator';
-        indicator.textContent = '⭐ Score Boost x2';
         powerupIndicatorsEl.appendChild(indicator);
     }
 }
@@ -542,11 +510,86 @@ function updatePowerupIndicators() {
 
 function updateScoreDisplay() {
     currentScoreEl.textContent = score;
+
+    // Verificar si alcanzó el puntaje para ganar
+    if (score >= VICTORY_SCORE) {
+        isVictory = true;
+        triggerGameOver();
+    }
+}
+
+function updateGameOverText() {
+    const titleEl = document.querySelector('#gameOverFlappy h2');
+
+    if (isVictory) {
+        titleEl.textContent = '🎉 ¡VICTORIA! 🎉';
+        titleEl.style.color = 'gold';
+    } else {
+        titleEl.textContent = 'GAME OVER';
+        titleEl.style.color = '';  // Color original
+    }
+}
+
+function showExplosion(x, y) {
+    // Crear elemento de explosión
+    const explosionElement = document.createElement('div');
+    explosionElement.className = 'explosion';
+
+    // Centrar la explosión en la posición del dragón (80px es el tamaño de la explosión)
+    explosionElement.style.left = (x - 10) + 'px';  // Centrar horizontalmente
+    explosionElement.style.top = (y - 20) + 'px';   // Centrar verticalmente
+
+    // Agregar al contenedor de juego
+    pantallaJuego.appendChild(explosionElement);
+
+    // Eliminar la explosión después de que termine la animación
+    setTimeout(() => {
+        explosionElement.remove();
+    }, 600); // Duración de la animación
 }
 
 function triggerGameOver() {
-    resetGame();
-    changeState('gameOver');
+    // Capturar posición exacta del dragón ANTES de cualquier cambio
+    const deathX = DRAGON_X;
+    const deathY = dragonY;
+
+    // Detener INMEDIATAMENTE toda física
+    dragonVelocityY = 0;
+
+    // Detener el game loop
+    if (gameLoopId) {
+        cancelAnimationFrame(gameLoopId);
+        gameLoopId = null;
+    }
+
+    // Congelar el dragón en su posición actual
+    dragonElement.style.top = deathY + 'px';
+
+    // Solo mostrar explosión SI MURIÓ (no si ganó)
+    if (!isVictory) {
+        // Ocultar el dragón
+        dragonElement.style.opacity = '0';
+        // Mostrar explosión en la posición EXACTA donde murió
+        showExplosion(deathX, deathY);
+    }
+
+    // Actualizar el texto de la pantalla según victoria o muerte
+    updateGameOverText();
+
+    // Delay diferente: corto si ganó, largo si murió (para la explosión)
+    const delay = isVictory ? 100 : 700;
+
+    // Esperar antes de mostrar la pantalla
+    setTimeout(() => {
+        // Restaurar visibilidad del dragón solo si murió
+        if (!isVictory) {
+            dragonElement.style.opacity = '1';
+        }
+
+        // Guardar stats y mostrar pantalla
+        resetGame();
+        changeState('gameOver');
+    }, delay);
 }
 
 /* ═══════════════════════════════════════════════════════════════

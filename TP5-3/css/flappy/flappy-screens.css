@@ -44,7 +44,8 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    z-index: 200;}
+    z-index: 200;
+animation: titlePulse 2s ease-in-out infinite;}
 #startButton:hover{  transform: scale(1.1); }
 
 #nextButton {
@@ -65,7 +66,7 @@
     z-index: 200;
     position: absolute;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     padding: 10px 20px;
     font-size: 16px;
     background: #000;
@@ -90,6 +91,9 @@
     letter-spacing: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     z-index: 200;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }
 
 #reStartButton:hover{transform: scale(1.1);}
@@ -109,3 +113,118 @@
     background: var(--color-accentLight1);
     box-shadow: 0 6px 12px rgba(255, 87, 51, 0.5);
 }
+/* 
+
+/* ═══════════════════════════════════════════════════════════════
+   PANTALLA INICIAL MEJORADA
+   ═══════════════════════════════════════════════════════════════ */
+
+.init-screen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    padding: 20px;
+    z-index: 101;
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 48px;
+    font-weight: 900;
+    font-family: var(--font-base);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0px 4px 20px rgba(102, 126, 234, 0.5);
+    
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Objetivo del juego */
+.game-objective {
+    font-size: 18px;
+    color: #FFD700;
+    font-weight: 600;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    animation: objectiveGlow 2s ease-in-out infinite;
+}
+
+@keyframes objectiveGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+}
+
+.objective-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+/* Dragón flotante */
+.dragon-float {
+    animation: dragonFloat 3s ease-in-out infinite;
+    margin: 10px 0;
+}
+
+@keyframes dragonFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Instrucciones */
+.game-instructions-init {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 15px 0;
+    max-width: 500px;
+    
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+}
+
+
+.instruction-icon {
+    font-size: 20px;
+}
+/* 
+/* Botón Start mejorado */
+ 
+
+
+@keyframes buttonIconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+ 
