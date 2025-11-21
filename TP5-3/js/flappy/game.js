@@ -102,8 +102,8 @@ const DRAGON_X = 100; // Posición horizontal fija
 let pipes = [];
 const PIPE_WIDTH = 64;
 let PIPE_GAP = 180;
-let pipeSpeed = 3;
-const PIPE_SPAWN_INTERVAL = 1800; // milisegundos
+let pipeSpeed = 4;
+const PIPE_SPAWN_INTERVAL = 1500; // milisegundos
 let lastPipeSpawn = 0;
 
 // Coleccionables// 
@@ -119,9 +119,9 @@ let score = 0;
 const VICTORY_SCORE = 250;  // Puntaje para ganar
 let isVictory = false;      // Bandera: ¿ganó o murió?
 
-// Power-ups activos (solo slow motion)
+// Power-ups activos
 let activePowerups = {
-    slow: false
+    grow: false
 };
 
 // Control del juego
@@ -141,10 +141,8 @@ function startGame() {
     powerups = [];
     score = 0;
     isVictory = false;  // Resetear bandera de victoria
-    pipeSpeed = 3;
-    PIPE_GAP = 180;
     lastPipeSpawn = 0;
-    activePowerups = { slow: false };
+    activePowerups = { grow: false };
 
     // Limpiar contenedores
     pipesContainer.innerHTML = '';
@@ -166,6 +164,9 @@ function resetGame() {
         cancelAnimationFrame(gameLoopId);
         gameLoopId = null;
     }
+
+    // Limpiar efectos de powerups
+    dragonElement.classList.remove('grown');
 
     // Actualizar stats de game over
     finalScoreEl.textContent = score;
@@ -196,7 +197,14 @@ function updateDragon() {
 
 function jump() {
     if (state === 'playing') {
-        dragonVelocityY = JUMP_FORCE;
+        if (activePowerups.grow) {
+            // Salto inconsistente cuando está "borracho de sangre"
+            // Aleatoriamente entre -4 y -10 (normal es -7)
+            const randomJump = -4 - Math.random() * 6;
+            dragonVelocityY = randomJump;
+        } else {
+            dragonVelocityY = JUMP_FORCE;
+        }
     }
 }
 
@@ -259,7 +267,7 @@ function spawnPipe() {
 }
 
 function updatePipes(deltaTime) {
-    const currentSpeed = activePowerups.slow ? pipeSpeed * 0.5 : pipeSpeed;
+    const currentSpeed = pipeSpeed;
 
     pipes.forEach((pipe, index) => {
         // Mover tubería
@@ -291,7 +299,7 @@ function spawnCollectibles(x, centerY) {
 
     if (random < POWERUP_SPAWN_CHANCE) {
         // Solo power-up (15% probabilidad)
-        spawnPowerup(x + 30, centerY - POWERUP_SIZE / 2, 'slow');
+        spawnPowerup(x + 30, centerY - POWERUP_SIZE / 2, 'grow');
     } else if (random < POWERUP_SPAWN_CHANCE + COIN_SPAWN_CHANCE) {
         // Solo coin (60% probabilidad)
         spawnCoin(x, centerY - COIN_SIZE / 2);
@@ -331,7 +339,7 @@ function spawnPowerup(x, y, type) {
 }
 
 function updateCollectibles() {
-    const currentSpeed = activePowerups.slow ? pipeSpeed * 0.5 : pipeSpeed;
+    const currentSpeed = pipeSpeed;
 
     // Actualizar coins
     coins.forEach((coin, index) => {
@@ -396,11 +404,15 @@ function isColliding(box1, box2) {
 
 function checkCollisions() {
     // Configuración de la hitbox elíptica del dragón
-    // Reducimos el área de colisión un 30% para hacer el juego más permisivo
-    const dragonCenterX = DRAGON_X + DRAGON_WIDTH / 2;
-    const dragonCenterY = dragonY + DRAGON_HEIGHT / 2;
-    const dragonRadiusX = (DRAGON_WIDTH / 2) * 0.7;  // 30% más pequeño horizontalmente
-    const dragonRadiusY = (DRAGON_HEIGHT / 2) * 0.7; // 30% más pequeño verticalmente
+    // Si grow está activo, el hitbox es 2x más grande
+    const growMultiplier = activePowerups.grow ? 2 : 1;
+    const currentWidth = DRAGON_WIDTH * growMultiplier;
+    const currentHeight = DRAGON_HEIGHT * growMultiplier;
+
+    const dragonCenterX = DRAGON_X + currentWidth / 2;
+    const dragonCenterY = dragonY + currentHeight / 2;
+    const dragonRadiusX = (currentWidth / 2) * 0.7;
+    const dragonRadiusY = (currentHeight / 2) * 0.7;
 
     // Hitbox rectangular para coins/powerups (más permisiva)
     const dragonBox = {
@@ -417,17 +429,19 @@ function checkCollisions() {
             dragonCenterX - dragonRadiusX < pipe.x + PIPE_WIDTH) {
 
             // Crear rectángulos para tubería superior e inferior
+            // Reducir hitbox 12px (6px de cada lado) para compensar bordes de piedras
+            const pipeMargin = 6;
             const topPipeRect = {
-                x: pipe.x,
+                x: pipe.x + pipeMargin,
                 y: 0,
-                width: PIPE_WIDTH,
+                width: PIPE_WIDTH - (pipeMargin * 2),
                 height: pipe.topHeight
             };
 
             const bottomPipeRect = {
-                x: pipe.x,
+                x: pipe.x + pipeMargin,
                 y: pipe.topHeight + pipe.gap,
-                width: PIPE_WIDTH,
+                width: PIPE_WIDTH - (pipeMargin * 2),
                 height: BOARD_HEIGHT - (pipe.topHeight + pipe.gap)
             };
 
@@ -486,20 +500,30 @@ function activatePowerup(type) {
     activePowerups[type] = true;
     updatePowerupIndicators();
 
+    // Aplicar efecto visual de grow
+    if (type === 'grow') {
+        dragonElement.classList.add('grown');
+    }
+
     // Desactivar después de 5 segundos
     setTimeout(() => {
         activePowerups[type] = false;
         updatePowerupIndicators();
+
+        // Quitar efecto visual
+        if (type === 'grow') {
+            dragonElement.classList.remove('grown');
+        }
     }, 5000);
 }
 
 function updatePowerupIndicators() {
     powerupIndicatorsEl.innerHTML = '';
 
-    if (activePowerups.slow) {
+    if (activePowerups.grow) {
         const indicator = document.createElement('div');
-        indicator.className = 'powerup-indicator';
-        indicator.textContent = '⏱️ Slow Motion';
+        indicator.className = 'powerup-indicator negative';
+        indicator.textContent = '🩸 BORRACHO DE SANGRE ';
         powerupIndicatorsEl.appendChild(indicator);
     }
 }
@@ -522,10 +546,10 @@ function updateGameOverText() {
     const titleEl = document.querySelector('#gameOverFlappy h2');
 
     if (isVictory) {
-        titleEl.textContent = '🎉 ¡VICTORIA! 🎉';
+        titleEl.textContent = ' ¡GANASTE! ';
         titleEl.style.color = 'gold';
     } else {
-        titleEl.textContent = 'GAME OVER';
+        titleEl.textContent = 'JUEGO TERMINADO';
         titleEl.style.color = '';  // Color original
     }
 }
@@ -621,7 +645,3 @@ function gameLoop(currentTime) {
     // Siguiente frame
     gameLoopId = requestAnimationFrame(gameLoop);
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   EVENTOS DE BOTONES ACTUALIZADOS
-   ═══════════════════════════════════════════════════════════════ */

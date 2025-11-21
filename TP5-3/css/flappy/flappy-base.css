@@ -28,7 +28,7 @@
   z-index: 0;
   overflow: hidden;
   display: block;
-  filter: brightness(2.5);
+  filter: brightness(1.5);
 }
 
 /* Animación de scroll parallax */
@@ -37,23 +37,21 @@
     background-position-x: 0px;
   }
   100% {
-    background-position-x: -1920px;
+    background-position-x: -900px;
   }
 }
 
 /* Capas del fondo */
 .layer {
-  min-height: 500px;
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   background-repeat: repeat-x;
-  background-size: cover;
+  background-size: 900px 475px; /* Forzar tamaño exacto para loop perfecto */
   pointer-events: none;
   animation-play-state: paused;
-  
 }
 
 
@@ -62,28 +60,30 @@
 .layer-10 {
   background-image: url("../../assets/img/flappy/backgrounds/10.png");
   animation: scroll 120s infinite linear;
-  z-index: 1;
+  z-index: 1; 
   animation-play-state: paused;
 }
 
 .layer-9 {
   background-image: url("../../assets/img/flappy/backgrounds/09.png");
   animation: scroll 110s infinite linear;
-  z-index: 2;
+  z-index: 8;
   animation-play-state: paused;
 }
 
 .layer-8 {
   background-image: url("../../assets/img/flappy/backgrounds/08.png");
   animation: scroll 100s infinite linear;
-  z-index: 3;
+  z-index: 6;
+ 
   animation-play-state: paused;
 }
 
 .layer-7 {
   background-image: url("../../assets/img/flappy/backgrounds/07.png");
   animation: scroll 90s infinite linear;
-  z-index: 4;
+  z-index: 7;
+   opacity: 0.2;
   animation-play-state: paused;
 }
 

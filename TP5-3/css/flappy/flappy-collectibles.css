@@ -29,25 +29,29 @@
 }
 
 
-/* POWER-UPS - Solo "Slow Motion" (Ralentizar) */
+/* POWER-UPS - "Grow" (Powerup negativo - Agranda al jugador) */
 .powerup {
     position: absolute;
     width: 35px;
     height: 35px;
-    background-size: 175px auto;  /* Escala el sprite completo: 5 frames × 35px = 175px */
+    background-size: 175px auto;
     background-repeat: no-repeat;
     background-position: left center;
     overflow: hidden;
 }
 
-.powerup.slow {
-    background-image: url('../../assets/img/flappy/sprites/clock2.jpg');
-    animation: slow-glow 0.6s steps(5) infinite;
+.powerup.grow {
+    width: 80px;
+    height: 80px;
+    background-image: url('../../assets/img/flappy/sprites/pota3.png');
+    background-size: 560px auto;  /* 7 frames × 80px = 560px */
+    animation: grow-glow 0.6s steps(6) infinite;
+    transform: scale(0.65);
 }
 
-@keyframes slow-glow {
+@keyframes grow-glow {
     0% { background-position-x: 0px; }
-    100% { background-position-x: -175px; }  /* 5 frames de 35px cada uno (escalados) */
+    100% { background-position-x: -480px; }  /* 6 saltos × 80px = 480px */
 }
 
 
@@ -57,15 +61,15 @@
     width: 80px;
     height: 80px;
     background: url('../../assets/img/flappy/sprites/exploding.png') left center;
-    background-size: 560px auto;  /* Escala el sprite completo: 7 frames × 80px = 560px */
+    background-size: 560px auto;  /* 7 frames × 80px = 560px */
     background-repeat: no-repeat;
     overflow: hidden;
-    animation: explode 0.6s steps(7) forwards;  /* forwards = se queda en el último frame */
+    animation: explode 0.6s steps(6) forwards;  /* 6 saltos para 7 frames */
     z-index: 100;
     pointer-events: none;
 }
 
 @keyframes explode {
     0% { background-position-x: 0px; }
-    100% { background-position-x: -560px; }  /* 7 frames de 80px cada uno (escalados) */
+    100% { background-position-x: -480px; }  /* 6 saltos × 80px = 480px */
 }

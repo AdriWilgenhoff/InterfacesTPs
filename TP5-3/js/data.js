@@ -120,10 +120,10 @@ function filterByHeroCard(games) {
   }
     juegoNuestroFlappy = {
     id: 3330,
-    name: "Flappy Dragon",
+    name: "Cave Escape",
     released: "2025-09-17",
     url: "html/flappy.html",
-    background_image: "assets/img/flappy/flappy.png",
+    background_image: "assets/img/flappy/flappy2.png",
     isFree: false,
     price: 49.99,
     discountPrice: 49.99,

@@ -36,7 +36,7 @@
     font-weight: bold;
     font-family: var(--font-base);
     color: var(--color-textLight);
-    background: var(--color-primary);
+    background: #c40101 /* var(--color-warning) */;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -74,15 +74,12 @@ animation: titlePulse 2s ease-in-out infinite;}
 } 
 
 #reStartButton{
-   /*  
-    width: 150px;
-    height: 50px; */
-    padding: 15px 40px;
-    font-size: 24px;
+    padding: 10px 25px;
+    font-size: 18px;
     font-weight: bold;
     font-family: var(--font-base);
     color: var(--color-textLight);
-    background: var(--color-warning);
+    background: #c40101;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -111,13 +108,18 @@ animation: titlePulse 2s ease-in-out infinite;}
 
 #nextButton:hover {
     background: var(--color-accentLight1);
-    box-shadow: 0 6px 12px rgba(255, 87, 51, 0.5);
+    box-shadow: 0 6px 12px rgb(37, 37, 37);
 }
 /* 
 
 /* ═══════════════════════════════════════════════════════════════
    PANTALLA INICIAL MEJORADA
    ═══════════════════════════════════════════════════════════════ */
+
+ 
+   .init-screen{
+     background-color: #0000008f;
+   }
 
 .init-screen-content {
     display: flex;
@@ -128,49 +130,36 @@ animation: titlePulse 2s ease-in-out infinite;}
     text-align: center;
     padding: 20px;
     z-index: 101;
+   
+    
 }
 
 /* Título del juego */
 .game-title {
     font-size: 48px;
-    font-weight: 900;
-    font-family: var(--font-base);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0px 4px 20px rgba(102, 126, 234, 0.5);
-    
+    font-weight: 400;
+    font-family: "Rubik Wet Paint", system-ui;
+    color: #d30000ec;
+    text-shadow: 0px 4px 20px rgba(5, 6, 7, 0.623);
     margin: 0;
     letter-spacing: 3px;
 }
 
-@keyframes titlePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-/* Objetivo del juego */
+/* Objetivo del juego — solo texto */
 .game-objective {
     font-size: 18px;
-    color: #FFD700;
+    color: #e0e0e0;
     font-weight: 600;
-    padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 25px;
-    border: 2px solid rgba(255, 215, 0, 0.5);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-    animation: objectiveGlow 2s ease-in-out infinite;
-}
-
-@keyframes objectiveGlow {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+    padding: 0;      /* Sin fondos ni cajas */
+    background: none;
+    border: none;
+    box-shadow: none;
+    animation: none;
 }
 
 .objective-icon {
-    font-size: 24px;
-    margin-right: 8px;
+    font-size: 22px;
+    margin-right: 6px;
 }
 
 /* Dragón flotante */
@@ -179,12 +168,7 @@ animation: titlePulse 2s ease-in-out infinite;}
     margin: 10px 0;
 }
 
-@keyframes dragonFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-}
-
-/* Instrucciones */
+/* Instrucciones — limpio sin cajas */
 .game-instructions-init {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -192,39 +176,50 @@ animation: titlePulse 2s ease-in-out infinite;}
     margin: 15px 0;
     max-width: 500px;
     
+
 }
 
+/* Texto plano, sin fondos ni bordes */
 .instruction-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
+    padding: 0;
+    background: none;
+    border: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    color: #f0f0f0;
     font-size: 14px;
     font-weight: 500;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    font-weight: 600;
-    padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 15px;
+    transition: none;
 }
-
 
 .instruction-icon {
     font-size: 20px;
 }
-/* 
-/* Botón Start mejorado */
- 
 
-
-@keyframes buttonIconPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+/* Botón Start — limpio y claro */
+.start-button-improved {
+    background: none;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
- 
+.start-button-improved:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+#game-over-stats h2 {
+    font-size: 42px;
+    color: #d30000ec;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+

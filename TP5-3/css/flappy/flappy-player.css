@@ -8,11 +8,34 @@
     position: absolute;
     /* top: 0; */
     left: 100px;
-    background-color: rgba(0, 0, 0, 0.055);
+   
+}
+
+/* Debug: visualizar hitbox elíptico (30% reducido) */
+#dragonPlayer.show-hitbox::after {
+    content: '';
+    position: absolute;
+    /* Centrado con 70% del tamaño (igual que el hitbox real) */
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border: 2px solid red;
+    border-radius: 50%;
+    pointer-events: none;
+    box-sizing: border-box;
 }
 
 @keyframes fly {
     0%{ background-position: 0px;}
     100%{ background-position: -740px; }
+}
+
+/* Efecto grow (powerup negativo) - 2x más grande */
+#dragonPlayer.grown {
+    transform: scale(2);
+    transform-origin: left top;
+    transition: transform 0.1s;
+    filter: hue-rotate(320deg) saturate(1.5); /* Tinte rojizo para indicar peligro */
 }
 

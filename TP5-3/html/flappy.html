@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Rubik+Wet+Paint&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/navBar.css">
@@ -342,7 +342,7 @@
                     <li class="separator">›</li>
                     <li class="bc-item"><a href="../index.html">Plataforma</a></li>
                     <li class="separator">›</li>
-                    <li class="bc-item current">Flappy</li>
+                    <li class="bc-item current">Cave Escape</li>
                 </ol>
             </div>
 
@@ -364,17 +364,17 @@
                             <div id="gameFlappy" width='900' higth="475">
 
                                 <!-- pantalla de inicio -->
-                                <div id="initScreenFlappy" class="game-scene">
+                                <div id="initScreenFlappy" class="game-scene init-screen">
 
                                     <div class="init-screen-content">
                                         <!-- Título del juego -->
                                         <h1 class="game-title">
-                                             FLAPPY DRAGON 
+                                            CAVE ESCAPE
                                         </h1>
 
                                         <!-- Objetivo -->
                                         <div class="game-objective">
-                                            <span class="objective-icon">🎯</span>
+                                            <!-- <span class="objective-icon">🦇</span> -->
                                             Alcanza <strong>250 puntos</strong> para ganar
                                         </div>
 
@@ -384,26 +384,26 @@
                                         <!-- Instrucciones -->
                                         <div class="game-instructions-init ">
                                             <div class="instruction-item">
-                                                <span class="instruction-icon">🖱️</span>
+                                                <span class="instruction-icon">🕹️</span>
                                                 Click o Espacio para volar
                                             </div>
                                             <div class="instruction-item">
-                                                <span class="instruction-icon">⚠️</span>
-                                                Evita las tuberías
+                                                <span class="instruction-icon">☠️</span>
+                                                evita los muros de piedras
                                             </div>
                                             <div class="instruction-item">
-                                                <span class="instruction-icon">💰</span>
-                                                Monedas: +10 puntos
+                                                <span class="instruction-icon">🩸</span>
+                                                sangre: +10 puntos
                                             </div>
                                             <div class="instruction-item">
-                                                <span class="instruction-icon">⏱️</span>
-                                                Power-up: Cámara lenta
+                                                <span class="instruction-icon">☠️</span>
+                                                Cuidado de no emborracharte
                                             </div>
                                         </div>
 
                                         <!-- Botón Start -->
                                         <button id="startButton" class="start-button-improved">
-                                            <span class="button-icon">▶</span> JUGAR
+                                            JUGAR <span class="button-icon">▶</span>
                                         </button>
                                     </div>
 
@@ -436,7 +436,7 @@
                                 <div id="gameOverFlappy" class="hideScreen">
                                     <div class="gameOverScreen">
                                         <div id="game-over-stats">
-                                            <h2>GAME OVER</h2>
+                                            <h2 class="game-title"></h2>
                                             <div id="final-score">Score: <span>0</span></div>
                                         </div>
                                         <div id="reStartButton"> ReStart </div>
@@ -445,9 +445,9 @@
 
                                 <!-- background parallax -->
                                 <div id="backgroundFlappy" class="background-parallax">
-                                    <!-- <div class="layer layer-10"></div>
+                                    <div class="layer layer-10"></div>
                                     <div class="layer layer-9"></div>
-                                    <div class="layer layer-8"></div> -->
+                                    <div class="layer layer-8"></div>
                                     <div class="layer layer-7"></div>
                                     <div class="layer layer-6"></div>
                                     <div class="layer layer-5"></div>
@@ -465,7 +465,8 @@
                     </div>
 
                     <div class="game-board">
-                        <h3> Flappy </h3>
+                        <h3> Cave Escape </h3>
+
                         <div class="game-board-icons">
                             <button class="icon-btn" id="share-button" title="Compartir">
                                 <svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -529,38 +530,53 @@
                     </div>
                 </div>
 
+
                 <div class="game-instructions">
                     <div class="game-instructions-1">
                         <h4>Controles</h4>
-                        <div class="instructions">
-                            <img src="../assets/logos_svg/icons/mousse.svg" alt="Icon mousse" loading="lazy"
-                                decoding="async" />
-                            <p>Cada clic o pulsación de tecla hace que suba con un pequeño impulso, mientras que al
-                                soltarlo cae por gravedad.</p>
+                        <div class="">
+                            <div class="game-instructions-2-images">
+                                <img src="../assets/logos_svg/icons/mousse.svg" alt="Icon mousse" loading="lazy"
+                                    decoding="async" />
+                                <img src="../assets/img/flappy/keyboard.png" alt="Icon mousse" loading="lazy"
+                                    decoding="async" style="width: 150px; opacity:0.6"/>
+                            </div>
+
+                            <p>
+                                Espacio o Click:
+                                 El murciélago salta con un impulso.
+                                Al soltar, cae por gravedad constante.
+                            </p>
                         </div>
                     </div>
 
-                    <div class="game-instructions-1">
-                        <div class="instructions">
-                            <!-- <img src="../assets/logos_svg/icons/mousseDer.svg" alt="Icon mousse" loading="lazy"
-                                decoding="async" /> -->
 
-                        </div>
-                    </div>
 
                     <div class="game-instructions-2">
                         <h4>Objetivo</h4>
                         <p class="instructions-text">
-                            el objetivo es mantener al personaje en vuelo el mayor tiempo posible mientras avanza
-                            automáticamente por el escenario, esquivando los obstáculos que aparecen.
+                            Sobrevivir y alcanzar <strong>250 puntos</strong> para ganar
                         </p>
+
                         <div class="game-instructions-2-images">
-                            <!-- <img src="../assets/logos_svg/icons/block-instrucciones.svg" alt="Icon movimiento"
-                                loading="lazy" decoding="async" /> -->
+                            <img src="../assets/img/flappy/instructs.png" alt="" style="width: 150px;opacity: 0.4; margin:15px">
                         </div>
-                        <p>La partida termina si el personaje choca con un obstáculo o cae al suelo.</p>
+                        <div class="game-instructions-2">
+                            <p>
+                                Evitá tocar el techo, el suelo o los obstaculos de piedra: cualquier choque es muerte
+                                instantánea.
+                            </p>
+                            <p>
+                                La sangre te hace sumar puntos mas rápido, demasiada sangre en forma de pocion te pone
+                                raros los comandos
+                            </p>
+                        </div>
+
+
                     </div>
                 </div>
+
+
             </section>
 
 
@@ -568,26 +584,30 @@
             <section class="description">
                 <div class="description-images-text">
                     <div class="description-game-images">
-                        <div><img src="../assets/img/blocka/imagen play 0.png" width="172" height="101"
+                        <div><img src="../assets/img/flappy/flappy2.png" width="172" height="101"
                                 alt="Video de juego" /></div>
-                        <div><img src="../assets/img/blocka/imagen 1.png" width="172" height="101"
+                        <div><img src="../assets/img/flappy/flappy02.png" width="172" height="101"
                                 alt="Imagen de juego 1" /></div>
-                        <div><img src="../assets/img/blocka/imagen 2.png" width="172" height="101"
+                        <div><img src="../assets/img/flappy/flappy05.png" width="172" height="101"
                                 alt="Imagen de juego 2" /></div>
-                        <div><img src="../assets/img/blocka/imagen 3.png" width="172" height="101"
+                        <div><img src="../assets/img/flappy/flappy03.png" width="172" height="101"
                                 alt="Imagen de juego 3" /></div>
-                        <div><img src="../assets/img/blocka/imagen 4.png" width="172" height="101"
+                        <div><img src="../assets/img/flappy/flappy06.png" width="172" height="101"
                                 alt="Imagen de juego 4" /></div>
                     </div>
                     <div class="description-box">
                         <h3>Descripción</h3>
                         <p class="description-p">
-                            En los cielos turbulentos de este mundo, tu reflejo es la única esperanza para mantener a tu
-                            criatura voladora fuera del desastre.
-                            En este desafío aéreo, tu misión es dominar el impulso perfecto y abrirte paso entre
-                            obstáculos que no perdonan errores.
-                            Inspirado en la esencia de los juegos de vuelo y precisión, esta experiencia combina timing,
-                            control y un toque de caos divertido.
+                            En lo profundo de una caverna que parece viva, tu murciélago busca escapar antes de que la
+                            oscuridad lo trague. Cada aleteo cuenta: túneles estrechos, sombras inquietas y ecos que no
+                            pertenecen a nadie.
+
+                            La sangre flotando en el aire te fortalece, pero las pociones de sangre corrompida son un
+                            peligro real. Al beberlas, tu cuerpo se deforma, cambiás de tamaño y el control se vuelve
+                            caótico, haciendo que la cueva se vuelva aún más peligrosa.
+
+                            Volá, alimentate y sobreviví todo lo que puedas en un viaje donde un solo error puede marcar
+                            tu final.
                         </p>
                         <p class="description-p">
                             Sobrevive el mayor tiempo posible, supera tus propios récords y mantené a tu héroe aleteando
