@@ -1,0 +1,225 @@
+/* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+   FLAPPY-SCREENS.CSS - Pantallas y botones del juego
+   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+
+/* Pantallas del juego */
+#initScreenFlappy,
+#playingScreenFlappy,
+#gameOverFlappy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Pantalla de Game Over */
+.gameOverScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Estilos de botones del juego */
+
+#startButton{ /* width: 150px;
+    height: 50px; */
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: #c40101 /* var(--color-warning) */;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+animation: titlePulse 2s ease-in-out infinite;}
+#startButton:hover{  transform: scale(1.1); }
+
+#nextButton {
+    
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #000;
+   
+} 
+
+#reStartButton{
+    padding: 10px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: var(--font-base);
+    color: var(--color-textLight);
+    background: #c40101;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    position: absolute;
+    bottom: 100px;
+    right: auto;
+}
+
+#reStartButton:hover{transform: scale(1.1);}
+
+#nextButton:hover {    
+    transform: scale(1.1);   
+}
+
+#startButton:active,
+#reStartButton:active,
+#nextButton:active {
+    transform: scale(0.95);
+}
+
+
+#nextButton:hover {
+    background: var(--color-accentLight1);
+    box-shadow: 0 6px 12px rgb(37, 37, 37);
+}
+/* 
+
+/* ═══════════════════════════════════════════════════════════════
+   PANTALLA INICIAL MEJORADA
+   ═══════════════════════════════════════════════════════════════ */
+
+ 
+   .init-screen{
+     background-color: #0000008f;
+   }
+
+.init-screen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    padding: 20px;
+    z-index: 101;
+   
+    
+}
+
+/* Título del juego */
+.game-title {
+    font-size: 48px;
+    font-weight: 400;
+    font-family: "Rubik Wet Paint", system-ui;
+    color: #d30000ec;
+    text-shadow: 0px 4px 20px rgba(5, 6, 7, 0.623);
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+/* Objetivo del juego — solo texto */
+.game-objective {
+    font-size: 18px;
+    color: #e0e0e0;
+    font-weight: 600;
+    padding: 0;      /* Sin fondos ni cajas */
+    background: none;
+    border: none;
+    box-shadow: none;
+    animation: none;
+}
+
+.objective-icon {
+    font-size: 22px;
+    margin-right: 6px;
+}
+
+/* Dragón flotante */
+.dragon-float {
+    animation: dragonFloat 3s ease-in-out infinite;
+    margin: 10px 0;
+}
+
+/* Instrucciones — limpio sin cajas */
+.game-instructions-init {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 15px 0;
+    max-width: 500px;
+    
+
+}
+
+/* Texto plano, sin fondos ni bordes */
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: none;
+    border: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    color: #f0f0f0;
+    font-size: 14px;
+    font-weight: 500;
+    transition: none;
+}
+
+.instruction-icon {
+    font-size: 20px;
+}
+
+/* Botón Start — limpio y claro */
+.start-button-improved {
+    background: none;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.start-button-improved:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+#game-over-stats h2 {
+    font-size: 42px;
+    color: #d30000ec;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
