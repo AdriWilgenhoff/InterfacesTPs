@@ -1,0 +1,75 @@
+
+/* Contenedores */
+#coins-container,
+#powerups-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 45;
+    pointer-events: none;
+}
+
+
+.coin {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: url('../../assets/img/flappy/sprites/blood2.png') left center;
+    background-size: 200px auto;  /* Escala el sprite completo: 5 frames × 40px = 200px */
+    background-repeat: no-repeat;
+    overflow: hidden;
+    animation: coin-spin 1s steps(5) infinite;
+}
+
+@keyframes coin-spin {
+    0% { background-position-x: 0px; }
+    100% { background-position-x: -200px; }  /* 5 frames de 40px cada uno (escalados) */
+}
+
+
+/* POWER-UPS - "Grow" (Powerup negativo - Agranda al jugador) */
+.powerup {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-size: 175px auto;
+    background-repeat: no-repeat;
+    background-position: left center;
+    overflow: hidden;
+}
+
+.powerup.grow {
+    width: 80px;
+    height: 80px;
+    background-image: url('../../assets/img/flappy/sprites/pota3.png');
+    background-size: 560px auto;  /* 7 frames × 80px = 560px */
+    animation: grow-glow 0.6s steps(6) infinite;
+    transform: scale(0.50);
+}
+
+@keyframes grow-glow {
+    0% { background-position-x: 0px; }
+    100% { background-position-x: -480px; }  /* 6 saltos × 80px = 480px */
+}
+
+
+/* EXPLOSIÓN - Animación al morir */
+.explosion {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: url('../../assets/img/flappy/sprites/exploding.png') left center;
+    background-size: 560px auto;  /* 7 frames × 80px = 560px */
+    background-repeat: no-repeat;
+    overflow: hidden;
+    animation: explode 0.6s steps(6) forwards;  /* 6 saltos para 7 frames */
+    z-index: 100;
+    pointer-events: none;
+}
+
+@keyframes explode {
+    0% { background-position-x: 0px; }
+    100% { background-position-x: -480px; }  /* 6 saltos × 80px = 480px */
+}

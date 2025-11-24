@@ -1,0 +1,164 @@
+/* ════════════════════════════════════════════════════════
+   FLAPPY-BASE.CSS - Layout general del juego
+   Maneja: game-wrapper, game-scene, contenedores, parallax
+   ════════════════════════════════════════════════════════ */
+
+/* Contenedor principal del juego */
+.game-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 475px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  background: #000;
+}
+
+/* ──────────────────────────────────────────────────────
+   FONDO PARALLAX
+   ────────────────────────────────────────────────────── */
+
+#backgroundFlappy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  display: block;
+  filter: brightness(1.7);
+}
+
+/* Animación de scroll parallax */
+@keyframes scroll {
+  0% {
+    background-position-x: 0px;
+  }
+  100% {
+    background-position-x: -900px;
+  }
+}
+
+/* Capas del fondo */
+.layer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: repeat-x;
+  background-size: 900px 475px; /* Forzar tamaño exacto para loop perfecto */
+  pointer-events: none;
+  animation-play-state: paused;
+}
+
+
+
+/* Capa 10 - Más lenta */
+.layer-10 {
+  background-image: url("../../assets/img/flappy/backgrounds/10.png");
+  animation: scroll 120s infinite linear;
+  z-index: 1; 
+  animation-play-state: paused;
+}
+
+.layer-9 {
+  background-image: url("../../assets/img/flappy/backgrounds/09.png");
+  animation: scroll 110s infinite linear;
+  z-index: 8;
+  animation-play-state: paused;
+}
+
+.layer-8 {
+  background-image: url("../../assets/img/flappy/backgrounds/08.png");
+  animation: scroll 100s infinite linear;
+  z-index: 6;
+ 
+  animation-play-state: paused;
+}
+
+.layer-7 {
+  background-image: url("../../assets/img/flappy/backgrounds/07.png");
+  animation: scroll 90s infinite linear;
+  z-index: 7;
+   opacity: 0.2;
+  animation-play-state: paused;
+}
+
+.layer-6 {
+  background-image: url("../../assets/img/flappy/backgrounds/06.png");
+  animation: scroll 60s infinite linear;
+  z-index: 5;
+  animation-play-state: paused;
+}
+
+.layer-5 {
+  background-image: url("../../assets/img/flappy/backgrounds/05.png");
+  animation: scroll 40s infinite linear;
+  z-index: 6;
+  animation-play-state: paused;
+}
+
+.layer-4 {
+  background-image: url("../../assets/img/flappy/backgrounds/04.png");
+  animation: scroll 30s infinite linear;
+  z-index: 7;
+  animation-play-state: paused;
+}
+
+.layer-3 {
+  background-image: url("../../assets/img/flappy/backgrounds/03.png");
+  animation: scroll 20s infinite linear;
+  z-index: 8;
+  animation-play-state: paused;
+}
+
+.layer-2 {
+  background-image: url("../../assets/img/flappy/backgrounds/02.png");
+  animation: scroll 20s infinite linear;
+  z-index: 9;
+  animation-play-state: paused;
+}
+
+.layer-1 {
+  background-image: url("../../assets/img/flappy/backgrounds/01.png");
+  animation: scroll 15s infinite linear;
+  z-index: 10;
+  animation-play-state: paused;
+}
+/* Cuando el juego está activo, las capas se mueven */
+.bg-active .layer {
+  animation-play-state: running;
+}
+
+/* ──────────────────────────────────────────────────────
+   ESCENA DEL JUEGO
+   ────────────────────────────────────────────────────── */
+
+/* .game-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  cursor: pointer;
+}
+
+.game-scene.hidden {
+  display: none;
+}
+ */
+
+
+
+
+.showScreen{
+  display: block;
+}
+
+.hideScreen {
+  display: none !important;
+}

@@ -1,0 +1,129 @@
+.specialOffer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cardsSpecialsOffer-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/****************************************** Cards *********************************************/
+
+.specialOffer-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #18171c;
+    cursor: pointer;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.specialOffer-card:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.25);
+}
+
+.img-specialOffer-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 190 / 183;
+    overflow: hidden;
+}
+
+.img-specialOffer-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/******************************** Etiqueta de precio ********************************/
+
+.specialOffer-label {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    left: auto;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.rectangle-3 {
+    background: var(--color-fullDark);
+    border-radius: 0 0 0.3125rem 0.3125rem;
+    padding: 0.1875rem 0.3125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .45), 0 2px 6px rgba(0, 0, 0, .35);
+}
+
+.specialOfferPrice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem
+}
+
+.specialOffer-old-price {
+    color: var(--color-textDark);
+    font-size: 0.6875rem;
+    text-decoration: line-through;
+    white-space: nowrap;
+}
+
+.specialOffer-new-price {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.body-specialOffer-card {
+    display: flex;
+    align-items: center;
+    padding: 0 0.625rem;
+    height: 1.6875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.titulo-de-specialOffer-card {
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (min-width: 1215px) {
+
+    .cardsSpecialsOffer-container {
+        width: 100%;
+        max-width: 1205px;
+        margin: 0 auto;
+        gap: 15px;
+        grid-template-columns: repeat(4, 290px);
+        padding-bottom: 10px;
+    }
+
+    .specialOffer-card {
+        height: 197px;
+    }
+
+    .img-specialOffer-card {
+        aspect-ratio: auto;
+        height: calc(197px - 1.6875rem);
+    }
+}
