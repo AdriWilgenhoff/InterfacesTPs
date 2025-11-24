@@ -7,8 +7,6 @@ window.addEventListener('keydown', function (e) {
 
 let state = 'start';
 
-/* let states = ['start','playing','gameOver'] */
-
 let divJuego = document.querySelector('#gameFlappy');
 
 let pantallaInicio = document.querySelector('#initScreenFlappy');
@@ -24,7 +22,6 @@ let buttonNext = document.querySelector('#nextButton');
 function changeState(newState){
     state = newState;
 
-    // Limpiar todas las clases de las pantallas
     pantallaInicio.classList.remove('showScreen', 'hideScreen');
     pantallaJuego.classList.remove('showScreen', 'hideScreen');
     pantallaFin.classList.remove('showScreen', 'hideScreen');
@@ -57,12 +54,9 @@ function changeState(newState){
     }
 }
 
-/*eventos de botones de estado*/ 
-
 buttonStart.addEventListener('click', () => { 
     changeState('playing') 
-   /*  startGame(); */ startGame();
-    /* acá estan todos los eventos que desencadena el cambio de estado */
+    startGame();
     
 }); 
 
@@ -72,11 +66,8 @@ buttonNext.addEventListener('click', () => { changeState('gameOver') });
 
 buttonRestart.addEventListener('click', () => { changeState('start') });
 
-// Inicializar el estado al cargar la página
 changeState('start');
 
-
-// Elementos DOM
 const dragonElement = document.querySelector('#dragonPlayer');
 const pipesContainer = document.querySelector('#pipes-container');
 const coinsContainer = document.querySelector('#coins-container');
@@ -85,46 +76,39 @@ const currentScoreEl = document.querySelector('#current-score');
 const finalScoreEl = document.querySelector('#final-score span');
 const powerupIndicatorsEl = document.querySelector('#powerup-indicators');
 
-// Dimensiones del tablero
 const BOARD_WIDTH = 900;
 const BOARD_HEIGHT = 475;
 
-// Física del dragón
 let dragonY = BOARD_HEIGHT / 2;
 let dragonVelocityY = 0;
 const GRAVITY = 0.25;
 const JUMP_FORCE = -7;
 const DRAGON_WIDTH = 60;
 const DRAGON_HEIGHT = 45;
-const DRAGON_X = 100; // Posición horizontal fija
+const DRAGON_X = 100;
 
-// Tuberías
 let pipes = [];
 const PIPE_WIDTH = 64;
 let PIPE_GAP = 180;
 let pipeSpeed = 4;
-const PIPE_SPAWN_INTERVAL = 1500; // milisegundos
+const PIPE_SPAWN_INTERVAL = 1500;
 let lastPipeSpawn = 0;
 
-// Coleccionables// 
 let coins = [];
 let powerups = [];
 const COIN_SIZE = 40;
 const POWERUP_SIZE = 45;
-const COIN_SPAWN_CHANCE = 0.6; // 60% de probabilidad
-const POWERUP_SPAWN_CHANCE = 0.15; // 15% de probabilidad
+const COIN_SPAWN_CHANCE = 0.6;
+const POWERUP_SPAWN_CHANCE = 0.15;
 
-// Puntuación
 let score = 0;
-const VICTORY_SCORE = 250;  // Puntaje para ganar
-let isVictory = false;      // Bandera: ¿ganó o murió?
+const VICTORY_SCORE = 250; 
+let isVictory = false;
 
-// Power-ups activos
 let activePowerups = {
     grow: false
 };
 
-// Control del juego
 let gameLoopId = null;
 let lastTime = 0;
 
@@ -133,55 +117,46 @@ let lastTime = 0;
    ═══════════════════════════════════════════════════════════════ */
 
 function startGame() {
-    // Resetear variables
     dragonY = BOARD_HEIGHT / 2;
     dragonVelocityY = 0;
     pipes = [];
     coins = [];
     powerups = [];
     score = 0;
-    isVictory = false;  // Resetear bandera de victoria
+    isVictory = false;
     lastPipeSpawn = 0;
     activePowerups = { grow: false };
 
-    // Limpiar contenedores
     pipesContainer.innerHTML = '';
     coinsContainer.innerHTML = '';
     powerupsContainer.innerHTML = '';
     powerupIndicatorsEl.innerHTML = '';
 
-    // Actualizar UI
     updateScoreDisplay();
 
-    // Iniciar game loop
     lastTime = performance.now();
     gameLoopId = requestAnimationFrame(gameLoop);
 }
 
 function resetGame() {
-    // Cancelar game loop
     if (gameLoopId) {
         cancelAnimationFrame(gameLoopId);
         gameLoopId = null;
     }
 
-    // Limpiar efectos de powerups
     dragonElement.classList.remove('grown');
 
-    // Actualizar stats de game over
     finalScoreEl.textContent = score;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   FÍSICA DEL DRAGÓN
+   FÍSICA DEL MURCIELAGO
    ═══════════════════════════════════════════════════════════════ */
 
 function updateDragon() {
-    // Aplicar gravedad
     dragonVelocityY += GRAVITY;
     dragonY += dragonVelocityY;
 
-    // Límites
     if (dragonY < 0) {
         dragonY = 0;
         triggerGameOver();
@@ -191,15 +166,12 @@ function updateDragon() {
         triggerGameOver();
     }
 
-    // Actualizar posición visual
     dragonElement.style.top = dragonY + 'px';
 }
 
 function jump() {
     if (state === 'playing') {
         if (activePowerups.grow) {
-            // Salto inconsistente cuando está "borracho de sangre"
-            // Aleatoriamente entre -4 y -10 (normal es -7)
             const randomJump = -4 - Math.random() * 6;
             dragonVelocityY = randomJump;
         } else {
@@ -208,9 +180,7 @@ function jump() {
     }
 }
 
-// Controles
 document.addEventListener('click', (e) => {
-    // Solo saltar si el click es dentro del área de juego
     if (state === 'playing' && e.target.closest('#playingScreenFlappy')) {
         jump();
     }
@@ -228,12 +198,10 @@ document.addEventListener('keydown', (e) => {
    ═══════════════════════════════════════════════════════════════ */
 
 function spawnPipe() {
-    // Altura aleatoria para la tubería superior (entre 50 y 300)
     const minHeight = 50;
     const maxHeight = BOARD_HEIGHT - PIPE_GAP - 50;
     const topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
 
-    // Crear elemento DOM
     const pipeElement = document.createElement('div');
     pipeElement.className = 'pipe-pair';
     pipeElement.style.left = BOARD_WIDTH + 'px';
@@ -251,7 +219,6 @@ function spawnPipe() {
     pipeElement.appendChild(bottomPipe);
     pipesContainer.appendChild(pipeElement);
 
-    // Crear objeto pipe
     const pipe = {
         x: BOARD_WIDTH,
         topHeight: topHeight,
@@ -262,7 +229,6 @@ function spawnPipe() {
 
     pipes.push(pipe);
 
-    // Spawn coleccionables en el gap
     spawnCollectibles(BOARD_WIDTH + PIPE_WIDTH, topHeight + PIPE_GAP / 2);
 }
 
@@ -270,18 +236,15 @@ function updatePipes(deltaTime) {
     const currentSpeed = pipeSpeed;
 
     pipes.forEach((pipe, index) => {
-        // Mover tubería
         pipe.x -= currentSpeed;
         pipe.element.style.left = pipe.x + 'px';
 
-        // Verificar si pasó el dragón (para score)
         if (!pipe.passed && pipe.x + PIPE_WIDTH < DRAGON_X) {
             pipe.passed = true;
             score += 1;
             updateScoreDisplay();
         }
 
-        // Eliminar si salió de pantalla
         if (pipe.x < -PIPE_WIDTH) {
             pipe.element.remove();
             pipes.splice(index, 1);
@@ -294,17 +257,13 @@ function updatePipes(deltaTime) {
    ═══════════════════════════════════════════════════════════════ */
 
 function spawnCollectibles(x, centerY) {
-    // Generar un solo coleccionable (mutuamente excluyentes)
     const random = Math.random();
 
     if (random < POWERUP_SPAWN_CHANCE) {
-        // Solo power-up (15% probabilidad)
         spawnPowerup(x + 30, centerY - POWERUP_SIZE / 2, 'grow');
     } else if (random < POWERUP_SPAWN_CHANCE + COIN_SPAWN_CHANCE) {
-        // Solo coin (60% probabilidad)
         spawnCoin(x, centerY - COIN_SIZE / 2);
     }
-    // 25% de probabilidad de no generar nada
 }
 
 function spawnCoin(x, y) {
@@ -341,7 +300,6 @@ function spawnPowerup(x, y, type) {
 function updateCollectibles() {
     const currentSpeed = pipeSpeed;
 
-    // Actualizar coins
     coins.forEach((coin, index) => {
         coin.x -= currentSpeed;
         coin.element.style.left = coin.x + 'px';
@@ -352,7 +310,6 @@ function updateCollectibles() {
         }
     });
 
-    // Actualizar powerups
     powerups.forEach((powerup, index) => {
         powerup.x -= currentSpeed;
         powerup.element.style.left = powerup.x + 'px';
@@ -370,23 +327,14 @@ function updateCollectibles() {
 
 /**
  * Verifica colisión entre una elipse (dragón) y un rectángulo (tubería)
- * @param {number} ellipseCenterX - Centro X de la elipse
- * @param {number} ellipseCenterY - Centro Y de la elipse
- * @param {number} radiusX - Radio horizontal de la elipse
- * @param {number} radiusY - Radio vertical de la elipse
- * @param {object} rect - Rectángulo {x, y, width, height}
- * @returns {boolean} - True si hay colisión
  */
 function isEllipseCollidingRect(ellipseCenterX, ellipseCenterY, radiusX, radiusY, rect) {
-    // Encontrar el punto más cercano del rectángulo al centro de la elipse
     const closestX = Math.max(rect.x, Math.min(ellipseCenterX, rect.x + rect.width));
     const closestY = Math.max(rect.y, Math.min(ellipseCenterY, rect.y + rect.height));
 
-    // Calcular distancia normalizada a la elipse
     const dx = closestX - ellipseCenterX;
     const dy = closestY - ellipseCenterY;
 
-    // Fórmula de la elipse: (x/a)² + (y/b)² <= 1
     const normalizedDistance = (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY);
 
     return normalizedDistance <= 1;
@@ -403,8 +351,6 @@ function isColliding(box1, box2) {
 }
 
 function checkCollisions() {
-    // Configuración de la hitbox elíptica del dragón
-    // Si grow está activo, el hitbox es 2x más grande
     const growMultiplier = activePowerups.grow ? 2 : 1;
     const currentWidth = DRAGON_WIDTH * growMultiplier;
     const currentHeight = DRAGON_HEIGHT * growMultiplier;
@@ -414,7 +360,6 @@ function checkCollisions() {
     const dragonRadiusX = (currentWidth / 2) * 0.7;
     const dragonRadiusY = (currentHeight / 2) * 0.7;
 
-    // Hitbox rectangular para coins/powerups (más permisiva)
     const dragonBox = {
         x: DRAGON_X,
         y: dragonY,
@@ -422,14 +367,10 @@ function checkCollisions() {
         height: DRAGON_HEIGHT
     };
 
-    // Colisión con tuberías (usando hitbox elíptica)
     pipes.forEach(pipe => {
-        // Verificar primero si está en rango horizontal (optimización)
         if (dragonCenterX + dragonRadiusX > pipe.x &&
             dragonCenterX - dragonRadiusX < pipe.x + PIPE_WIDTH) {
 
-            // Crear rectángulos para tubería superior e inferior
-            // Reducir hitbox 12px (6px de cada lado) para compensar bordes de piedras
             const pipeMargin = 6;
             const topPipeRect = {
                 x: pipe.x + pipeMargin,
@@ -445,7 +386,6 @@ function checkCollisions() {
                 height: BOARD_HEIGHT - (pipe.topHeight + pipe.gap)
             };
 
-            // Verificar colisión elíptica con ambas tuberías
             const hitTopPipe = isEllipseCollidingRect(
                 dragonCenterX, dragonCenterY,
                 dragonRadiusX, dragonRadiusY,
@@ -464,7 +404,6 @@ function checkCollisions() {
         }
     });
 
-    // Colisión con coins (rectangular, más permisiva)
     coins.forEach((coin, index) => {
         if (!coin.collected && isColliding(dragonBox, {
             x: coin.x, y: coin.y, width: COIN_SIZE, height: COIN_SIZE
@@ -478,7 +417,6 @@ function checkCollisions() {
         }
     });
 
-    // Colisión con powerups (rectangular, más permisiva)
     powerups.forEach((powerup, index) => {
         if (!powerup.collected && isColliding(dragonBox, {
             x: powerup.x, y: powerup.y, width: POWERUP_SIZE, height: POWERUP_SIZE
@@ -500,17 +438,14 @@ function activatePowerup(type) {
     activePowerups[type] = true;
     updatePowerupIndicators();
 
-    // Aplicar efecto visual de grow
     if (type === 'grow') {
         dragonElement.classList.add('grown');
     }
 
-    // Desactivar después de 5 segundos
     setTimeout(() => {
         activePowerups[type] = false;
         updatePowerupIndicators();
 
-        // Quitar efecto visual
         if (type === 'grow') {
             dragonElement.classList.remove('grown');
         }
@@ -535,7 +470,6 @@ function updatePowerupIndicators() {
 function updateScoreDisplay() {
     currentScoreEl.textContent = score;
 
-    // Verificar si alcanzó el puntaje para ganar
     if (score >= VICTORY_SCORE) {
         isVictory = true;
         triggerGameOver();
@@ -550,67 +484,51 @@ function updateGameOverText() {
         titleEl.style.color = 'gold';
     } else {
         titleEl.textContent = 'JUEGO TERMINADO';
-        titleEl.style.color = '';  // Color original
+        titleEl.style.color = '';
     }
 }
 
 function showExplosion(x, y) {
-    // Crear elemento de explosión
     const explosionElement = document.createElement('div');
     explosionElement.className = 'explosion';
 
-    // Centrar la explosión en la posición del dragón (80px es el tamaño de la explosión)
-    explosionElement.style.left = (x - 10) + 'px';  // Centrar horizontalmente
-    explosionElement.style.top = (y - 20) + 'px';   // Centrar verticalmente
+    explosionElement.style.left = (x - 10) + 'px'; 
+    explosionElement.style.top = (y - 20) + 'px';
 
-    // Agregar al contenedor de juego
     pantallaJuego.appendChild(explosionElement);
 
-    // Eliminar la explosión después de que termine la animación
     setTimeout(() => {
         explosionElement.remove();
-    }, 600); // Duración de la animación
+    }, 600);
 }
 
 function triggerGameOver() {
-    // Capturar posición exacta del dragón ANTES de cualquier cambio
     const deathX = DRAGON_X;
     const deathY = dragonY;
 
-    // Detener INMEDIATAMENTE toda física
     dragonVelocityY = 0;
 
-    // Detener el game loop
     if (gameLoopId) {
         cancelAnimationFrame(gameLoopId);
         gameLoopId = null;
     }
 
-    // Congelar el dragón en su posición actual
     dragonElement.style.top = deathY + 'px';
 
-    // Solo mostrar explosión SI MURIÓ (no si ganó)
     if (!isVictory) {
-        // Ocultar el dragón
         dragonElement.style.opacity = '0';
-        // Mostrar explosión en la posición EXACTA donde murió
         showExplosion(deathX, deathY);
     }
 
-    // Actualizar el texto de la pantalla según victoria o muerte
     updateGameOverText();
 
-    // Delay diferente: corto si ganó, largo si murió (para la explosión)
     const delay = isVictory ? 100 : 700;
 
-    // Esperar antes de mostrar la pantalla
     setTimeout(() => {
-        // Restaurar visibilidad del dragón solo si murió
         if (!isVictory) {
             dragonElement.style.opacity = '1';
         }
 
-        // Guardar stats y mostrar pantalla
         resetGame();
         changeState('gameOver');
     }, delay);
@@ -626,22 +544,17 @@ function gameLoop(currentTime) {
     const deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
-    // Actualizar física
     updateDragon();
 
-    // Spawn tuberías
     if (currentTime - lastPipeSpawn > PIPE_SPAWN_INTERVAL) {
         spawnPipe();
         lastPipeSpawn = currentTime;
     }
 
-    // Actualizar elementos
     updatePipes(deltaTime);
     updateCollectibles();
 
-    // Detectar colisiones
     checkCollisions();
 
-    // Siguiente frame
     gameLoopId = requestAnimationFrame(gameLoop);
 }

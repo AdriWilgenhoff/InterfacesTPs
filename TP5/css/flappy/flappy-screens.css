@@ -89,8 +89,8 @@ animation: titlePulse 2s ease-in-out infinite;}
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     z-index: 200;
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 100px;
+    right: auto;
 }
 
 #reStartButton:hover{transform: scale(1.1);}
