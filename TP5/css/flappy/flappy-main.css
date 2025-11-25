@@ -1,9 +1,3 @@
-/* ════════════════════════════════════════════════════════
-   FLAPPY DRAGON - ESTILOS PRINCIPALES
-   Importa todos los módulos CSS del juego
-   Creado para TP5 - Interfaces de Usuario
-   ════════════════════════════════════════════════════════ */
-
 @import url('./flappy-base.css');
 @import url('./flappy-screens.css');
 @import url('./flappy-player.css');

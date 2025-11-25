@@ -6,16 +6,13 @@
     background-size: auto 100%;
     animation: fly 0.4s steps(4) infinite;
     position: absolute;
-    /* top: 0; */
     left: 100px;
    
 }
 
-/* Debug: visualizar hitbox elíptico (30% reducido) */
 #dragonPlayer.show-hitbox::after {
     content: '';
     position: absolute;
-    /* Centrado con 70% del tamaño (igual que el hitbox real) */
     width: 70%;
     height: 70%;
     top: 15%;
@@ -31,11 +28,11 @@
     100%{ background-position: -740px; }
 }
 
-/* Efecto grow (powerup negativo) - 2x más grande */
+/* Efecto grow */
 #dragonPlayer.grown {
     transform: scale(2);
     transform-origin: left top;
     transition: transform 0.1s;
-    filter: hue-rotate(320deg) saturate(1.5); /* Tinte rojizo para indicar peligro */
+    filter: hue-rotate(320deg) saturate(1.5);
 }
 

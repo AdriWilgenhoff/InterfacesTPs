@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- Botón comprar/jugar ---
-  let yaComprado = true; // CAMBIADO A FALSE - inicia como "no comprado"
+  let yaComprado = false;
   let juegoIniciado = false;
   const btnJugar = document.getElementById('btn_jugar');
   const gameImage = document.getElementById('game-image');
-  const gameLauncher = document.querySelector('.gameLauncher'); // Contenedor de los canvas
+  const gameLauncher = document.querySelector('.gameLauncher');
   const gameMedia = document.querySelector('.game-media');
 
   if (btnJugar) {
@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const boton = this;
 
       if (!yaComprado) {
-        // Primer click - COMPRAR
         //event.preventDefault(); // Prevenir navegación
         
         console.log('Estado: COMPRAR -> Cambiando a JUGAR');

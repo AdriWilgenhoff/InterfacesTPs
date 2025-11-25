@@ -1,8 +1,3 @@
-/* ════════════════════════════════════════════════════════
-   FLAPPY-BASE.CSS - Layout general del juego
-   Maneja: game-wrapper, game-scene, contenedores, parallax
-   ════════════════════════════════════════════════════════ */
-
 /* Contenedor principal del juego */
 .game-wrapper {
   position: relative;
@@ -49,11 +44,10 @@
   top: 0;
   left: 0;
   background-repeat: repeat-x;
-  background-size: 900px 475px; /* Forzar tamaño exacto para loop perfecto */
+  background-size: 900px 475px;
   pointer-events: none;
   animation-play-state: paused;
 }
-
 
 
 /* Capa 10 - Más lenta */
@@ -128,7 +122,6 @@
   z-index: 10;
   animation-play-state: paused;
 }
-/* Cuando el juego está activo, las capas se mueven */
 .bg-active .layer {
   animation-play-state: running;
 }
@@ -136,23 +129,6 @@
 /* ──────────────────────────────────────────────────────
    ESCENA DEL JUEGO
    ────────────────────────────────────────────────────── */
-
-/* .game-scene {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 50;
-  cursor: pointer;
-}
-
-.game-scene.hidden {
-  display: none;
-}
- */
-
-
 
 
 .showScreen{

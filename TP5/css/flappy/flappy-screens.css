@@ -1,7 +1,3 @@
-/* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-   FLAPPY-SCREENS.CSS - Pantallas y botones del juego
-   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
-
 /* Pantallas del juego */
 #initScreenFlappy,
 #playingScreenFlappy,
@@ -29,14 +25,13 @@
 
 /* Estilos de botones del juego */
 
-#startButton{ /* width: 150px;
-    height: 50px; */
+#startButton{
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
     font-family: var(--font-base);
     color: var(--color-textLight);
-    background: #c40101 /* var(--color-warning) */;
+    background: #c40101;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -113,9 +108,8 @@ animation: titlePulse 2s ease-in-out infinite;}
 /* 
 
 /* ═══════════════════════════════════════════════════════════════
-   PANTALLA INICIAL MEJORADA
+   PANTALLA INICIAL
    ═══════════════════════════════════════════════════════════════ */
-
  
    .init-screen{
      background-color: #0000008f;
@@ -145,12 +139,12 @@ animation: titlePulse 2s ease-in-out infinite;}
     letter-spacing: 3px;
 }
 
-/* Objetivo del juego — solo texto */
+/* Objetivo del juego */
 .game-objective {
     font-size: 18px;
     color: #e0e0e0;
     font-weight: 600;
-    padding: 0;      /* Sin fondos ni cajas */
+    padding: 0;
     background: none;
     border: none;
     box-shadow: none;
@@ -162,13 +156,13 @@ animation: titlePulse 2s ease-in-out infinite;}
     margin-right: 6px;
 }
 
-/* Dragón flotante */
+/* Murcielago flotante */
 .dragon-float {
     animation: dragonFloat 3s ease-in-out infinite;
     margin: 10px 0;
 }
 
-/* Instrucciones — limpio sin cajas */
+/* Instrucciones */
 .game-instructions-init {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -179,7 +173,6 @@ animation: titlePulse 2s ease-in-out infinite;}
 
 }
 
-/* Texto plano, sin fondos ni bordes */
 .instruction-item {
     display: flex;
     align-items: center;
@@ -199,7 +192,7 @@ animation: titlePulse 2s ease-in-out infinite;}
     font-size: 20px;
 }
 
-/* Botón Start — limpio y claro */
+/* Botón Start */
 .start-button-improved {
     background: none;
     border: 2px solid #ffffff;
