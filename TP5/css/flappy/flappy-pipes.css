@@ -1,8 +1,4 @@
-/* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-   FLAPPY-PIPES.CSS - Tuber�as/Obst�culos del juego
-   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
-
-/* Contenedor de tuber�as */
+/* Contenedor de tuberías */
 #pipes-container {
     position: absolute;
     top: 0;
@@ -27,8 +23,7 @@
     top: 0;
     width: 74px;
     background: url('../../assets/img/flappy/sprites/pipes101.png') center bottom no-repeat;
-    background-size: 74px auto; /* Mantiene proporción, se recorta desde el borde */
-    /* background-color: rgba(0, 0, 0, 0.096); */
+    background-size: 74px auto;
     filter: brightness(0.8);
 }
 
@@ -37,23 +32,6 @@
     position: absolute;
     width: 74px;
     background: url('../../assets/img/flappy/sprites/pipes111.png') center top no-repeat;
-    background-size: 74px auto; /* Mantiene proporción, se recorta desde el borde */
-    /* background-color: rgba(0, 0, 0, 0.048); */
+    background-size: 74px auto;
     filter: brightness(0.8);
 }
-
-/* DEBUG: Visualizar hitbox de colisión de pipes (siempre visible) 
-.pipe-top::after,
-.pipe-bottom::after {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 0;
-    width: 52px; 
-    height: 100%;
-    border: 2px solid lime;
-    box-sizing: border-box;
-    pointer-events: none;
-    z-index: 999;
-}
- */
